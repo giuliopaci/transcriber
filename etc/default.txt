@@ -77,7 +77,7 @@ encodingList {
       {ISO-2022-JP "Japanese (ISO-2022-JP)"}
       {Shift_JIS   "Japanese (Shift_JIS)"}
       {}
-      {EUC-KR      "Korean (EUK-KR)"}
+      {EUC-KR      "Korean (EUC-KR)"}
       {ISO-2022-KR "Korean (ISO-2022-KR)"}
       {}
       {Big5        "Traditional Chinese (Big5)"}
