@@ -1,17 +1,79 @@
 <!DOCTYPE doctype PUBLIC "-//w3c//dtd html 4.0 transitional//en"><html><head>
    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
    <meta name="GENERATOR" content="Mozilla/4.78 [en] (X11; U; Linux 2.4.7-10 i686) [Netscape]">
-   <meta name="Author" content="C. Barras"><title>Transcriber's History</title></head>
-
-<body text="#000000" bgcolor="#ffffff" link="#0000ef" vlink="#51188e" alink="#ff0000">
+   <meta name="Author" content="C. Barras"><title>Transcriber's History</title></head><body text="#000000" bgcolor="#ffffff" link="#0000ef" vlink="#51188e" alink="#ff0000">
 
 <h2>
 History of Transcriber versions</h2>
 
-<hr width="100%"><b><font size="+0">Version 1.4.6</font></b>
-<p>In progress.
-</p><p>New or modified functions:
-</p><ul>
+<hr width="100%"><b><font size="+0">Version 1.4.7</font></b>
+<p>In progress.<br>
+</p>
+<p>New or modified functions:<br>
+</p>
+<ul>
+  <li>transcription files may use a different format than the original
+one provided with the package, provided that they point to a DTD
+located in the same directory, that their root element is still
+&lt;Trans&gt; and that they are in a superset of the existing format.
+Unknown XML tag will be only displayed in gray, but may not be edited.
+Any XML file whith &lt;Trans&gt; root tag is now supposed a valid .trs
+file, regardless of its actual extension (it used to be limited to .trs
+and .xml).<br>
+  </li>
+  <li>it is possible to define a default topic or speaker import file,
+loaded when opening a transcription or creating a new one, using
+'Edit/Speaker|Topic/Automatic import from selected file'<br>
+  </li>
+  <li>export a transcription to text format in a simple "Speaker i:
+transcription" format; control over the formatting may be done by
+setting some configuation values on the command line or in the
+configuration file - see convert/text.tcl for more details (NB: a beta
+version of this filter was already distributed in the 1.4.6)</li>
+  <li>display of NIST RT'03S .mdtm format (speaker subset only).<br>
+  </li>
+</ul>
+<p>
+</p>
+
+<p>changes or bug fixes:<br>
+</p>
+<ul>
+  <li>a warning message is displayed when temporal inconsistencies are found in a .trs file.</li><li>Export
+to .stm format now includes a commented header giving information about
+the conversion process, and the file is written in the user-defined
+encoding (rather than the default system encoding) - it may be possible
+to override it on the command line e.g with 'trans -set encoding utf-8
+-export stm *.trs'.<br>
+  </li>
+  <li>multiwav extension now has a menu entry in the main 'File/Synchronized audio files' menu.</li>
+
+  <li>'Open segmentation file..' has been moved frome 'Options/Display' to&nbsp; 'File' menu.</li>
+  <li>default string for new speaker or topics may be modified
+(currently only by editing the default settings or the configuration
+file, see etc/default.txt).<br>
+  </li>
+  <li>improved parsing of LDC hub4 files in sgml/utf formats for segmenation display.<br>
+  </li>
+  <li>bug corrected in the "-set" line option.</li>
+  <li>bug corrected in saving a modified localization file.<br>
+  </li>
+  <li>command line option "-export" may be used instead of "-convertto".</li><li>Transcriber
+is launched in batch mode (i.e. with tclsh rather than wish) by 'trans'
+script when -export or -help command line options are found.<br>
+  </li>
+
+  <li>under Tcl/Tk 8.4, it should be possible to open multiple files in a single dialog for the multiwav and segmentation features.</li>
+  <li>convert filters using the extended tcl API 'readSegmtSet' have been made backward compatible with previou versions (&lt;1.4.6).<br>
+  </li>
+</ul>
+<p>
+</p>
+<hr width="100%"><b><font size="+0">Version 1.4.6</font></b><p>Released on October 3, 2003. <br>
+</p>
+<p>New or modified functions:
+</p>
+<ul>
 	    <li>multiwav extension, allowing several synchronized audio
 	      files to be associated with a single transcription. New audio
 	      files can be added using the contextual menu on the waveform
