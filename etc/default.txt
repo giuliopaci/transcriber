@@ -251,6 +251,7 @@ color,bg-text "#d9d9d9"
 color,hi-text "#f0f0f0"
 color,fg-evnt "grey50"
 color,bg-evnt "#d9d9d9"
+colorizeSpk   0
 
 # Fonts
 font,text    {courier 12}

@@ -224,6 +224,9 @@ proc JoinSegmt {segmt nb1 {mode ""} {txt ""}} {
       set txt [concat [lindex $seg1 2] [lindex $seg2 2]]
    }
    set seg [list [lindex $seg1 0] [lindex $seg2 1] $txt]
+   if {$segmt == "seg1" && $v(colorizeSpk)} {
+     lappend seg [ColorMap $txt]
+   }
    set v(trans,$segmt) [lreplace $v(trans,$segmt) $nb1 $nb2 $seg]
    set v(list,$segmt) [lreplace $v(list,$segmt) $nb2 $nb2]
 }
@@ -242,6 +245,10 @@ proc SplitSegmt {segmt nb pos txt1 txt2 id} {
    }
    set seg1 [list [lindex $seg 0] $pos $txt1]
    set seg2 [list $pos [lindex $seg 1] $txt2]
+   if {$segmt == "seg1" && $v(colorizeSpk)} {
+     lappend seg1 [ColorMap $txt1]
+     lappend seg2 [ColorMap $txt2]
+   }
    set v(trans,$segmt) [lreplace $v(trans,$segmt) $nb $nb $seg1 $seg2]
    set v(list,$segmt) [linsert $v(list,$segmt) [expr $nb+1] $id]
 }

@@ -807,6 +807,8 @@ proc DisplayTrans {} {
    CreateAllSegmentWidgets
    # Only display requested ones
    UpdateSegmtView
+   # Fancy colors if needed
+   ColorizeSpk
 
    HomeEditor
    DisplayMessage ""

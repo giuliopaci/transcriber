@@ -637,3 +637,44 @@ proc UpdateColors {} {
       $v(img,over2) conf -foreground $v(color,bg-sync)
    }
 }
+
+proc RandomColor {} {
+  set sum 0
+  while {$sum < 384} {
+    set col "\#"
+    set sum 0
+    foreach c {r g b} {
+      set d [expr int(rand()*256)]
+      append col [format "%02x" $d]
+      incr sum $d
+    }
+  }
+  return $col
+}
+
+proc ColorMap {val} {
+  global color
+  if {[info exists color($val)]} {
+    set col $color($val)
+  } else {
+    set col [RandomColor]
+    set color($val) $col
+  }
+  return $col
+}
+
+proc ColorizeSpk {{segmt seg1}} {
+  global v color
+  if {$v(colorizeSpk)} {
+    set nosp ([Local "no speaker"])
+    set ::color($nosp) $::v(color,bg)
+    for {set i 0} {$i < [GetSegmtNb $segmt]} {incr i} {
+      SetSegmtField $segmt $i -color [ColorMap [GetSegmtField $segmt $i -text]]
+    }
+  } else {
+    catch {unset color}
+    for {set i 0} {$i < [GetSegmtNb $segmt]} {incr i} {
+      SetSegmtField $segmt $i -color ""
+    }
+  }
+}
