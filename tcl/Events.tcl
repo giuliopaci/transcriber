@@ -682,6 +682,17 @@ proc ConfEventName {type title} {
    }
 }
 
+# Insert any other tag in text editor
+proc InsertOther {elem {other_tags ""}} {
+   global v
+   set t $v(tk,edit)-bis
+
+   set txt [$elem dump]
+   $t insert "insert" $txt [concat "cursor" "sync" "event" $elem $other_tags]
+   # inhibit next "mark set insert"
+   $t tag bind "$elem" <Button-1> break
+}
+
 
 ################################################################
 # added by Zhibiao
