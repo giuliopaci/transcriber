@@ -123,7 +123,6 @@ Distribution structure:
 	       + README_LINUX   . .instructions to install Transcriber on Unix/Linux
              + COPYING
              + contrib/       . . external archives
-                  + html_library-0.3/
              + src/ . . . sources for new Tcl commands and Tk widgets
              + tcl/ . . . Tcl scripts.
              + convert/ . Tcl script modules for format conversion
@@ -135,7 +134,6 @@ Distribution structure:
    * Structure of the binary distribution (as a result of a standard
      installation):
         o lib/ =>
-             + html_library-0.3/
              + snack2.25-tcl/
              + tcLex1.2/
              + transcriber1.4/ =>
