@@ -855,6 +855,17 @@ proc StartWith {argv} {
 	    "-socket" {
 	      # launch socket facility for external scripting of Transcriber
 	      # (see tcl/Socket.tcl code for more details)
+	      # optional socket server and client ports
+	      set val [lindex $argv [expr $i+1]]
+	      if {[string index $val 0] != "-"} {
+		set v(socket,server) $val
+		incr i
+		set val [lindex $argv [expr $i+1]]
+		if {[string index $val 0] != "-"} {
+		  set v(socket,client) $val
+		  incr i
+		}
+	      }
 	      uplevel \#0 {source [file join $v(path,tcl) Socket.tcl]}
 	    }
 	    "-export" - "-convertto" {
