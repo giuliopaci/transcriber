@@ -94,6 +94,30 @@ proc CreateTextFrame {f {top 0}} {
    }
 }
 
+# correct bug in tkTextPrevPos
+catch {tkTextPrevPos}; # force loading text.tcl
+proc tkTextPrevPos {w start op} {
+  set text ""
+  set cur $start
+  while {[$w compare $cur > 0.0]} {
+    set text [$w get "$cur linestart - 1c" $cur]$text
+    set pos [$op $text end]
+    #puts "'$text' => $pos: [string range $text $pos end]"
+    if {$pos >= 0} {
+      ## Adjust for embedded windows and images
+      set dump [$w dump -image -window "$cur linestart" "$start - 1c"]
+      foreach {d1 d2 d3} $dump {
+	if {[$w compare $d2 <= "$cur linestart - 1c + $pos c"]} {
+	  incr pos
+	}
+      }
+      return [$w index "$cur linestart - 1c + $pos c"]
+    }
+    set cur [$w index "$cur linestart - 1c"]
+  }
+  return 0.0
+}
+
 # called from: InitEditor; CloseTrans
 proc EmptyTextFrame {} {
    global v
