@@ -327,6 +327,8 @@ Danish
 	danois
 Debug
 	Deboguage
+{Default browser:}
+	{Navigateur par défaut:}
 {Debug menu}
 	{Menu de déboguage}
 {Default scribe's name}
@@ -535,6 +537,8 @@ Interface
 	Interface
 {Isolated noise}
 	{Bruit isolé}
+{Please, check your Aspell spellchecker installation. }
+	{ Avez-vous installé le correcteur orthographique Aspell ? }
 Italian
 	italien
 Japanese
@@ -846,6 +850,10 @@ Signal
 	{Affichage sélectif des segmentations}
 {Sorry, couldn't find %s dictionary}
 	{Désolé, le dictionnaire %s est introuvable}
+{Sorry, couldn't launch spell checker. Please check Aspell installation.}
+	{Le correcteur orthographique ne peut être lancé. Vérifiez l'installation d'Aspell.}
+{Sorry, couldn't find %s dictionary. Please install the Aspell dictionnary that you need.}
+	{Dictionnaire introuvable. Veuillez installer le dictionnaire Aspell %s.}
 {Sort by...}
 	{Trier par...}
 Spanish
