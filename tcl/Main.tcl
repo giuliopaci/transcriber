@@ -10,7 +10,7 @@ exec wish "$0" ${1:+"$@"}
 # WWW:          http://www.etca.fr/CTA/gip/Projets/Transcriber/Index.html
 # Mailing list: transcriber@etca.fr
 # Author:       Claude Barras, DGA/DCE/CTA/GIP
-# Coordinators: Edouard Geoffrois, DGA/DCE/CTA/GIP
+# Coordinators : Edouard Geoffrois, DGA/DCE/CTA/GIP
 #               Mark Liberman & Zhibiao Wu, LDC
 
 # This program is free software; you can redistribute it and/or modify
