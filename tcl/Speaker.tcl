@@ -643,8 +643,20 @@ namespace eval speaker {
 	importg $filename
 	importg $env(HOME)/[file tail $v(list,ext)]
     }
-    
     proc store_dbg {} {
+    # prodedure create by Mathieu MANTA on January 17th, 2005
+    # It simply disables the storing of the external speaker database,
+    # and will be enable in a future release when the speaker database
+    # will be rethink
+    # The previous proc has been renamed to store_dbg_old
+	    
+	    return
+    }
+
+    proc store_dbg_old {} {
+    # Mathiau MANTA, January 17th, 2005
+    # Old store_dbg procedure
+    # It has been renamed to be desabled
 	global v 
 	global env
 	variable list_globale
