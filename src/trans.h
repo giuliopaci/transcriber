@@ -1,3 +1,7 @@
+/* 
+ * RCS: @(#) $Id$
+ */
+
 #pragma export on
 EXTERN int AxisCmd( ClientData clientData, Tcl_Interp *interp,
 	      int argc, char *argv[]);

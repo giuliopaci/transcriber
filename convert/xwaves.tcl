@@ -1,3 +1,5 @@
+# RCS: @(#) $Id$
+
 # Read xwaves label format
 namespace eval xwaves {
 

@@ -1,3 +1,7 @@
+/* 
+ * RCS: @(#) $Id$
+ */
+
 #include <tk.h>
 /* following line should be uncommented for compilation on the Mac */
 /* #include "trans.h" */

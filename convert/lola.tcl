@@ -1,3 +1,5 @@
+# RCS: @(#) $Id$
+
 # Read OGI Lola format
 namespace eval lola {
 

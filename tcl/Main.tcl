@@ -2,6 +2,8 @@
 #  -*-tcl-*-\
 exec wish8.0 "$0" ${1:+"$@"}
 
+# RCS: @(#) $Id$
+
 # TRANSCRIBER - a free tool for segmenting, labeling and transcribing speech
 # Copyright (C) 1998-2000, DGA
 

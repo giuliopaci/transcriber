@@ -2,6 +2,8 @@
 #\
 exec wish "$0" "$@"
 
+# RCS: @(#) $Id$
+
 # Copyright (C) 1998-2000, DGA - part of the Transcriber program
 # distributed under the GNU General Public License (see COPYING file)
 

@@ -1,3 +1,5 @@
+# RCS: @(#) $Id$
+
 # Read TIMIT segmentation in a list
 namespace eval timit {
 

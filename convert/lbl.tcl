@@ -1,3 +1,5 @@
+# RCS: @(#) $Id$
+
 # Read Limsi LBL
 namespace eval lbl {
 

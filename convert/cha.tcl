@@ -1,3 +1,5 @@
+# RCS: @(#) $Id$
+
 # convert from Childes format to transcriber format
 # Written by Zhibiao Wu for LDC Nov. 3 1999
 
