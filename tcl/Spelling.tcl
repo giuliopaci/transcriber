@@ -158,11 +158,18 @@ proc SpellUpdate {} {
 proc SpellWindow {} {
     global v
 
+
+
+
     set w .spell
     if ![winfo exists $w] {
 	toplevel $w
 	wm title $w [Local "Spell checking"]
 	wm protocol $w WM_DELETE_WINDOW { SpellClose }
+	
+	if {$::tcl_platform(platform) == "windows"} {
+	      wm attributes $w -topmost 1 
+      }
 
 	frame $w.left -relief raised -bd 1
 	
