@@ -1,4 +1,4 @@
 #!/bin/sh
 TRANSPATH=`dirname $0`/../lib
 TCLLIBPATH=$TRANSPATH; export TCLLIBPATH
-exec wish@TK_VERSION@ $TRANSPATH/@TRANS_DIR@/tcl/Main.tcl ${1:+"$@"} &
+exec @TK_EXEC_PREFIX@/bin/wish@SUFFIX@ $TRANSPATH/@TRANS_DIR@/tcl/Main.tcl ${1:+"$@"} &

@@ -1,15 +1,3 @@
-# The path to the tcl.h header file
-
-TCL_INCPATH = @TCL_SRC_DIR@/generic
-
-# The path to the tk.h header file
-
-TK_INCPATH  = @TK_SRC_DIR@/generic
-
-# The path to the X11 include files
-
-XINCLUDES   = @XINCLUDES@
-
 # Install Trans package here
 
 TRANS_LIB = @TRANS_LIB@
@@ -20,7 +8,7 @@ TRANS_BIN = @TRANS_BIN@
 
 CC        = @CC@
 
-INCLUDES  = ${XINCLUDES} -I${TCL_INCPATH} -I${TK_INCPATH}
+INCLUDES  = @XINCLUDES@ -I@TCL_SRC_DIR@/generic -I@TK_SRC_DIR@/generic -I@TCL_PREFIX@/include -I@TK_PREFIX@/include
 
 CFLAGS    = -O @CFLAGS@ ${INCLUDES} @TCLAPI@
 #CFLAGS    = -O -Wall @CFLAGS@ @AFLAG@ ${INCLUDES}
