@@ -37,7 +37,7 @@ proc EmptySignal {{mode "reset"}} {
    }
    set v(sig,name) ""
    UpdateShortName
-   set v(sig,desc) "Signal:\tnone\nDuration:\t[Tim2Str $v(sig,len)]\n"
+    set v(sig,desc) "Signal:\tnone\n[Local Duration:]\t[Tim2Str $v(sig,len)]\n"
    catch {$v(shape,cmd) destroy}
    set v(shape,cmd) ""
    ConfigAllWavfm $mode
@@ -63,7 +63,7 @@ proc Signal {name {mode "reset"}} {
    set v(sig,name) $name
    UpdateShortName
    set stereo [lindex {"" "mono" "stereo" "" "quad"}  [$sound cget -channels]]
-   set v(sig,desc) "Signal:\t$name\nDuration:\t[Tim2Str $v(sig,len)]\nFormat:\t[$sound cget -format] [format %g [expr [$sound cget -frequency]/1000.0]] kHz $stereo"
+   set v(sig,desc) "Signal:\t$name\n[Local Duration:]\t[Tim2Str $v(sig,len)]\nFormat:\t[$sound cget -format] [format %g [expr [$sound cget -frequency]/1000.0]] kHz $stereo"
 
    # Add on top of list of sound paths
    if {! $v(sig,remote)} {
@@ -106,16 +106,16 @@ proc Signal {name {mode "reset"}} {
 	       # User-friendly info box about current process
 	       toplevel .shp -cursor watch
 	       wm title .shp "Shape info"
-	       label .shp.l -text "Currently computing global shape for signal\n[file tail $name]"
+		label .shp.l -text "[Local "Currently computing global shape for signal"]\n[file tail $name]"
            if {$::tcl_platform(platform) != "windows"} {
-                button .shp.b -text "Abort" -command ShapeAbort
-                pack .shp.b -padx 3m -pady 2m
+	       button .shp.b -text [Local "Abort"] -command ShapeAbort
+               pack .shp.b -padx 3m -pady 2m
            }             
 	       pack .shp.l -fill both -expand true -padx 3m -pady 2m
 	       
 	       
 	    } else {
-	       DisplayMessage "Computing signal shape. Please wait..."
+	       DisplayMessage [Local "Computing signal shape. Please wait..."]
 	       update
 	       $sound shape $shp -format MULAW
 	       $shp write $shapeName -fileformat WAV
@@ -128,9 +128,9 @@ proc Signal {name {mode "reset"}} {
       }
    }
    if {$v(shape,cmd) != ""} {
-      append v(sig,desc) "\nShape:\tyes"
+      append v(sig,desc) "\n[Local "Shape: yes"]"
    } else {
-      append v(sig,desc) "\nShape:\tno"
+      append v(sig,desc) "\n[Local "Shape: no"]"
    }
 
    # Synchronize end times between signal and transcription
@@ -190,12 +190,12 @@ proc ShapeDone {channel sound sigName shapeName} {
       foreach wavfm $v(wavfm,list) {
 	$wavfm config -shape $v(shape,cmd)
       } 
-      DisplayMessage "Signal shape is now available!"
-      append v(sig,desc) "\nShape:\tyes"
+      DisplayMessage [Local "Signal shape is now available!"]
+      append v(sig,desc) "\n[Local "Shape: yes"]"
    } else {
       puts "error $res"; puts $err
-      DisplayMessage "Signal shape not available, sorry..."
-      append v(sig,desc) "\nShape:\tno"
+      DislayMessage [Local "Signal shape not available, sorry..."]
+      append v(sig,desc) "\n[Local "Shape: no"]"
    }
    unset v(shape,bgchan)
    destroy .shp
@@ -337,7 +337,7 @@ proc OpenAudioFile {{mode "reset"}} {
       }
       # support multiple simultaneous file open (Tcl/Tk>=8.4) for MultiWav mode
       if {[info tclversion] >= 8.4 && $mode == "add"} {
-	set audiopen [tk_getOpenFile -filetypes $types -multiple \
+	set audiopen [tk_getOpenFile -filetypes $types -multiple 1\
 			-initialdir $path -title "Open audio file"]
       } else {
 	set audiopen [tk_getOpenFile -filetypes $types \
