@@ -160,7 +160,7 @@ namespace eval ::convert::sclite {
 	set errors {}
 	set ndel [set nsub [set nins 0]]
 	set lastcor $t0
-	while {[regexp "^(\[CSDI]),(\"(\[^\"]*)\")?,(\"(\[^\"]*)\")?,((\[0-9.]+)\\+(\[0-9.]+))?(:(.*))?$" $line all type bid1 w1 bid2 w2 bid3 t1 t2 bid4 line]} {
+	while {[regexp "^(\[CSDI]),(\"(\[^\"]*)\")?,(\"(\[^\"]*)\")?,((\[0-9.]+)\\+(\[0-9.]+))?(,\[0-9.]*)?(:(.*))?$" $line all type bid1 w1 bid2 w2 bid3 t1 t2 bid4 conf line]} {
 	  #puts stderr "$type $w1 $w2 $t1 $t2"
 	  if {$t1 == 0 && $t2 == 0} continue
 	  set t1bis $t1
