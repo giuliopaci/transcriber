@@ -457,11 +457,11 @@ proc TextFilter {t option args} {
 
          if  { $nbSelectLines > 1  } {
 		 set choice [tk_messageBox -type yesno -default no -message \
-		  [Local "You have selected several lines. Confirm deletion ?"] \
+		  [Local "You have selected several lines. Confirm their deletion ?"] \
 		 	 -icon question ]
 
 		 if { $choice == "no" } { return }
-	 }      
+	 }
 	 # End of delete range (eventually empty)
 	 set end [lindex $args 1]
 	 # Dump text widget between requested delete indices
