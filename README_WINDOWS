@@ -35,11 +35,11 @@ following instructions from doc/en/installation.html:
 
 Binary installation for Windows
 
- 1 - download the last Transcriber binary package for Windows on SourceForge:
+ 1. download the last Transcriber binary package for Windows on SourceForge:
 
  http://sourceforge.net/project/showfiles.php?group_id=40021&package_id=51790
 
- 2 -double-click on it and follox the setup instructions
+ 2. double-click on it and follox the setup instructions
 
 
 ---------------------------------------------------------------------
@@ -48,42 +48,71 @@ Installation from the sources
 The installation in a Windows environment looks like the Linux one because it
  also uses the tools configure and make. It consists in:
 
- 1 - installing the tools, MinGW and MinSYS, to enable to compile using make and configure on Windows.
+ I - installing the tools, MinGW and MinSYS, to enable to compile using make and
+     configure on Windows.
 
- 2 - installing the libraries TcLex and Snack, used by Transcriber
+ II - installing the libraries TcLex and Snack, used by Transcriber
 
- 3 - using a kit (TclKit) that embeds Tcl and Tk to source Transcriber
+ III - using a kit (TclKit) that embeds Tcl and Tk to source Transcriber
 
 Hereunder, the different steps are detailed:
 
-1 - Download Transcriber source package for Windows at http://sourceforge.net/project/showfiles.php?group_id=40021&package_id=51790 and extract it in c:\TransSource
+  1. Download Transcriber source package for Windows at 
+     http://sourceforge.net/project/showfiles.php?group_id=40021&package_id=51790
+     and extract it in c:\TransSource
 
-2 - Download the MinGW binary at http://www.mingw.org/  and install it in c:\MinGW (not in c:\Program Files because it does not handle paths with white spaces).
-MinGW ("Minimalistic GNU for Windows") refers to a set of runtime headers, used in building a compiler system based on the GNU GCC and binutils projects. It compiles and links code to be run on Win32 platforms, providing C, C++ and Fortran compilers plus other related tools.
+  2. Download the MinGW binary at http://www.mingw.org/  and install it in c:\MinGW 
+     (not in c:\Program Files because it does not handle paths with white spaces).
+     MinGW ("Minimalistic GNU for Windows") refers to a set of runtime headers, used 
+     in building a compiler system based on the GNU GCC and binutils projects.
+     It compiles and links code to be run on Win32 platforms, providing C, C++ and 
+     Fortran compilers plus other related tools.
 
-3 - Download the MinSYS binary at http://www.mingw.org/ install it in c:\MSYS. MinSYS or Minimal SYStem is a POSIX and Bourne shell environment use with MinGW. It provides a hand picked set of tools to allow a typical configuration script with Bourne syntax to execute. This allows most of the GNU packages to create a Makefile just from executing the typical configure script which can then be used to build the package using the native MinGW version of GCC.
+  3. Download the MinSYS binary at http://www.mingw.org/ install it in c:\MSYS. 
+     MinSYS or Minimal SYStem is a POSIX and Bourne shell environment use with MinGW. 
+     It provides a hand picked set of tools to allow a typical configuration script 
+     with Bourne syntax to execute. This allows most of the GNU packages to create 
+     a Makefile just from executing the typical configure script which can then be
+     used to build the package using the native MinGW version of GCC.
 
-4 -Download Tcl/Tk binary library at http://www.mingw.org/  and install it in c:\MinGW . Those  libraries are used during the linkage step of the Transcriber compilation.
+  4. Download Tcl/Tk binary library at http://www.mingw.org/  and install it in
+     c:\MinGW . Those  libraries are used during the linkage step of the Transcriber 
+     compilation.
 
-5 - Launch MinGW (by cliquing on its icon) and move to c:\TransSource\src directory:
-cd c:\TransSource\src
+  5. Launch MinGW (by cliquing on its icon) and move to c:\TransSource\src directory:
+     cd c:\TransSource\src
 
-Launch the compilation/installation precising Tcl and Tk library paths and Transcriber installation directory
+  6. Launch the compilation/installation precising Tcl and Tk library paths and 
+     Transcriber installation directory:
 
-./configure --with-tcl=/mingw/lib --with-tk=/mingw/lib/ --prefix=c:\TransBin
-make
-make install
+	./configure --with-tcl=/mingw/lib --with-tk=/mingw/lib/ --prefix=c:\TransBin
+	make
+	make install
 
-6 - Download TclLex windows binary library at http://membres.lycos.fr/fbonnet/Tcl/tcLex/ extract it in c:\TransBin\lib\TcLex12a1
+  7. Download TclLex windows binary library at http://membres.lycos.fr/fbonnet/Tcl/tcLex/
+     and extract it in c:\TransBin\lib\TcLex12a1
 
-7 - Download the last Snack binary release for windows with Tcl/Tk at http://www.speech.kth.se/snack/download.html . Extract it and copy the content of Snack\bin\windows (ie all .dll, .lib and snack.tcl and pkgIndex.tcl) to c:\TransBin\lib\Snack
+  8. Download the last Snack binary release for windows with Tcl/Tk at 
+	http://www.speech.kth.se/snack/download.html 
+     Extract it and copy the content of Snack\bin\windows (ie all .dll, .lib and 
+     snack.tcl and pkgIndex.tcl) to c:\TransBin\lib\Snack
 
-8 - Download Tclkit for Windows at http://www.equi4.com/tclkit.html and copy it in c:\TransBin. This tool embeds in a single executable file all what you need to source Tcl an Tk script files. To source Transcriber, you just have to launch Tclkit and type :
-source c:\TransBin\lib\Transcriber1.4\tcl\Main.tcl
+  9. Download Tclkit for Windows at http://www.equi4.com/tclkit.html and copy it 
+     in c:\TransBin. This tool embeds in a single executable file all what you need 
+     to source Tcl an Tk script files. To source Transcriber, you just have to 
+     launch Tclkit and type :
+	source c:\TransBin\lib\Transcriber1.4\tcl\Main.tcl
 
-Note, that if you prefer to use Active Tcl (http://www.activestate.com/), in that case you don't have to install Snack because it is included in it. And if you want to launch Transcriber, you just have to launch Wish and then type:
-source c:\TransBin\lib\Transcriber1.4\tcl\Main.tcl
-The Tclkit solution is preferred to Active Tcl because it enables to create a single setup package for Transcriber which includes: the Transcriber binary and script files, the Snack library, the TcLex library, Tcl and Tk. And nothing else is needed to run Transcriber.
+Note, that if you prefer to use Active Tcl (http://www.activestate.com/), in that case 
+you don't have to install Snack because it is included in it. And if you want to launch
+Transcriber, you just have to launch Wish and then type:
+
+	source c:\TransBin\lib\Transcriber1.4\tcl\Main.tcl
+
+The Tclkit solution is preferred to Active Tcl because it enables to create a 
+single setup package for Transcriber which includes: the Transcriber binary and 
+script files, the Snack library, the TcLex library, Tcl and Tk. And nothing else 
+is needed to run Transcriber.
 
 ----------------------------------------------------------------------------
 Distribution structure:
@@ -91,7 +120,7 @@ Distribution structure:
    * Structure of the source distribution :
         o Transcriber-1.4/
              + README_WINDOWS . .instructions to install Transcriber on Windows
-	     + README_LINUX   . .instructions to install Transcriber on Unix/Linux
+	       + README_LINUX   . .instructions to install Transcriber on Unix/Linux
              + COPYING
              + contrib/       . . external archives
                   + html_library-0.3/
@@ -116,6 +145,13 @@ Distribution structure:
                   + img/
                   + etc/
                   + doc/
+             + license.txt .  .  . license agreement
+		 + tclkit-win32.exe  . kit enabling to source Tcl and Tk scripts
+	       + transwin.exe   .  . executable file used to launch Transcriber
+		 + trs.ico     .  .  . icon of Transcriber and .trs files
+             + unins000.dat   .  . data file used to uninstall Transcriber
+		 + unins000.exe   .  . executable file used to uninstall Transcriber
+		
 
 ----------------------------------------------------------------------------
 Possible problems
