@@ -71,49 +71,91 @@ proc WaitForModal {w e varName} {
 }
 
 proc OkCancelFrame {w varName {names {"OK" "Cancel"}}} {
-   frame $w -relief raised -bd 1
-   set t [winfo toplevel $w]
-   foreach name $names {
-      set but [string tolower $name]
-      button $w.$but -text [Local $name] -command [list set $varName $name]
-      switch $name {
-	 "OK" {
+
+    # JOB: create an OkcancelFrame
+    #
+    # IN: w, name of the window created
+    #     varName, variable associated to the frame
+    #     names, names of the buttons, default OK and Cancel
+    # OUT: nothing
+    # MODIFY: nothing
+    #
+    # Author: Claude Barras
+    # Version: 1.0
+    # Date: 1999
+    
+    frame $w -relief raised -bd 1
+    set t [winfo toplevel $w]
+    foreach name $names {
+	set but [string tolower $name]
+	button $w.$but -text [Local $name] -command [list set $varName $name]
+	switch $name {
+	    "OK" {
 	    $w.$but config -default active
-	    bind $t <Return> "tkButtonInvoke $w.$but"
-	 }
-	 "Cancel" {
-	    bind $t <Escape> "tkButtonInvoke $w.$but"
-	 }
-      }
-      pack $w.$but -side left -expand 1 -padx 3m -pady 2m
-   }
-   pack $w -side bottom -fill both
+		bind $t <Return> "tkButtonInvoke $w.$but"
+	    }
+	    "Cancel" {
+		bind $t <Escape> "tkButtonInvoke $w.$but"
+	    }
+	}
+	pack $w.$but -side left -expand 1 -padx 3m -pady 2m
+    }
+    pack $w -side bottom -fill both
 }
 
 proc ListFrame {f list} {
-   frame $f
-   set l $f.lst
-   listbox $l -yscrollcommand [list $f.ysc set] -exportselection 0
-   scrollbar $f.ysc -orient vertical -command [list $l yview]
-   eval $l insert end $list
-   pack $l -side left -expand true -fill both
-   pack $f.ysc -side right -fill y
-   pack $f -side top -fill both -expand 1  -padx 3m -pady 2m
-   return $l
+    
+    # JOB: create a listframe
+    #
+    # IN: f, name of the window created
+    #     list, list associated with to listframe
+    # OUT: name of the window created
+    # MODIFY: nothing
+    #
+    # Author: Claude Barras
+    # Version: 1.0
+    # Date: 1999
+
+    frame $f
+    set l $f.lst
+    listbox $l -yscrollcommand [list $f.ysc set] -exportselection 0
+    scrollbar $f.ysc -orient vertical -command [list $l yview]
+    eval $l insert end $list
+    pack $l -side left -expand true -fill both
+    pack $f.ysc -side right -fill y
+    pack $f -side top -fill both -expand 1  -padx 3m -pady 2m
+    return $l
 }
 
-proc EntryFrame {w title varName} {
-   frame $w
-   set l [label $w.lab -text "[Local $title]:"]
-   set e [entry $w.ent -text $varName]
-   #$e insert insert $value
-   $e select range 0 end
-   $e icursor end
-   $e xview end
-   pack $l -side left -padx 3m -pady 2m
-   pack $e -expand true -fill x -side left -padx 3m -pady 2m
-   pack $w -side top -fill x -expand true
-   return $e
+proc EntryFrame {w title varName {OKbutton no}} {
+    
+    # JOB: create an entryframe with an optional "OK" button associated
+    #
+    # IN: w, name of the window created
+    #     title, label of the entryframe
+    #     varName, associated variable to the entryframe
+    #     OKbutton, variable for an optional OK button, default no button
+    # OUT: name of the window created
+    # MODIFY: nothing
+    #
+    # Author: Claude Barras, Sylvain Galliano
+    # Version: 1.1
+    # Date: October 20, 2004
+    
+    frame $w
+    set l [label $w.lab -text "[Local $title]:"]
+    set e [entry $w.ent -text $varName]
+    $e select range 0 end
+    $e icursor end
+    $e xview end
+    pack $l -side left -padx 3m -pady 2m
+    pack $e -expand true -fill x -side left -padx 3m -pady 2m
+    if {$OKbutton=="yes"} {
+	set b [button $w.but -text "Ok"]
+	pack $b -side left  
+    }
+    pack $w -side top -fill x -expand true
+    return $e
 }
 
 proc ListEntryFrame {w title varName list} {
@@ -233,17 +275,30 @@ proc ScrolledText {w} {
 }
 
 proc ColorFrame {w title varName} {
-   upvar $varName var
-   frame $w
-   set l [label $w.lab -width 20 -anchor e -text "[Local $title]:"]
-   set b [ColoredButton $w.col [subst {
-      ChooseColor $varName; 
-      $w.col conf -bg $$varName -activebackground $$varName
-   }] -bg $var -activebackground $var -width 2]
-   pack $l -side left -padx 3m
-   pack $b -side right -padx 3m
-   pack $w -side top -fill x -expand true
-   return $b
+
+    # JOB: Create the color frame to configure the desired colors. Called by ConfigureColors
+    #
+    # IN: w, name of the subframe corresponding to the element to configure
+    #     title, label that appears in the subframe  
+    #     varName, variable associated with the subframe
+    # OUT: nothing
+    # MODIFY: nothing
+    #
+    # Author: Claude Barras
+    # Version: 1.0
+    # Date: 1999
+
+    upvar $varName var
+    frame $w
+    set l [label $w.lab -width 20 -anchor e -text "[Local $title]:"]
+    set b [ColoredButton $w.col [subst {
+	ChooseColor $varName; 
+	$w.col conf -bg $$varName -activebackground $$varName
+    }] -bg $var -activebackground $var -width 2]
+    pack $l -side left -padx 3m
+    pack $b -side right -padx 3m
+    pack $w -side top -fill x -expand true
+    return $b
 }
 
 proc ColoredButton {w cmd args} {
