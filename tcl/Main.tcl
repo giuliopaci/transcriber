@@ -308,7 +308,15 @@ proc InitDefaults {argv} {
 	set v(pref,ver) "1.5.0"
 	set v(geom,.evt) ""
    }
-			      
+   
+   # Test of the presence of the global speaker database
+   # Indeed, due to problems with the global speaker database management,
+   # it is temporarily disabled
+   set speakerFile $env(HOME)/[file tail $v(list,ext)]
+   if { [ file exists $speakerFile ] == 1 } {
+	tk_messageBox -type ok -message "The speaker database $speakerFile is not compatible with the current version of Transcriber. Please, rename or delete it." -icon error
+        exit
+   }  
    
    # Init user name
    if {$v(scribe,name)=="(unknown)"} {
