@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<!DOCTYPE Trans SYSTEM "trans-13.dtd">
+<!DOCTYPE Trans SYSTEM "trans-14.dtd">
 <Trans scribe="myl" audio_filename="know" version="1" version_date="990830">
 <Speakers>
 <Speaker id="spk1" name="speaker#1" check="no" dialect="native" accent="" scope="local"/>
 <Speaker id="spk2" name="speaker#2" check="no" dialect="native" accent="" scope="local"/>
 </Speakers>
 <Episode>
-<Section type="report" startTime="0" endTime="23.962">
+<Section type="report" startTime="0" endTime="24.026">
 <Turn startTime="0" endTime="0.258" speaker="spk2">
 <Sync time="0"/>
 ((Yeah)).
@@ -56,7 +56,7 @@ And the thing is, you don't know, so you don't even know that you don't know. {l
 <Sync time="20.026"/>
 You know what I mean? It's like- {exhale} I don't know. You know, I just-
 </Turn>
-<Turn speaker="spk2" mode="spontaneous" startTime="22.624" endTime="23.962">
+<Turn speaker="spk2" mode="spontaneous" startTime="22.624" endTime="24.026">
 <Sync time="22.624"/>
 {laugh}
 </Turn>
