@@ -652,9 +652,13 @@ proc RandomColor {} {
   return $col
 }
 
-proc ColorMap {val} {
+proc ColorMap {val {col ""}} {
   global color
-  if {[info exists color($val)]} {
+  regsub -all "\[ _-]" $val "" val
+  set val [string tolower $val]
+  if {$col != ""} {
+    set color($val) $col
+  } elseif {[info exists color($val)]} {
     set col $color($val)
   } else {
     set col [RandomColor]
@@ -666,8 +670,7 @@ proc ColorMap {val} {
 proc ColorizeSpk {{segmt seg1}} {
   global v color
   if {$v(colorizeSpk)} {
-    set nosp ([Local "no speaker"])
-    set ::color($nosp) $::v(color,bg)
+    ColorMap ([Local "no speaker"]) $::v(color,bg)
     for {set i 0} {$i < [GetSegmtNb $segmt]} {incr i} {
       SetSegmtField $segmt $i -color [ColorMap [GetSegmtField $segmt $i -text]]
     }
