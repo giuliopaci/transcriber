@@ -23,13 +23,16 @@ if {[package vcompare $vsnack 1.7] < 0} {
 catch {
   package require snacksphere
 }
+catch {
+  package require snackogg
+}
 package require trans 1.5
 
 # Default path for looking for sound files
 set path "."
 
 # List of authorized sound extensions
-set exts {".au" ".wav" ".snd" ".sph" ".sig" ".sd" ".smp" ".aif" ".aiff" ".mp3" ".raw"}
+set exts {".au" ".wav" ".snd" ".sph" ".sig" ".sd" ".smp" ".aif" ".aiff" ".mp3" ".raw" ".ogg"}
 
 # Default path for storing shapes
 set shp_path "/var/tmp"
@@ -45,14 +48,15 @@ proc Process {path} {
       continue
     }
     set ext [file extension $file]
-    if {[lsearch -exact $exts $ext] >= 0 || [SoundFileType $file] != "RAW"} {
+    set type [SoundFileType $file]
+    if {[lsearch -exact $exts $ext] >= 0 || $type != "RAW"} {
       set snd [sound -file $file]
       set shapeName [LookForShape $file]
       set shp [sound -file $shapeName \
 		   -frequency 100 -channels 2 -format LIN8]
       if {![$snd shape $shp -check 1]} {
-	puts " + $file"
-	$snd shape $shp
+	puts " + $file ($type)"
+	$snd shape $shp -format MULAW
 	$shp write $shapeName -fileformat WAV
       }
       $snd destroy
