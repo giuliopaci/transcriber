@@ -712,6 +712,10 @@ proc DisplayTrans {} {
 		  set id $chn
 		  set txt ""
 		  InsertSyncButton $id
+		  # update image for floating boundaries
+		  if {[Synchro::getElastic $t3]} {
+		    Synchro::updateSyncImage $t3
+		  }
 		  # for first Background breakpoint
 		  if {$bgId == ""} {
 		     set bgId $chn

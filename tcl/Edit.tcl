@@ -270,6 +270,10 @@ proc InsertSyncButton {bp} {
    $t tag add "sync" $beg "insert"
    $t tag add "$bp" "$beg-1c" "insert"
    $t tag lower "$bp"
+
+   $t tag bind "$bp" <Button-3> "Synchro::syncContextMenu $bp %X %Y"
+   $t tag bind "$bp" <Control-Button-1> "Synchro::syncContextMenu $bp %X %Y; break"
+   $t tag add "cursor" $beg "insert"
 }
 
 proc ChangeSyncButton {bp img} {

@@ -25,10 +25,11 @@ proc LoadImages {} {
 #       set photo [image create photo ${name}Img]
 #       $photo read [file join $v(path,image) $name.gif]
 #    }
-   foreach {name} { play pause forward backward circle over1 over2 music musicl musicr next previous} {
+   foreach {name} { play pause forward backward circle circle2 over1 over2 music musicl musicr next previous} {
       set v(img,$name) [image create bitmap -file [file join $v(path,image) $name.bmp]]
    }
    $v(img,circle) conf -foreground $v(color,bg-sync)
+   $v(img,circle2) conf -foreground $v(color,bg-sync)
    $v(img,over1) conf -foreground $v(color,bg-sync)
    $v(img,over2) conf -foreground $v(color,bg-sync)
 }

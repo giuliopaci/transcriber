@@ -385,15 +385,16 @@ proc SegmentMove {wavfm segmt extend X y {force 0}} {
 	 set id [GetSegmtField $segmt $nb -endId]
       }
       if [catch {expr double($id)}] {
-	 Synchro::GetBoundaries $id center left right
+	 Synchro::GetBoundaries $id center left right leftIds rightIds
 	 if {$left == "" || $right == ""} return
       } else {
 	 set center $id
 	 set left   [GetSegmtField $segmt $nb -begin]
 	 set right  [GetSegmtField $segmt [expr $nb+1] -end]
 	 set id     ""
+ 	 set rightIds [set leftIds {}]
       }
-      lappend moves [list $nb $id $pos]
+      lappend moves [list $nb $id $pos $center $left $right $leftIds $rightIds]
       #puts "$nb $id $left $center $right => $pos"
 
       # Keep minimal apparent size for both segments
@@ -419,23 +420,28 @@ proc SegmentMove {wavfm segmt extend X y {force 0}} {
    if {!$extend} {
       PauseAudio
       set v(segmt,move) $nb1
-      # Register old position for undo
+      # Register old position and floating state for undo
       if {$id != ""} {
-	 DoModif "MOVE $id $center"
+	 DoModif "MOVE $id $center [Synchro::getElastic $id]"
       } else {
 	 DoModif "MOVE"
       }
    }
    foreach move $moves {
-      foreach {nb id pos} $move {}
+      foreach {nb id pos center left right leftIds rightIds} $move break
       if {$id == ""} {
 	 SetSegmtField $segmt $nb -end $pos
 	 SetSegmtField $segmt [expr $nb+1] -begin $pos
       } else {
 	 Synchro::ModifyTime $id $pos
+	 Synchro::setElastic $id 0
+	 Synchro::ModifyElastic $leftIds $center $pos $left
+	 Synchro::ModifyElastic $rightIds $center $pos $right
 	 # Keep the list of all moved boundary ids
-	 if {[lsearch -exact $v(moved_id) $id] < 0} {
-	    lappend v(moved_id) $id
+	 foreach i [concat $id $leftIds $rightIds] {
+	   if {[lsearch -exact $v(moved_id) $i] < 0} {
+	     lappend v(moved_id) $i
+	   }
 	 }
       }
    }
