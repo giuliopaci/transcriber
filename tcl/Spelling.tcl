@@ -156,41 +156,42 @@ proc SpellUpdate {} {
 }
 
 proc SpellWindow {} {
-   global v
+    global v
 
-   set w .spell
-   if ![winfo exists $w] {
-      toplevel $w
-      wm title $w [Local "Spell checking"]
-      wm protocol $w WM_DELETE_WINDOW { SpellClose }
+    set w .spell
+    if ![winfo exists $w] {
+	toplevel $w
+	wm title $w [Local "Spell checking"]
+	wm protocol $w WM_DELETE_WINDOW { SpellClose }
 
-      frame $w.left -relief raised -bd 1
-
-      set v(spell,ent) [EntryFrame $w.left.wrd "Word" v(spell,new)]
-      #$w....lab conf -width 10 -anchor w
-
-      set v(spell,lst) [ListFrame $w.left.lst ""]
-      $v(spell,lst) conf -height 6
-      bind $v(spell,lst) <ButtonRelease-1> SpellChooseGuess
-
-      frame $w.but -relief raised -bd 1
-      button $w.but.add -text [Local "Add to dictionnary"] -command SpellAccept
-      button $w.but.ignore -text [Local "Ignore"] -command SpellIgnore
-      button $w.but.replace -text [Local "Replace"] -command SpellReplace
-      button $w.but.close -text [Local "Close"] -command SpellClose
-      pack $w.but.add $w.but.ignore $w.but.replace $w.but.close -side top \
-	  -fill x -expand 1 -padx 2m -pady 1m
-
-      #button $w.but.close -text "Close" -command [list wm withdraw $w]
-      #pack $w.but.next $w.but.repl $w.but.repa $w.but.close -side left \
-	\#  -expand 1 -padx 2m -pady 1m
-
-      pack $w.left $w.but -side left -fill both -expand true
-      focus $v(spell,ent)
-      bind $w <Escape> "tkButtonInvoke $w.but.close"
+	frame $w.left -relief raised -bd 1
+	
+	set v(spell,ent) [EntryFrame $w.left.wrd "Word" v(spell,new)]
+	#$w....lab conf -width 10 -anchor w
+	
+	set v(spell,lst) [ListFrame $w.left.lst ""]
+	$v(spell,lst) conf -height 6
+	bind $v(spell,lst) <ButtonRelease-1> SpellChooseGuess
+	
+	frame $w.but -relief raised -bd 1
+	button $w.but.add -text [Local "Add to dictionnary"] -command SpellAccept
+	button $w.but.ignore -text [Local "Ignore"] -command SpellIgnore
+	button $w.but.replace -text [Local "Replace"] -command SpellReplace
+	button $w.but.close -text [Local "Close"] -command SpellClose
+	pack $w.but.add $w.but.ignore $w.but.replace $w.but.close -side top \
+	    -fill x -expand 1 -padx 2m -pady 1m
+	
+	#button $w.but.close -text "Close" -command [list wm withdraw $w]
+	#pack $w.but.next $w.but.repl $w.but.repa $w.but.close -side left \
+	    \#  -expand 1 -padx 2m -pady 1m
+	
+	pack $w.left $w.but -side left -fill both -expand true
+	focus $v(spell,ent)
+	bind $w <Escape> "tkButtonInvoke $w.but.close"
+	CenterWindow $w
    } else {
-      wm withdraw $w
-      wm deiconify $w
+       wm withdraw $w
+       wm deiconify $w
    }
 }
 
