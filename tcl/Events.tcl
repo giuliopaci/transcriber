@@ -673,11 +673,11 @@ proc EditEvent {tag {mode "Edit"} {sel ""}} {
 		        catch { [unset v(tk,dontmove)] }
 		        tkTextSetCursor $v(tk,edit) $symtag.first 
 		        if { $v(extn,chosen) == "begin" } {
-		            regexp {(^NE.*)tag} [ColorTag "$tag.last"] match color
+		            regexp {(^NE.*)tag} [ColorTag "$tag.first"] match color
 		            $t tag remove ${color}text $tag.last $symtag.first
 		            CreateAutoEvent $v(desc,chosen) $v(type,chosen) end
 		        } else {
-		            regexp {(^NE.*)tag} [ColorTag "$tag.first - 1c"] match color
+		            regexp {(^NE.*)tag} [ColorTag "$tag.first"] match color
 		            $t tag remove ${color}text $symtag.last $tag.first
 		            CreateAutoEvent $v(desc,chosen) $v(type,chosen) begin
 		        }
@@ -789,33 +789,6 @@ proc ColorTag {pos} {
     foreach tag $alltag {
 	regexp {^NE(pers|org|gsp|loc|fac|prod|time|amount|meto|unk).*$} $tag colortag 
     }
-    return $colortag
-}
-
-proc ColorTagInsert {} {
-
-    # JOB: when inserting text, choose the color of the text that will be insert by comparing the color before and after the insert position
-    #
-    # IN: nothing
-    # OUT: the name of the color of insertion i.e. NEmacroclass
-    # MODIFY: nothing
-    #
-    # Author: Sylvain Galliano
-    # Version: 1.0
-    # Date: October 20, 2004 
-
-    global v
-
-    set t $v(tk,edit)-bis 
-    set colortag_prev [ColorTag "insert-1c"]
-    set colortag_insert [ColorTag "insert"]
-    if { $colortag_insert != $colortag_prev } {
-	set nextchar [$t get insert]
-	set prevchar [$t get insert-1c]
-	if {$nextchar == "\["} {
-	    set colortag $colortag_prev
-	} else { set colortag $colortag_insert }
-    } else { set colortag $colortag_prev }
     return $colortag
 }
 
