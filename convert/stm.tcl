@@ -546,15 +546,22 @@ namespace eval stm {
      }
      set result {}
      foreach ch [lsort [array names segmt]] {
-       lappend result [list $segmt($ch) "$sid CTM (channel $ch)"]
+       lappend result [list $segmt($ch) "STM text (chn $ch)"]
        foreach var {speaker gender bandwidth background} {
 	 if {[info exists ${var}($ch)]} {
-	   lappend result [list [unify [set ${var}($ch)]] "$sid STM $var (channel $ch)"]
+	   lappend result [list [unify [set ${var}($ch)]] "STM $var (chn $ch)"]
 	 }
        }
      }
+     if {[llength $result] == 0} {
+       puts stderr "Warning - no line matched $sid basename during .stm parsing"
+     }
      return $result
    }
+
+   # only needed for compatibility with version <1.4.6
+   proc readSegmt {content} {return [lindex [lindex [readSegmtSet $content] 0] 0]}
+   if {[info commands ::ColorMap] == ""} {proc ::ColorMap c {return}}
 
   # fold adjacent sorted segments with similar label(s) into a single one
   proc unify {list1 {delta 0.1} {lastfield "end"}} {

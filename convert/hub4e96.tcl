@@ -295,6 +295,9 @@ namespace eval hub4 {
 
 namespace eval :: {
 
+# only needed for compatibility with version <1.4.6
+if {[info commands ::ColorMap] == ""} {proc ::ColorMap c {return}}
+
 # attribute random color to segments according to label id
 proc colorize {list1} {
   set list2 {}

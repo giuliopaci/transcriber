@@ -9,7 +9,7 @@ namespace eval ctm {
 
   variable msg "NIST .ctm format"
   variable ext ".ctm"
-
+  
    proc readSegmtSet {content} {
      global v
      if {[info exists v(sig,name)]} {
@@ -52,18 +52,25 @@ namespace eval ctm {
      }
      set result {}
      foreach ch [lsort [array names segmtArr]] {
-       lappend result [list $segmtArr($ch) "$sid CTM (channel $ch)"]
+       lappend result [list $segmtArr($ch) "CTM token (chn $ch)"]
        if {[info exists typeArr($ch)]} {
-	 lappend result [list [unify $typeArr($ch)] "$sid CTM type (channel $ch)"]
+	 lappend result [list [unify $typeArr($ch)] "CTM type (chn $ch)"]
        }
        if {[info exists spkArr($ch)]} {
-	 lappend result [list [unify $spkArr($ch)] "$sid CTM speaker (channel $ch)"]
+	 lappend result [list [unify $spkArr($ch)] "CTM speaker (chn $ch)"]
        }
+     }
+     if {[llength $result] == 0} {
+       puts stderr "Warning - no line matched $sid basename during .ctm parsing"
      }
      return $result
    }
 
-    # fold adjacent sorted segments with similar label(s) into a single one
+   # only needed for compatibility with version <1.4.6
+   proc readSegmt {content} {return [lindex [lindex [readSegmtSet $content] 0] 0]}
+   if {[info commands ::ColorMap] == ""} {proc ::ColorMap c {return}}
+
+  # fold adjacent sorted segments with similar label(s) into a single one
   proc unify {list1 {delta 0.1} {lastfield "end"}} {
     set list2 {}
     foreach seg1 $list1 {
