@@ -803,6 +803,11 @@ proc StartWith {argv} {
 		  uplevel \#0 [list source $file]
 	       }
 	    }
+	    "-socket" {
+	      # launch socket facility for external scripting of Transcriber
+	      # (see tcl/Socket.tcl code for more details)
+	      uplevel \#0 {source [file join $v(path,tcl) Socket.tcl]}
+	    }
 	    "-convertto" {
 	      # convert a set of trs files to given format, if export filter available
 	      # syntax: trans -convertto {stm|html|...} *.trs
@@ -855,7 +860,7 @@ proc StartWith {argv} {
 	      incr i
  	    }
             "-psn*" { 
-	      # id sent by Mac OS X
+	      # id sent by Mac OS X, to be ignored
 	    }
 	    "-*" {
 	       return -code error "unsupported command line option $val"
