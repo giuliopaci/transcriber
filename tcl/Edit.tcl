@@ -446,22 +446,26 @@ proc TextFilter {t option args} {
 
    switch -glob -- $option {
       "del*"  {
-	 # Display warning message in case of more than 1 line selected for deletion
- 	 set BegSel  [$v(tk,edit) index [lindex $args 0]]
-	 set EndSel  [$v(tk,edit) index [lindex $args 1]]
-	 set lBegSel  [split $BegSel .]
-	 set lEndSel  [split $EndSel .]
-	 set FirstLine [lindex $lBegSel 0]
-	 set LastLine  [lindex $lEndSel 0]
-	 set nbSelectLines [expr {$LastLine - $FirstLine +1}]
-
-         if  { $nbSelectLines > 1  } {
-		 set choice [tk_messageBox -type yesno -default no -message \
-		  [Local "You have selected several lines. Confirm their deletion ?"] \
-		 	 -icon question ]
-
-		 if { $choice == "no" } { return }
-	 }
+        # Display warning message in case of more than 1 line selected for deletion
+        
+        # Don't display warning if only 1 character is deleted
+        if {[llength $args] > 1} {
+            set BegSel  [$v(tk,edit) index [lindex $args 0]]
+            set EndSel  [$v(tk,edit) index [lindex $args 1]]
+            set lBegSel  [split $BegSel .]
+            set lEndSel  [split $EndSel .]
+            set FirstLine [lindex $lBegSel 0]
+            set LastLine  [lindex $lEndSel 0]
+            set nbSelectLines [expr {$LastLine - $FirstLine +1}]
+            if  { $nbSelectLines > 1  } {
+                set choice [tk_messageBox -type yesno -default no -message \
+                        [Local "You have selected several lines. Confirm their deletion ?"] \
+                        -icon question ]
+                
+                if { $choice == "no" } { return }
+            }
+        }
+        
 	 # End of delete range (eventually empty)
 	 set end [lindex $args 1]
 	 # Dump text widget between requested delete indices
