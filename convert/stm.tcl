@@ -403,8 +403,8 @@ namespace eval stm {
     set prev 0.0
     foreach line [split $content "\n"] {
       if {[string match ";;*" $line]} continue
-      if {[regexp "^(\[^ \t]+)\[ \t]+(\[^ \t]+)\[ \t]+\"(\[^\"]*)\"\[ \t]+(\[0-9.eE+-]+)\[ \t]+(\[0-9.eE+-]+)(\[ \t]+<\[^ \t]+>)?\[ \t]*(\[\x20-\xff]*)" $line all id chn spk begin end cnd text]
-	  || [regexp "^(\[^ \t]+)\[ \t]+(\[^ \t]+)\[ \t]+(\[^ \t]+)\[ \t]+(\[0-9.eE+-]+)\[ \t]+(\[0-9.eE+-]+)(\[ \t]+<\[^ \t]+>)?\[ \t]*(\[\x20-\xff]*)" $line all id chn spk begin end cnd text]} {
+      if {[regexp "^(\[^ \t]+)\[ \t]+(\[^ \t]+)\[ \t]+\"(\[^\"]*)\"\[ \t]+(\[0-9.eE+-]+)\[ \t]+(\[0-9.eE+-]+)(\[ \t]+<\[^ \t]+>)?\[ \t]*(\[^\x00-\x1f]*)" $line all id chn spk begin end cnd text]
+	  || [regexp "^(\[^ \t]+)\[ \t]+(\[^ \t]+)\[ \t]+(\[^ \t]+)\[ \t]+(\[0-9.eE+-]+)\[ \t]+(\[0-9.eE+-]+)(\[ \t]+<\[^ \t]+>)?\[ \t]*(\[^\x00-\x1f]*)" $line all id chn spk begin end cnd text]} {
 	#if {$file_id !="" && $id != $file_id} continue
 	set cnd [split [string tolower [string trim $cnd " \t<>"]] ","]
 	set cond [lindex $cnd 1]
@@ -495,7 +495,7 @@ namespace eval stm {
      set segmt {}
      foreach line [split $content "\n"] {
        if {[string match ";;*" $line]} continue
-       if {[regexp "(\[^ \t]+)\[ \t]+(\[^ \t]+)\[ \t]+(\[^ \t]+)\[ \t]+(\[0-9.eE+-]+)\[ \t]+(\[0-9.eE+-]+)(\[ \t]+<\[^ \t]+>)?\[ \t]*(\[\x20-\xff]*)" $line all id chn spk begin end cnd text]} {
+       if {[regexp "(\[^ \t]+)\[ \t]+(\[^ \t]+)\[ \t]+(\[^ \t]+)\[ \t]+(\[0-9.eE+-]+)\[ \t]+(\[0-9.eE+-]+)(\[ \t]+<\[^ \t]+>)?\[ \t]*(\[^\x00-\x1f]*)" $line all id chn spk begin end cnd text]} {
 	 set text [string trim $text]
 	 lappend segmt [list $begin $end $text]
        } else {
