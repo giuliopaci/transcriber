@@ -257,9 +257,9 @@ namespace eval stm {
 					regexp {([^ ]+)$} $txt all lastwrd
 					if {[regexp {([0-9][0-9])([0-9][0-9])} $lastwrd all cent ten]} {
 					    if { $ten != "00"} {
-						regsub {[^ ]+($|\s$)} $txt "$cent cent $ten\2" txt
+						regsub {[^ ]+($|\s$)} $txt "$cent cent $ten" txt
 					    } else {
-						regsub {[^ ]+($|\$)} $txt "$cent cents\2" txt	
+						regsub {[^ ]+($|\$)} $txt "$cent cents" txt	
 					    }
 					}
 				    }
