@@ -152,10 +152,13 @@ proc OpenSegmt {{name ""}} {
       if {[info command ${format}::readSegmtSet] != ""} {
 	set result [${format}::readSegmtSet [ReadFile $name]]
       } else {
-	set result [list [list [${format}::readSegmt [ReadFile $name]] "[file tail $name] ([namespace tail $format])"]]
+	set result [list [list [${format}::readSegmt [ReadFile $name]]]]
       }
       foreach set $result {
-	foreach {segments entryname color} $set break
+	foreach {segments entryname view color} $set break
+	if {$view == ""} {
+	  set view 1
+	}
 	if {$color == ""} {
 	  set color white
 	}
@@ -164,7 +167,8 @@ proc OpenSegmt {{name ""}} {
 	}
 	set v(trans,$seg) $segments
 	foreach wavfm $v(wavfm,list) {
-	  CreateSegmentWidget $wavfm $seg $entryname -full $color
+	  set v(view,[winfo parent $wavfm].$seg) $view
+	  CreateSegmentWidget $wavfm $seg "[file tail $name] $entryname" -full $color
 	}
       }
       lappend v(labelNames) $name
