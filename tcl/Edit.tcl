@@ -96,7 +96,7 @@ proc CreateTextFrame {f {top 0}} {
 
 # correct bug in tkTextPrevPos
 catch {tkTextPrevPos}; # force loading text.tcl
-proc tkTextPrevPos {w start op} {
+proc [expr {([info tclversion] >= 8.4) ? "::tk::TextPrevPos" : "tkTextPrevPos"}] {w start op} {
   set text ""
   set cur $start
   while {[$w compare $cur > 0.0]} {

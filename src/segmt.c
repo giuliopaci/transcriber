@@ -26,6 +26,8 @@
 # define MAX(a,b) ((a)>(b)?(a):(b))
 #endif
 
+/* automatic update of named fonts using private or public API */
+#if TCL_MAJOR_VERSION == 8 && TCL_MINOR_VERSION <= 3
 /* from tkInt.h for automatic update of named fonts */
 typedef Window (TkClassCreateProc) _ANSI_ARGS_((Tk_Window tkwin,
 	Window parent, ClientData instanceData));
@@ -39,6 +41,10 @@ typedef struct TkClassProcs {
 } TkClassProcs;
 EXTERN void		TkSetClassProcs _ANSI_ARGS_((Tk_Window tkwin,
 			    TkClassProcs *procs, ClientData instanceData));
+#else
+#define TkSetClassProcs Tk_SetClassProcs
+#define TkClassProcs Tk_ClassProcs
+#endif
 
 /* --------------------------------------------------------------------- */
 

@@ -581,6 +581,23 @@ proc LoadModules {} {
       if {$module == "Xml" && [namespace children :: xml] != ""} continue
       uplevel \#0 [list source [file join $v(path,tcl) $module.tcl]]
    }
+
+  # Take Tcl/Tk 8.4 text library name changes into account
+  if {[info tclversion] >= 8.4} {
+    foreach cmd {
+      tkButtonInvoke
+      tkEntryInsert
+      tkTextInsert
+      tkTextNextWord
+      tkTextPrevPos
+      tkTextSetCursor
+    } {
+      if {![llength [info commands $cmd]]} {
+	tk::unsupported::ExposePrivateCommand $cmd
+      }
+    }
+  }
+
 }
 
 ################################################################
