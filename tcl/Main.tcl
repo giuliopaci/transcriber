@@ -1,6 +1,6 @@
 #!/bin/sh
 #  -*-tcl-*-\
-exec wish8.0 "$0" ${1:+"$@"}
+exec wish "$0" ${1:+"$@"}
 
 # RCS: @(#) $Id$
 
