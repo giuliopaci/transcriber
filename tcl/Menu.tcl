@@ -302,7 +302,7 @@ proc InitMenus {} {
 	 {""}
 	 {"Control panel"	cmd {CreateGainFrame}}
       }}
-      {"Segmentation" -underline 0	cascade {
+      {"Segmentation" -underline 2	cascade {
 	 {"Move to..."	cascade {
 	    {"Next synchro"	cmd {TextNextSync +1} -acc "Down"}
 	    {"Previous synchro"	cmd {TextNextSync -1} -acc "Up"}
