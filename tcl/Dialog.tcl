@@ -650,7 +650,7 @@ proc UpdateInterfaceFont {fontVal fontName} {
     }
 
    # Update fonts that can be updated with configure
-    if {$fontName=="mesg" || $fontName=="info" } {
+    if {$fontName=="mesg" || $fontName=="info" || $fontName=="list"} {
 	set tmp [ GetConfFont $fontVal slant] 
 	font configure $fontName -slant  $tmp
 	set tmp [ GetConfFont $fontVal family]
