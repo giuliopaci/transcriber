@@ -248,6 +248,7 @@ proc ReadTrans {name {soundFile ""} {multiwav {}}} {
 
    DisplayMessage [Local "Cleaning up memory..."]; update
    CloseTrans -nosave
+   EmptyVideo
 
    # Try to open associated sound file as early as possible for non-xml files
    if {$format !="trs"} {
@@ -422,6 +423,7 @@ proc NewTrans {{soundFile ""} {multiwav {}}} {
    global v
 
    if [catch {CloseTrans} err] return
+   EmptyVideo
 
    if {[catch {
       if {$soundFile == "<empty>"} {

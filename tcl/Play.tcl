@@ -3,11 +3,10 @@
 # Copyright (C) 1998-2000, DGA - part of the Transcriber program
 # distributed under the GNU General Public License (see COPYING file)
 
-#package require snack
 
 #################################################################
 
-# Play requested audio file
+# Play current video or audio file
 #   begin/end : segment to play (in seconds); defaults to all signal
 #   script :    callback after non-interrupted playback
 
@@ -15,6 +14,18 @@ proc PlayRange {{begin 0} {end 0} {script {}}} {
    global v
 
    PauseAudio
+
+   if {$v(videoFile) != ""} {
+      set scale [lindex [$v(qtvideo) gettime] 5]
+      $v(qtvideo) time [expr int($begin*$scale)]
+      $v(qtvideo) callback [expr int($end*$scale)] StopVideo
+      $v(qtvideo) play
+      CursorStart $begin $end
+      IsPlaying 1
+      # Callback after playback
+      set v(play,after) $script
+      return
+   }
 
    set wavename $v(sig,name)
    if {$wavename == ""} return
@@ -68,6 +79,12 @@ proc PlayRange {{begin 0} {end 0} {script {}}} {
 # Stop current play and freeze cursor
 proc PauseAudio {} {
    global v
+   if {$v(videoFile) != ""} {
+     $v(qtvideo) stop
+     foreach cb [$v(qtvideo) callback info] {
+        $v(qtvideo) callback cancel $cb
+     }
+   }
    if {[info commands player] != ""} {
       catch {close [player conf -channel]}
       player stop
@@ -113,13 +130,20 @@ proc CursorStop {} {
 proc CursorEvent {inc} {
    global v
 
-  if {$v(playbackRemote) && [info commands rplayer] != ""} {
-     set audio rplayer
-   } else {
-     set audio audio
-   }
-   set pos [expr $v(curs,start)+[$audio elapsedTime]*$v(playbackSpeed)]
-   if {$pos>$v(curs,max) || ![$audio active]} {
+   if {$v(videoFile) != ""} {
+     set scale [lindex [$v(qtvideo) gettime] 5]
+     set pos [expr [lindex [$v(qtvideo) gettime] 1]/double($scale)]
+     set active [expr {[$v(qtvideo) rate] != 0}]
+   } else {		
+     if {$v(playbackRemote) && [info commands rplayer] != ""} {
+       set audio rplayer
+     } else {
+       set audio audio
+     }
+     set pos [expr $v(curs,start)+[$audio elapsedTime]*$v(playbackSpeed)]
+     set active [$audio active]
+   } 
+   if {$pos>$v(curs,max) || !$active} {
       PauseAudio
       # Command to be launched after signal playback (rewind by default)
       eval $v(play,after)
@@ -372,4 +396,62 @@ proc EndPlayForward {} {
    global v
 
    catch {after cancel $v(curs,fast)}
+}
+
+#################################################################
+# Video management using QuickTimeTcl
+proc OpenVideoFile {{file ""}} {
+   global v
+
+   if {[info commands movie] == ""} {
+     tk_messageBox -type ok -icon error -message [Local "Sorry, QuickTime Video support not available in this configuration (currently available for Mac OS X)"]
+     return
+   }
+   if {$file == ""} {
+      set file [tk_getOpenFile -filetypes {{"Video files" {".mov" ".mpg" ".avi"}} {"All files"   {*}}} -title "Open video file"]
+      #set file [tk_getOpenFilePreview]
+   }
+   if {$file != ""} {
+      if {![quicktimetcl::canopen $file -type movie]} {
+	tk_messageBox -type ok -icon error -message [format [Local "File %s does not seem to be supported by QuickTime"] $file]
+	return
+      }
+      set v(videoFile) $file
+      if {![info exists v(qtvideo)]} {
+         set v(qtvideo) [movie .snd.qt -file $v(videoFile) -controller 0]
+	 pack .snd.qt -side left
+	 pack .snd.1 -side right -expand true
+      }
+      if {[$v(qtvideo) cget -file] != $v(videoFile)} {
+	 $v(qtvideo) configure -file $v(videoFile)
+      }
+      foreach {w h} [$v(qtvideo) size] break
+      if {$h > 400} {
+	 $v(qtvideo) configure -width [expr int($w/2)] -height [expr int($h/2)]
+      } else {
+	 $v(qtvideo) configure -width 0 -height 0
+      }
+   }
+}
+
+proc EmptyVideo {} {
+    global v
+    
+    if {[info exists v(qtvideo)]} {
+	destroy $v(qtvideo)
+	unset v(qtvideo)
+    }
+    set v(videoFile) ""
+}
+    
+proc ViewVideo {time} {
+   global v
+   if {$v(videoFile) != "" && [$v(qtvideo) rate] == 0.0} {
+      set scale [lindex [$v(qtvideo) gettime] 5]
+      $v(qtvideo) time [expr int($time*$scale)]
+   }
+}
+
+proc StopVideo {name video time} {
+  $video stop
 }

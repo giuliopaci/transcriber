@@ -8,6 +8,8 @@
 proc CreateSoundFrame {f} {
    global v
 
+   # embedded frame for optional inclusion of video
+   frame $f; pack $f -fill both -side top; set f $f.1
    frame $f -bd 1 -relief raised -bg $v(color,bg)
    setdef v($f.w,height) 100
    set wavfm [wavfm $f.w -padx 10 -bd 0 -bg $v(color,bg) \
@@ -328,6 +330,7 @@ proc SetCursor {pos {hide 0}} {
       }
       DisplayMessage "Cursor : [Tim2Str [expr $v(curs,pos)+$v(sig,base)] 3]\t\t$v(sel,text)"
       SynchroToSignal $pos
+      ViewVideo $pos
    }
 }
 

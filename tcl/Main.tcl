@@ -29,7 +29,7 @@ exec wish "$0" ${1:+"$@"}
 
 ################################################################
 
-set version "1.4.6+ (2003-11-13)"
+set version "1.4.6+ (2004-06-18)"
 
 proc Main {argv} {
    global v
@@ -667,6 +667,11 @@ proc LoadModules {} {
      package require trans 1.5
    }
 
+   # Install QuickTime if available
+   catch {
+     package require QuickTimeTcl
+   }
+
    # Install html library
    if {[catch {
       package require html_library
@@ -780,6 +785,7 @@ proc StartWith {argv} {
 
    set sig ""
    set multiwav {}
+   set video ""
    set trans ""
    set lbls {}
    set pos 0
@@ -1018,11 +1024,14 @@ Further documentation available online (Help menu) or on the Web site:
       if {[file readable $v(trans,name)]} {
 	set trans $v(trans,name)
       }
+      if {[file readable $v(videoFile)]} {
+	set video $v(videoFile)
+      }
       set pos $v(curs,pos)
       set gain $v(sig,gain)
       set lbls $v(labelNames)
    }
-
+   set v(videoFile) ""
    EmptySignal
 
    # Load trans and associated audio
@@ -1036,6 +1045,11 @@ Further documentation available online (Help menu) or on the Web site:
       ReadTrans $trans $sig $multiwav
       SetCursor $pos
       NewGain $gain
+      if {$video != ""} {
+	  catch {
+	      OpenVideoFile $video
+	  }
+      }
    } error]} {
       if {$trans != ""} {
 	 #global errorInfo; puts $errorInfo

@@ -240,6 +240,8 @@ sig,gain	0
 path,sounds   ""
 trans,name    ""
 
+videoFile ""
+
 multiwav,path {}
 # list of label files
 labelNames      {}

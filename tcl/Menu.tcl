@@ -210,6 +210,7 @@ proc InitMenus {} {
 	 {"Informations"	cmd {CreateInfoFrame}}
 	 {"Edit episode attributes..."	cmd {EditEpisode}}	
 	 {""}
+	 {"Open video file..." 			cmd {OpenVideoFile}}
 	 {"Open audio file..." 	-bind "Ctrl-a"	cmd {OpenAudioFile}}
 	 {"Synchronized audio files"		cascade {
 	   {"Add audio file..." 	cmd {OpenAudioFile add}}
