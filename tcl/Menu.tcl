@@ -285,7 +285,7 @@ proc InitMenus {} {
 	 {""}
 	 {"Create turn..."	cmd {ChangeSegType Turn} -bind "Ctrl-t"}
 	 {"Create section..."	cmd {ChangeSegType Section} -bind "Ctrl-e"}
-	 {"Edit turn attributes..."	cmd {::turn::edit}}	
+	 {"Edit turn attributes..."	cmd {::turn::edit} -bind "Ctrl-Alt-t"}	
 	 {"Edit section attributes..."	cmd {::section::edit}}	
 	 {""}
 	 {"Move breakpoint"   cmd { tk_messageBox -type ok -message "Just click on the segment boundary with central button (or control-click with left button) and drag it to the new position! Use shift modifier for a forced move."}}
