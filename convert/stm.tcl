@@ -4,7 +4,7 @@
 # distributed under the GNU General Public License (see COPYING file)
 
 ################################################################
-# updated 8 jan. 2001; 27 jun. 2001; 10 jul. 2001
+# conversion rules: updated 8 jan. 2001; 27 jun. 2001; 10 jul. 2001
 #
 # Export to stm:
 # -------------
@@ -93,8 +93,26 @@ namespace eval stm {
     variable channel [open $name w]
     variable base
     variable nontrans ""
+    variable nontime 0
     set nxt ""
 
+    # provide explicit informations on export and used encoding in header
+    if {![catch {encoding system}]} {
+      fconfigure $channel -encoding [EncodingFromName $::v(encoding)]
+      set msg " with encoding $::v(encoding)"
+    } else {
+      set msg ""
+    }
+    set rev [lindex [split {$Revision$}] 1]
+    puts $channel ";; Transcriber export by stm.tcl,v $rev on [clock format [clock seconds]]$msg"
+    set episode [$v(trans,root) getChilds "element" "Episode"]
+    if {[$episode getAttr program] != "" || [$episode getAttr air_date] != ""} {
+      puts $channel ";; program [$episode getAttr program] of [$episode getAttr air_date]"
+    }
+    puts $channel ";; transcribed by [$v(trans,root) getAttr scribe], version [$v(trans,root) getAttr version] of [$v(trans,root) getAttr version_date]"
+    puts $channel ";;"
+
+    # provide header for NIST sclite analysis
     puts $channel \
 {;; CATEGORY "0" "" ""
 ;; LABEL "O" "Overall" "Overall"
@@ -278,7 +296,7 @@ namespace eval stm {
       dump [format %.3f [$tur getAttr "endTime"]]
     }
     if {$nontrans != ""} {
-      puts stderr "Pending non-transcribed segment in $name"
+      puts stderr "WARNING - unclosed nontrans/language/comment segment starting at $nontime in $name"
     }
     close $channel
   }
@@ -317,6 +335,7 @@ namespace eval stm {
     variable channel
     variable base
     variable nontrans
+    variable nontime
     variable deprecated
 
     if {$head != ""} {
@@ -342,6 +361,7 @@ namespace eval stm {
 	# detect beginning of unclosed nontrans or lang or comment segment
 	if {[regexp -nocase "\\\[(nontrans|lang|comment)\[^\]\]*-\]" $txt all typ]} {
 	  set nontrans $typ
+	  set nontime $oldtime
 	} elseif {[regexp -nocase "\\\[(nontrans|lang|conv)(\[^\]-\])*\]" $txt]} {
 	  # exclude segments with nontrans/lang/conv intantaneous tags
 	  set notthis 1
@@ -353,19 +373,26 @@ namespace eval stm {
       }
       if {$notthis || [regexp "^(\\\[\[^\]\]*\]|<\[^>\]*>| )*$" $txt]} {
 	if {$notthis} {
-	  ignore $oldtime $t1
+	  if {$oldtime < $t1} {
+	    ignore $oldtime $t1
+	  }
 	  # detect end of nontrans or lang or comment segment
 	  if {$nontrans != "" && [regexp "\\\[-$nontrans\[^\]\[\]*\]" $txt]} {
 	    set nontrans ""
 	  }
 	} else {
 	  # segment contains only space or tags (except nontrans/lang./conv tags)
-	  puts $channel "$base 1 inter_segment_gap $oldtime $t1 <o,$cond,>"
+	  if {$oldtime < $t1} {
+	    puts $channel "$base 1 inter_segment_gap $oldtime $t1 <o,$cond,>"
+	  }
 	}
       } else {
 	# normalize spacing for text output
 	regsub -all "  +" $txt " " txt
 	puts $channel [format $head $t1 $cond [string trim $txt]]
+	if {$oldtime >= $t1} {
+	  puts stderr "WARNING - non-positive stm segment $oldtime-$t1 in $base.stm"
+	}
       }
     }
     set head ""
