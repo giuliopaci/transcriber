@@ -142,6 +142,8 @@ namespace eval ::convert::sclite {
     set segmt {}
     set ref {}
     set hyp {}
+    set t0 0
+    set t3 0
     foreach line [split $content "\n"] {
       if {[anaTag $line type kind atts]} {
 	if {$kind != "close" && $type == "PATH"} {
