@@ -70,6 +70,8 @@ proc ViewHelp {{name "Index"}} {
    } elseif {[catch {
       exec iexplore $url &
    }] && [catch {
+      exec "c:\\Program Files\\Internet Explorer\\IEXPLORE.EXE" $url
+   }] && [catch {
       exec netscape -remote "openFile ($url)"
    }] && [catch {
       exec netscape $url &
