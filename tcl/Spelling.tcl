@@ -88,7 +88,7 @@ proc SpellLoop {} {
       set FrenchApostr "c|d|j|l|m|n|qu|s|t|ç|jusqu|lorsqu|puisqu"
       set ItalianApostr "l|dell|all|d|un|c|nell|dall|sull|s|quest|quell|com|anch|tutt|n|vent|mezz|trent|sant|dov|cos|senz|dev|m|cinquant|quarant|tant|bell|quand|gliel|nient|cent|quant|ventiquattr|sessant|del|sott|settant|t|ch|qualcos|v|nel|gl|ottant|nessun|quattr|prim|terz|quart|novant|null|foss|buon|fors|degl|grand|al|quarantott|il|diciott|ultim|second|coll|pover|pier|quint|neanch|brav|altr"
 
-      if {($v(spell,lang) == "french" && [regexp "^($FrenchApostr)'(.*)" $wrd all art wrd]) || ($v(spell,lang) == "italian" && [regexp "^($ItalianApostr)'(.*)" $wrd all art wrd])} {
+      if {($v(spell,lang) == "french" && [regexp -nocase "^($FrenchApostr)'(.*)" $wrd all art wrd]) || ($v(spell,lang) == "italian" && [regexp -nocase "^($ItalianApostr)'(.*)" $wrd all art wrd])} {
          set l [expr [string length $art]+1]
          set pos [${t}-bis index "$pos + $l chars"]
          if {$wrd == ""} continue
@@ -301,7 +301,7 @@ proc SpellOneWrd {wrd} {
 	 set ok 0
       }
       default {
-	 error "Unrecognized ispell answer '$ans'"
+	 error "Unrecognized ispell answer '$ans' for word '$wrd'"
       }
    }
    # always accept guesses ?
