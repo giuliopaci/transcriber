@@ -329,7 +329,11 @@ namespace eval socket {
 # else create client facility procedure
 
 if {[info exists v(trans,name)]} {
-  socket::Server 8033
+  # default value for client and server socket port
+  if {! [info exists v(socket,server)]} {
+    set v(socket,server) 8033
+  }
+  socket::Server $v(socket,server)
   # New procedures for more easy external use
   proc GetCurrentSegmt {} {
     global v
@@ -342,6 +346,12 @@ if {[info exists v(trans,name)]} {
       return [list $a $b]
     } else {
       return {}
+    }
+  }
+  # may also use client
+  if {[info exists v(socket,client)]} {
+    proc TransClient {args} {
+      socket::Send localhost $::v(socket,client) $args
     }
   }
 } else {
