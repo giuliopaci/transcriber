@@ -301,6 +301,7 @@ proc SpellOneWrd {wrd} {
 	 set ok 0
       }
       default {
+	 catch {CloseIspell}
 	 error "Unrecognized ispell answer '$ans' for word '$wrd'"
       }
    }
