@@ -312,7 +312,9 @@ proc SetBindings {} {
 #######################################################################
 
 proc ConfigureGeneral {} {
-   global v
+   
+	#global but
+	global v
     global env
    # Keep initial values for 'Cancel' (but not for 'lang')
    foreach name {
@@ -330,7 +332,18 @@ proc ConfigureGeneral {} {
    EntryFrame $g.en1 "Default scribe's name" v(scribe,name)
    EntryFrame $g.en2 "Log trace in file" v(trace,name)
    EntryFrame $g.en3 "External Speakers Database " v(list,ext) 
-
+   
+   # Menu to choose the default browser
+    set i [frame $g.fr]
+    pack $i -fill both -expand true -side top
+    label $i.lab -text [Local "Default browser:"]
+    set v(browser,but) [button $i.v(browser,but) -text [Local $v(browser)] -default disable  ]
+    bind $i.v(browser,but) <Button-1>	{
+    set v(browser) [SelectBrowser]
+    $v(browser,but) configure -text $v(browser)
+    }
+    pack $i.lab $i.v(browser,but) -side left -padx 3m -pady 3m -fill x -expand true
+   
    set g [frame $f.fr1 -relief raised -bd 1 -width 25c]
    pack $g -fill both -expand true -side top
    EntryFrame $g.en1 "Auto-save interval (in minutes)" v(autosave,time)
