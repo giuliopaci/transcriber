@@ -309,15 +309,8 @@ proc InitDefaults {argv} {
       set v(playbackBeep) [file join $v(path,etc) "beep.au"]
    }
 
-   # Shape settings: disabled for Windows by default
-   if {$v(shape,wanted) == -1} {
-      if {$::tcl_platform(platform) == "windows"} {
-	 set v(shape,wanted) 0
-	 set v(shape,bg) 0
-      } else {
-	 set v(shape,wanted) 1
-      }
-   }
+   # Shape enabled 
+   set v(shape,wanted) 1
 
    # If shape path is not defined by user, look for a writable path
    if {$v(path,shape)==""} {

@@ -76,7 +76,7 @@ proc Signal {name {mode "reset"}} {
    # for files longer than 20 sec (by default)
    # If shape inactive, should forbid global view of signal.
    # If v(shape,bg) is true, calculation is done in background.
-   # For remote sounds, no background process implemented.
+
    set v(shape,cmd) ""
    if {$v(shape,wanted) && $v(sig,len) >= $v(shape,min)} {
       if {! $v(sig,remote)} {
@@ -107,9 +107,12 @@ proc Signal {name {mode "reset"}} {
 	       toplevel .shp -cursor watch
 	       wm title .shp "Shape info"
 	       label .shp.l -text "Currently computing global shape for signal\n[file tail $name]"
-	       button .shp.b -text "Abort" -command ShapeAbort
+           if {$::tcl_platform(platform) != "windows"} {
+                button .shp.b -text "Abort" -command ShapeAbort
+                pack .shp.b -padx 3m -pady 2m
+           }             
 	       pack .shp.l -fill both -expand true -padx 3m -pady 2m
-	       pack .shp.b -padx 3m -pady 2m
+	       
 	       
 	    } else {
 	       DisplayMessage "Computing signal shape. Please wait..."
@@ -172,10 +175,10 @@ proc ShapeDone {channel sound sigName shapeName} {
    global v
 
    fileevent $channel readable {}
-   catch {
-     exec kill -9 [pid $channel]
-   }
-   set res [string trim [read $channel]]
+    catch {
+        exec kill -9 [pid $channel]
+    }
+    set res [string trim [read $channel]]
    catch {
      close $channel
    } 
@@ -408,10 +411,10 @@ proc ConfigureAudioFile {} {
    checkbutton $g.shp -text [Local "Compute low-resolution shape for long sound files"] -variable v(shape,wanted) -anchor w -padx 3m -command "FrameState $g.1 \$v(shape,wanted)"
    set h [frame $g.1]
    pack $g.shp $g.1 -side top -fill x
-   if {$::tcl_platform(platform) != "windows"} {
+#"   if {$::tcl_platform(platform) != "windows"} {
       checkbutton $h.bg -text [Local "Do shape computation in background"] -variable v(shape,bg) -anchor w -padx 3m
-      pack $h.bg
-   }
+#"      pack $h.bg
+#"   }
    EntryFrame $h.en1 "Store signal shapes in" v(path,shape)
    catch {
     pack $h.bg $h.en1 -side top -fill x
