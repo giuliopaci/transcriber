@@ -826,7 +826,6 @@ namespace eval ::xml::parser {
       # First configure to default encoding (should be UTF-8, but it will
       # probably not be the correct guess with transcriptions produced with
       # Transcriber under Tcl/Tk8.0)
-      fconfigure $channel -encoding $default
       switch -exact -- $txt {
 	 "\x4c\x6f\xa7\x94" {
 	    error "XML parser: EBCDIC format not supported"
@@ -876,6 +875,8 @@ namespace eval ::xml::parser {
 	       } else {
 		  error "XML parser: encoding $v3 not supported"
 	       }
+	    } else {
+	       fconfigure $channel -encoding $default
 	    }
 	 }
       }
