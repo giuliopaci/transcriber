@@ -561,6 +561,19 @@ namespace eval speaker {
 
 
     proc importg {filename} {
+    # prodedure create by Mathieu MANTA on January 20th, 2005
+    # It simply disables the import of the external speaker database,
+    # and will be enable in a future release when the speaker database
+    # will be rethink
+    # The previous proc has been renamed to importg_old
+	    
+    }
+
+    proc importg_old {filename} {	    
+    # Mathiau MANTA, January 20th, 2005
+    # Old importg procedure
+    # It has been renamed to be desabled
+	    
 	global v
 	global env
 	variable listg 
