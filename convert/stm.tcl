@@ -266,10 +266,7 @@ namespace eval stm {
 				    # Replace the Roman numbers "VI" or "URL" by the right pron
 				    if {[regexp {^\(.*\:\)(\s*)(.*$)} $desctmp all type subst]} {
 					regexp {([^ ]+)($|\s$)} $txt all lastwrd
-					puts $txt
-					puts $subst
 					regsub {([^ ]+)($|\s$)} $txt "$subst" txt
-					puts $txt
 				    }
 				}
 			    }
