@@ -513,7 +513,7 @@ proc ConfigureGeneral {} {
     pack $g -fill both -expand true -side top
     EntryFrame $g.en1 "Default scribe's name" v(scribe,name)
     EntryFrame $g.en2 "Log trace in file" v(trace,name)
-    EntryFrame $g.en3 "Global speakers database" v(list,ext) 
+    #EntryFrame $g.en3 "Global speakers database" v(list,ext) 
     
     # Menu to choose the default browser
     set i [frame $g.fr]
