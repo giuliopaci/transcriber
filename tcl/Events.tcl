@@ -979,7 +979,7 @@ proc ConfigureEvents {} {
      set lstval {"comment" "noise" "pronounce" "lexical" "language" "entities" "dependent" "header" "scope"}
    } else {
      set lstnam {"Comment" "Noise" "Pronounce" "Lexical" "Language" "Named Entities"}
-     set lstval {"comment" "noise" "pronounce" "lexical" "language" "entitites"}
+     set lstval {"comment" "noise" "pronounce" "lexical" "language" "entities"}
    }
    foreach title $lstnam var $lstval {
       set e [EntryFrame $h.$var $title v(event,$var)]
