@@ -12,26 +12,50 @@ History of Transcriber versions</h2>
 <p>New or modified functions:<br>
 </p>
 <ul>
+  <li>Now, when you detroy a begin or end event it also destroy the
+  symetric associated event.</li>
+
+  <li>shortcuts F1 to F7 are available. F1 is for help, F2 to F7 are
+  used to hide or not the different parts of the interface (text, NE,
+  command button, first and second signal view and message
+  display).</li>
+
+  <li>creation of a new event "Named entities" for named entities (NE)
+  annotation. The F3 button is a shortcut that make available an
+  interface to easily annotate NE. Automatic annotion is possible and
+  every colors or fonts are configurable. The list of entities can
+  also be modified. More details in the reference manual.</li>
+
+  <li>creation of a global speakers database which
+  contains all the global speakers you have imported in it. Import is
+  done by Edit->Speakers->Update global speakers database, then you
+  have to select the file from wich you want to import global
+  speakers. More details in the reference manual.</li>
+
   <li>transcription files may use a different format than the original
-one provided with the package, provided that they point to a DTD
-located in the same directory, that their root element is still
-&lt;Trans&gt; and that they are in a superset of the existing format.
-Unknown XML tag will be only displayed in gray, but may not be edited.
-Any XML file whith &lt;Trans&gt; root tag is now supposed a valid .trs
-file, regardless of its actual extension (it used to be limited to .trs
-and .xml).<br>
-  </li>
+  one provided with the package, provided that they point to a DTD
+  located in the same directory, that their root element is still
+  &lt;Trans&gt; and that they are in a superset of the existing
+  format.  Unknown XML tag will be only displayed in gray, but may not
+  be edited.  Any XML file whith &lt;Trans&gt; root tag is now
+  supposed a valid .trs file, regardless of its actual extension (it
+  used to be limited to .trs and .xml).<br> </li> 
+  
   <li>it is possible to define a default topic or speaker import file,
-loaded when opening a transcription or creating a new one, using
-'Edit/Speaker|Topic/Automatic import from selected file'<br>
-  </li>
+  loaded when opening a transcription or creating a new one, using
+  'Edit/Speaker|Topic/Automatic import from selected file'<br> </li>
+
   <li>export a transcription to text format in a simple "Speaker i:
-transcription" format; control over the formatting may be done by
-setting some configuation values on the command line or in the
-configuration file - see convert/text.tcl for more details (NB: a beta
-version of this filter was already distributed in the 1.4.6)</li>
-  <li>display of NIST RT'03S .mdtm format (speaker subset only).</li><li>added "-version" command line option.<br>
-  </li>
+  transcription" format; control over the formatting may be done by
+  setting some configuation values on the command line or in the
+  configuration file - see convert/text.tcl for more details (NB: a
+  beta version of this filter was already distributed in the
+  1.4.6)</li> 
+  
+  <li>display of NIST RT'03S .mdtm format (speaker subset
+  only).</li>
+
+  <li>added "-version" command line option.<br> </li>
 
 </ul>
 <p>
@@ -40,6 +64,12 @@ version of this filter was already distributed in the 1.4.6)</li>
 <p>changes or bug fixes:<br>
 </p>
 <ul>
+  <li>fixed bug : an error message appeared when doing File/Synchronized Audio File/Add Audio File. That made the function unvailable.
+
+  <li>fixed bug : on some platform when using the Num_lock key, the edition was impossible.</li>
+
+  <li>fixed bug : when changing localisation (for example english to french) the contextual menu of the wave were not translate so that when you wanted to open an audio file, an error message appreared.</li>
+
   <li>a warning message is displayed when temporal inconsistencies are found in a .trs file.</li><li>Export
 to .stm format now includes a commented header giving information about
 the conversion process, and the file is written in the user-defined
