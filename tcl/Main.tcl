@@ -82,150 +82,151 @@ proc Quit {} {
 
 # Meaning of global variables $v(...) :
 # -----------------------------------
-#  autosave,name: name under which current transcription is auto-saved
-#  autosave,next: flag on if autosave handler is registred
-#  autosave,time: time before autosave after a modif (in minutes)/ 0:disabled
-#  backup,ext:    extension for backup (default to ~)
-#  bgPos,chosen:  chosen position for background selection
-#  bindings:      pairs of key/inserted string
-#  browser :             path to the default browser (needed to launch it)
-#  browser,but:   button tk widget to choose the default browser
-#  color,bg :     background color
-#  color,bg-back: background color for background noise
-#  color,bg-evnt: background color for events
-#  color,bg-sect: background color for section
-#  color,bg-sel:  background color for selected signal
-#  color,bg-sync: background color for synchro
-#  color,bg-text: background color for text
-#  color,bg-turn: background color for turns
-#  color,fg-back: foreground color for background noise
-#  color,fg-evnt: foreground color for events
-#  color,fg-sect: foreground color for section
-#  color,fg-sync: foreground color for synchro
-#  color,fg-text: foreground color for text
-#  color,fg-turn: foreground color for turns
-#  color,hi-sync: current synchro color
-#  color,hi-text: current text color
-#  convert_events:convert strings [i] to events for old .xml files
-#  curs,event :   next event for cursor move
-#  curs,fast :    callback for fast fwd/bwd auto repeat
-#  curs,max :     maximal cursor position during play (end of signal or sel.)
-#  curs,min :     start of play for repeat (begin of signal or selection)
-#  curs,pos :     current position of cursor in signal
-#  curs,start :   playback start time
-#  debug :        flag for debug menu display
-#  demo :         switch to demonstration mode
-#  encoding :     if a different encoding is to be used
-#  encodingList:  list of IANA encoding names/usual names
-#  ext,lbl :      list of extensions for importable label files
-#  ext,snd :      list of known extensions for sound files
-#  ext,trs :      list of extensions for importable transcription files
-#  file,default : default configuration file
-#  file,dtd :     DTD file for transcriptions in XML format
-#  file,local :   user localization file
-#  file,user :    user configuration file
-#  find,case :    case sensitiveness for find ("-nocase" or "")
-#  find,direction:search direction for find ("-forward" or "-backward")
-#  find,mode :    mode for find ("-exact" or "-regexp")
-#  find,replace : replacement string
-#  find,what :    string to look for
-#  font,axis :    font used for axis
-#  font,event :   font used for events
-#  font,info :    font used for infos
-#  font,list :    font used for fixed length lists
-#  font,mesg :    font used for messages
-#  font,text :    font used for text editor
-#  font,trans :   font used for transcriptions in segments
-#  geom,$w :      default geometry for window $w
-#  glossary :     value/comment word pairs of user glossary
-#  img,$name :    bitmap image
-#  keepconfig :   ask to save configuration before leaving
-#  lang :         language for menus ("fr" for french, default to english)
-#  language :     list of pairs iso639-code/language-name for localization
-#  multiwav,file: stores the current MultiWav menu file selection
-#  multiwav,files:list of all the files in the MultiWav menu
-#  multiwav,path: list of the full pathnames of the MultiWav menu files
-#  newtypes :     list of supported import formats with description
-#  options,file:  default file for user configuration
-#  options,list:  values to be saved in user configuration
-#  path,base :    base directory of Transcriber
-#  path,doc :     directory for help files
-#  path,etc :     path for default config values and DTD
-#  path,image :   directory for GIF or bitmap images
-#  path,shape :   default directory for centi-second sound shapes
-#  path,sounds :  last directory used for sound files selection
-#  path,tcl :     directory for Tcl scripts
-#  play,after :   callback after sound playback is over
-#  play,auto :    automatic play new selection or signal (1 or 0)
-#  play,no-fast:  temporary inhibition of fast forward/backward
-#  play,state :   currently playing or not
-#  playbackBeep:  beep sound file
-#  playbackBefore:go back before playing
-#  playbackMode:  continuous/pause/beep/stop/loop playback mode
-#  playbackPause: pause duration between segments
-#  playbackSegmt: set if playing a single segment
-#  playbackSpeed: speed playback factor (unsupported)
-#  preferedPos:   cursor insertion pos in text editor (start/end of line)
-#  proc,id :      id for numbering of socket connections to file server
-#  scribe,name :  default transcriber's name
-#  segmt,curr :   id of current segment
-#  segmt,move :   id of segment whose boundary is currently being moved
-#  sel,begin :    begin of selected area of signal
-#  sel,end :      end of selected area of signal
-#  sel,event :    next event for automatic extension of selection
-#  sel,start :    position of initial click for selection
-#  sel,text :     text describing selection limits
-#  shape,bg :     request shape calculation in background
-#  shape,cmd :    sound command containing shape of signal
-#  shape,min :    minimal duration for shape request (else max for display)
-#  shape,wanted : if user wants shape calculation
-#  sig,base :     header size for raw files
-#  sig,channels : channels for raw audio files
-#  sig,cmd :      sound command for signal access
-#  sig,desc :     variable containing signal description to be displayed
-#  sig,gain :     scale tk widget for volume gain change
-#  sig,header :   raw sound file header size
-#  sig,len :      length of signal (in seconds)
-#  sig,max :      = sig,min + sig,len
-#  sig,min :      beginning of signal (should be 0)
-#  sig,name :     file name of audio signal
-#  sig,port :     socket port for audio file server
-#  sig,rate :     sound rate for raw audio files
-#  sig,remote :   access to files through audio file server or not
-#  sig,server :   audio file server
-#  sig,shortname: short file name of audio signal
-#  space,auto :   automatic space insertion
-#  spell,* :      related to spell checker
-#  tk,dontmove :  flag to freeze once the cursor update inside text widget
-#  tk,edit :      text tk widget
-#  tk,play :      button tk widget for play
-#  tk,stop :      button tk widget for stop
-#  tk,wavfm :     main waveform tk widget
-#  trace,* :      related to performance monitoring
-#  trans,desc :   description of transcription for info window
-#  trans,format:  file format of the transcription
-#  trans,list :   ordered list of tags for segments in text widget
-#  trans,modif :  flag "transcription modified"
-#  trans,name :   file name of transcription
-#  trans,path:    default path for open/save transcription dialog boxes
-#  trans,root :   id of transcription root tag
-#  trans,saved:   flag if transcription has been saved at least once
-#  trans,seg? :   list of transcription segments at level ?
-#  type,chosen :  section type chosen in dialog or menu
-#  undo,list :    infos for undo
-#  undo,redo :    flag on if undo is in fact redo
-#  var,msg :      variable for selection infos and other messages
-#  view,$win :    flag for frame/window display
-#  $wav,height :  height of waveform widget (in pixels)
-#  $wav,left :    left position of window in signal (in sec)
-#  $wav,resolution: initial resolution for signal
-#  $wav,right :   = $wav,left + $wav,size
-#  $wav,scale :   scrollbar tk widget for scale change
-#  $wav,scroll :  scrollbar tk widget for horizontal move
-#  $wav,size :    length of window
-#  $wav,sync :    list of tk widgets to be synchronized
-#  wavfm,list :   list of all waveform views
-#  zoom,list :    infos for unzoom
+#  autosave,name  name under which current transcription is auto-saved
+#  autosave,next  flag on if autosave handler is registred
+#  autosave,time  time before autosave after a modif (in minutes)/ 0:disabled
+#  backup,ext     extension for backup (default to ~)
+#  bgPos,chosen   chosen position for background selection
+#  bindings       pairs of key/inserted string
+#  browser        path to the default browser (needed to launch it)
+#  browser,but    button tk widget to choose the default browser
+#  color,bg       background color
+#  color,bg-back  background color for background noise
+#  color,bg-evnt  background color for events
+#  color,bg-sect  background color for section
+#  color,bg-sel   background color for selected signal
+#  color,bg-sync  background color for synchro
+#  color,bg-text  background color for text
+#  color,bg-turn  background color for turns
+#  color,fg-back  foreground color for background noise
+#  color,fg-evnt  foreground color for events
+#  color,fg-sect  foreground color for section
+#  color,fg-sync  foreground color for synchro
+#  color,fg-text  foreground color for text
+#  color,fg-turn  foreground color for turns
+#  color,hi-sync  current synchro color
+#  color,hi-text  current text color
+#  convert_events convert strings [i] to events for old .xml files
+#  curs,event     next event for cursor move
+#  curs,fast      callback for fast fwd/bwd auto repeat
+#  curs,max       maximal cursor position during play (end of signal or sel.)
+#  curs,min       start of play for repeat (begin of signal or selection)
+#  curs,pos       current position of cursor in signal
+#  curs,start     playback start time
+#  debug          flag for debug menu display
+#  demo           switch to demonstration mode
+#  encoding       if a different encoding is to be used
+#  encodingList   list of IANA encoding names/usual names
+#  ext,lbl        list of extensions for importable label files
+#  ext,snd        list of known extensions for sound files
+#  ext,trs        list of extensions for importable transcription files
+#  file,default   default configuration file
+#  file,dtd       DTD file for transcriptions in XML format
+#  file,local     user localization file
+#  file,user      user configuration file
+#  find,case      case sensitiveness for find ("-nocase" or "")
+#  find,direction search direction for find ("-forward" or "-backward")
+#  find,mode      mode for find ("-exact" or "-regexp")
+#  find,replace   replacement string
+#  find,what      string to look for
+#  font,axis      font used for axis
+#  font,event     font used for events
+#  font,info      font used for infos
+#  font,list      font used for fixed length lists
+#  font,mesg      font used for messages
+#  font,text      font used for text editor
+#  font,trans     font used for transcriptions in segments
+#  geom,$w       default geometry for window $w
+#  glossary       value/comment word pairs of user glossary
+#  img,$name      bitmap image
+#  keepconfig     ask to save configuration before leaving
+#  lang           language for menus ("fr" for french, default to english)
+#  language       list of pairs iso639-code/language-name for localization
+#  multiwav,file  stores the current MultiWav menu file selection
+#  multiwav,files list of all the files in the MultiWav menu
+#  multiwav,path  list of the full pathnames of the MultiWav menu files
+#  newtypes       list of supported import formats with description
+#  options,file   default file for user configuration
+#  options,list   values to be saved in user configuration
+#  path,base      base directory of Transcriber
+#  path,doc       directory for help files
+#  path,etc       path for default config values and DTD
+#  path,image     directory for GIF or bitmap images
+#  path,shape     default directory for centi-second sound shapes
+#  path,sounds    last directory used for sound files selection
+#  path,tcl       directory for Tcl scripts
+#  play,after     callback after sound playback is over
+#  play,auto      automatic play new selection or signal (1 or 0)
+#  play,no-fast   temporary inhibition of fast forward/backward
+#  play,state     currently playing or not
+#  playbackBeep   beep sound file
+#  playbackBefore go back before playing
+#  playbackMode   continuous/pause/beep/stop/loop playback mode
+#  playbackPause  pause duration between segments
+#  playbackSegmt  set if playing a single segment
+#  playbackSpeed  speed playback factor (unsupported)
+#  preferedPos    cursor insertion pos in text editor (start/end of line)
+#  proc,id        id for numbering of socket connections to file server
+#  scribe,name    default transcriber's name
+#  segmt,curr     id of current segment
+#  segmt,move     id of segment whose boundary is currently being moved
+#  sel,begin      begin of selected area of signal
+#  sel,end        end of selected area of signal
+#  sel,event      next event for automatic extension of selection
+#  sel,start      position of initial click for selection
+#  sel,text       text describing selection limits
+#  shape,bg       request shape calculation in background
+#  shape,cmd      sound command containing shape of signal
+#  shape,min      minimal duration for shape request (else max for display)
+#  shape,wanted  if user wants shape calculation
+#  sig,base       header size for raw files
+#  sig,channels   channels for raw audio files
+#  sig,cmd        sound command for signal access
+#  sig,desc       variable containing signal description to be displayed
+#  sig,gain       scale tk widget for volume gain change
+#  sig,header     raw sound file header size
+#  sig,len        length of signal (in seconds)
+#  sig,max        = sig,min + sig,len
+#  sig,min        beginning of signal (should be 0)
+#  sig,name       file name of audio signal
+#  sig,port       socket port for audio file server
+#  sig,rate       sound rate for raw audio files
+#  sig,remote     access to files through audio file server or not
+#  sig,server     audio file server
+#  sig,shortname  short file name of audio signal
+#  space,auto     automatic space insertion
+#  spell,*        related to spell checker
+#  tk,dontmove    flag to freeze once the cursor update inside text widget
+#  tk,edit        text tk widget
+#  tk,play        button tk widget for play
+#  tk,stop        button tk widget for stop
+#  tk,wavfm       main waveform tk widget
+#  trace,*        related to performance monitoring
+#  trans,desc     description of transcription for info window
+#  trans,format   file format of the transcription
+#  trans,list     ordered list of tags for segments in text widget
+#  trans,modif    flag "transcription modified"
+#  trans,name     file name of transcription
+#  trans,path     default path for open/save transcription dialog boxes
+#  trans,root     id of transcription root tag
+#  trans,saved    flag if transcription has been saved at least once
+#  trans,seg?     list of transcription segments at level ?
+#  type,chosen    section type chosen in dialog or menu
+#  pref,ver	  version of the user preference file
+#  undo,list      infos for undo
+#  undo,redo      flag on if undo is in fact redo
+#  var,msg        variable for selection infos and other messages
+#  view,$win      flag for frame/window display
+#  $wav,height    height of waveform widget (in pixels)
+#  $wav,left      left position of window in signal (in sec)
+#  $wav,resolution initial resolution for signal
+#  $wav,right     = $wav,left + $wav,size
+#  $wav,scale     scrollbar tk widget for scale change
+#  $wav,scroll    scrollbar tk widget for horizontal move
+#  $wav,size      length of window
+#  $wav,sync      list of tk widgets to be synchronized
+#  wavfm,list     list of all waveform views
+#  zoom,list      infos for unzoom
 
 proc InitDefaults {argv} {
    global v env
@@ -288,6 +289,15 @@ proc InitDefaults {argv} {
    }
    LoadOptions $v(file,user)
 
+   # Migration of old user preferences to Transcriber 1.4.7
+   # This code executed at the first run after the installation of Transcriber 1.4.7
+   # The event widget size is reset because it changed since Transcriber 1.4.6
+   if { $v(pref,ver) != "1.4.7" } {
+	set v(pref,ver) "1.4.7"
+	set v(geom,.evt) ""
+   }
+			      
+   
    # Init user name
    if {$v(scribe,name)=="(unknown)"} {
       if {[info exists env(USER)] && $env(USER) != ""} {
