@@ -166,7 +166,7 @@ proc CreateNEFrame {f} {
     label $g.label -text [Local Automatic] 
     grid $g.label -row 1 -column 0
 
-    entry $g.entry -textvariable v(find,what) 
+    entry $g.entry -textvariable v(findNE,what) 
     grid $g.entry -row 1 -column 1
     set h [frame $g.radio -relief raised]
     set i [frame $h.left]

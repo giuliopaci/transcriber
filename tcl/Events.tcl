@@ -368,11 +368,11 @@ proc CreateAutoEvent {txt {type "noise"} {extent "instantaneous"} {interactif 0}
     global v
     
     set t $v(tk,edit)-bis
-    if { $v(find,what) != "" && $type == "entities" && $v(autoNE) != ""} {
+    if { $v(findNE,what) != "" && $type == "entities" && $v(autoNE) != ""} {
 	if { $v(autoNE) == "Add" } {
-	    set answer [tk_messageBox -message [format [Local "The text \"%s\" will be automaticaly tagged - Continue ?"] $v(find,what)] -type okcancel -icon question]
+	    set answer [tk_messageBox -message [format [Local "The text \"%s\" will be automaticaly tagged - Continue ?"] $v(findNE,what)] -type okcancel -icon question]
 	} else {
-	    set answer [tk_messageBox -message [format [Local "The text \"%s\" tagged with \"%s\" will be automaticaly untagged - Continue ?"] $v(find,what) $txt] -type okcancel -icon question]
+	    set answer [tk_messageBox -message [format [Local "The text \"%s\" tagged with \"%s\" will be automaticaly untagged - Continue ?"] $v(findNE,what) $txt] -type okcancel -icon question]
 	}
 	if { $answer == "ok" } {
 	    set sel [$t tag ranges sel] 
@@ -382,9 +382,7 @@ proc CreateAutoEvent {txt {type "noise"} {extent "instantaneous"} {interactif 0}
 	    $t mark set oldpos "insert"
 	    tkTextSetCursor $v(tk,edit) 0.0
 	    set pos [$t index "insert -1c"]
-	    set v(find,mode) "-exact"
 	    set v(find,case) ""
-	    set v(find,direction) "-forward"
 	    if { [regexp {^(pers|org|gsp|loc|fac|prod|time|amount|unk).*$} $txt match tmp]} {
 		set colortag NE$tmp
 	    } 
@@ -392,7 +390,7 @@ proc CreateAutoEvent {txt {type "noise"} {extent "instantaneous"} {interactif 0}
 		set colortag NEmeto
 	    } 
 	    set nbocc 0
-	    while { [set pos [FindNext 0]] != "" } {
+	    while { [set pos [FindNextNE]] != "" } {
 		set what [[TagName $pos] getType]
 		if { $what == "\#PCDATA" } {
 		    switch $v(autoNE) {
@@ -421,16 +419,45 @@ proc CreateAutoEvent {txt {type "noise"} {extent "instantaneous"} {interactif 0}
 	    }
 	    tkTextSetCursor $v(tk,edit) oldpos
 	    if { $v(autoNE) == "Add" } {
-		DisplayMessage "$nbocc \"$v(find,what)\" automaticaly tagged with \"$txt\""
+		DisplayMessage "$nbocc \"$v(findNE,what)\" automaticaly tagged with \"$txt\""
 	    } else {
-		DisplayMessage "$nbocc \"$v(find,what)\" tagged with \"$txt\" automaticaly untagged"
+		DisplayMessage "$nbocc \"$v(findNE,what)\" tagged with \"$txt\" automaticaly untagged"
 	    }
 	    set v(autoNE) ""
-	    set v(find,what) ""
+	    set v(findNE,what) ""
 	} 
     } else {
 	CreateEvent $txt $type $extent $interactif
     }
+}
+
+proc FindNextNE {} {
+    global v
+
+    # JOB: find a specific string in the text and return its position (only for NE)
+    #
+    # IN: nothing
+    # OUT: the position of the string
+    # MODIFY: nothing
+    #
+    # Author: Sylvain Galliano
+    # Version: 1.0
+    # Date: Novembre 29, 2004
+
+
+    if ![info exists v(tk,edit)] return
+    set t $v(tk,edit)
+    set start "insert"
+    set stop "end"
+    set pos [eval ${t}-bis search -forward -exact -count cnt -- [list $v(findNE,what)] $start $stop]
+    ${t}-bis tag remove sel 0.0 end
+    if {$pos != ""} {
+	$t mark set insert "$pos + $cnt chars"
+	${t}-bis tag add sel $pos insert
+    } else {
+	DisplayMessage "$v(findNE,what) not found."
+    }
+    return $pos
 }
 
 proc CreateEvent {txt {type "noise"} {extent "instantaneous"} {interactif 0}} {
