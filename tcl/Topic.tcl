@@ -205,7 +205,7 @@ namespace eval topic {
    }
 
    # Import topics from another XML file
-   proc import {{filename ""}} {
+   proc import {{filename ""} {auto 0}} {
 
       # Get filename through dialog box
       if {$filename == ""} {
@@ -218,6 +218,8 @@ namespace eval topic {
 	   -initialdir $v(trans,path) -title [Local "Import topics from file"]]
 	 if {$filename == ""} return
       }
+
+      DisplayMessage [format [Local "Importing topics from %s..."] $filename]; update
 
       # Read topic file (with complex trick to avoid collision of ids)
       set pref "import_"
@@ -235,10 +237,15 @@ namespace eval topic {
       foreach topic [$tpctree getElementChilds "Topic"] {
 	 set name [$topic getAttr "desc"]
 	 if {$name != "" && [search_id $name] == ""} {
-	    lappend tpclst $name
+	    if {$auto} {
+	      create $name
+	    } else {
+	      lappend tpclst $name
+	    }
 	 }
       }
       $tpctree deltree
+      if {$auto} return
       set tpclst [lsort -dictionary $tpclst]
       
       # Select items from list
@@ -263,6 +270,7 @@ namespace eval topic {
 	 foreach i $dial(sel) {
 	    create [lindex $tpclst $i]
 	 }
+	 set ::v(topicFile) $filename
       }
       return 
    }
@@ -435,7 +443,7 @@ namespace eval section {
 
       variable ent
       variable ::topic::nb
-      $ent insert insert "topic\#$nb"
+      $ent insert insert [format $::v(newTopicFmt) $nb]
       $ent select range 0 end
       focus $ent
    }

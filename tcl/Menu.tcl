@@ -229,11 +229,15 @@ proc InitMenus {} {
 	    {"Find speaker"		cmd {::speaker::find}}	
 	    {"Import from file..." 	cmd {::speaker::import}}
 	    {"Remove unused speakers" 		cmd {::speaker::purge}}
+	    {""}
+ 	    {"Automatic import from selected file"	check v(importSpeakers)}
 	 }}
 	 {"Topics"		cascade {
 	    {"Find topic"		cmd {::topic::find}}	
 	    {"Import from file..." 	cmd {::topic::import}}
 	    {"Remove unused topics" 		cmd {::topic::purge}}
+	    {""}
+ 	    {"Automatic import from selected file"	check v(importTopics)}
 	 }}
 	 {""}
 	 {"Insert event..."		cascade {

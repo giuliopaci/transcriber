@@ -274,6 +274,12 @@ proc ReadTrans {name {soundFile ""} {multiwav {}}} {
    set v(trans,format) $format
    set v(trans,saved) 0
    set v(trans,path) [file dirname $name]
+   if {$v(importTopics)} {
+     ::topic::import $v(topicFile) 0
+   }
+   if {$v(importSpeakers)} {
+     ::speaker::import $v(speakerFile) 0
+   }
    InitModif
    GetVersion
    NormalizeTrans
@@ -438,6 +444,12 @@ proc NewTrans {{soundFile ""} {multiwav {}}} {
    set v(trans,saved) 0
    SegmtToTrans [list [list $v(sig,min) $v(sig,max) ""]]
    InitEpisode
+   if {$v(importTopics)} {
+     ::topic::import $v(topicFile) 0
+   }
+   if {$v(importSpeakers)} {
+     ::speaker::import $v(speakerFile) 0
+   }
    InitModif
    DisplayTrans
    TraceOpen

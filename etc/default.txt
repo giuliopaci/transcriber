@@ -54,6 +54,15 @@ space,auto 0
 spell,names 0
 # Prefered cursor position when entering another segment (begin/end)
 preferedPos "end"
+# Automatic import speakers or topics from last importation file when
+# opening a new one
+importSpeakers 0
+speakerFile {}
+importTopics 0
+topicFile {}
+# default format for new topic or speakers
+newSpeakerFmt "speaker\#%s"
+newTopicFmt "topic\#%s"
 
 # default encoding used for transcriptions (IANA rather than tcl name)
 encoding    ISO-8859-1

@@ -297,7 +297,7 @@ namespace eval speaker {
    }
 
    # Import speakers from another XML file
-   proc import {{filename ""}} {
+  proc import {{filename ""} {auto 0}} {
 
       # Get filename through dialog box
       if {$filename == ""} {
@@ -311,6 +311,8 @@ namespace eval speaker {
 			   -title [Local "Import speakers from file"]]
 	 if {$filename == ""} return
       }
+
+      DisplayMessage [format [Local "Importing speakers from %s..."] $filename]; update
 
       # Read speakers file (with complex trick to avoid collision of ids)
       set pref "import_"
@@ -328,10 +330,15 @@ namespace eval speaker {
       foreach speaker [$spktree getElementChilds "Speaker"] {
 	 if {[search_id [$speaker getAttr "name"]] == ""} {
 	    set id [$speaker getAttr "id"]
-	    lappend spklst [get_atts $pref$id]
+	    if {$auto} {
+	      eval create [get_atts $pref$id]
+	    } else {
+	      lappend spklst [get_atts $pref$id]
+	    }
 	 }
       }
       $spktree deltree
+      if {$auto} return
       set spklst [lsort -dictionary -index 0 $spklst]
       set spknam ""
       set glblst {}
@@ -367,6 +374,7 @@ namespace eval speaker {
 	 foreach i $dial(sel) {
 	    eval create [lindex $spklst $i]
 	 }
+	 set ::v(speakerFile) $filename
       }
       return 
    }
@@ -732,7 +740,7 @@ namespace eval turn {
       #}
       variable ent
       variable ::speaker::nb
-      $ent insert insert "speaker\#$nb"
+      $ent insert insert [format $::v(newSpeakerFmt) $nb]
       $ent select range 0 end
       focus $ent
    }
