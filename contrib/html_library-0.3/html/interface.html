@@ -1,0 +1,165 @@
+<title>HTML Library Summary</title>
+<h1>HTML Library interface Summary</h1>
+<p>
+This document describes how to use the HTML library.  Unless otherwise
+noted, <code>win</code> refers to the name of the text widget to contain
+the HTML.
+<h2>Primary call-in procedures</h2>
+<p>These procedures are the basic application entry points.
+<dl>
+<dt>HMinit_win {win}
+<dd>Initialize a text widget for displaying HTML.  This returns the name of
+	the global variable used to store the page state by the library.
+<dt>HMreset_win {win}
+<dd>Reset a <i>used</i> text widget to a clean state by removing all text
+	and page specific text tags and marks.
+<dt>HMgoto {win where}
+<dd>Either position, or schedule the position of the document at the
+	<i>where</i> reference.  Return TRUE if the positioning succeeded.
+	A callback to <code>HMwent_to</code> will be made when the positioning
+	is completed.
+<dt>HMgot_image {handle image}
+<dd>Called from the <code>HMset_image</code> callback when an image was
+	successfully created. <code>image</code> is the name of a Tk image,
+	and <code>handle</code> is the handle passed in by <code>
+	HMset_image</code>
+<dt>HMparse_html {html cmd start}
+<dd>Parse <code>html</code>.  <code>Cmd</code> gets called once for each
+	html tag.  <code>Start</code> is a <i>dummy</i> html tag that wraps the
+	entire document.  The default value of <code>start</code>, <i>hmstart</i>
+	initializes the text widget tag state for a new page.
+</dl>
+<h2>Primary call-backs</h2>
+<p>These are the procedures that the application needs to supply.
+<dl>
+<dt>HMset_image {win handle src}
+<dd>Called when an inline image is first seen. <Code>Src</code> is the
+	URL for the image.  The application should create a Tk image, then call
+	<code>HMgot_image</code>.
+<dt>HMlink_callback {win href}
+<dd>Called when the user clicks on a hypertext link, image map, or
+	(by default) an isindex selection. <code>Href</code> is the name
+	of the hypertext link.
+<dt>HMsubmit_form {win param query}
+<dd>This is called when the user hits the submit button on a form.
+	<code>Param</code> is the list of HTML parameters passed in with the
+	FORM html tag, and <code>query</code> is a list whose even elements
+	(starting from 0) are field names, and odd elements are the
+	corresponding field
+	values.  The procedure <code>HMmap_reply</code> may be used
+	by the application to convert the list into an HTTP POST query.
+<dt>HMmark {tag win param text}
+<dd>This is an application hook that, if it exists, gets called each time
+	an HTML tag is rendered, just before any tag specific routine is
+	called.  It is intended to allow an application to associate
+	application specific marks into the text widget, but you can use it
+	for anything you like. There is no default implementation, and
+	none is required.
+<dt>HMtag_XXX {win param text}
+<dd>This is generic HTML tag hook, where <code>XXX</code> is the name
+	of the html tag (or <code>/XXX</code> for the end tag).  Any html
+	tag may have special code that gets run.  Applications may override
+	the default library implementations for HTML tags, or add functionality
+	for new tags. <code>Param</code> is the html parameter list, and
+	<code>text</code> is the name of the variable containing all of the
+	plain text up to the next html tag.
+</dl><h2>Auxillary state-altering routines</h2>
+<p>These procedures man be used by an application to alter some aspects 
+of the HTML display.
+<dl>
+<dt>HMset_indent {win cm}
+<dd>Sets the tab-stop for tabbing and lists.
+<dt>HMset_state {win args} -update -tab -unknown -stop -size -symbols -insert
+<dd>This is the procedural interface to access the internal state of the
+	HTML rendering process.  It is intended that anything an application
+	might want to change in that state will be done through here.  Currently,
+	an application can set the update frequency (update), unknown entity
+	character (unknown), global font size adjuster (size), list of
+	unordered list symbols (symbols), stop the document rendering
+	(stop), or choose a text mark at which to insert the text (insert).
+</dl>
+<h2>Replaceable Procedures</h2>
+<p>
+These are library routines that have reasonable default implementations, 
+but may be replaced by an application for more specific behavior.
+<dl>
+<dt>HMlink_setup {win href}
+<dd>This gets called once when a hypertext link is first encountered.
+	The default implementation arranges to highlight the link upon 
+	mouse entry and exit.
+<dt>HMwin_install {win item}
+<dd>This procedure is called any time an embedded window (<code>item</code>)
+	from a FORM is inserted into the text.  The default implementation
+	sets the indent level, alignment, and tabbing behavior.
+<dt>HMsubmit_index {win param text}
+<dd>This is called when submitting ISINDEX tags.  The default calls
+	<code>HMlink_callback</code>.
+<dt>HMset_font {win tag font}
+	This procedure is called to set the text tag <code>tag</code> to the
+	font name <code>font</code>, which is just what the default implementation
+	does.
+<dt>HMwent_to {win where}
+<dd>This procedure is called after navigation into the document occurred
+	via a fragment reference.  The default implementation flashes the link
+	a couple of times.
+	
+</dl>
+<h2>Utility routines</h2>
+<p>These procedures are used by the library routines, but can also be used
+by the application as needed.
+<dl>
+<dt>HMmap_reply {string}
+<dd>Converts <code>string</code> into application/x-www-urlencoded format.
+	for use in HTTP POST queries.
+<dt>HMcgiMap {string}
+<dd>Converts <code>string</code> from application/x-www-urlencoded format
+	into a list of name - value pairs.  This routine is not used by the
+	library, but can be used in CGI scripts.
+<dt>HMzap_white {data}
+<dd>Converts all sequences of white space to a single space character.
+<dt>HMmap_esc {text}
+<dd>Converts all embedded entity references into their ascii form.
+<dt>HMstack {win push list}
+<dd>Pushes or pops a text tag (or tags) on to the current tag stacks.
+	<code>Push</code> is either <code>{}</code> to <em>push</em> or
+	<code>/</code> to <em>pop</em>. <code>List</code> contains an even
+	number of elements, grouped in pairs.  The first element in the pair
+	is the name of the stack, and the second element is the value to push.
+	When <em>pop</em>ping, the <em>value</em> is ignored.
+<dt>HMcurrent_tags {win}
+<dd>Retrieves the current text tag state by assembling the top elements
+	of all of the text tag stacks.
+<dt>HMextract_param {param key {val ""}}
+	checks for and extracts a <code>key</code> value out of an HTML
+	attribute list.  If <code>val</code> is supplied, it names the variable
+	that will contain the value of <code>key</code>.  Otherwise,
+	The variable <code>key</code> is used.
+</dl>
+<h2>Primary static data structures</h2>
+<p>The HTML library uses some static global arrays that define the
+layout policy of various HTML tags.  Applications may change or augment
+these arrays to effect the HTML tag to layout policy.
+<dl>
+<dt>array HMtag_map
+<dd>The indeces are HTML tag names.  The value is a list of ordered pairs.
+	The even elements (starting from 0) are text tag names,
+	and the odd elements are their values.
+<dt>array HMinsert_map
+<dd>The indexes are HTML tag names.  The value is the amount of white space
+	to be added after this tag.
+<dt>array HM$win
+<dd>This array is used to keep all of the state information used internally
+	by the library package for the text
+	widget <code>$win</code>.
+	Applications may add or modify some elements of this array (with care)
+	to alter the operation of the library.
+	<ul>
+	<li>Array elements that begin with <code>S_</code>
+	are <em>not</em> reset by calls to <code>HMreset_win</code>.
+	<li>Array elements beginning with <code>T</code> are used by the library
+	as a list of text tags, the last element of which is associated with
+	the current text.
+	</ul>
+</dl>
+<hr>
+<a href=help.html>home</a>

@@ -1,0 +1,24 @@
+<title>Known Problems</title>
+<h1>Missing features</h1>
+<ul>
+<li>I believe that every tag defined in HTML/2.0 that affects markup
+is handled by the library. with the exception of <code>listing</code>
+and <code>xmp</code> which are deprecated, and should never be used.
+<li>Some html tags, such as <code>link</code> or <code>base</code>
+aren't used for rendering, so the library doesn't deal with them.
+</ul>
+<h1>Bugs</h1>
+<ul>
+<li>Sometimes too much white space gets added between tags.
+<li>On some systems, fonts take a <i>very</i> long time to load the first
+time they are referenced, which slows down the viewer until they are 
+cached.
+<li>The definition terms <code>&lt;dt&gt;</code> can't contain embedded markup.
+<li>HTML comments with embedded tags are not handled properly.
+<li>The use of unencoded "<code>&gt;</code>" or "<code>&lt;</code>" characters
+	inside of parameter lists is prohibited, as it conflicts with the
+	common (and unfortunate) convention of <i>forgetting</i> the closing
+	quote in parameter values.
+</ul>
+<hr><br>
+<a href=help.html>home</a>

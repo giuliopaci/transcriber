@@ -1,0 +1,138 @@
+<title>Web library man pages</title>
+<h1>Web page library manual</h1>
+This is a preliminary manual for the <b>Hippo</b> HTML display library
+<p>
+This HTML library provides the facilities needed to display HTML/2.0
+data in a TK text widget.  It supports all of the HTML 2.0 constructs.
+<p>
+The HTML library is designed to be easy to use for simple applications,
+yet provide a flexible framework for sophisticated solutions.
+The HTML library is packaged so that all procedures and external variables
+are prefixed by <code>HM</code>.  It is safe to run <code>sed</code>
+over the HTML library to globally change <code>HM</code> to something else
+if needed.
+<p>
+The HTML library consists of a suite of procedures and data structures which
+are used to interface HTML to an application.  For the most part, all of the
+data structures are used internally by the HTML library, and may be ignored
+by most applications.
+<p>
+There are tree main types of procedures, <i>call-ins</i>,
+<i>call-backs</i>, and <i>helper</i>
+procs.  The <i>call-in</i> procs,
+supplied by the HTML library,
+are called directly by the application
+with the appropriate arguments.
+The <i>call-back</i> procs are supplied by the application, and called
+by the HTML library under the appropriate circumstances, such as when the user
+<em>clicks</em> on a hypertext link.  The third class of procedures,
+the <i>helper</i> procs, are utility procedures that may be used 
+both by the HTML library and in the application's procedures to perform common
+HTML related tasks.
+<p>
+For the simplest use of the HTML library
+<ol>
+<li>Create a text widget, called <code>.text</code>
+<li>Initialize the text widget by calling <code>HMinit_win .text</code>
+<li>Put an HTML document into the tcl variable <code>html</code>.
+<li>Render the document by calling <code>HMparse_html $html "HMrender .text"</code>
+</ol>.
+Any time the user <i>clicks</i> on a hypertext link, the HTML library will 
+call-back the procedure (which you need to supply):
+<pre>
+	proc HMlink_callback {win href} { ...}
+   		win      The name of the text widget (.text)
+   		href     The name of the link
+</pre>
+Presumably this procedure will figure out how to turn the <i>link</i>
+into a tcl variable containing HTML, and then call
+<ol>
+<li><code>HMreset_win .text</code> to <i>reset</i> the text widget.
+<li>Render the document by calling <code>HMparse_html $html "HMrender .text"</code>
+</ol>
+When the HTML library encounters an inline image while rendering a page, 
+it calls the procedure (you supply this one too):
+<pre>
+	proc HMset_image {handle src}
+		handle:  a <i>handle</i> that identifies this image
+		src     The name (or url) of the image
+</pre>
+It is up to the application to fetch the image, and make it into a
+TK image, by using a call something like:
+<pre>
+	image create photo $image_name -file $src
+</pre>
+Once the image is loaded into TK, the application should call
+<pre>
+	HMgot_image $handle $image_name
+</pre>
+where <code>$handle</code> is the token passed to
+<code>HMset_image</code> 
+and
+<code>$image_name</code>
+is the name of the TK image.  If, for some reason the image could not
+be obtained, you may set <code>image_name</code> to a text string that
+will be displayed instead.  If you never call <code>HMset_image</code>
+at all, the <i>alt</i> entry in the image parameter list will be
+displayed instead.
+<h2>Advanced usage</h2>
+<p>
+Although the procedures outlined below may be sufficient for simple
+uses of HTML, sophisticated applications may require finer control over
+the workings of the HTML library.
+The HTML library is constructed in layers, such tha
+<p>
+There are two routines that manage navigation into the middle of the
+document. When <pre>
+	HMgoto $text_widget $where
+</pre> is called,
+the text view is moved to make the hypertext link <code>$where</code>
+visible. A return value of <Code>1</code> indicates success, whereas <code>
+0</code> indicates the reference was not found, either because it isn't in
+the document, or it hasn't been rendered yet.  In the latter case, the request
+is queued until the destination is rendered.  Any time navigation to the
+link is sucsessful, <pre>
+	HMwhen_to $text_widget $where
+</pre> is called.
+<p>
+The HTML library is programmable in several ways.  This section will
+be expanded as time permits.
+<ul>
+<li>There are procedures available to change the look of the rendering.
+Some of the easier ones to use are:
+	<dl>
+	<code><dt>HMset_indent $text_widget $indent_in_cm
+	<dd></code>Sets the indent spacing for list constructs
+	<code><dt>HMset_state $text_widget -param value -param value ...
+	<dd></code>overrides the default settings for several of the
+			display parameters.  This will get fleshed out later on.
+	</dl>
+<li>Some of the built-in procedures may be replaced entirely by
+advanced applications.  A good example is
+	<dl>
+	<code><dt>HMlink_setup $text_widget $href</code>
+	<dd>Which is called every time a hypertext link is
+		first seen, to set up the link behaviors.
+	</dl>
+<li>New procedures may be written that are automatically recognized by
+the library (based on their naming convention) and called at appropriate times.
+	<dl>
+	<code><dt>HMtag_<i>html-tag</i> $text_widget $parameter_list text
+	<dd></code>Each HTML tag can have its own procedure that gets called
+		automatically when the tag is seen.  New behaviors can be
+		associated with tags using this technique.
+	</dl>
+</ul>
+I plan to expand the library interface documentaion,
+providing infomation on existing call-backs in future releases.
+Some examples may include:
+<menu>
+<li>Fetching and rendering a document in sections
+<li>Managing a multiple document interface
+<li>Instantiating new documents inside of existing ones
+</menu><p>
+For a more detailed description of how to use the advanced features
+of the library, see the
+<a href=interface.html>reference guide</a>
+<hr>
+<a href=help.html>home</a>

@@ -1,0 +1,12 @@
+Simple HTML display library version 0.3 by Stephen Uhler (stephen.uhler@sun.com)
+Copyright (c) 1995 by Sun Microsystems
+See the file "license.terms" for information on usage and redistribution
+of this file, and for a DISCLAIMER OF ALL WARRANTIES.
+
+This is a snapshot of the Hippo stand-alone HTML display library.
+To try this out, edit "sample.tcl" to point to a version 4.0 wish, 
+and run "sample.tcl" in this directory.
+
+Comments and suggestions are welcome.
+Stephen Uhler
+stephen.uhler@sun.com

@@ -1,0 +1,316 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="GENERATOR" content="Mozilla/4.61 [en] (X11; I; Linux 2.2.12-32smp i686) [Netscape]">
+   <meta name="Author" content="C. Barras">
+   <title>Transcriber's Installation</title>
+</head>
+<body text="#000000" bgcolor="#FFFFFF" link="#0000EF" vlink="#51188E" alink="#FF0000">
+
+<h3>
+<a href="inst_142.html">Binary installation of version 1.4.2 for Windows
+NT</a></h3>
+
+
+<h3>
+Binary installation for Unix</h3>
+
+<ul>
+<li>
+Make sure you have an installed version of Tcl/Tk 8.0 or higher and get
+the binary archive for your system (e.g. Linux, Solaris...) matching your
+version of Tcl/Tk (8.0 ... 8.3).</li>
+
+<li>
+Switch to the place where you want to install the tool, e.g.:</li>
+
+<ul>
+<pre>$ cd /usr/local</pre>
+</ul>
+If you choose to install into a non-standard directory, make sure to set
+the environnement variables of your system (e.g., <tt>PATH</tt> and
+<tt>LD_LIBRARY_PATH</tt>)
+to the right values.
+<li>
+Extract the files from the archive:</li>
+
+<ul>
+<pre>$ gunzip -c Transcriber-1.4.4-Linux.tar.gz | tar xf -</pre>
+</ul>
+
+<li>
+Launch the tool:</li>
+
+<ul>
+<pre>$ trans</pre>
+</ul>
+You will be asked to open a transcription or a sound signal to start a
+new transcription.
+<li>
+Look in the Help directory for some hints about Transcriber's use or view
+it directly in your HTML browser (start with <tt>lib/transcriber1.4/doc/Index.html</tt>)</li>
+</ul>
+
+<h3>
+Installation from the sources</h3>
+Transcriber relies on several softwares or libraries that you need to install
+first : Tcl/Tk 8.0 - 8.3, Snack 2.0, tcLex 1.2 and optionaly NIST/Sphere
+2.6 . Step 1-4 are for these modules, step 5-6 are for the content of Transcriber
+distribution.
+<ol>
+<li>
+If Tcl/Tk version 8.0 or higher is not already installed on your system,
+get it on Scriptic's server :</li>
+
+<ol>
+<pre><a href="http://dev.scriptics.com/software/tcltk/choose.html">http://dev.scriptics.com/software/tcltk/choose.html</a></pre>
+</ol>
+or one of its mirrors and unpack them:
+<ol>
+<pre>$ gunzip -c tcl8.3.2.tar.gz | tar xf -</pre>
+</ol>
+Choose an installation directory (e.g. <tt>/usr/local</tt>) and follow
+instructions found in <tt>tcl8.3.2/README</tt> and <tt>tk8.3.2/README</tt>
+(configure with <tt>--enable-shared</tt> option). For Tcl 8.3.2 under Unix,
+it will be something like:
+<ol>
+<pre>$ cd tcl8.3.2/unix
+$ ./configure --enable-gcc --enable-shared --prefix=/usr/local
+$ make
+$ make install</pre>
+</ol>
+Do the same for Tk. If you choose to install into a different directory,
+make sure to set the environnement variables of your system (e.g., <tt>PATH</tt>
+and <tt>LD_LIBRARY_PATH</tt>) to the right values.
+<li>
+This step is needed only if you plan to use Sphere sound file format with
+Snack. Get NIST/Sphere archive:</li>
+
+<ul>
+<pre><a href="ftp://jaguar.ncsl.nist.gov/pub/sphere_2.6a.tar.Z">ftp://jaguar.ncsl.nist.gov/pub/sphere_2.6a.tar.Z</a></pre>
+</ul>
+Unpack it in a sibling directory of this distribution
+<ul>
+<pre>$ zcat sphere_2.6a.tar.Z | tar xf -</pre>
+</ul>
+Then install it:
+<ul>
+<pre>$ cd nist; sh src/scripts/install.sh</pre>
+</ul>
+You will be asked the target platform. For Linux, choose 10 (i.e. custom)
+and change following values (the other ones should be OK):
+<ul>
+<li>
+What is/are the Compiler Flags: -O -Wall -fPIC</li>
+
+<li>
+What is/are the Architecture: INTEL</li>
+</ul>
+NB - For recent Linux Distributions (i.e. Redhat 5.x or Debian 2.x) you
+need to comment the following line inside the file <tt>nist/src/lib/sp/exit.c
+</tt>:
+<tt>extern
+char *sys_errlist[]; </tt>(thanks to Dafydd Gibbon for this information)
+For the courageous ones, a patch is given in the Transcriber source distribution
+in <tt>src/patch-sphere</tt> for a dynamic compilation of Sphere libs under
+Linux.
+<li>
+Get Snack 2.0 module:</li>
+
+<ol>
+<pre><a href="http://www.speech.kth.se/snack/">http://www.speech.kth.se/snack/</a></pre>
+</ol>
+extract it:
+<ul>
+<pre>$ gunzip -c snack2.0.1.tar.gz | tar xf -</pre>
+</ul>
+Then follow the instructions in README and install Snack, e.g. with:
+<ul>
+<pre>$ cd snack2.0.1/unix&nbsp;
+$ ./configure --prefix=/usr/local&nbsp;
+$ make&nbsp;
+$ make install</pre>
+</ul>
+NB:
+<ul>
+<li>
+If '<tt>./configure</tt>' fails, you have probably Tcl/Tk installed in
+a non standard directory; give it with <tt>--with-tcl </tt>and <tt>--with-tk
+</tt>options.</li>
+
+<li>
+for use with Tcl/Tk version 8.0, add the option <tt>--disable-stubs</tt></li>
+
+<li>
+Be sure to get the latest release</li>
+
+<li>
+In order to use Sphere format, configure with <tt>--with-nist=...</tt></li>
+
+<li>
+Test Snack demos!</li>
+</ul>
+
+<li>
+Get tcLex 1.2 module:</li>
+
+<ol>
+<pre><a href="http://www.multimania.com/fbonnet/Tcl/tcLex/">http://www.multimania.com/fbonnet/Tcl/tcLex/</a></pre>
+</ol>
+extract it:
+<ul>
+<pre>$ gunzip -c tcLex1.2a1.tar.gz | tar xf -</pre>
+</ul>
+Then follow the instructions in README.txt and install tcLex, e.g. with:
+<ul>
+<pre>$ cd tcLex1.2a1/src&nbsp;
+$ chmod a+x configure install-sh
+$ ./configure --prefix=/usr/local&nbsp;
+$ make&nbsp;
+$ make install</pre>
+</ul>
+NB - You need to have the complete sources of Tcl for building this extension,
+since it relies on specific header files not installed by standard Tcl
+installation.
+<li>
+Extract the source archive of Transcriber, compile and install it:</li>
+
+<ul>
+<pre>$ gunzip -c Transcriber-1.4.4.tar.gz | tar xf -
+$ cd Transcriber-1.4.4/src
+$ ./configure --with-snack=... --with-tcl=... --with-tk=... --prefix=...
+$ make
+$ make install</pre>
+</ul>
+
+<li>
+As options to the <tt>./configure </tt>command, you have to give the directory
+where Snack archive was extracted (<tt>--with-snack=...</tt>), the directories
+where Tcl and Tk were installed (<tt>--with-tcl=...--with-tk=...</tt>),
+and the directory where you will install Transcriber (<tt>--prefix=...</tt>).
+For use with Tcl/Tk version 8.0, add the option <tt>--disable-stubs.</tt></li>
+
+<br>&nbsp;
+<p>&nbsp;
+<p>NB - If you change the directory structure after installation, you have
+to edit 'trans' launcher script and give the right absolute path: TRANSPATH=...
+(the lib path where transcriber1.4 sub-dir is to be found)
+<li>
+Test it !</li>
+
+<ul>
+<pre>$ trans</pre>
+</ul>
+You will be asked to open a sound signal or a transcription; some are found
+in the '<tt>demo</tt>' sub-directory</ol>
+
+<h3>
+
+<hr WIDTH="100%">Distribution structure:</h3>
+
+<ul>
+<li>
+Structure of the source distribution :</li>
+
+<ul>
+<li>
+Transcriber-1.4.4/</li>
+
+<ul>
+<li>
+README</li>
+
+<li>
+COPYING</li>
+
+<li>
+contrib/ . . . external archives</li>
+
+<ul>
+<li>
+html_library-0.3/</li>
+</ul>
+
+<li>
+src/ . . . sources for new Tcl commands and Tk widgets</li>
+
+<li>
+tcl/ . . . Tcl scripts.</li>
+
+<li>
+<tt>convert/... </tt>Tcl script modules for format conversion</li>
+
+<li>
+img/ . . . bitmap images</li>
+
+<li>
+doc/ . . . help files</li>
+
+<li>
+etc/ . . . default files</li>
+
+<li>
+demo/ . . . for sound and transcription files</li>
+</ul>
+</ul>
+
+<li>
+Structure of a Unix binary distribution (as a result of a standard installation):</li>
+
+<ul>
+<li>
+lib/ =></li>
+
+<ul>
+<li>
+html_library-0.3/</li>
+
+<li>
+snack2.0/</li>
+
+<li>
+tcLex1.2/</li>
+
+<li>
+transcriber1.4/ =></li>
+
+<ul>
+<li>
+libtrans.so</li>
+
+<li>
+pkgIndex.tcl</li>
+
+<li>
+tcl/</li>
+
+<li>
+img/</li>
+
+<li>
+etc/</li>
+
+<li>
+doc/</li>
+</ul>
+</ul>
+
+<li>
+bin/trans</li>
+</ul>
+</ul>
+
+<h3>
+
+<hr WIDTH="100%"><a NAME="problems"></a>Possible problems</h3>
+
+<ul>
+<li>
+Playback can fail if there is a mismatch between signal format and soundcard
+capabilities (e.g., 16 bits signal on audio cards which only support 8kHz
+8 bits mu-law).</li>
+</ul>
+
+</body>
+</html>

@@ -1,0 +1,1428 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="GENERATOR" content="Mozilla/4.61 [en] (X11; I; Linux 2.2.12-32smp i686) [Netscape]">
+   <meta name="Author" content="Claude Barras, DGA, 1999">
+   <meta name="Description" content="Reference Manual for Transcriber software (French version)">
+   <title>Interface de Transcriber</title>
+</head>
+<body text="#000000" bgcolor="#FFFFFF" link="#0000EF" vlink="#51188E" alink="#FF0000">
+
+<center>
+<h1>
+Manuel de r&eacute;f&eacute;rence</h1></center>
+
+<center>Description de l'interface et des commandes
+<p>Transcriber 1.4.4
+<p><i><font size=+0>DGA, avril 2002</font></i></center>
+
+<p>
+<hr WIDTH="100%"><b><a href="#r1">1. D&eacute;marrage</a></b>
+<ul>
+<li>
+<a href="#r1.1">1.1. Environnement de travail</a></li>
+
+<li>
+<a href="#r1.2">1.2. Lancement de l'outil</a></li>
+
+<li>
+<a href="#r1.3">1.3. Configuration initiale</a></li>
+</ul>
+<b><a href="#r2">2. Disposition des fen&ecirc;tres</a></b>
+<ul>
+<li>
+<a href="#r2.1">2.1. La barre des menus</a></li>
+
+<li>
+<a href="#r2.2">2.2. La transcription</a></li>
+
+<li>
+<a href="#r2.3">2.3. La barre de boutons</a></li>
+
+<li>
+<a href="#r2.4">2.4. Le signal et la segmentation</a></li>
+</ul>
+<b><a href="#r3">3. Fichier de transcription</a></b>
+<ul>
+<li>
+<a href="#r3.1">3.1. Cr&eacute;er une nouvelle transcription</a></li>
+
+<li>
+<a href="#r3.2">3.2. Lire une transcription</a></li>
+
+<li>
+<a href="#r3.3">3.3. Enregistrer la transcription</a></li>
+
+<li>
+<a href="#r3.4">3.4. Exporter sous un autre format</a></li>
+
+<li>
+<a href="#r3.5">3.5. Revenir &agrave; la version pr&eacute;c&eacute;dente</a></li>
+
+<li>
+<a href="#r3.6">3.6. Enregistrement automatique</a></li>
+
+<li>
+<a href="#r3.7">3.7. Fichier de sauvegarde</a></li>
+
+<li>
+<a href="#r3.8">3.8. Encodage des fichiers</a></li>
+</ul>
+<b><a href="#r4">4. Fichier de signal</a></b>
+<ul>
+<li>
+<a href="#r4.1">4.1 Ouvrir un fichier signal</a></li>
+
+<li>
+<a href="#r4.2">4.2. Format des fichiers sons</a></li>
+
+<li>
+<a href="#r4.3">4.3. Enveloppe du signal</a></li>
+
+<li>
+<a href="#r4.4">4.4. Ouvrir un fichier distant</a></li>
+</ul>
+<b><a href="#r5">5. Manipulation du signal</a></b>
+<ul>
+<li>
+<a href="#r5.1">5.1 Positionner le curseur</a></li>
+
+<li>
+<a href="#r5.2">5.2. S&eacute;lectionner une portion de signal</a></li>
+
+<li>
+<a href="#r5.3">5.3. Jouer le signal</a></li>
+
+<li>
+<a href="#r5.4">5.4. Jouer un segment</a></li>
+
+<li>
+<a href="#r5.5">5.5. Avance rapide</a></li>
+
+<li>
+<a href="#r5.6">5.6. Passer au segment suivant</a></li>
+
+<li>
+<a href="#r5.7">5.7. Changer le volume</a></li>
+
+<li>
+<a href="#r5.8">5.8. Zoom vertical</a></li>
+</ul>
+<b><a href="#r6">6. Edition</a></b>
+<ul>
+<li>
+<a href="#r6.1">6.1. Couper/Copier/Coller</a></li>
+
+<li>
+<a href="#r6.2">6.2. Annuler</a></li>
+
+<li>
+<a href="#r6.3">6.3. Chercher/Remplacer</a></li>
+
+<li>
+<a href="#r6.4">6.4. Glossaire</a></li>
+
+<li>
+<a href="#r6.5">6.5. Gestion automatique des espaces</a></li>
+
+<li>
+<a href="#r6.6">6.6. Correction orthographique</a></li>
+
+<li>
+<a href="#r6.7">6.7. Caract&egrave;res accentu&eacute;s et internationalisation</a></li>
+</ul>
+<b><a href="#r7">7. Episode</a></b>
+<ul>
+<li>
+<a href="#r7.1">7.1. Modifier les param&egrave;tres globaux de la transcription</a></li>
+</ul>
+<b><a href="#r8">8. Segmentation du signal</a></b>
+<ul>
+<li>
+<a href="#r8.1">8.1. Ins&eacute;rer une fronti&egrave;re</a></li>
+
+<li>
+<a href="#r8.2">8.2. Supprimer une fronti&egrave;re</a></li>
+
+<li>
+<a href="#r8.3">8.3. D&eacute;placer la fronti&egrave;re entre deux segments</a></li>
+
+<li>
+<a href="#r8.4">8.4. S&eacute;lectionner le signal sur un ou plusieurs
+segments</a></li>
+
+<li>
+<a href="#r8.5">8.5. Masquer/Afficher des segmentations</a></li>
+</ul>
+<b><a href="#r9">9. Tours de parole et locuteurs</a></b>
+<ul>
+<li>
+<a href="#r9.1">9.1. Cr&eacute;er un tour de parole</a></li>
+
+<li>
+<a href="#r9.2">9.2. Parole superpos&eacute;e</a></li>
+
+<li>
+<a href="#r9.3">9.3. Modifier ou supprimer un tour de parole</a></li>
+
+<li>
+<a href="#r9.4">9.4. Chercher les prises de parole d'un locuteur</a></li>
+
+<li>
+<a href="#r9.5">9.5. Importer des locuteurs d'un autre fichier</a></li>
+
+<li>
+<a href="#r9.6">9.6. Supprimer les locuteurs inutilis&eacute;s</a></li>
+</ul>
+<b><a href="#r10">10. Sections et sujets</a></b>
+<ul>
+<li>
+<a href="#r10.1">10.1. Cr&eacute;er une nouvelle section</a></li>
+
+<li>
+<a href="#r10.2">10.2. Modifier ou supprimer une section</a></li>
+
+<li>
+<a href="#r10.3">10.3. Chercher l'apparition d'un sujet</a></li>
+
+<li>
+<a href="#r10.4">10.4. Importer les sujets d'un autre fichier</a></li>
+
+<li>
+<a href="#r10.5">10.5. Supprimer les sujets inutilis&eacute;s</a></li>
+</ul>
+<b><a href="#r11">11. Bruit de fond</a></b>
+<ul>
+<li>
+<a href="#r11.1">11.1. Cr&eacute;er un bruit de fond</a></li>
+
+<li>
+<a href="#r11.2">11.2. Indiquer la fin d'un bruit de fond, le changement
+de bruit</a></li>
+
+<li>
+<a href="#r11.3">11.3. Modifier ou supprimer un marqueur de bruit de fond</a></li>
+</ul>
+<b><a href="#r12">12. Ev&eacute;nements et commentaires</a></b>
+<ul>
+<li>
+<a href="#r12.1">12.1. Ins&eacute;rer un &eacute;v&eacute;nement</a></li>
+
+<li>
+<a href="#r12.2">12.2. Ins&eacute;rer le d&eacute;but et la fin d'un &eacute;v&eacute;nement</a></li>
+
+<li>
+<a href="#r12.3">12.3. Ins&eacute;rer un commentaire</a></li>
+
+<li>
+<a href="#r12.4">12.4. Modifier ou supprimer un &eacute;v&eacute;nement</a></li>
+
+<li>
+<a href="#r12.5">12.5. Copier/Coller un &eacute;v&eacute;nement</a></li>
+
+<li>
+<a href="#r12.6">12.6. Cr&eacute;er un raccourci pour un &eacute;v&eacute;nement</a></li>
+
+<li>
+<a href="#r12.7">12.7. Modifier la liste des &eacute;v&eacute;nements</a></li>
+
+<li>
+<a href="#r12.8">12.8. Configurer l'affichage des &eacute;v&eacute;nements</a></li>
+</ul>
+<b><a href="#r13">13. Raccourcis clavier</a></b>
+<ul>
+<li>
+<a href="#r13.1">13.1. D&eacute;finir un raccourci</a></li>
+
+<li>
+<a href="#r13.2">13.2. Raccourci pour une expression courante</a></li>
+
+<li>
+<a href="#r13.3">13.3. Raccourci pour un &eacute;v&eacute;nement</a></li>
+</ul>
+<b><a href="#r14">14. Options et configuration de l'interface</a></b>
+<ul>
+<li>
+<a href="#r14.1">14.1. Nom du transcripteur</a></li>
+
+<li>
+<a href="#r14.2">14.2. Enregistrement de l'activit&eacute;</a></li>
+
+<li>
+<a href="#r14.3">14.3. Changer les couleurs</a></li>
+
+<li>
+<a href="#r14.4">14.4. Changer les polices de caract&egrave;res</a></li>
+
+<li>
+<a href="#r14.5">14.5. Traduction de l'interface</a></li>
+
+<li>
+<a href="#r14.6">14.6. Deuxi&egrave;me vue du signal</a></li>
+
+<li>
+<a href="#r14.7">14.7. Masquer/afficher la barre centrale des boutons</a></li>
+
+<li>
+<a href="#r14.8">14.8. Enregistrer les options choisies</a></li>
+</ul>
+<b><a href="#r15">15. Autres fonctions</a></b>
+<ul>
+<li>
+<a href="#r15.1">15.1. Informations sur le signal et la transcription</a></li>
+
+<li>
+<a href="#r15.2">15.2. Quitter Transcriber</a></li>
+
+<li>
+<a href="#r15.3">15.3. Aide</a></li>
+</ul>
+
+<h3>
+
+<hr WIDTH="100%"><a NAME="r1"></a>1. D&eacute;marrage</h3>
+
+<h4>
+<a NAME="r1.1"></a>1.1. Environnement de travail</h4>
+Le logiciel est con&ccedil;u afin de permettre la transcription de signaux
+de longue dur&eacute;e sur un mat&eacute;riel standard. A titre d'exemple,
+plusieurs enregistrements d'une heure (&eacute;chantillonn&eacute;s &agrave;
+16 kHz sur 16 bits en mono) ont d&eacute;j&agrave; &eacute;t&eacute; transcrits
+avec un PC/Pentium 200MHz sous Linux. L'usage d'un casque est fortement
+conseill&eacute; pour une transcription de qualit&eacute;, mais des haut-parleurs
+sont utiles pour une v&eacute;rification &agrave; plusieurs.
+<h4>
+<a NAME="r1.2"></a>1.2. Lancement de l'outil</h4>
+Lorsque Transcriber est install&eacute; de mani&egrave;re standard, on
+peut le lancer avec la commande :
+<ul>
+<pre>trans</pre>
+</ul>
+ou suivant la configuration en cliquant dans un menu ou sur une ic&ocirc;ne
+particuli&egrave;re. Une fen&ecirc;tre de dialogue propose alors de s&eacute;lectionner
+un fichier son pour cr&eacute;er une nouvelle transcription associ&eacute;e
+&agrave; ce signal, ou un fichier de transcription pour afficher ou modifier
+celle-ci. Un court exemple de signal avec une transcription associ&eacute;e
+est disponible dans le sous-r&eacute;pertoire "<tt>demo</tt>" distribu&eacute;
+avec le logiciel.
+<p>Lorsque la configuration de travail a &eacute;t&eacute; enregistr&eacute;e
+au cours d'une session pr&eacute;c&eacute;dente, les fichiers de signal
+et de transcription en cours sont automatiquement r&eacute;ouverts s'ils
+sont encore disponibles sur le disque.
+<p>Il est possible aussi de lancer l'outil en indiquant sur la ligne de
+commande un nom de fichier signal, de fichier de transcription, ou les
+deux. Si les deux fichiers sont dans le m&ecirc;me r&eacute;pertoire, portent
+le m&ecirc;me nom (&agrave; l'exception de l'extension) et que le fichier
+signal poss&egrave;de une extension standard (par exemple <tt>.wav </tt>ou
+.<tt>snd</tt>) , le nom du fichier signal peut &ecirc;tre omis, son ouverture
+&eacute;tant automatique :
+<ul>
+<pre>trans demo/frint980428.xml</pre>
+</ul>
+
+<h4>
+<a NAME="r1.3"></a>1.3. Configuration initiale</h4>
+Apr&egrave;s le premier lancement de l'outil, il est conseill&eacute; d'ouvrir
+le menu [<tt>Options</tt>]/[<tt>G&eacute;n&eacute;ral...]</tt> pour renseigner
+:
+<ul>
+<li>
+le nom du transcripteur qui sera enregistr&eacute; par d&eacute;faut dans
+chaque nouvelle transcription ;</li>
+
+<li>
+la langue pour l'interface du logiciel (l'anglais et le fran&ccedil;ais
+sont disponibles) ;</li>
+
+<li>
+&eacute;ventuellement le nom du fichier dans lequel seront enregistr&eacute;es
+les informations sur la production quotidienne - par d&eacute;faut la fonction
+est d&eacute;sactiv&eacute;e (cf. <a href="#r14.2">14.2</a>) ;</li>
+</ul>
+ainsi que des options plus sp&eacute;cifiques aux signaux dans le menu
+[<tt>Options</tt>]/[<tt>Fichier son...</tt>] :
+<ul>
+<li>
+le format des fichiers sans ent&ecirc;te (cf. <a href="#r4.2">4.2</a>)
+;</li>
+
+<li>
+le mode de calcul et le r&eacute;pertoire de stockage de l'enveloppe des
+signaux (cf. <a href="#r4.3">4.3</a>).</li>
+</ul>
+Les options doivent ensuite &ecirc;tre enregistr&eacute;es avec le menu
+[<tt>Options</tt>]/[<tt>Enregistrer la configuration</tt>].
+<h3>
+
+<hr WIDTH="100%"><a NAME="r2"></a>2. Disposition des fen&ecirc;tres</h3>
+
+<h4>
+<a NAME="r2.1"></a>2.1. La barre des menus</h4>
+
+<center><img SRC="../img/inter_menu.gif" height=36 width=497></center>
+
+<h4>
+<a NAME="r2.2"></a>2.2. La transcription</h4>
+Dans la moiti&eacute; sup&eacute;rieure de l'interface, une fen&ecirc;tre
+d'&eacute;diteur de texte permet de saisir la transcription orthographique
+du signal.
+<ul>
+<li>
+les d&eacute;buts de section (changement de sujet, d'&eacute;mission...)
+sont indiqu&eacute;s par un bouton (orange par d&eacute;faut) centr&eacute;
+dans une ligne ;</li>
+
+<li>
+les d&eacute;buts de tour de parole (changement de locuteur, ou &eacute;ventuellement
+pas de locuteur) sont repr&eacute;sent&eacute;s par un bouton (bleu par
+d&eacute;faut) &agrave; gauche d'une ligne ;</li>
+
+<li>
+et un petit cercle (vert par d&eacute;faut) &agrave; gauche des autres
+lignes signale le d&eacute;but de la transcription orthographique d'un
+nouveau segment.</li>
+</ul>
+Le d&eacute;but du signal marque aussi le d&eacute;but de chaque segmentation
+; la transcription contient donc toujours au moins une section, un tour
+et un segment sur les trois premi&egrave;res lignes. La ligne dans laquelle
+se trouve le curseur est surlign&eacute;e. Une barre de d&eacute;filement
+&agrave; droite permet de manipuler des transcriptions de longueur arbitraire.
+<center>
+<p><img SRC="../img/inter1.gif" height=197 width=428></center>
+
+<h4>
+<a NAME="r2.3"></a>2.3. La barre de boutons</h4>
+Au centre de l'&eacute;cran, un bandeau de boutons (masquable) offre des
+raccourcis pour jouer le signal ou pour afficher les informations sur le
+signal et la transcription, et rappelle le nom des fichiers en cours d'&eacute;dition.
+<center>
+<p><img SRC="../img/inter3.gif" height=28 width=435></center>
+
+<p>Le commandes sont :
+<ul><img SRC="../img/previous.bmp" height=16 width=16> : retourne au d&eacute;but
+du segment ou au segment pr&eacute;c&eacute;dent
+<br><img SRC="../img/backward.bmp" height=16 width=16>: retour rapide (de
+1/2 seconde)
+<br><img SRC="../img/pause.bmp" height=16 width=16> : pause
+<br><img SRC="../img/play.bmp" height=16 width=16> : lecture
+<br><img SRC="../img/forward.bmp" height=16 width=16> : avance rapide (de
+1/2 seconde)
+<br><img SRC="../img/next.bmp" height=16 width=16>: va au segment suivant
+<br><img SRC="../img/info.bmp" height=16 width=16> : affiche la fen&ecirc;tre
+d'informations sur le signal et la transcription</ul>
+
+<h4>
+<a NAME="r2.4"></a>2.4. Le signal et la segmentation</h4>
+Dans la moiti&eacute; inf&eacute;rieure de l'interface sont affich&eacute;s
+le signal et la segmentation ; une barre de d&eacute;filement au-dessus
+permet de se d&eacute;placer et une autre barre de d&eacute;filement plus
+petite (masquable par un menu contextuel) permet de modifier la r&eacute;solution
+d'affichage. Sous le signal, la segmentation orthographique, en tours de
+parole, en section ainsi qu'en conditions acoustiques est affich&eacute;e
+et align&eacute;e avec le signal ; le segment courant de la transcription
+orthographique est surlign&eacute;. Le texte du segment (transcription,
+nom du locuteur, sujet de la section) est affich&eacute; dans l'intervalle
+temporel correspondant aux bornes du segment. Une deuxi&egrave;me vue du
+signal &agrave; une &eacute;chelle diff&eacute;rente peut &ecirc;tre affich&eacute;e.
+La position courante du curseur dans le signal est repr&eacute;sent&eacute;e
+avec une barre rouge verticale. Les deux curseurs (celui dans la fen&ecirc;tre
+de texte et celui dans le signal) sont synchronis&eacute;s de mani&egrave;re
+&agrave; ce que le segment courant dans le texte soit &agrave; chaque instant
+identique au segment courant sous le signal ; lorsqu'un des curseurs change
+de segment, l'autre curseur est donc automatiquement d&eacute;plac&eacute;
+afin d'appara&icirc;tre dans le m&ecirc;me segment.
+<center>
+<p><img SRC="../img/inter2.gif" height=183 width=430></center>
+
+<p>Sur le signal, la souris permet de r&eacute;aliser les contr&ocirc;les
+suivants :
+<ul>
+<li>
+clic du bouton 1: place le curseur &agrave; la position d&eacute;sign&eacute;e
+dans le signal</li>
+
+<li>
+cliquer-d&eacute;placer le bouton 1 : s&eacute;lectionner une partie du
+signal</li>
+
+<li>
+clic du bouton 2 (ou shift-clic du bouton 1) : &eacute;tendre la s&eacute;lection
+du signal</li>
+
+<li>
+clic du bouton 3 : afficher un menu contextuel</li>
+</ul>
+Sur les lignes de segmentation, les commandes de la souris sont :
+<ul>
+<li>
+clic du bouton 1 : s&eacute;lectionner le signal sur l'intervalle du segment</li>
+
+<li>
+cliquer-d&eacute;placer le bouton 1 : s&eacute;lectionner le signal sur
+plusieurs segments contigus</li>
+
+<li>
+shift-clic du bouton 1 : &eacute;tendre la s&eacute;lection</li>
+
+<li>
+cliquer-d&eacute;placer le bouton 2 (ou control-cliquer-d&eacute;placer
+le bouton 1) : d&eacute;placer la fronti&egrave;re entre deux segments</li>
+
+<li>
+clic du bouton 3 : afficher un menu contextuel</li>
+</ul>
+
+<h3>
+
+<hr WIDTH="100%"><a NAME="r3"></a>3. Fichier de transcription</h3>
+
+<h4>
+<a NAME="r3.1"></a>3.1. Cr&eacute;er une nouvelle transcription</h4>
+
+<center><img SRC="../img/inter_init.gif" height=359 width=414></center>
+
+<p>Choisir le menu [<tt>Fichier</tt>]/[<tt>Nouvelle transcription</tt>].
+Une fen&ecirc;tre de dialogue propose de choisir le fichier son &agrave;
+transcrire. Il est possible de modifier ce choix ult&eacute;rieurement.
+<h4>
+<a NAME="r3.2"></a>3.2. Lire une transcription</h4>
+Avec [<tt>Fichier</tt>]/[<tt>Ouvrir une transcription...</tt>], il est
+possible de lire un fichier de transcription produit par Transcriber, ainsi
+que des fichiers de transcription ou de segmentation dans quelques formats
+courants identifi&eacute;s par le suffixe du nom du fichier:
+<ul>
+<li>
+Format XML natif (.trs, .xml)</li>
+
+<li>
+OGI lola (.lola)</li>
+
+<li>
+LDC .typ format (.typ)</li>
+
+<li>
+ESPS/xwaves (.lab)</li>
+
+<li>
+LIMSI label (.lbl)</li>
+
+<li>
+TIMIT format (.phn, .wrd, .txt)</li>
+<li> Childes/CHAT (.cha) support exp&eacute;rimental, avec de nouveaux attributs
+disponibles dans l'interface.</li>
+</ul>
+Le fichier signal associ&eacute; &agrave; la transcription est ensuite
+recherch&eacute; ; s'il n'est pas trouv&eacute; automatiquement, une fen&ecirc;tre
+de dialogue demande &agrave; l'utilisateur de le localiser.
+<h4>
+<a NAME="r3.3"></a>3.3. Enregistrer la transcription</h4>
+
+<center><img SRC="../img/inter_savetrans.gif" height=169 width=390></center>
+
+<p>La transcription peut &ecirc;tre enregistr&eacute;e avec le menu [<tt>Fichier</tt>]/[<tt>Enregistrer</tt>]
+si des modifications ont eu lieu depuis la cr&eacute;ation ou le dernier
+enregistrement. Lors du premier enregistrement, le nom du fichier signal
+suivi de l'extension <tt>.trs</tt> est propos&eacute;. La transcription
+peut &ecirc;tre enregistr&eacute;e sous un autre nom avec la commande [<tt>Fichier</tt>]/[<tt>Enregistrer
+sous...</tt>].
+<h4>
+<a NAME="r3.4"></a>3.4. Exporter sous un autre format</h4>
+L'exportation sous un format diff&eacute;rent du format de Transcriber
+(aux formats <tt>.typ</tt>, .<tt>stm</tt> ou .<tt>html</tt>) est propos&eacute;e
+dans le menu [<tt>Fichier</tt>]/[<tt>Exporter</tt>], mais ces formats ne sont pas
+aussi complets que le format normal et n'assurent pas la relecture compl&egrave;te
+de la transcription. Cependant le format .<tt>html</tt> permet d'imprimer la
+transcription &agrave; partir de n'importe quel browser.
+<h4>
+<a NAME="r3.5"></a>3.5. Revenir &agrave; la version pr&eacute;c&eacute;dente</h4>
+La commande [<tt>Fichier</tt>]/[<tt>Revenir au fichier</tt>] propose d'annuler
+toutes les modifications en m&eacute;moire et de relire la derni&egrave;re
+version enregistr&eacute;e sur le disque.
+<h4>
+<a NAME="r3.6"></a>3.6. Enregistrement automatique</h4>
+
+<center><img SRC="../img/inter_delay.gif" height=29 width=450></center>
+
+<p>Apr&egrave;s une modification, si la transcription en cours n'est enregistr&eacute;e
+sous un certain d&eacute;lai, alors un enregistrement automatique est r&eacute;alis&eacute;
+dans le r&eacute;pertoire de la transcription et avec le m&ecirc;me nom
+pr&eacute;c&eacute;d&eacute; et suivi du caract&egrave;re # (par exemple,
+<tt>/data/transcription/#radio.trs#</tt>).
+Ce fichier est d&eacute;truit lors de la sauvegarde normale du fichier.
+Le d&eacute;lai est donn&eacute; par l'utilisateur dans la fen&ecirc;tre
+[<tt>Options</tt>]/[<tt>G&eacute;n&eacute;ral</tt>] ; s'il est nul, la
+fonction est d&eacute;sactiv&eacute;e. La r&eacute;cup&eacute;ration automatique
+de la sauvegarde est propos&eacute;e si une sauvegarde de la transcription
+est d&eacute;tect&eacute;e &agrave; l'ouverture.
+<h4>
+<a NAME="r3.7"></a>3.7. Fichier de sauvegarde</h4>
+
+<center><img SRC="../img/inter_backup.gif" height=28 width=450></center>
+
+<p>Lorsqu'une transcription qui a &eacute;t&eacute; lue sur le disque puis
+modifi&eacute;e est enregistr&eacute;e, l'&eacute;tat de la transcription
+au moment de sa lecture initiale est conserv&eacute; dans un fichier du
+m&ecirc;me nom que la transcription suivi de l'extension indiqu&eacute;e
+dans la fen&ecirc;tre [<tt>Options</tt>]/[<tt>G&eacute;n&eacute;ral</tt>]
+(par exemple, <tt>/data/transcription/radio.trs~</tt> ). Si le champ contenant
+l'extension est vide, la fonction est d&eacute;sactiv&eacute;e.
+<h4>
+<a NAME="r3.8"></a>3.8. Encodage des fichiers</h4>
+Avec Transcriber 1.4.1 fonctionnant sous Tcl/Tk version 8.1.1 ou plus r&eacute;cente,
+l'encodage utilis&eacute; pour l'enregistrement des fichiers pour &ecirc;tre
+modifi&eacute; dans [<tt>Options</tt>]/[<tt>G&eacute;n&eacute;ral</tt>].
+L'encodage par d&eacute;faut est le ISO-8859-1 (Latin1). Il est possible
+d'utiliser un autre encodage 8 bits (ISO-8859-*, EUC-JP...) mais aussi
+Unicode (enregistr&eacute; au format UTF-8 de longueur variable, compatible
+ascendant avec l'ASCII-US 7 bits). Dans le doute, si Latin1 ne convient
+pas, il est conseill&eacute; d'essayer UTF-8 qui est un sur-ensemble de
+tous les autres.
+<br>En lecture, l'encodage d&eacute;fini dans l'ent&ecirc;te de la transcription
+lors de son enregistrement est automatiquement utilis&eacute;. Lorsque
+cette information est absente de l'ent&ecirc;te (par exemple pour des transcriptions
+produites avec une version plus ancienne de Transcriber ou de Tcl/Tk),
+ou lorsque la transcription est dans un encodage qui n'est pas compatible
+ASCII, l'encodage d&eacute;fini par l'utilisateur est utilis&eacute; aussi
+pour la lecture.
+<h3>
+<a NAME="r4"></a>4. Fichier de signal</h3>
+
+<h4>
+<a NAME="r4.1"></a>4.1 Ouvrir un fichier signal</h4>
+
+<center><img SRC="../img/inter_opensnd.gif" height=194 width=464></center>
+
+<p>Le fichier signal est normalement s&eacute;lectionn&eacute; lors de
+la cr&eacute;ation d'une nouvelle transcription ou en changeant le signal
+associ&eacute; &agrave; une transcription avec la commande [<tt>Fichier</tt>]/[<tt>Ouvrir
+un fichier son...</tt>].
+<h4>
+<a NAME="r4.2"></a>4.2. Format des fichiers sons</h4>
+La plupart des formats de fichiers audio sont reconnus automatiquement
+par l'interm&eacute;diaire de la librairie Snack : WAV, AU, SND, AIFF,
+SMP, Sphere (si ce format particulier a &eacute;t&eacute; install&eacute;
+avec Snack). Les fichiers au format MP3 sont accept&eacute;s, mais du fait
+de la compression dans ces fichiers, l'acc&egrave;s direct &agrave; une
+portion du signal est parfois lent. Le format des fichiers sans en-t&ecirc;te
+(codage sur 8 bits ou 16 bits, ordre des octets...) est d&eacute;termin&eacute;
+automatiquement, sauf en ce qui concerne la fr&eacute;quence d'&eacute;chantillonnage
+et le nombre de canaux (mono/st&eacute;r&eacute;o) qui sont indiqu&eacute;s
+par l'utilisateur dans la fen&ecirc;tre de dialogue [<tt>Options</tt>]/[<tt>Fichier
+son...</tt>].
+<center>
+<p><img SRC="../img/inter_confsnd.gif"></center>
+
+<h4>
+<a NAME="r4.3"></a>4.3. Enveloppe du signal</h4>
+Pour acc&eacute;l&eacute;rer l'affichage du signal &agrave; faibles r&eacute;solutions
+(affichage d'un intervalle de plus de 30 secondes), une image &agrave;
+basse r&eacute;solution (ou enveloppe) globale est calcul&eacute;e pour
+tous les signaux de plus de 30 secondes. Le calcul est r&eacute;alis&eacute;
+en t&acirc;che de fond &agrave; la premi&egrave;re ouverture du signal,
+et l'enveloppe est enregistr&eacute;e dans un r&eacute;pertoire sp&eacute;cifique
+pour &ecirc;tre r&eacute;utilis&eacute;e lors des sessions suivantes. Il
+est possible d'interrompre le calcul en cours, ou de d&eacute;sactiver
+cette fonction dans le menu [<tt>Options</tt>]/[<tt>Fichier son...</tt>].
+Le calcul en t&acirc;che de fond peut aussi &ecirc;tre d&eacute;sactiv&eacute;.
+Dans la version pour Windows, le calcul de l'enveloppe est d&eacute;sactiv&eacute;
+en raison de dysfonctionnements.
+<p>Le r&eacute;pertoire dans lequel les enveloppes sont stock&eacute;es
+(avec le suffixe <tt>.shp</tt>) est indiqu&eacute; lui aussi dans [<tt>Options</tt>]/[<tt>Fichier
+son...</tt>] ; par d&eacute;faut, un r&eacute;pertoire du type <tt>/var/tmp</tt>
+est propos&eacute;, mais il est souhaitable de cr&eacute;er un r&eacute;pertoire
+sp&eacute;cifique, &eacute;ventuellement partag&eacute; par tous les utilisateurs
+de Transcriber, et autoris&eacute; en &eacute;criture pour que l'utilisateur
+puisse cr&eacute;er de nouvelles enveloppes.
+<p>Il est aussi possible de distribuer le fichier d'enveloppe dans le m&ecirc;me
+r&eacute;pertoire que le fichier signal, y compris dans un r&eacute;pertoire
+en lecture seule (attention, le format du fichier d&eacute;pend de l'architecture
+de la machine).
+<h4>
+<a NAME="r4.4"></a>4.4. Ouvrir un fichier distant</h4>
+L'architecture client-serveur pour l'affichage et la restitution des signaux
+&agrave; distance n&eacute;cessite le lancement d'un serveur sp&eacute;cifique
+sur la machine h&ocirc;te (un script <tt>tcl/SoundServer.tcl</tt> est propos&eacute;
+dans la distribution et doit &ecirc;tre &eacute;ventuellement adapt&eacute;)
+et la s&eacute;lection par l'utilisateur de l'acc&egrave;s &agrave; distance
+(ainsi que la d&eacute;signation du serveur et du port de donn&eacute;es
+utilis&eacute;) dans [<tt>Options</tt>]/[<tt>Fichier son...</tt>].
+<h3>
+
+<hr WIDTH="100%"><a NAME="r5"></a>5. Manipulation du signal</h3>
+La transcription d'un long enregistrement n&eacute;cessite d'&eacute;couter
+g&eacute;n&eacute;ralement plusieurs fois des portions courtes du signal.
+Les commandes-type d'un magn&eacute;tophones sont disponibles avec les
+boutons de la barre de commandes ainsi que dans le menu [<tt>Signal</tt>]
+; en pratique, les raccourcis claviers sont tr&egrave;s utiles et il est
+conseill&eacute; de m&eacute;moriser les plus fr&eacute;quents.
+<h4>
+<a NAME="r5.1"></a>5.1 Positionner le curseur</h4>
+Il est possible de positionner directement le curseur &agrave; n'importe
+quelle position dans le signal par clic de souris. La commande [<tt>Signal</tt>]/[<tt>Aller
+&agrave;...</tt>]/[<tt>Position</tt>] permet d'indiquer une valeur pr&eacute;cise
+(commande accessible aussi en cliquant sur la ligne d'information sous
+le signal).
+<center>
+<p><img SRC="../img/inter_cursor.gif" height=91 width=269></center>
+
+<h4>
+<a NAME="r5.2"></a>5.2. S&eacute;lectionner une portion de signal</h4>
+La s&eacute;lection d'une partie du signal s'effectue en cliquant puis
+en d&eacute;pla&ccedil;ant la souris avant de rel&acirc;cher le bouton,
+ou en cliquant avec le bouton central de la souris (ou avec le bouton de
+gauche avec la touche <tt>Shift</tt> enfonc&eacute;e) pour &eacute;tendre
+la s&eacute;lection. La position du curseur et &eacute;ventuellement l'&eacute;tendue
+de la s&eacute;lection sont indiqu&eacute;es sous le signal. Si l'option
+<tt>Joue
+automatiquement la s&eacute;lection</tt> dans [<tt>Options</tt>]/[<tt>G&eacute;n&eacute;ral</tt>]
+est activ&eacute;e, le segment s&eacute;lectionn&eacute; est jou&eacute;
+d&egrave;s que le bouton de la souris est rel&acirc;ch&eacute;.
+<center>
+<p><img SRC="../img/inter_select.gif" height=120 width=440></center>
+
+<h4>
+<a NAME="r5.3"></a>5.3. Jouer le signal</h4>
+Les boutons de lecture&nbsp;<img SRC="../img/play.bmp" height=16 width=16>et
+pause&nbsp;<img SRC="../img/pause.bmp" height=16 width=16>, la commande
+[<tt>Signal</tt>]/[<tt>Joue/Pause</tt>] ou son raccourci (la touche <tt>Tab</tt>)
+permettent de jouer le son &agrave; partir de la position du curseur ou
+de l'arr&ecirc;ter. Si une s&eacute;lection est active, seule cette partie
+sera jou&eacute;e. Le menu [<tt>Signal</tt>]/[<tt>Mode de lecture</tt>]
+permet de choisir un mode de lecture parmi les suivant: lecture en continu
+(le mode par d&eacute;faut), lecture avec pause aux fronti&egrave;res des
+segments, avec &eacute;mission d'un bip aux fronti&egrave;res, avec arr&ecirc;t
+&agrave; la prochaine fronti&egrave;re, ou lecture en boucle sur la s&eacute;lection
+(si elle est active) ou &agrave; d&eacute;faut sur le segment courant apr&egrave;s
+une pause. La dur&eacute;e de la pause ou le choix du fichier son pour
+le bip sont contr&ocirc;l&eacute;s dans la fen&ecirc;tre [<tt>Options</tt>]/[<tt>Fichier
+son...</tt>]; le param&egrave;tre
+<tt>Recul avant la lecture </tt>permet
+de revenir automatiquement en arri&egrave;re avant chaque red&eacute;marrage
+de la lecture.
+<p>
+Si Snack version 2.0 est install&eacute;, il est possible de ne lire que le canal gauche
+ou droit d'un fichier st&eacute;r&eacute;o gr&acirc;ce au menu <tt>[Signal]/[Stereo
+channel]</tt>. Si le fichier est mono ou si la version de Snack est plus ancienne,
+cela n'aura aucun effet.
+<h4>
+<a NAME="r5.4"></a>5.4. Jouer un segment</h4>
+Lorsqu'une segmentation du signal est r&eacute;alis&eacute;e, la commande
+[<tt>Signal</tt>]/[<tt>Joue le segment</tt>] ou un de ses raccourcis (<tt>Shift-Tab</tt>
+ou <tt>Alt-Tab</tt>) joue le segment dans lequel se trouve le curseur &agrave;
+partir du d&eacute;but et jusqu'&agrave; la fin du segment, puis repositionne
+le curseur en d&eacute;but de segment.
+<h4>
+<a NAME="r5.5"></a>5.5. Avance rapide</h4>
+Les boutons d'avance&nbsp;<img SRC="../img/forward.bmp" height=16 width=16>
+et de retour rapide&nbsp;<img SRC="../img/backward.bmp" height=16 width=16>(menu
+[<tt>Signal]</tt>/[<tt>Aller &agrave;...</tt>]/[<tt>Avant</tt>] ou [<tt>Arri&egrave;re</tt>])
+font avancer ou reculer le curseur du signal d'une demi seconde. Lorsque
+le bouton reste enfonc&eacute; (bouton de la souris enfonc&eacute;), le
+mouvement devient continu par pas d'une demi seconde. Cela fonctionne aussi
+pendant la restitution, mais le son est hach&eacute;.
+<h4>
+<a NAME="r5.6"></a>5.6. Passer au segment suivant</h4>
+Les boutons de plage pr&eacute;c&eacute;dente&nbsp;<img SRC="../img/previous.bmp" height=16 width=16>et
+suivante&nbsp;<img SRC="../img/next.bmp" height=16 width=16>(menu [<tt>Signal]</tt>/[<tt>Aller
+&agrave;...</tt>]/[<tt>Pr&eacute;c&eacute;dent</tt>] ou [<tt>Suivant</tt>])
+d&eacute;placent le curseur au d&eacute;but du segment suivant ou pr&eacute;c&eacute;dent
+dans la transcription orthographique (y compris aussi pendant la restitution).
+<h4>
+<a NAME="r5.7"></a>5.7. Changer le volume</h4>
+Le niveau sonore est r&eacute;glable (de 0 &agrave; 100) dans la fen&ecirc;tre
+[<tt>Signal</tt>]/[<tt>Panneau de contr&ocirc;le</tt>].
+<center>
+<p><img SRC="../img/inter_control.gif" height=167 width=218></center>
+
+<h4>
+<a NAME="r5.8"></a>5.8. Zoom vertical</h4>
+Pour les portions de signal dont la dynamique est faible, [<tt>Signal</tt>]/[<tt>Panneau
+de contr&ocirc;le</tt>] affiche un curseur pour modifier l'amplitude verticale
+du signal. Cela ne modifie pas le volume.
+<h3>
+
+<hr WIDTH="100%"><a NAME="r6"></a>6. Edition</h3>
+
+<h4>
+<a NAME="r6.1"></a>6.1. Couper/Copier/Coller</h4>
+Les commandes habituelles d'&eacute;dition de texte (menu [<tt>Edition</tt>]/[<tt>Copier</tt>],
+[<tt>Couper</tt>] ou [<tt>Coller</tt>] et les raccourcis standards associ&eacute;s
+<tt>Control-x/c/v</tt>)
+permettent de manipuler des portions de transcription, y compris les &eacute;v&eacute;nements
+contenus dans le texte, &agrave; l'exclusion des boutons de section, de
+tour et de bruit de fond.
+<h4>
+<a NAME="r6.2"></a>6.2. Annuler</h4>
+La commande d'annulation (menu [<tt>Edition</tt>]/[<tt>Annuler</tt>] ou
+raccourci standard associ&eacute; <tt>Control-z</tt>) est de capacit&eacute;
+limit&eacute;e, car elle restaure simplement le segment courant de la transcription
+orthographique dans l'&eacute;tat pr&eacute;c&eacute;dant l'&eacute;dition
+du segment. De tr&egrave;s nombreuses actions ne sont pas annulables. Il
+est donc conseill&eacute; d'enregistrer fr&eacute;quemment, &eacute;ventuellement
+sous diff&eacute;rentes versions.
+<h4>
+<a NAME="r6.3"></a>6.3. Chercher/Remplacer</h4>
+
+<center><img SRC="../img/inter_find.gif" height=175 width=304></center>
+
+<p>La commande [<tt>Edition</tt>]/[<tt>Chercher/Remplacer</tt>] (raccourci
+<tt>Control-f</tt>)
+propose une recherche avec diff&eacute;rentes options: sensible ou non
+aux majuscules, recherche vers l'arri&egrave;re, utilisation d'expressions
+r&eacute;guli&egrave;res &agrave; la place de la suite de caract&egrave;res
+&agrave; trouver, et &eacute;ventuellement une cha&icirc;ne de caract&egrave;res
+de remplacement.
+<h4>
+<a NAME="r6.4"></a>6.4. Glossaire</h4>
+La commande [<tt>Edition</tt>]/[<tt>Glossaire</tt>] ou son raccourci
+<tt>Control-k</tt>
+propose principalement deux modes : la cr&eacute;ation d'une nouvelle entr&eacute;e
+dans un glossaire et l'insertion d'une entr&eacute;e existante dans l'&eacute;diteur
+de texte &agrave; la position courante ; de plus, la modification des entr&eacute;es
+existants reste toujours possible. Lorsqu'une portion de texte est s&eacute;lectionn&eacute;e
+en gris&eacute; &agrave; l'appel de la commande, la cr&eacute;ation d'une
+nouvelle entr&eacute;e du glossaire est propos&eacute;e pour cette s&eacute;lection
+; il est possible de rajouter un commentaire, puis <tt>OK</tt> permet de
+m&eacute;moriser la nouvelle entr&eacute;e. Si aucune s&eacute;lection
+de texte est active &agrave; l'appel de la commande, on peut cliquer sur
+une ligne de la liste des entr&eacute;es du glossaire pour la s&eacute;lectionner
+puis cliquer sur <tt>Ins&eacute;rer</tt> pour l'ajouter &agrave; la position du
+curseur. Les entr&eacute;es du glossaire sont actuellement enregistr&eacute;es
+avec le fichier de configuration ; un fichier autonome sera probablement
+utilis&eacute; dans le futur.
+<h4>
+<a NAME="r6.5"></a>6.5. Gestion automatique des espaces</h4>
+
+<center><img SRC="../img/inter_space.gif" height=35 width=442></center>
+
+<p>L'insertion automatique des espaces est contr&ocirc;l&eacute;e dans
+la fen&ecirc;tre [<tt>Options</tt>]/[<tt>G&eacute;n&eacute;ral</tt>]. Lorsque
+celle-ci est active, un espace est rajout&eacute; en fin de ligne &agrave;
+la cr&eacute;ation d'une nouvelle fronti&egrave;re et avant les symboles
+de ponctuation <tt>.,;: </tt>pour les s&eacute;parer des mots pr&eacute;c&eacute;dents.
+<h4>
+<a NAME="r6.6"></a>6.6. Correction orthographique</h4>
+La correction orthographique est lanc&eacute;e par la commande [<tt>Edition</tt>]/[<tt>Correction
+orthographique</tt>]. Elle n&eacute;cessite l'installation pr&eacute;alable
+du logiciel '<tt>ispell</tt>' (en standard sur la plupart des syst&egrave;mes
+Unix, mais pas sous Windows). Le dictionnaire utilis&eacute; pour la correction
+est choisi automatiquement en fonction de la langue indiqu&eacute;e dans
+les param&egrave;tres globaux (cf. 7.1). Un message d'erreur signale si
+le dictionnaire n'est pas trouv&eacute; ou que le nom ne correspond pas;
+il faut alors v&eacute;rifier l'installation locale de <tt>ispell </tt>pour
+indiquer le nom exact du dictionnaire.
+<p>D&egrave;s qu'un mot inconnu est rencontr&eacute;, une fen&ecirc;tre
+de dialogue propose de :
+<ul>
+<li>
+ajouter ce mot au dictionnaire - il sera m&eacute;moris&eacute; d&eacute;finitivement;</li>
+
+<li>
+ignorer le mot et passer au suivant;</li>
+
+<li>
+remplacer le mot apr&egrave;s correction manuelle ou s&eacute;lection d'une
+des propositions;</li>
+
+<li>
+fermer la fen&ecirc;tre et arr&ecirc;ter la correction.</li>
+</ul>
+Une option dans la fen&ecirc;tre [<tt>Options</tt>]/[<tt>G&eacute;n&eacute;ral</tt>]
+permet de contr&ocirc;ler la correction orthographique sur les mots commen&ccedil;ant
+par une majuscule. Par d&eacute;faut, ils sont ignor&eacute;s.
+<h4>
+<a NAME="r6.7"></a>6.7. Caract&egrave;res accentu&eacute;s et internationalisation</h4>
+La m&eacute;thode d'entr&eacute;e des caract&egrave;res ne d&eacute;pend pas de
+Transcriber mais du syst&egrave;me.&nbsp; Ainsi, avec un clavier adapt&eacute;,
+certains caract&egrave;res peuvent &ecirc;tre entr&eacute;s directement.&nbsp;
+Sous Unix, on peut reprogrammer logiciellement les touches (par exemple
+les touches de fonctions) en configurant X11 avec l'outil 'xmodmap'. Cependant,
+il est aussi possible d'entrer des caract&egrave;res accentu&eacute;s par
+combinaisons de touches, en d&eacute;finissant des raccourcis dans Transcriber
+(<a href="#r13">cf. section 13</a>).
+<br>L'encodage des fichiers est par d&eacute;faut en ISO-8859-1 (Latin1),
+mais d'autres sont disponibles si Transcriber est lanc&eacute; avec Tcl/Tk
+version 8.1.1 ou plus r&eacute;cente (<a href="#r3.8">cf. section 3.8</a>).
+<h3>
+
+<hr WIDTH="100%"><a NAME="r7"></a>7. Episode</h3>
+
+<h4>
+<a NAME="r7.1"></a>7.1. Modifier les param&egrave;tres globaux de la transcription</h4>
+
+<center><img SRC="../img/inter_epi.gif" height=221 width=362></center>
+
+<p>Des informations globales &agrave; la transcription peuvent &ecirc;tre
+renseign&eacute;es dans la fen&ecirc;tre [<tt>Fichiers</tt>]/[<tt>Param&egrave;tres
+de l'&eacute;pisode</tt>]. Il s'agit :
+<ul>
+<li>
+du nom du fichier son associ&eacute; &agrave; la transcription (sans le
+chemin d'acc&egrave;s ni l'extension), ce qui permet de retrouver automatiquement
+le signal associ&eacute; &agrave; la transcription si ceux-ci portent des
+noms diff&eacute;rents ;</li>
+
+<li>
+du nom du transcripteur ; lors de la cr&eacute;ation d'une nouvelle transcription,
+le nom par d&eacute;faut indiqu&eacute; au logiciel est utilis&eacute;
+;</li>
+
+<li>
+du num&eacute;ro de version de la transcription. Ce num&eacute;ro est automatiquement
+incr&eacute;ment&eacute; &agrave; la premi&egrave;re modification du fichier
+et ne peut &ecirc;tre &eacute;dit&eacute; ;</li>
+
+<li>
+de la date de la derni&egrave;re modification. Cette date est automatiquement
+mise &agrave; jour &agrave; la date courante &agrave; la premi&egrave;re
+modification du fichier et ne peut &ecirc;tre &eacute;dit&eacute;e ;</li>
+
+<li>
+du programme (&eacute;metteur, &eacute;mission...) &eacute;ventuellement
+renseign&eacute; par l'utilisateur ;</li>
+
+<li>
+de la date d'enregistrement si celle-ci est connue ;</li>
+
+<li>
+de la langue principale du programme.</li>
+</ul>
+
+<h3>
+
+<hr WIDTH="100%"><a NAME="r8"></a>8. Segmentation du signal</h3>
+
+<h4>
+<a NAME="r8.1"></a>8.1. Ins&eacute;rer une fronti&egrave;re</h4>
+La commande [<tt>Segmentation</tt>]/[<tt>Ins&eacute;rer une fronti&egrave;re</tt>]
+ou son raccourci <tt>Return</tt> cr&eacute;e une nouvelle fronti&egrave;re
+&agrave; la position courante du curseur dans le texte et dans le signal.
+Les positions des fronti&egrave;res &eacute;tant arrondies &agrave; la
+milli-seconde la plus proche, la nouvelle fronti&egrave;re doit &ecirc;tre
+&agrave; une distance minimale de 1 ms des fronti&egrave;res d&eacute;j&agrave;
+existantes. Une nouvelle ligne appara&icirc;t dans la transcription, et
+le segment sous le signal est coup&eacute; en deux &agrave; la position
+du curseur. Il est possible de r&eacute;aliser cette op&eacute;ration pendant
+que le son est jou&eacute;.
+<center>
+<p><img SRC="../img/inter_seg0.gif" height=240 width=242 align=CENTER>
+=>&nbsp;<img SRC="../img/inter_seg1.gif" height=240 width=241 align=CENTER></center>
+
+<h4>
+<a NAME="r8.2"></a>8.2. Supprimer une fronti&egrave;re</h4>
+La commande [<tt>Segmentation</tt>]/[<tt>Supprimer la fronti&egrave;re</tt>]
+ou son raccourci <tt>Shift-Backspace</tt> supprime la fronti&egrave;re
+du d&eacute;but du segment courant et en fusionne le contenu avec le segment
+pr&eacute;c&eacute;dent. Si la fronti&egrave;re marquait aussi le d&eacute;but
+d'un nouveau tour de parole ou m&ecirc;me d'une section, ceux-ci sont supprim&eacute;s
+dans la segmentation correspondante.
+<h4>
+<a NAME="r8.3"></a>8.3. D&eacute;placer la fronti&egrave;re entre deux
+segment</h4>
+En cliquant avec le bouton central de la souris (ou le bouton de gauche
+avec la touche <tt>Control </tt>simultan&eacute;ment enfonc&eacute;e) sur
+la fronti&egrave;re entre deux segments et en d&eacute;pla&ccedil;ant la
+souris, on d&eacute;place cette fronti&egrave;re ainsi que les fronti&egrave;res
+synchronis&eacute;es dans les autres segmentations. L'amplitude du mouvement
+est limit&eacute;e par les fronti&egrave;res des segments contigus. Lorsque
+l'action est r&eacute;alis&eacute;e avec le bouton <tt>Shift </tt>enfonc&eacute;,
+les fronti&egrave;res des segments adjacents sont repouss&eacute;es si
+n&eacute;cessaire. L'intervalle laiss&eacute; entre les fronti&egrave;res
+d&eacute;pend de la r&eacute;solution d'affichage au moment de l'action
+et reste toujours sup&eacute;rieur &agrave; 1 ms.
+<h4>
+<a NAME="r8.4"></a>8.4. S&eacute;lectionner le signal sur un ou plusieurs
+segments</h4>
+En cliquant avec le bouton de gauche sur un segment sous le signal (et
+pour n'importe quel niveau de segmentation), le signal est s&eacute;lectionn&eacute;
+sur toute l'&eacute;tendue du segment et le curseur est positionn&eacute;
+au d&eacute;but du segment ; cette s&eacute;lection peut &ecirc;tre &eacute;tendue
+en d&eacute;pla&ccedil;ant la souris avant de rel&acirc;cher le bouton
+ou en cliquant avec le bouton de gauche avec la touche <tt>Shift </tt>simultan&eacute;ment
+enfonc&eacute;e.
+<h4>
+<a NAME="r8.5"></a>8.5. Masquer/Afficher des segmentations</h4>
+En cliquant avec le bouton de droite, un menu contextuel est activ&eacute;
+qui permet de jouer le signal, de changer la r&eacute;solution, et de contr&ocirc;ler
+l'affichage ou le masquage des diff&eacute;rentes segmentations sous le
+signal.
+<h3>
+
+<hr WIDTH="100%"><a NAME="r9"></a>9. Tours de parole et locuteurs</h3>
+
+<h4>
+<a NAME="r9.1"></a>9.1. Cr&eacute;er un tour de parole</h4>
+
+<center><img SRC="../img/inter_turn.gif" height=292 width=451></center>
+
+<p>La commande [<tt>Segmentation</tt>]/[<tt>Cr&eacute;er un tour...</tt>]
+ou son raccourci <tt>Control-t</tt> cr&eacute;e un nouveau tour de parole
+commen&ccedil;ant au d&eacute;but du segment courant. Un tour de parole
+est caract&eacute;ris&eacute; par l'identit&eacute; d'un (ou plusieurs)
+locuteur(s), ainsi que par des param&egrave;tres facultatifs d&eacute;crivant
+:
+<ul>
+<li>
+le mode d'&eacute;locution du tour (spontan&eacute; ou planifi&eacute;)</li>
+
+<li>
+la qualit&eacute; d'enregistrement (bonne, moyenne, m&eacute;diocre)</li>
+
+<li>
+et la largeur de bande du signal (parole t&eacute;l&eacute;phonique &agrave;
+bande &eacute;troite ou signal large bande de studio).</li>
+</ul>
+La premi&egrave;re ligne de la fen&ecirc;tre sert &agrave; g&eacute;rer
+la parole superpos&eacute;e qui est d&eacute;crite dans la section suivante.
+La partie centrale de la fen&ecirc;tre sert &agrave; la cr&eacute;ation,
+la s&eacute;lection ou la modification des locuteurs et de leurs caract&eacute;ristiques.
+En cliquant sur <tt>Cr&eacute;er un locuteur</tt> ou en tapant directement
+son nom au clavier, on cr&eacute;e un nouveau locuteur pour lequel il est
+possible de d&eacute;finir le genre, l'accent, etc. A droite de la fen&ecirc;tre,
+une liste des locuteurs d&eacute;j&agrave; d&eacute;finis tri&eacute;e
+par ordre alphab&eacute;tique est disponible, ainsi que la s&eacute;lection
+des locuteurs r&eacute;cemment utilis&eacute;s. En cliquant sur un de ces
+locuteurs, on le choisit comme locuteur de ce tour. L'orthographe de son
+nom et ses caract&eacute;ristiques sont fix&eacute;es mais peuvent &ecirc;tre
+modifi&eacute;es globalement apr&egrave;s avoir cliqu&eacute; sur <tt>Editer
+le locuteur </tt>puis en validant avec <tt>OK</tt>. Enfin, le champ <tt>pas
+de locuteur</tt> s'applique aux segments de signal sans parole.
+<h4>
+<a NAME="r9.2"></a>9.2. Parole superpos&eacute;e</h4>
+
+<center><img SRC="../img/inter_over1.gif" height=107 width=490></center>
+
+<p>Lors de la cr&eacute;ation ou de la modification des param&egrave;tres
+d'un tour, le mode <tt>Parole superpos&eacute;e</tt> peut &ecirc;tre activ&eacute;.
+Le deuxi&egrave;me locuteur est alors d&eacute;sign&eacute; de la m&ecirc;me
+fa&ccedil;on que le premier.
+<center>
+<p><img SRC="../img/inter_over.gif" height=151 width=405></center>
+
+<p>Dans l'&eacute;diteur de texte, chaque segment du tour de parole modifi&eacute;
+contient alors deux lignes pr&eacute;c&eacute;d&eacute;es du chiffre 1
+ou 2 ; la segmentation orthographique sous le signal est s&eacute;par&eacute;e
+horizontalement entre les deux locuteurs. A l'inverse, le retour au mode
+normal se fait en d&eacute;s&eacute;lectionnant le champ <tt>Parole superpos&eacute;e</tt>
+dans les param&egrave;tres du tour ; le premier locuteur est propos&eacute;
+comme locuteur restant et les transcriptions des deux locuteurs sont fusionn&eacute;es
+en une seule.
+<h4>
+<a NAME="r9.3"></a>9.3. Modifier ou supprimer un tour de parole</h4>
+
+<center><img SRC="../img/inter_desturn.gif" height=62 width=416></center>
+
+<p>La commande [<tt>Segmentation</tt>]/[<tt>Param&egrave;tres du tour...</tt>]
+permet l'&eacute;dition et &eacute;ventuellement la suppression du tour
+de parole qui contient le segment courant (m&ecirc;me si ce segment n'est
+pas le premier du tour). Il est possible alternativement de cliquer sur
+le bouton correspondant au tour &agrave; &eacute;diter dans la fen&ecirc;tre
+de l'&eacute;diteur de texte. Tous les param&egrave;tres propos&eacute;s
+lors de la cr&eacute;ation du tour sont modifiables. Un bouton suppl&eacute;mentaire
+autorise la destruction du tour.
+<h4>
+<a NAME="r9.4"></a>9.4. Chercher les prises de parole d'un locuteur</h4>
+
+<center><img SRC="../img/inter_findspk.gif" height=202 width=210></center>
+
+<p>La commande [<tt>Edition</tt>]/[<tt>Locuteurs</tt>]/[<tt>Chercher un
+locuteur</tt>] affiche la liste des locuteurs d&eacute;finis pour la transcription.
+En cliquant sur un nom, le nombre de r&eacute;f&eacute;rences de ce locuteur
+dans la transcription est affich&eacute; sous la liste. Le bouton <tt>Suivant</tt>
+d&eacute;place le curseur jusqu'au premier segment de la prochaine occurrence
+d'un tour de parole dans lequel le locuteur intervient.
+<h4>
+<a NAME="r9.5"></a>9.5. Importer des locuteurs d'un autre fichier</h4>
+
+<center><img SRC="../img/inter_impspk.gif" height=202 width=365></center>
+
+<p>La commande [<tt>Edition</tt>]/[<tt>Locuteurs</tt>]/[<tt>Importer &agrave;
+partir du fichier...</tt>] fait choisir un fichier de transcription et
+affiche la liste des locuteurs de ce fichier qui n'existent pas d&eacute;j&agrave;
+dans la transcription courante. Le nom des locuteurs est suivi de la liste
+abr&eacute;g&eacute;e des attributs (orthographe v&eacute;rifi&eacute;e:
+y/n, genre: m/f; natif: nat/non; accent; global: glo/_). L'utilisateur
+peut s&eacute;lectionner ou d&eacute;s&eacute;lectionner individuellement
+des locuteurs en cliquant sur la ligne correspondante, ou s&eacute;lectionner
+uniquement les locuteurs qui ont &eacute;t&eacute; signal&eacute;s avec
+le champ "nom global" actif.
+<h4>
+<a NAME="r9.6"></a>9.6. Supprimer les locuteurs inutilis&eacute;s</h4>
+La commande [<tt>Edition</tt>]/[<tt>Locuteurs</tt>]/[<tt>Supprime les locuteurs
+inutilis&eacute;s...</tt>] supprime de la liste des locuteurs tous ceux
+qui n'interviennent dans aucun tour de parole.
+<h3>
+
+<hr WIDTH="100%"><a NAME="r10"></a>10. Sections et sujets</h3>
+
+<h4>
+<a NAME="r10.1"></a>10.1. Cr&eacute;er une nouvelle section</h4>
+
+<center><img SRC="../img/inter_sect.gif" height=245 width=277></center>
+
+<p>La commande [<tt>Segmentation</tt>]/[<tt>Cr&eacute;er une section...</tt>]
+ou le raccourci associ&eacute; <tt>Control-e</tt> cr&eacute;e une nouvelle
+section commen&ccedil;ant au d&eacute;but du segment courant. Une fen&ecirc;tre
+de dialogue permet de choisir la cat&eacute;gorie parmi celles pr&eacute;d&eacute;finies
+("report" pour reportage, "filler" pour les transitions, "nontrans" pour
+toutes les sections non transcrites), et le sujet. La liste des sujets
+existants est affich&eacute;e &agrave; droite, les sujets utilis&eacute;s
+r&eacute;cemment sont rappel&eacute;s &agrave; gauche. En cliquant sur
+<tt>Nouveau
+sujet </tt>ou en tapant directement un texte au clavier, un nouveau sujet
+est d&eacute;fini. Si un sujet existant est s&eacute;lectionn&eacute; et
+que l'on clique sur <tt>Editer le sujet,</tt> toutes les sections portant
+sur ce sujet sont modifi&eacute;es simultan&eacute;ment. En effa&ccedil;ant
+le texte ou en choisissant <tt>pas de sujet</tt>, la section ne porte pas
+de sujet. De plus, un nouveau tour de parole est syst&eacute;matiquement
+cr&eacute;&eacute; &agrave; chaque d&eacute;but de section ; par d&eacute;faut,
+le locuteur courant est propos&eacute;.
+<h4>
+<a NAME="r10.2"></a>10.2. Modifier ou supprimer une section</h4>
+La commande [<tt>Segmentation</tt>]/[<tt>Param&egrave;tres de la section...</tt>]
+permet l'&eacute;dition et &eacute;ventuellement la suppression de la section
+qui contient le segment courant (m&ecirc;me si ce segment n'est pas le
+premier de la section). Il est possible alternativement de cliquer sur
+le bouton correspondant &agrave; la section &agrave; &eacute;diter dans
+la fen&ecirc;tre de l'&eacute;diteur de texte. Tous les param&egrave;tres
+propos&eacute;s lors de la cr&eacute;ation de la section sont modifiables.
+Un bouton suppl&eacute;mentaire autorise la destruction de la section.
+<h4>
+<a NAME="r10.3"></a>10.3. Chercher l'apparition d'un sujet</h4>
+
+<center><img SRC="../img/inter_findtop.gif" height=166 width=194></center>
+
+<p>La commande [<tt>Edition</tt>]/[<tt>Sujets</tt>]/[<tt>Chercher un sujet</tt>]
+affiche la liste des sujets d&eacute;finis pour la transcription. En cliquant
+sur un nom, le nombre de r&eacute;f&eacute;rences de ce sujet dans la transcription
+est affich&eacute; sous la liste. Le bouton <tt>Suivant</tt> d&eacute;place
+le curseur jusqu'au premier segment de la prochaine occurrence d'une section
+portant sur ce sujet.
+<h4>
+<a NAME="r10.4"></a>10.4. Importer les sujets d'un autre fichier</h4>
+
+<center><img SRC="../img/inter_imptop.gif" height=174 width=208></center>
+
+<p>La commande [<tt>Edition</tt>]/[<tt>Sujets</tt>]/[<tt>Importer &agrave;
+partir du fichier...</tt>] fait choisir un fichier de transcription et
+affiche la liste des sujets de ce fichier qui n'existent pas d&eacute;j&agrave;
+dans la transcription courante. L'utilisateur peut s&eacute;lectionner
+ou d&eacute;s&eacute;lectionner individuellement des sujets en cliquant
+sur la ligne correspondante.
+<h4>
+<a NAME="r10.5"></a>10.5. Supprimer les sujets inutilis&eacute;s</h4>
+La commande [<tt>Edition</tt>]/[<tt>Sujets</tt>]/[<tt>Supprime les sujets
+inutilis&eacute;s...</tt>] supprime de la liste des sujets tous ceux qui
+n'interviennent dans aucune section.
+<h3>
+
+<hr WIDTH="100%"><a NAME="r11"></a>11. Bruit de fond</h3>
+La segmentation en conditions acoustiques sert &agrave; indiquer des modifications
+durables du bruit de fond. Les marqueurs correspondants signalent un changement
+d'&eacute;tat de la valeur du bruit de fond, et leur valeur annule et remplace
+celle du marqueur pr&eacute;c&eacute;dent. Chaque transcription commence
+implicitement &agrave; l'instant initial avec un marqueur de bruit de fond
+vide.
+<h4>
+<a NAME="r11.1"></a>11.1. Cr&eacute;er un bruit de fond</h4>
+
+<center><img SRC="../img/inter_creatbg.gif" height=109 width=214></center>
+
+<p>La commande [<tt>Segmentation</tt>]/[<tt>Ins&eacute;rer un bruit de
+fond</tt>] cr&eacute;e un marqueur de bruit de fond &agrave; la position
+courante du curseur dans le signal. Il n'est pas possible de cr&eacute;er
+deux marqueurs au m&ecirc;me instant. Si le curseur dans le signal est
+exactement au d&eacute;but du segment courant, le marqueur de bruit de
+fond restera toujours synchronis&eacute; avec le d&eacute;but du segment
+et l'ic&ocirc;ne associ&eacute; appara&icirc;tra en d&eacute;but de ligne ; sinon,
+les deux segmentations ne seront pas synchronis&eacute;es. Le type du bruit
+est indiqu&eacute; par un combinaison de diff&eacute;rents choix (parole,
+musique, bruit &eacute;lectrique, autre) avec des bo&icirc;tes &agrave;
+cocher ; le type de bruit propos&eacute; par d&eacute;faut est celui du
+marqueur pr&eacute;c&eacute;dent. L'ic&ocirc;ne d'une note de musique appara&icirc;t
+dans l'&eacute;diteur de texte &agrave; la position courante du texte dans
+le segment. La segmentation en bruit de fond, sous le signal, est color&eacute;e
+en gris&eacute; (par d&eacute;faut) sur les portions du signal comportant
+un bruit de fond.
+<center>
+<p><img SRC="../img/inter_dispbg.gif" height=229 width=417></center>
+
+<h4>
+<a NAME="r11.2"></a>11.2. Indiquer la fin d'un bruit de fond, le changement
+de bruit</h4>
+Il faut cr&eacute;er &agrave; la position correspondant &agrave; la fin
+du bruit un nouveau marqueur de bruit de fond vide, c'est-&agrave;-dire
+en d&eacute;s&eacute;lectionnant tout les types de bruits. Lors des changements
+de bruits, il ne faut pas indiquer la fin du bruit pr&eacute;c&eacute;dent,
+mais uniquement le nouveau bruit lorsque celui-ci remplace l'ancien.
+<h4>
+<a NAME="r11.3"></a>11.3. Modifier ou supprimer un marqueur de bruit de
+fond</h4>
+On peut modifier ou d&eacute;truire un marqueur de bruit de fond en cliquant
+sur l'ic&ocirc;ne en forme de note de musique dans l'&eacute;diteur de
+texte. Dans ce dernier cas, les conditions acoustiques du marqueur pr&eacute;c&eacute;dent
+redeviennent les conditions courantes.
+<h3>
+
+<hr WIDTH="100%"><a NAME="r12"></a>12. Ev&eacute;nements et commentaires</h3>
+
+<h4>
+<a NAME="r12.1"></a>12.1. Ins&eacute;rer un &eacute;v&eacute;nement</h4>
+
+<center><img SRC="../img/inter_event.gif" height=209 width=394></center>
+
+<p>La commande [<tt>Edition</tt>]/[<tt>Ins&eacute;rer un &eacute;v&eacute;nement</tt>]
+ou <tt>Control-d</tt> ouvre une fen&ecirc;tre qui propose de d&eacute;finir:
+<ul>
+<li>
+la cat&eacute;gorie de l'&eacute;v&eacute;nement: bruit, commentaire, balise
+de prononciation, marqueur lexical, changement de langue.</li>
+
+<li>
+la description de l'&eacute;v&eacute;nement par une cha&icirc;ne de caract&egrave;res
+librement &eacute;ditable. Pour chaque cat&eacute;gorie, une liste de valeurs
+pr&eacute;d&eacute;finies avec une description peut n&eacute;anmoins &ecirc;tre
+propos&eacute;e dans un menu &agrave; droite du champ de texte.</li>
+
+<li>
+l'&eacute;tendue temporelle de l'&eacute;v&eacute;nement (sauf pour les
+commentaires) ; un &eacute;v&eacute;nement peut &ecirc;tre instantan&eacute;
+ou avoir une dur&eacute;e ; dans ce cas, il faut indiquer un marqueur de
+d&eacute;but et un marqueur de fin. Un marqueur peut aussi s'appliquer
+uniquement au mot pr&eacute;c&eacute;dent ou suivant.</li>
+</ul>
+
+<h4>
+<a NAME="r12.2"></a>12.2. Ins&eacute;rer le d&eacute;but et la fin d'un
+&eacute;v&eacute;nement</h4>
+Il est possible d'ins&eacute;rer simultan&eacute;ment les marqueurs de
+d&eacute;but et de fin d'&eacute;v&eacute;nement en s&eacute;lectionnant
+avec la souris la portion de texte &agrave; laquelle s'applique l'&eacute;v&eacute;nement
+(par exemple, les quelques mots d'une citation &eacute;trang&egrave;re
+qui recevront un marqueur de langue).
+<h4>
+<a NAME="r12.3"></a>12.3. Ins&eacute;rer un commentaire</h4>
+Avec [<tt>Edition</tt>]/[<tt>Ins&eacute;rer un commentaire</tt>], un &eacute;v&eacute;nement
+de type commentaire est cr&eacute;&eacute;. Les commentaires ont une interface
+similaire aux autres &eacute;v&eacute;nements ; en revanche, ils sont d&eacute;pourvus
+de l'attribut d'&eacute;tendue temporelle.
+<h4>
+<a NAME="r12.4"></a>12.4. Modifier ou supprimer un &eacute;v&eacute;nement</h4>
+Cliquer sur le texte de l'&eacute;v&eacute;nement dans l'&eacute;diteur
+de texte ; le curseur prend la forme d'une fl&egrave;che au-dessus de ces
+marqueurs. Tout les param&egrave;tres sont modifiables, et un bouton propose
+la destruction du marqueur. Il peut &ecirc;tre d&eacute;truit aussi dans
+l'&eacute;diteur de texte en l'effa&ccedil;ant comme un caract&egrave;re
+unique.
+<h4>
+<a NAME="r12.5"></a>12.5. Copier/Coller un &eacute;v&eacute;nement</h4>
+A l'int&eacute;rieur de Transcriber, il est possible de copier et coller
+des &eacute;v&eacute;nements en conservant tous les attributs. Avec d'autres
+applications, le marqueur d'&eacute;v&eacute;nement est remplac&eacute;
+par une balise texte au format XML (ce qui peut ne pas correspondre au
+r&eacute;sultat voulu).
+<h4>
+<a NAME="r12.6"></a>12.6. Cr&eacute;er un raccourci pour un &eacute;v&eacute;nement</h4>
+Voir la section sur les raccourcis.
+<h4>
+<a NAME="r12.7"></a>12.7. Modifier la liste des &eacute;v&eacute;nements</h4>
+
+<center><img SRC="../img/inter_editevent.gif" height=243 width=259></center>
+
+<p>La liste des bruits, des marqueurs de prononciation, des marqueurs lexicaux
+ou des langues peut &ecirc;tre &eacute;dit&eacute;e avec les menus [<tt>Options</tt>]/[<tt>Ev&eacute;nements</tt>]/[<tt>Modifier
+la liste...</tt>]. La valeur sera affich&eacute;e dans l'&eacute;diteur
+et la segmentation ; la description sera rappel&eacute;e dans le menu proposant
+la liste des &eacute;v&eacute;nements pr&eacute;d&eacute;finis. Une ligne
+vide dans la liste appara&icirc;t comme un s&eacute;parateur dans le menu
+lors de l'insertion d'un &eacute;v&eacute;nement. Pour la liste des langue,
+il est souhaitable pour des raisons de coh&eacute;rence de rentrer le code
+iso639 de la langue rajout&eacute;e.
+<h4>
+<a NAME="r12.8"></a>12.8. Configurer l'affichage des &eacute;v&eacute;nements</h4>
+La police de caract&egrave;re et les couleurs utilis&eacute;es pour l'affichage
+des &eacute;v&eacute;nements sont modifiables respectivement par les menus
+[<tt>Options</tt>]/[<tt>Polices</tt>]/[<tt>Ev&eacute;nements</tt>] et [<tt>Options</tt>]/[<tt>Couleurs...</tt>]
+; la fen&ecirc;tre [<tt>Options</tt>]/[<tt>Ev&eacute;nements</tt>]/[<tt>Affichage
+des &eacute;v&eacute;nements...</tt>] permet de choisir la cha&icirc;ne
+de caract&egrave;res de formatage des commentaires et des &eacute;v&eacute;nements,
+ainsi que les marqueurs instantan&eacute;s, de d&eacute;but ou fin pour
+les &eacute;v&eacute;nements.
+<center>
+<p><img SRC="../img/inter_confevent.gif" height=195 width=427></center>
+
+<h3>
+
+<hr WIDTH="100%"><a NAME="r13"></a>13. Raccourcis clavier</h3>
+Le menu [<tt>Options</tt>]/[<tt>Raccourcis clavier...</tt>] propose une
+fen&ecirc;tre de dialogue pour la modification des raccourcis existants,
+leur destruction, ou la cr&eacute;ation de nouveaux.
+<h4>
+<a NAME="r13.1"></a>13.1. D&eacute;finir un raccourci</h4>
+Pour cr&eacute;er un nouveau raccourci, cliquer sur le bouton <tt>Nouveau</tt>
+dans [<tt>Options</tt>]/[<tt>Raccourcis clavier...</tt>] puis renseigner
+la combinaison de touches dans le premier champ, la cha&icirc;ne de caract&egrave;res
+dans le deuxi&egrave;me et valider avec <tt>Modifier </tt>(pour continuer
+l'&eacute;dition) ou <tt>OK </tt>(pour terminer l'&eacute;dition). Il est
+possible de taper directement au clavier la combinaison de touches souhait&eacute;e
+avec <tt>Control</tt>, <tt>Shift</tt>, <tt>Alt</tt>... lorsque le curseur
+se trouve dans le premier champ (<tt>Touches</tt>). Attention, les raccourcis
+clavier pour les commandes du menu peuvent &ecirc;tre remplac&eacute;s
+par vos raccourcis.
+<h4>
+<a NAME="r13.2"></a>13.2. Raccourci pour une expression courante</h4>
+S&eacute;lectionner avec la souris l'expression courante pour laquelle
+on souhaite faire un raccourci, choisir le menu [<tt>Options</tt>]/[<tt>Raccourcis
+clavier...</tt>], entrer le raccourci souhait&eacute; dans le champ <tt>Touches</tt>
+et valider avec <tt>OK</tt>. Le raccourci n'est pas n&eacute;cessairement
+une combinaison de touches mais peut &ecirc;tre aussi constitu&eacute;
+des premi&egrave;res lettres de l'expression. Par exemple, "gor" peut ainsi
+&ecirc;tre remplac&eacute; automatiquement par "Gorbatchev". Ces raccourcis
+sont ind&eacute;pendants du glossaire.
+<h4>
+<a NAME="r13.3"></a>13.3. Raccourci pour un &eacute;v&eacute;nement</h4>
+
+<center><img SRC="../img/inter_bindevent.gif" height=224 width=458></center>
+
+<p>Il est possible de g&eacute;n&eacute;rer un &eacute;v&eacute;nement
+(bruit, commentaire, prononciation, etc.) avec un raccourci clavier. Il
+faut g&eacute;n&eacute;rer dans la transcription un &eacute;v&eacute;nement
+identique &agrave; celui que l'on veut m&eacute;moriser (quitte &agrave;
+le d&eacute;truire ensuite), le s&eacute;lectionner en gris&eacute; avec
+la souris puis suivre la proc&eacute;dure pr&eacute;c&eacute;dente. Le
+texte s&eacute;lectionn&eacute; peut m&ecirc;me &ecirc;tre une combinaison
+arbitraire de texte et d'un ou plusieurs &eacute;v&eacute;nements.
+<h3>
+
+<hr WIDTH="100%"><a NAME="r14"></a>14. Options et configuration de l'interface</h3>
+
+<h4>
+<a NAME="r14.1"></a>14.1. Nom du transcripteur</h4>
+
+<center><img SRC="../img/inter_name.gif" height=29 width=449></center>
+
+<p>Le nom du transcripteur utilisant le logiciel peut &ecirc;tre indiqu&eacute;
+dans [<tt>Options</tt>]/[<tt>G&eacute;n&eacute;ral</tt>]. Ce nom est utilis&eacute;
+comme valeur par d&eacute;faut dans les param&egrave;tres de l'enregistrement
+lors de la cr&eacute;ation d'une nouvelle transcription.
+<h4>
+<a NAME="r14.2"></a>14.2. Enregistrement de l'activit&eacute;</h4>
+
+<center><img SRC="../img/inter_log.gif" height=29 width=450></center>
+
+<p>Le nom d'un fichier pour enregistrer l'activit&eacute; du transcripteur
+peut &ecirc;tre indiqu&eacute; dans [<tt>Options</tt>]/[<tt>G&eacute;n&eacute;ral</tt>].
+Par d&eacute;faut, le champ est vide et la fonction est d&eacute;sactiv&eacute;e.
+Si la fonction est active, le temps de travail est d&eacute;compt&eacute;
+en excluant les pauses, et la quantit&eacute; de travail sur chaque transcription
+(nombre de sections, de tours cr&eacute;&eacute;s, nombre de mots saisis)
+est comptabilis&eacute;e. Ces quantit&eacute;s sont affich&eacute;es dans
+la fen&ecirc;tre [<tt>Fichier</tt>]/[<tt>Informations</tt>] et sont enregistr&eacute;es
+dans le fichier d'activit&eacute; &agrave; la fin de la session. Des informations
+sp&eacute;cifiques par fichier de transcription sont aussi enregistr&eacute;es.
+L'exploitation automatique de ces fichiers n'est actuellement pas r&eacute;alis&eacute;e
+par le logiciel.
+<h4>
+<a NAME="r14.3"></a>14.3. Changer les couleurs</h4>
+
+<center><img SRC="../img/inter_color.gif" height=296 width=331></center>
+
+<p>Le menu [<tt>Options</tt>]/[<tt>Couleurs...</tt>] propose une fen&ecirc;tre
+de dialogue qui permet de modifier la plupart des couleurs utilis&eacute;es
+dans le logiciel.
+<h4>
+<a NAME="r14.4"></a>14.4. Changer les polices de caract&egrave;res</h4>
+
+<center><img SRC="../img/inter_font.gif" height=204 width=226></center>
+
+<p>Les commandes du menu [<tt>Options</tt>]/[<tt>Police</tt>] permettent
+de modifier les polices de caract&egrave;res utilis&eacute;es pour afficher
+diff&eacute;rents textes.
+<h4>
+<a NAME="r14.5"></a>14.5. Traduction de l'interface</h4>
+
+<center><img SRC="../img/inter_conflocal.gif" height=89 width=499></center>
+
+<p>Il est possible de choisir la langue des messages affich&eacute;s dans
+[<tt>Options</tt>]/[<tt>G&eacute;n&eacute;ral...</tt>]. L'anglais est s&eacute;lectionn&eacute;
+par d&eacute;faut, et le fran&ccedil;ais est disponible. Il est possible
+de modifier les traductions de chacun des messages originaux en anglais.
+Il est possible aussi de cr&eacute;er une traduction dans une nouvelle
+langue. Si aucune traduction n'est indiqu&eacute;e, le message en anglais
+s'affiche. La liste des messages &agrave; traduire va &ecirc;tre compl&eacute;t&eacute;e
+progressivement lors de l'affichage de nouveaux messages en anglais. Pour
+conserver ces traductions, il faut indiquer le nom d'un fichier dans le
+champ <tt>Fichier de traduction</tt> dans [<tt>Options</tt>]/[<tt>G&eacute;n&eacute;ral</tt>]
+puis choisir [<tt>Options</tt>]/[<tt>Enregistrer la configuration</tt>].
+<center>
+<p><img SRC="../img/inter_editlocal.gif" height=233 width=315></center>
+
+<h4>
+<a NAME="r14.6"></a>14.6. Deuxi&egrave;me vue du signal</h4>
+
+<center><img SRC="../img/inter_second.gif" height=296 width=441></center>
+
+<p>Le menu [<tt>Options</tt>]/[<tt>Affichage</tt>]/[<tt>Deuxi&egrave;me
+vue du signal</tt>] permet d'afficher ou de masquer une deuxi&egrave;me
+vue du signal, affich&eacute;e &agrave; une autre &eacute;chelle. Il peut
+&ecirc;tre n&eacute;cessaire d'augmenter la taille de la fen&ecirc;tre
+pour la voir effectivement.
+<h4>
+<a NAME="r14.7"></a>14.7. Masquer/afficher la barre centrale des boutons</h4>
+Pour gagner de la place &agrave; l'&eacute;cran, la commande [<tt>Options</tt>]/[<tt>Affichage</tt>]/[<tt>Boutons
+de commande</tt>] commute l'affichage de la barre centrale des boutons
+de commande.
+<h4>
+<a NAME="r14.8"></a>14.8. Enregistrer les options choisies</h4>
+Les options modifi&eacute;es, la position des fen&ecirc;tres, les raccourcis
+claviers, le contenu du glossaire et les nom des fichiers de signal et
+de transcription en cours d'&eacute;dition sont &ecirc;tre enregistr&eacute;es
+avec la commande du menu [<tt>Options</tt>]/[<tt>Enregistrer la configuration</tt>]
+dans un fichier (normalement <tt>~/.transcriber )</tt> qui sera relu au
+d&eacute;marrage de la prochaine session. Les fichiers courants seront
+r&eacute;ouverts automatiquement.
+<p>Avec l'option <tt>Propose d'enregistrer la configuration avant de quitter
+</tt>est
+activ&eacute;e dans [<tt>Options</tt>]/[<tt>G&eacute;n&eacute;ral...</tt>],
+une bo&icirc;te de dialogue est syst&eacute;matiquement affich&eacute;e
+avant de quitter le logiciel pour enregistrer la configuration courante.
+<h3>
+
+<hr WIDTH="100%"><a NAME="r15"></a>15. Autres fonctions</h3>
+
+<h4>
+<a NAME="r15.1"></a>15.1. Informations sur le signal et la transcription</h4>
+Le bouton&nbsp;<img SRC="../img/info.bmp" height=16 width=16>ou la commande
+[<tt>Fichier</tt>]/[<tt>Informations</tt>] permet d'afficher une fen&ecirc;tre
+r&eacute;capitulant des informations sur le nom des fichiers de signal
+et de transcription, la dur&eacute;e du signal, le nombre de mots, de segments,
+de tours de parole, de sections... de la transcription. Le bouton <tt>update
+</tt>d&eacute;clenche
+une mise &agrave; jour des informations affich&eacute;es. Dans le cas o&ugrave;
+l'enregistrement de l'activit&eacute; est activ&eacute;, des informations
+suppl&eacute;mentaires sur la quantit&eacute; de travail effectu&eacute;e
+sont affich&eacute;es.
+<center>
+<h4>
+<img SRC="../img/inter_info.gif" height=190 width=424></h4></center>
+
+<h4>
+<a NAME="r15.2"></a>15.2. Quitter Transcriber</h4>
+Menu [<tt>Fichier</tt>]/[<tt>Quitter</tt>] ou <tt>Control-q</tt> ; la sauvegarde
+de la transcription est propos&eacute;e si cela n'a pas d&eacute;j&agrave;
+&eacute;t&eacute; r&eacute;alis&eacute;. Si l'option correspondante est
+activ&eacute;e, l'enregistrement de la configuration courante est aussi
+propos&eacute;.
+<center>
+<p><img SRC="../img/inter_saveconf.gif" height=93 width=256></center>
+
+<h4>
+<a NAME="r15.3"></a>15.3. Aide</h4>
+Une aide en ligne (affichant en particulier la licence, le manuel du transcripteur
+et le pr&eacute;sent manuel de r&eacute;f&eacute;rence) est disponible
+dans le menu [<tt>Aide</tt>] ; ces documents peuvent &ecirc;tre consult&eacute;s
+plus confortablement avec n'importe quel navigateur HTML g&eacute;rant
+les frames.
+</body>
+</html>

@@ -1,0 +1,397 @@
+# Default configuration for Transcriber
+#  -*-tcl-*-
+				     
+# Personal configuration will be saved upon request in the following file:
+options,unix  ".transcriber"
+options,windows  "transcriber.pref"
+options,macintosh  "Transcriber Configuration"
+
+# defaults scribe's name will be used for initialisation of episode attributes
+scribe,name   "(unknown)"
+
+# does user want shape calculation for rapid display of signal ?
+shape,wanted  -1
+# shall we try to compute shape in background as a subprocess ?
+shape,bg      1
+# minimal duration (in sec.) for needing a shape
+shape,min     30
+# directory where to store signal shapes
+path,shape    ""
+
+# flag to request for automatic plaback after signal selection
+play,auto     0
+# mode: continuous/pause/beep/stop/loop
+playbackMode  "continuous"
+# start back playback from duration
+playbackBefore 0.0
+# pause between two segments
+playbackPause    0.3
+#filename of beep sound file to be played between segments
+playbackBeep	""
+# multiplying factor for frequency during playback - not yet supported
+playbackSpeed 1.0
+
+# interval (in min) between automatic save
+autosave,time 5
+# backup extension for automatically saved files
+backup,ext    ~
+# file name for work monitoring
+trace,name    ""
+# interval (in min.) after which a pause is detected
+trace,time    10
+# save configuration before leaving
+keepconfig 0
+# ask for debug options
+debug    0
+# automatic space insertion
+space,auto 0
+# check spelling of capitalized names
+spell,names 0
+# Prefered cursor position when entering another segment (begin/end)
+preferedPos "end"
+
+# default encoding used for transcriptions (IANA rather than tcl name)
+encoding    ISO-8859-1
+# List of encoding: IANA name/usual name
+encodingList {
+      {UTF-8       "Unicode (UTF-8)"}
+      {}
+      {ISO-8859-1  "Western (Latin1)"}
+      {ISO-8859-2  "Central european (Latin2)"}
+      {CP1250      "Czech for Windows (CP1250)"}
+      {ISO-8859-3  "Latin3"}
+      {ISO-8859-4  "Latin4"}
+      {ISO-8859-5  "Cyrillic (ISO-8859-5)"}
+      {KOI8-R      "Cyrillic (KOI8-R)"}
+      {ISO-8859-6  "Arabic (ISO-8859-6)"}
+      {ISO-8859-7  "Greek (ISO-8859-7)"}
+      {ISO-8859-8  "Hebrew (ISO-8859-8)"}
+      {ISO-8859-9  "Turkish (Latin5)"}
+      {}
+      {EUC-JP      "Japanese (EUC-JP)"}
+      {ISO-2022-JP "Japanese (ISO-2022-JP)"}
+      {Shift_JIS   "Japanese (Shift_JIS)"}
+      {}
+      {EUC-KR      "Korean (EUK-KR)"}
+      {ISO-2022-KR "Korean (ISO-2022-KR)"}
+      {}
+      {Big5        "Traditional Chinese (Big5)"}
+      {GB2312      "Simplified Chinese (GB)"}
+}
+
+# default language for interface (in iso639 code)
+lang	"en"
+# file for localization (default file if empty)
+file,local ""
+
+# some of iso639 language codes
+language	{
+	{ar	Arabic}
+	{bg	Bulgarian}
+	{cs	Czech}
+	{da	Danish}
+	{de	German}
+	{el	Greek}
+	{en	English}
+	{es	Spanish}
+	{fa	Persian}
+	{fi	Finnish}
+	{fr	French}
+	{he	Hebrew}
+	{hi	Hindi}
+	{hu	Hungarian}
+	{it	Italian}
+	{ja	Japanese}
+	{ko	Korean}
+	{la	Latin}
+	{nl	Dutch}
+	{no	Norwegian}
+	{pl	Polish}
+	{pt	Portuguese}
+	{ro	Romanian}
+	{ru	Russian}
+	{sl	Slavonic}
+	{sv	Swedish}
+	{tr	Turkish}
+	{zh	Chinese}
+}
+
+# list of noise events with descriptions
+noise	{
+	{"r"	"[r] respiration"}
+	{"i"	"[i] inspiration"}
+	{"e"	"[e] expiration"}
+	{"n"	"[n] reniflement"}
+	{"pf"	"[pf] soufle"}
+	{""	""}
+	{"bb"	"[bb] bruit de bouche"}
+	{"bg"	"[bg] bruit de gorge"}
+	{"tx"	"[tx] toux, râclement,éternuement"}
+	{"rire"	"[rire] rires du locuteur"}
+	{"sif"	"[sif] sifflement du locuteur"}
+	{""	""}
+	{"b"	"[b] bruit indéterminé"}
+	{"conv"	"[conv] conversations de fond"}
+	{"pap"	"[pap] froissement de papiers"}
+	{"shh"	"[shh] souffle électrique"}
+	{"mic"	"[mic] bruits micro"}
+	{"rire en fond" ""}
+	{"toux en fond" ""}
+	{"indicatif" ""}
+	{"jingle" ""}
+	{"top"    ""}
+}
+
+# list of pronounciation events with descriptions
+pronounce {
+	{"*"	"mal prononcé"}
+	{"lapsus"	""}
+	{"pi"	"[pi] inintelligible"}
+	{"pif"	"[pif] inintelligible/faible"}
+	{"ch"	"[ch] voix chuchotée"}
+	{""	""}
+	{"lu"		"sigle lu"}
+	{"épelé"	"sigle épelé"}
+	{"19 cent..." ""}
+}
+
+# list of lexical events with descriptions
+lexical {
+	{"?"	"orthographe incertaine"}
+	{"^^"	"mot inconnu"}
+	{"néologisme" ""}
+	{"()"	"rupture de syntaxe"}
+}
+
+# format strings for event extent (%s is replaced with event description)
+event,instantaneous	"\[%s]"
+event,begin	"\[%s-]"
+event,end	"\[-%s]"
+event,previous	"+\[%s]"
+event,next	"\[%s]+"
+
+# format string for event type
+event,comment	"{%s}"
+event,language	"lang=%s"
+event,scope "%s"
+event,dependent "%s"
+event,header "%s"
+event,pronounce	"pron=%s"
+event,lexical	"lex=%s"
+event,noise	"%s"
+
+# bindings for insertion of events or special chars in text editor
+# with a list of pairs sequence-string/replacement-char (e.g. ' e => e acute)
+bindings     {
+   {<Alt-r> {<Event desc="r" type="noise" extent="instantaneous"/>}}
+   {<Alt-i> {<Event desc="i" type="noise" extent="instantaneous"/>}}
+   {<Alt-b> {<Event desc="b" type="noise" extent="instantaneous"/>}}
+   {<Alt-plus> {<Event desc="b" type="noise" extent="previous"/>}}
+}
+
+# example of bindings for French
+#bindings     {{`a à} {^a â} {'e é} {`e è} {^e ê} {\"e ë} {^i î} {\"i ï} {^o ô} {^u û} {`u ù} {\"u ü} {ae æ} {,c ç}}
+
+# alternate bindings for Italian etc.
+#bindings     {{u\" ü} {U\" Ü} {o\" ö} {O\" Ö} {a\" ä} {A\" Ä} {,c  ç} {n~  ñ} {a~  ã} {o/  ø} {O/  Ø} {a/  å} {A/  Å} {a`  à} {A`  À} {a^  â} {A^ Â} {e`  è} {E`  È} {e'  é} {E'  É} {i`  ì} {I`  Ì} {i^  î} {I^  Î} {o`  ò} {O`  Ò} {o'  ò} {O'  Ó} {'o  o'} {u`  ù} {U`  Ù}}
+
+# list of words + comments at user convenience
+glossary {}
+
+# conversion of olds [...] events to XML tags for early .xml format
+convert_events 0
+
+# Signal and transcription format
+sig,name      ""
+sig,remote    0
+sig,server    ""
+sig,port      ""
+sig,rate      16000
+sig,channels  mono
+sig,header	0
+sig,map	      {1 0 0 1}
+
+curs,pos	0
+sig,gain	0
+
+path,sounds   ""
+trans,name    ""
+
+# standard extensions for sounds, transcriptions, labels.
+ext,snd       {".au" ".wav" ".snd" ".sph" ".sig" ".sd" ".smp" ".aif" ".aiff" ".mp3"}
+ext,trs       {".xml" ".trs" ".typ"}
+ext,lbl       {".lab" ".lola" ".lbl" ".phn" ".wrd" ".txt"}
+
+# Colors
+color,bg      "#f2e6c8"
+color,bg-sel  "#d0b098"
+color,fg-sync "black"
+color,bg-sync "#96c3b6"
+color,hi-sync "#a8d8c8"
+color,fg-turn "black"
+color,bg-turn "#96bacc"
+color,fg-sect "black"
+color,bg-sect "#e28c86"
+color,fg-back "black"
+color,bg-back "#929496"
+color,fg-text "black"
+color,bg-text "#d9d9d9"
+color,hi-text "#f0f0f0"
+color,fg-evnt "grey50"
+color,bg-evnt "#d9d9d9"
+
+# Fonts
+font,text    {courier 12}
+font,event   {times 14 italic}
+font,axis    {courier 10}
+font,list    {courier 12 bold}
+font,info    {helvetica 10 bold}
+font,mesg    {helvetica 10}
+font,trans   {helvetica 10}
+
+# Some geometry to be saved
+geom,.		""
+geom,.sect	""
+geom,.turn	""
+geom,.evt	""
+geom,.gain	""
+
+# Display
+view,.cmd           1
+view,.inf           0
+view,.snd2          0
+hideLevels	    0
+
+# Principal signal configuration
+.snd.w,height       100
+.snd.w,resolution   30
+view,.snd.scr.reso  1
+view,.snd.seg0      1
+view,.snd.seg1      1
+view,.snd.seg2      1
+view,.snd.bg        1
+
+# Second signal configuration
+.snd2.w,height      50
+.snd2.w,resolution  300
+view,.snd2.scr.reso 1
+view,.snd2.seg0     1
+view,.snd2.seg1     1
+view,.snd2.seg2     1
+view,.snd2.bg       1
+
+# header for childes
+
+chatMode	    0
+
+header {
+{@Begin @Begin}
+{@End @End}
+{@Activities @Activities}
+{@Bg @Bg}
+{@Eg @Eg}
+{@Bck @Bck}
+{@Comment @Comment}
+{@g @g}
+{@Location @Location}
+{@NewEpisode @NewEpisode}
+{@RoomLayout @RoomLayout}
+{@Situation @situation}
+{@TapeLocation @TapeLocation}
+{@TimeDuration @TimeDuration}
+{@TimeStart @TimeStart}
+
+}
+
+# scope for childes
+scope {
+{=! =!}
+{! !}
+{!! !!}
+{'' ''}
+{= =}
+{: :}
+{0 0}
+{:= :=}
+{=? =?}
+{%: %:}
+{% %}
+{> >}
+{< <}
+{<> <>}
+{/ /}
+{// //}
+{/// ///}
+{/- /-}
+{/? /?}
+{* *}
+{+ +}
+{+bck +bck}
+{+trn +trn}
+}
+
+# dependent for childes
+dependent {
+{%act: %act:} 
+{%add: %add:}
+{%alt: %alt:}
+{%cod: %cod:}
+{%coh: %coh:}
+{%com: %com:}
+{%def: %def:}
+{%eng: %eng:}
+{%err: %err:}
+{%exp: %exp:}
+{%fac: %fac:}
+{%flo: %flo:}
+{%gls: %gls:}
+{%gpx: %gpx:}
+{%int: %int:}
+{%lan: %lan:}
+{%mod: %mod:}
+{%mor: %mor:}
+{%mov: %mov:}
+{%par: %par:}
+{%pho: %pho:}
+{%sit: %sit:}
+{%snd: %snd:}
+{%spa: %spa:}
+{%syn: %syn:}
+{%tim: %tim:}
+}
+
+# terminator
+terminator,.	1
+terminator,?	1
+terminator,!	1
+terminator,-?	1
+terminator,-!	1
+terminator,-.	1
+terminator,-'.	1
+terminator,-,.	1
+terminator,-,	1
+terminator,-_	1
+terminator,-	1
+terminator,-'	1
+terminator,,	1
+terminator,;	1
+terminator,#	1
+terminator,-:	1
+terminator,/	1
+terminator,//	1
+terminator,///	1
+terminator,+...	1
+terminator,+..?	1
+terminator,+!?	1
+terminator,+/.	1
+terminator,+/?	1
+terminator,+//.	1
+terminator,+//?	1
+terminator,+"/.	1
+terminator,+",	1
+terminator,+"	1
+terminator,+^	1
+terminator,+<	1
+terminator,+,	1
+terminator,++	1
+terminator,[c]	1

@@ -1,0 +1,102 @@
+diff -c -r nist/lib/makes/make_lnm.txt nist_so/lib/makes/make_lnm.txt
+*** nist/lib/makes/make_lnm.txt	Tue Feb 14 22:39:44 1995
+--- nist_so/lib/makes/make_lnm.txt	Tue Nov 24 15:37:32 1998
+***************
+*** 32,38 ****
+  
+  # Library to make (library name)
+  LIBRARY_ID = LIBRARY_NAME
+! LIBRARY	= lib$(LIBRARY_ID).a
+  # Source files for LIBRARY
+  SRC	= SOURCE_NAMES
+  
+--- 32,38 ----
+  
+  # Library to make (library name)
+  LIBRARY_ID = LIBRARY_NAME
+! LIBRARY	= libnist_$(LIBRARY_ID).so
+  # Source files for LIBRARY
+  SRC	= SOURCE_NAMES
+  
+*** nist/src/lib/sp/exit.c	Thu Jun  6 22:09:46 1996
+--- nist_so/src/lib/sp/exit.c	Tue Nov 24 15:27:52 1998
+***************
+*** 33,39 ****
+  extern int errno;
+  #endif
+  
+! extern char *sys_errlist[];
+  extern char *argv0;
+  extern char *filenameo;
+  extern FILE *fileo;
+--- 33,39 ----
+  extern int errno;
+  #endif
+  
+! /* extern char *sys_errlist[]; */
+  extern char *argv0;
+  extern char *filenameo;
+  extern FILE *fileo;
+diff -c -r nist/src/lib/util/cfg.c nist_so/src/lib/util/cfg.c
+*** nist/src/lib/util/cfg.c	Thu Jun  6 21:11:38 1996
+--- nist_so/src/lib/util/cfg.c	Tue Nov 24 15:59:42 1998
+***************
+*** 553,560 ****
+  	break;
+        case CFG_C:
+  	if (*(cfg->rec_list[ind].value) != NULL_CHAR){
+! 	    if (file_readable(cfg->rec_list[ind].value))
+! 		return(TRUE);
+  	    fprintf(stderr,
+  		    "Error: File '%s' for argument '%s' is un-readable\n",
+  		    cfg->rec_list[ind].value,cfg->rec_list[ind].intern_id);
+--- 553,560 ----
+  	break;
+        case CFG_C:
+  	if (*(cfg->rec_list[ind].value) != NULL_CHAR){
+! 	    /*if (file_readable(cfg->rec_list[ind].value))
+! 		return(TRUE);*/
+  	    fprintf(stderr,
+  		    "Error: File '%s' for argument '%s' is un-readable\n",
+  		    cfg->rec_list[ind].value,cfg->rec_list[ind].intern_id);
+diff -c -r nist/src/scripts/gen_make.sh nist_so/src/scripts/gen_make.sh
+*** nist/src/scripts/gen_make.sh	Wed Nov 16 18:48:42 1994
+--- nist_so/src/scripts/gen_make.sh	Tue Nov 24 16:28:10 1998
+***************
+*** 77,83 ****
+          sh $SCRIPT_DIR/gen_setv.sh < lib/makes/make_lib.txt > src/$srcdir/Makefile
+          $DONE_CMD
+          for srclibdir in $lib_dirs ; do
+!             linklibs="$linklibs -l$srclibdir"
+              $ECHO_NNL "        Initializing src dir $srcdir/$srclibdir . . . "
+              src_names=`(cd src/$srcdir/$srclibdir ; ls -d *.c)|tr '\012' ' '`
+              obj_names=`(cd src/$srcdir/$srclibdir ; ls -d *.c)|sed 's/.c$/.o/'|tr '\012' ' '`
+--- 77,83 ----
+          sh $SCRIPT_DIR/gen_setv.sh < lib/makes/make_lib.txt > src/$srcdir/Makefile
+          $DONE_CMD
+          for srclibdir in $lib_dirs ; do
+!             linklibs="$linklibs -lnist_$srclibdir"
+              $ECHO_NNL "        Initializing src dir $srcdir/$srclibdir . . . "
+              src_names=`(cd src/$srcdir/$srclibdir ; ls -d *.c)|tr '\012' ' '`
+              obj_names=`(cd src/$srcdir/$srclibdir ; ls -d *.c)|sed 's/.c$/.o/'|tr '\012' ' '`
+diff -c -r nist/src/scripts/install.sh nist_so/src/scripts/install.sh
+*** nist/src/scripts/install.sh	Mon Aug 26 21:32:00 1996
+--- nist_so/src/scripts/install.sh	Tue Nov 24 15:36:47 1998
+***************
+*** 59,65 ****
+  7:HP Unix (with gcc):gcc -ansi::cp:ar -rs:ar -ru:HP
+  8:HP Unix (with cc):cc -Aa::cp:ar -rs:ar -ru:HP
+  9:IBM AIX:cc:-g:cp:ranlib:ar ru:AIX
+! 10:Custom:cc:-g:install -s -m 755:ranlib:ar ru:SUN' | tr '\012' ','`
+  Custom=10
+  
+  #get_field(){
+--- 59,66 ----
+  7:HP Unix (with gcc):gcc -ansi::cp:ar -rs:ar -ru:HP
+  8:HP Unix (with cc):cc -Aa::cp:ar -rs:ar -ru:HP
+  9:IBM AIX:cc:-g:cp:ranlib:ar ru:AIX
+! 10:Custom:cc:-g:install -s -m 755:ranlib:ar ru:SUN
+! 11:Linux (.so):gcc:-O -Wall -fPIC:install -s -m 755:true:gcc -shared -o:INTEL' | tr '\012' ','`
+  Custom=10
+  
+  #get_field(){

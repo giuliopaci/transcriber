@@ -1,0 +1,812 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="GENERATOR" content="Mozilla/4.61 [en] (X11; I; Linux 2.2.12-32smp i686) [Netscape]">
+   <meta name="Author" content="C. Barras">
+   <title>Transcriber's History</title>
+</head>
+<body text="#000000" bgcolor="#FFFFFF" link="#0000EF" vlink="#51188E" alink="#FF0000">
+
+<h2>
+History of Transcriber versions</h2>
+
+<hr WIDTH="100%"><b><font size=+0>Version 1.4.4</font></b>
+<p>Released on April 19, 2002.
+<br>needs Tcl/Tk 8.0-8.3, Snack 1.7 or preferably 2.0.1, tcLex 1.2
+<p>New or modified functions:  none.
+<p>Implementation changes or bug fixes:
+<ul>
+<li>
+The cursor disappeared after playing a segment with Shift-Tab - fixed.
+</li>
+
+<li>
+The waveform display was sometimes not correctly refreshed - fixed.
+</li>
+</ul>
+
+
+<hr WIDTH="100%"><b><font size=+0>Version 1.4.3</font></b>
+<p>Released on June 21, 2001.
+<br>needs Tcl/Tk 8.0-8.3, Snack 1.7 or preferably 2.0.1, tcLex 1.2
+<p>New or modified functions:
+<ul>
+<li>
+when Snack version 2.0 is installed with Transcriber, it is possible to
+play only the left or right channel from a stereo file using the new menu
+<tt>[Signal]/[Stereo
+channel]</tt>. It has no effects for mono sound files or when previous
+Snack version 1.7 is used.</li>
+
+<li>
+new conversion filter to .html format, which makes printing the transcription
+possible from any browser.</li>
+
+<li>
+new conversion filter to .cha (Childes/CHAT) format provided by Zhibiao
+Wu. Support for this format is yet experimental. When reading a ".cha"
+file, the tool switches to a CHAT mode with new attributes available in
+the interface. It switches back to the initial mode when creating a new
+transcription or reading a file in any non-Chat format.</li>
+
+<li>
+convert filter to .stm format has been modified; import from .stm is limited
+to the transcription.</li>
+
+<li>
+at first startup, the window automatically fits the whole screen; further
+resizing is better managed.</li>
+
+<li>
+slight corrections for signal and cursor display.</li>
+
+<li>
+(hidden feature, activated by putting 'hideLevels&nbsp; 1' in the configuration
+file): when reading a segmentation file (i.e. .lab file), hide the section/turn/background
+segmentation levels under the signal since they are always empty (their
+display can be switched on again using contextual menu available with the
+right button on the signal)</li>
+
+<br>&nbsp;</ul>
+Implementation changes or bug fixes:
+<ul>
+<li>
+Transcriber has been ported for the Macintosh/G3 platform (thanks to L.
+Spektor for the modifications). A new sub-directory 'src/mac' includes
+resources for the compilation of Snack, tcLex and Transcriber on a Mac
+with CodeWarrior Pro 5.</li>
+
+<li>
+automatic detection of sound files associated to a transcription file now
+works also for uppercase extensions (e.g. .WAV); it used to recognize only
+lowercase extensions (e.g. .wav).</li>
+
+<li>
+<tt>src/shape.c</tt> is now integrated into Snack1.7 (thanks to K. Sj&ouml;lander)
+and is no longer distributed with Transcriber. Various parts of the code
+(<tt>src/wavfm.c</tt>, <tt>tcl/Signal.tcl</tt>, <tt>tcl/Play.tcl</tt>,...)
+has been modified according to the syntax of the new Snack commands. As
+a result, Transcriber 1.4.3 doesn't work with Snack 1.6.</li>
+
+<li>
+the format of the sound shapes has changed and has now the suffix ".shape".
+Previously computed shapes with ".shp" extension become useless and can
+be removed.</li>
+
+<li>
+<tt>src/segmt.c</tt>: corrected a bug in BorderTableFree (attempt to free
+an empty pointer when a wrong segment color name was given)</li>
+
+<li>
+<tt>src/wavfm.c</tt>: a double pixmap buffering is used for speeding up
+cursor-only changes (BTW, pixmaps are now freed at the end); a new widget
+sub-command 'cursor' has been created for that purpose and is used in tcl/Waveform.tcl:proc
+Cursor.</li>
+</ul>
+
+<hr WIDTH="100%"><b><font size=+0>Version 1.4.2</font></b>
+<p>Released on January 6, 2000
+<br>needs Tcl/Tk 8.0-8.2, Snack 1.6, tcLex 1.2
+<p>New or modified functions:
+<ul>
+<li>
+boundary move can be forced with Shift-Button2 (or Shift-Control-Button1)
+- in this case, other boundaries are pushed accordingly.</li>
+
+<li>
+a break can be forced inside a segment with Shift-Return</li>
+
+<li>
+different playback modes can be chosen in [<tt>Signal</tt>]/[<tt>Playback
+mode</tt>] menu (continuous, with pauses, stop or beep at segment boundaries,
+or looping on segment or selection). The mode applies to any further playback.
+Default pause duration, beep file, and also an initial step back before
+playing are set in [<tt>Options</tt>]/[<tt>Audio file...</tt>].</li>
+
+<li>
+default position of the text cursor during automatic synchronization with
+the signal can be chosen in [<tt>Options</tt>]/[<tt>General...</tt>] between
+start and end of line (it used to be the end of line).</li>
+</ul>
+Implementation changes or bug fixes:
+<ul>
+<li>
+in the 'Find and Replace' window, the 'Replace all' button sometimes caused
+an infinite loop - replacement is now stopped at the end of the document.
+Replacement of text within event descriptions failed and is now avoided.</li>
+
+<li>
+in the <tt>segmt</tt> widget, segments are now splitted vertically at first
+form-feed character instead of newline.</li>
+
+<li>
+execution failed if the installation pathname contained spaces - fixed.</li>
+
+<li>
+on first launch, open dialog box in the 'demo' subdirectory rather than
+in the current directory.</li>
+
+<li>
+when cancelling a font chooser and saving the configuration (i.e., [<tt>Options</tt>]/[<tt>Fonts</tt>]/[<tt>...</tt>],
+then <tt>Cancel</tt>, then [<tt>Options</tt>]/[<tt>Save configuration</tt>]),
+current font description was lost - fixed.</li>
+
+<li>
+always display cursor time with 3 digits precision.</li>
+
+<li>
+a date change with monitoring activated caused an infinite loop (e.g. after
+a night of inactivity).</li>
+
+<li>
+under Windows, user configuration file is now saved in the $USERPROFILE
+directory</li>
+
+<li>
+upon creation of a new turn, the channel setting was lost - fixed.</li>
+
+<li>
+the list of encodings is now located inside the <tt>etc/default.txt
+</tt>file
+for easier (manual) configuration.</li>
+
+<li>
+the character set used in any encoding remained restricted to iso-latin1
+in version 1.4.1; it is now extended to the whole Unicode set for Tcl/Tk8.1
+or higher. However, it is not possible to choose a font for a specific
+encoding, and display of non-ascii chars sometimes fails.</li>
+
+<li>
+<tt>src/shape.c</tt> slightly modified to follow API change in Snack1.6.4</li>
+</ul>
+
+<hr WIDTH="100%"><font size=+0><b>Version 1.4.1 </b>(offers Unicode support
+under Tcl/Tk 8.1.1 or higher)</font>
+<p>Released on October 28, 1999
+<br>needs Tcl/Tk 8.0-8.2, Snack 1.6, tcLex 1.2
+<br>compiled under Linux/x86 (Debian 1.3/2.0), Linux/alpha, Solaris (SunOS
+5.5), SGI (IRIX 6.2).
+<p>New or modified functions:
+<ul>
+<li>
+Unicode support, only available under Tcl/Tk 8.1.1 or higher. The encoding
+used for writing the transcriptions can be chosen in [<tt>Options</tt>]/[<tt>General...</tt>].
+It defaults to ISO-Latin-1, but can be modified to Unicode (UTF-8) or other
+widespread 8-bits encodings. The same user-defined encoding is used for
+reading transcriptions produced by earlier versions of Transcriber without
+encoding header. Under Tcl/Tk 8.0, the behaviour remains unchanged and
+makes reading transcriptions in Unicode not possible.</li>
+
+<li>
+Changing all occurences of a speaker to another already existing one is
+possible by changing the old name to the new one.</li>
+</ul>
+Implementation changes or bug fixes:
+<ul>
+<li>
+with Transcriber 1.4 under Tcl/Tk8.1.1 or higher, display of non-ASCII
+chars in the segmentation tier under the signal was followed by garbage;
+this has been corrected. Any Unicode char should be now correctly displayed,
+provided it is available in an installed font.</li>
+
+<li>
+for Windows, call to <tt>XDrawLines</tt> in segmt.c with empty segment
+is avoided.</li>
+
+<li>
+the transcription input/output has been modularized; modules can be added
+into the <tt>convert </tt>sub-directory for supporting new input or output
+formats (see <tt>convert/README</tt> file).</li>
+</ul>
+
+<hr WIDTH="100%"><font size=+0><b>Version 1.4 </b>(mostly a stable version
+of 1.3 beta)</font>
+<p>Released on September 27, 1999
+<br>needs Tcl/Tk 8.0-8.2, Snack 1.6, tcLex 1.2
+<br>compiled under Linux/x86 (Debian 1.3/2.0), Linux/alpha, Solaris (SunOS
+5.5), SGI (IRIX 6.2).
+<p>New or modified functions:
+<ul>
+<li>
+handling of raw sound files is improved - a default header size can be
+given in the [<tt>Options</tt>]/[<tt>Audio file...</tt>] window; changes
+to the default raw sound files settings immediately apply to the current
+sound file if necessary.</li>
+
+<li>
+background color of selected signal can be modified by the user - this
+can be necessary when not enough colors are available in the colormap.</li>
+
+<li>
+a sample of speech conversation transcription is provided in the demo sub-directory.</li>
+
+<li>
+the Help is viewed through '<tt>netscape</tt>' when it is available.</li>
+
+<li>
+a -<tt>patch <i>directory_name</i></tt> option has been added to the command
+line options for 'trans'; this will allow loading some extensions to the
+tool at startup in the future.</li>
+</ul>
+Implementation changes or bug fixes:
+<ul>
+<li>
+no more Makefile at the root directory - all compilation and installation
+is done from within the '<tt>src</tt>' sub-directory.</li>
+
+<li>
+the DTD has been extended with the "elapsed_time" field in the Trans tag
+(intended for total transcription time monitoring, but not currently used)</li>
+
+<li>
+shape calculation mode disabled by default for Windows platform; background
+calculation is always disabled.</li>
+</ul>
+
+<hr WIDTH="100%"><b><font size=+0>Version 1.3b7</font></b>
+<p>Released on July 6, 1999
+<br>needs Tcl/Tk 8.0 or 8.1, Snack 1.5p2 or 1.6a2 (do not use 1.6b1 under
+Linux), tcLex 1.1.3 (do not use older release with Tcl/Tk8.1)
+<br>compiled under Linux/x86 (Debian 1.3/2.0), Linux/alpha, Solaris (SunOS
+5.5), SGI (IRIX 6.2), Windows NT.
+<p>New or modified functions:
+<ul>
+<li>
+check spelling (GUI for using 'ispell' external program)</li>
+
+<li>
+upon reading a transcription, look for a more recent automatically saved
+version and ask user to restore from this version instead (in case of crash
+during previous session)</li>
+
+<li>
+playback with pauses at segment boundaries (menu [<tt>Signal</tt>]/[<tt>Play
+with pauses</tt>])</li>
+
+<li>
+significant update of French user and reference manuals</li>
+
+<li>
+remote sound file server is functional again (tcl/SoundServer.tcl has to
+be launched on the host)</li>
+
+<li>
+menu for sorting an edited list (bindings, localization, etc.) upon any
+field (name, value...)</li>
+
+<li>
+slight modifications in .stm format</li>
+</ul>
+Implementation changes or bug fixes:
+<ul>
+<li>
+no clock calibration needed anymore (instead, native Snack "audio elapsedTime"
+function available since 1.5p2 is used); cursor and callbacks management
+in tcl/Play.tcl updated.</li>
+
+<li>
+mp3 sound files work with the most recent Snack versions (1.6a2).</li>
+
+<li>
+new Snack sub-command "order", to be used in conjunction with "shape" and
+"get" sub-commands for remote sound file access in heterogeneous network.</li>
+
+<li>
+use a specific Snack API allowing support of Transcriber under Windows
+NT platform.</li>
+
+<li>
+updated "Help" menu for display of correct .html files.</li>
+</ul>
+
+<hr WIDTH="100%"><b><font size=+0>Version 1.3b6</font></b>
+<p>Released on May 17, 1999
+<p>New or modified functions:
+<ul>
+<li>
+completely new French reference and user manual (HTML format)</li>
+
+<li>
+current cursor position in signal and vertical zoom are now saved with
+session configuration</li>
+
+<li>
+at user option, saving current configuration is proposed before leaving</li>
+
+<li>
+direct access to a cursor position is now possible with menu [Signal]/[Go
+to...] or by clicking on the message under the signal</li>
+
+<li>
+direct control of sound level in [Signal]/[Control Panel]; vertical zoom
+moved to the same window</li>
+
+<li>
+at startup, sound files are automatically detected, even if their suffix
+is unknown or lacking (in 1.3b5, they were rejected with the message "format
+unknown"); more suffixes are now recognized (.aif, .aiff, .smp)</li>
+
+<li>
+move segment boundaries can also be done using control-left button 1 (instead
+of middle button) for 2-buttons only mouse users.</li>
+
+<li>
+modification date and version are not editable any more in Episode window.</li>
+
+<li>
+language list is now displayed in lexicographical order of the current
+langugage.</li>
+</ul>
+Implementation changes or bug fixes:
+<ul>
+<li>
+corrected bug in 1.3b5 with activity logging when day changed during session
+(caused infinite loop)</li>
+
+<li>
+corrected bug in update of turn and section button colors in the text editor</li>
+
+<li>
+changed duration for recalibration of clock to 10 seconds.</li>
+</ul>
+To be corrected or not implemented:
+<ul>
+<li>
+"undo" very limited</li>
+
+<li>
+no spelling correction, automatic completion etc. yet</li>
+
+<li>
+no printing</li>
+
+<li>
+mp3 sound files partially working, but randomly causing Transcriber to
+crash</li>
+</ul>
+
+<hr WIDTH="100%"><b>Version 1.3b5</b>
+<p>Released on March 23, 1999
+<p>New or modified functions:
+<ul>
+<li>
+transcription time monitoring has been rewritten and is displayed inside
+the "Informations" window if a log file is given</li>
+
+<li>
+upon startup, user is asked either for a transcription file or for an audio
+file.</li>
+</ul>
+Implementation changes or bug fixes:
+<ul>
+<li>
+bug in 1.3b4 with turn attributes edition</li>
+</ul>
+
+<hr WIDTH="100%"><b>Version 1.3b4</b>
+<p>Released on March 16, 1999
+<p>New or modified functions:
+<ul>
+<li>
+Cut/Copy/Paste of mixed text and events works as expected</li>
+
+<li>
+Bindings replacement string can include Events (through copy/paste or directly
+with selection); binding key can be typed as-is in the editor field</li>
+
+<li>
+Automatic space insertion at user option</li>
+
+<li>
+Save the geometry of some windows</li>
+
+<li>
+A user glossary is available</li>
+
+<li>
+Imported speaker can be selected; topics can also be imported the same
+way. Unused topics and speakers can be removed. All these functions are
+available with menu "Edit/Speakers" or "Edit/Topics"</li>
+</ul>
+Implementation changes or bug fixes:
+<ul>
+<li>
+Bug correction in shape.c for 8bit wav sound files</li>
+
+<li>
+Format used in list edition since 1.3b3 slightly modified to allow a generic
+n-fields edition instead of 2-fields only</li>
+</ul>
+
+<hr WIDTH="100%"><b>Version 1.3b3</b>
+<p>Released on March 7, 1999
+<p>New or modified functions:
+<ul>
+<li>
+DTD: extended Event tag with attributes type (noise/lexical/pronounce/language)
+and extent (begin/end/previous/next/instantaneous); previously defined
+Events default to instantaneous noise.</li>
+
+<li>
+Edition of Event has been upgraded to ths new format</li>
+
+<li>
+Background shape computation is back at user option</li>
+
+<li>
+Events are displayed in the segmentation bar; they weren't any more in
+1.3b2</li>
+
+<li>
+Overlapping speech is now managed inside turn window</li>
+
+<li>
+Turns and sections can be destroyed from within their edition window</li>
+
+<li>
+Information window now also gives information about transcription</li>
+
+<li>
+Signal and transcription name are both displayed in the button bar when
+necessary</li>
+
+<li>
+Better localization of the interface</li>
+
+<li>
+Added menu "File/Export/..." for explicit exportation to non-native format;
+"File/Save" and "File/Save as..." always use native XML format</li>
+
+<li>
+Default extension of transcription files has been changed to .trs; .xml
+can still be used</li>
+
+<li>
+User configuration of:</li>
+
+<ul>
+<li>
+language list (in iso639 code)</li>
+
+<li>
+noise events list</li>
+
+<li>
+pronounce events list</li>
+
+<li>
+lexical events list</li>
+
+<li>
+display format of events, their color</li>
+
+<li>
+bindings</li>
+
+<li>
+localization strings in any language</li>
+</ul>
+</ul>
+Implementation changes or bug fixes:
+<ul>
+<li>
+Switched to Snack1.5 (final), tcLex1.1 (final) and tcl8.0.5 for development
+(should still work with previous 8.0.x)</li>
+
+<li>
+C sources: reworked shape.c for use of latest Snack function and shape
+display of any type of sound file, including compressed ones.</li>
+
+<li>
+File format .typ has been corrected to come back to 1.2 behaviour</li>
+
+<li>
+Updated Transcriber URL to its new home page inside distribution and docs</li>
+
+<li>
+no more patch to tk_getSaveFile lib for choosing the save format</li>
+</ul>
+
+<hr WIDTH="100%"><b>Version 1.3b2</b>
+<p>(not publically) released on February 12, 1999
+<p>New or modified functions:
+<ul>
+<li>
+DTD:</li>
+
+<ul>
+<li>
+added channel attibutes in Turn tag (=telephone/studio)</li>
+
+<li>
+added scope attribute in Speaker tag (=local/global)</li>
+</ul>
+
+<li>
+Added "File/Import speakers..." menu: import all speakers from a .xml file</li>
+
+<li>
+Automatic insertion of spaces before punctuations</li>
+
+<li>
+Suppressed "File/Close" menu</li>
+
+<li>
+Write to .stm format for further exploitation</li>
+</ul>
+Implementation changes or bug fixes:
+<ul>
+<li>
+Modifs to Xml parsing libs</li>
+</ul>
+
+<hr WIDTH="100%"><b>Version 1.3b1</b>
+<p>Released on January 21, 1999 - test under Linux (Debian 1.3/2.0), Solaris
+(SunOS 5.5), SGI (IRIX 6.2).
+<p>New or modified functions:
+<ul>
+<li>
+a new XML format becomes the native format for the tool instead of LDC's
+.typ</li>
+
+<li>
+validity of the transcription is checked upon the DTD (i.e. the syntax
+of the format)</li>
+
+<li>
+general informations about the transcriber name, the emission or the signal
+file are now kept along with the transcription</li>
+
+<li>
+when opening a transcription, the corresponding sound file is open automatically</li>
+
+<li>
+background music or noise is now handled and displayed in a separate transcription
+tier</li>
+
+<li>
+Speech or non-speech events and of comments are now handled as XML tags
+rather than normal text</li>
+
+<li>
+management of overlapping speech has been reworked</li>
+
+<li>
+management of speakers and topics is easier and more powerful, and allows
+global research and edition of speakers or topics</li>
+
+<li>
+automatic shape computation for large signals can be disabled at user option</li>
+
+<li>
+loading raw files is once again a problem - but it should work even better
+than before with future updates of Snack module...</li>
+
+<li>
+transcriber's productivity can be logged in a file at user option</li>
+</ul>
+Implementation changes:
+<ul>
+<li>
+SoX libraries aren't used anymore; instead, all sound files are accessed
+with Snack module; specific open_sound and play_sound command disapeared</li>
+
+<li>
+tcLex module from Fr&eacute;d&eacute;ric Bonnet (a lexical analyser generator
+for Tcl) is now used for the implementation of an object-oriented tcl-only
+validating XML parser</li>
+
+<li>
+installation procedure and global tool structure has been reworked thanks
+to D. van Leeuven useful hints</li>
+</ul>
+
+<hr WIDTH="100%"><b>Version 1.2</b>
+<p>Released on September 16, 1998 - test under Linux (Debian 1.3 and Redhat
+4.3), Solaris, SGI (IRIX 6.2).
+<p>New functions:
+<ul>
+<li>
+Signal:</li>
+
+<ul>
+<li>
+Display topic and speaker segmentation under the waveform along with text
+segmentation.</li>
+
+<li>
+Ability to display a second view of the signal at a different scale.</li>
+
+<li>
+Possibility to open raw sound files.</li>
+
+<li>
+Contextual menus on the waveform for direct actions on the signal and its
+display.</li>
+</ul>
+
+<li>
+Transcription:</li>
+
+<ul>
+<li>
+Undo/Redo, limited to segmentation boundary moves and text changes (undo
+all text modifs in the current segment since cursor moved into it).</li>
+
+<li>
+Find and replace in the text.</li>
+
+<li>
+Automatic auto-save at periodic intervals.</li>
+
+<li>
+New XML format for transcription output (format will probably be modified
+soon - see discussion about formats).</li>
+</ul>
+
+<li>
+Management of overlapping speech over one segment.</li>
+
+<li>
+More configurable options (fonts, colors, windows to display...). Most
+user choices (including current sound file, transcription file and current
+resolution display) are saved in the "~/.transcriber" user configuration
+file upon request.</li>
+
+<li>
+Localization of the menus in english or in french as option; other languages
+can be easily added.</li>
+
+<li>
+Help in HTML format.</li>
+</ul>
+Bug fixes:
+<ul>
+<li>
+Topics were lost when file was saved as ".typ". Original LDC format was
+slightly modified to include topic. Markup for overlapping speech is now
+recognized.</li>
+
+<li>
+Default configuration file was named "~/.trancriber" (without 's'); it
+was corrected.</li>
+
+<li>
+Shortcut for 'Signal/Replay Segment' has been moved from &lt;Alt-Tab> to
+&lt;Shift-Tab>; it could be a problem on some platforms.</li>
+
+<li>
+Menus 'Segmentation/Move to.../First segment' and '.../Last segment' are
+now executed.</li>
+
+<li>
+... plus a lot of minor changes</li>
+</ul>
+Implementation changes:
+<ul>
+<li>
+Internal data management has been completely rewritten. Transcriptions
+are stored in memory as a tree structured like an XML file, and are accessed
+with a set of procedures in "tcl/Tags.tcl". Input file parsing is very
+simplified (an XML-conformant library using tcLex extension for Tcl written
+by Fr&eacute;d&eacute;ric Bonnet is under development).</li>
+
+<li>
+Sound files are accessed via a new Tcl command "open_sound" which calls
+sox and/or sphere libraries and creates a new "sound-file" Tcl command
+- not (yet) compatible with Snack "sound" commands. Playback with a new
+Tcl command "play_sound" which calls Snack libraries. These functions are
+documented in the "doc" sub-directory.</li>
+
+<li>
+Sound shape (pre-computed at the resolution of 10 ms per pixel) are not
+computed in background any more. Rather, the interface is stopped the first
+time a large sound file is open during the shape computation; it is then
+saved for the next time it is needed.</li>
+
+<li>
+Remote audio playback server is no longer available; it seemed not to be
+essential, and Snack playback design is more robust. Remote audio file
+server is still in the distribution, but the default behaviour is to read
+audio files locally without launching the audio file server on the local
+host. If needed, the file server should be configured before launching
+to avoid security holes (e.g. by testing the client port or the sound file
+directory).</li>
+
+<li>
+axis, wavfm and segmt new Tk widgets have been updated (but they are not
+yet documented):</li>
+
+<ul>
+<li>
+wavfm widget now calls a "sound-file" command created with the "open_sound"
+command for shape calculation rather than reading/writing a channel (pipe
+or socket). Widget options "-width" and "-height" added.</li>
+
+<li>
+segmt widget support one indirection level for time indices : start and
+end segment times can be an index in an associative array. Time array and
+list of segment variables are automatically traced, and the widget is redisplayed
+if they are modified. Some minor other fixes.</li>
+
+<li>
+axis and segmt widgets are redrawn if named fonts are modified (allows
+interactive fonts configuration).</li>
+</ul>
+</ul>
+
+<ul>
+<li>
+Distribution structure:</li>
+
+<ul>
+<li>
+the main distribution directory is now named Trans-x.y (x.y being 1.2 in
+this version). For simplification, the "editor" sub-directory has been
+suppressed and its content ("doc", "img", "src", "tcl") is in the first
+level. The "pkg" sub-directory has been renamed "lib". The "bin" and "obj"
+sub-directory are no longer used.</li>
+
+<li>
+all C extensions to Tcl/Tk are grouped in a single auto-loadable package
+"libtrans.so"; there are no binary executable to be launched in background
+any more.</li>
+
+<li>
+a patched version of the last distribution of SoX (v-12.14) is included
+in the distribution in the "contrib" sub-directory</li>
+
+<li>
+html_library-0.3 from Stephen Uhler is included in the "lib" sub-directory.</li>
+
+<li>
+Snack official distribution is used without any patch. The lite version
+of the package is installed in the "lib" sub-directory.</li>
+
+<li>
+a configure procedure is available for the compilation of C sources in
+the "src" sub-directory</li>
+</ul>
+</ul>
+
+<hr WIDTH="100%"><b>Version 1.1</b>
+<p>Released on June 26, 1998 - test under Linux (Debian), Solaris, SGI.
+<p>Modifications:
+<ul>
+<li>
+SNACK 1.1 module from K&aring;re Sj&ouml;lander is used instead of Sox
+libraries for audio playback. This solution is more stable and portable
+: Snack works under HP-UX, Sun Solaris, SGI IRIX, Linux, and Windows 95/NT.
+The module is used in a patched version.</li>
+
+<li>
+No modifications of the user interface, installation procedure still rather
+crude.</li>
+</ul>
+
+<hr WIDTH="100%"><b>Version 1.0</b>
+<p>Released on May 25, 1998 - development under PC/Linux (Debian 1.3);
+test under Sun Solaris.
+</body>
+</html>

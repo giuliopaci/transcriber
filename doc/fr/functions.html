@@ -1,0 +1,167 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+<HEAD>
+   <TITLE>Fonctionnalit&eacute;s de Transcriber</TITLE>
+   <META NAME="GENERATOR" CONTENT="Mozilla/3.01Gold (X11; I; Linux 2.0.33 i686) [Netscape]">
+</HEAD>
+<BODY TEXT="#000000" BGCOLOR="#FFFFFF" LINK="#0000EF" VLINK="#51188E" ALINK="#FF0000">
+
+<H2>Fonctionnalit&eacute;s</H2>
+
+<H4>Transcriptions</H4>
+
+<UL>
+<LI>gestion de plusieurs niveaux de segmentation :&nbsp;la segmentation
+&eacute;l&eacute;mentaire (g&eacute;n&eacute;ralement une segmentation
+par phrase ou &agrave; chaque prise de souffle), la segmentation en tours
+de parole (changement de locuteur) et la segmentation en grandes sections
+(changement d'&eacute;mission, de sujet...) ; &agrave; ces 3 niveaux imbriqu&eacute;es
+de mani&egrave;re hi&eacute;rarchique s'ajoute une 4&egrave;me segmentation
+en condition acoustique (bruit de fond) ind&eacute;pendante</LI>
+
+<LI>affichage des segmentations sous le signal ainsi que dans la fen&ecirc;tre
+de texte ; l'affichage de la segmentation sous le signal peut &ecirc;tre
+d&eacute;sactiv&eacute; ou r&eacute;activ&eacute; par un menu contextuel</LI>
+
+<LI>&eacute;dition de la transcription orthographique associ&eacute;e &agrave;
+la segmentation &eacute;l&eacute;mentaire dans une fen&ecirc;tre d'&eacute;dition
+de texte</LI>
+
+<LI>synchronisation permanente entre la position du curseur dans le texte
+et du curseur dans le signal :&nbsp;quand le curseur change de segment
+dans une fen&ecirc;tre (texte ou signal), le curseur de l'autre fen&ecirc;tre
+est d&eacute;plac&eacute; automatiquement pour appara&icirc;tre dans le
+m&ecirc;me segment</LI>
+
+<LI>cr&eacute;ation ais&eacute;e d'une segmentation &eacute;l&eacute;mentaire
+du signal par insertions successives de fronti&egrave;res &agrave; la position
+courante du curseur, et ce sans interrompre la lecture du son</LI>
+
+<LI>d&eacute;placement des fronti&egrave;res des segments avec la souris</LI>
+
+<LI>insertion de marqueurs de changement de conditions acoustiques (musique,
+conversations, autres bruits)&nbsp;&agrave; la position du curseur dans
+le signal</LI>
+
+<LI>d&eacute;signation de fronti&egrave;res comme d&eacute;but de nouveau
+tour de parole ou comme traitant d'un nouveau sujet</LI>
+
+<LI>&eacute;dition des tours de parole, des changements de section ou des
+conditions acoustiques par clic de souris sur le bouton correspondant dans
+l'&eacute;diteur, avec possibilit&eacute; de destruction</LI>
+
+<LI>gestion d'une liste des locuteurs avec la description pr&eacute;cise
+de chacun (nom, genre, accent...), modification ult&eacute;rieure de ses
+caract&eacute;ristiques, recherche des prises de parole d'un locuteur dans
+la transcription, importation s&eacute;lective des locuteurs d'une autre
+transcription</LI>
+
+<LI>de m&ecirc;me, gestion d'une liste des sujets, recherche des sections
+portant sur un sujet, importation s&eacute;lective de sujets &agrave; partir
+d'un autre fichier</LI>
+
+<LI>gestion sp&eacute;cifique de la parole superpos&eacute;e avec la pr&eacute;sence
+dans le texte de marqueurs pour les tours de parole des deux locuteurs</LI>
+
+<LI>insertion d'&eacute;v&eacute;nements pr&eacute;d&eacute;finis (bruits,
+marqueurs de prononciation, marqueurs lexicaux, changement de langue ou
+commentaires), qui peuvent &ecirc;tre instantan&eacute;s ou d&eacute;signer
+le d&eacute;but ou la fin de l'&eacute;v&eacute;nement ; affichage dans
+un format sp&eacute;cifique (police, couleur, balises de d&eacute;but et
+fin) modifiable par l'utilisateur; &eacute;dition ou destruction en cliquant
+sur le texte</LI>
+
+<LI>fonctionnalit&eacute;s standard d'&eacute;dition du texte de la transcription
+:&nbsp;couper/copier/coller, annuler (tr&egrave;s limit&eacute;), chercher/remplacer...</LI>
+
+<LI>correction orthographique utilisant le logiciel 'ispell'</LI>
+
+<LI>glossaire de mots ou d'expressions pr&eacute;d&eacute;finies </LI>
+
+<LI>fichiers au format XML pour une exploitation automatis&eacute;e et
+des &eacute;changes simplifi&eacute;s ; validation des fichiers lus d'apr&egrave;s
+la syntaxe normalis&eacute;e (DTD)</LI>
+
+<LI>choix du format d'encodage pour l'enregistrement et la relecture des
+transcriptions ; les formats standards (ISO-8859-*, EUC-JP...)&nbsp;et
+Unicode (UTF-8) sont disponibles.</LI>
+
+<LI>&agrave; l'ouverture d'un fichier de transcription, recherche automatique
+du signal correspondant par diverses heuristiques; s'il n'est pas trouv&eacute;,
+une fen&ecirc;tre de dialogue permet de le d&eacute;signer (et &eacute;ventuellement
+de n'utiliser aucun signal).</LI>
+
+<LI>importation automatique des fichiers .typ et de divers formats de segmentations
+(xwaves, OGI...); exportation en .typ et .stm</LI>
+
+<LI>enregistrement automatique &agrave; intervalle r&eacute;gulier et r&eacute;cup&eacute;ration
+en cas de plantage</LI>
+
+<LI>conservation de la version pr&eacute;c&eacute;dente dans un fichier
+de secours</LI>
+</UL>
+
+<H4>Manipulation des signaux</H4>
+
+<UL>
+<LI>lecture des formats audio les plus standards (via la librairie Snack)</LI>
+
+<LI>gestion de signaux audio de longue dur&eacute;e (jusqu'&agrave; plusieurs
+heures);<BR>
+pour les signaux de plus de 30 secondes, une image &agrave; faible r&eacute;solution
+du signal est pr&eacute;-calcul&eacute;e en t&acirc;che de fond et stock&eacute;e
+afin d'acc&eacute;lerer les affichages ult&eacute;rieurs</LI>
+
+<LI>acc&egrave;s direct &agrave; n'importe quelle position du signal ;
+s&eacute;lection d'une portion du signal</LI>
+
+<LI>curseur d&eacute;filant lors de la restitution audio</LI>
+
+<LI>plusieurs modes de lecture accessibles par combinaison de touches :&nbsp;lecture/pause
+simple, lecture de la totalit&eacute; du segment courant, de la s&eacute;lection,
+ou encore d'un intervalle avant et apr&egrave;s le curseur</LI>
+
+<LI>changement interactif de l'&eacute;chelle d'affichage sans interruption
+du son</LI>
+
+<LI>possibilit&eacute; d'afficher deux vues du signal &agrave; des &eacute;chelles
+diff&eacute;rentes</LI>
+
+<LI>zoom vertical</LI>
+</UL>
+
+<H4>Autres fonctions</H4>
+
+<UL>
+<LI>affichage en secondes de la position du curseur durant la restitution,
+des bornes de la s&eacute;lection, et de divers messages sous le signal</LI>
+
+<LI>enregistrement possible de la quantit&eacute; de travail effectu&eacute;e
+par le transcripteur &agrave; chaque session pour un suivi de la productivit&eacute;
+(&agrave; activer dans les options)</LI>
+
+<LI>fen&ecirc;tre d'information sur le signal (nom, dur&eacute;e, format),
+sur l'&eacute;tat de la transcription &agrave; l'instant consid&eacute;r&eacute;
+(nombre de segments des diff&eacute;rents niveaux de segmentation, nombre
+de mots...) et &eacute;ventuellement le travail produit dans la session
+(si le suivi est activ&eacute;)</LI>
+
+<LI>&eacute;dition de la liste des &eacute;v&eacute;nements pr&eacute;d&eacute;finis
+(bruits, prononciation...)</LI>
+
+<LI>&eacute;dition des raccourcis claviers (pouvant inclure des balises
+d'&eacute;v&eacute;nements)</LI>
+
+<LI>choix des polices de caract&egrave;res et des couleurs utilis&eacute;es
+par l'interface</LI>
+
+<LI>interface internationalisable par l'utilisateur dans toutes les langues
+(anglais et fran&ccedil;ais en standard)</LI>
+
+<LI>possible sauvegarde des noms des fichiers ouverts, des options et de
+la position des fen&ecirc;tres pour la session suivante dans un fichier
+de configuration</LI>
+</UL>
+
+</BODY>
+</HTML>

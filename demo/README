@@ -1,0 +1,14 @@
+Short samples of sound files with associated transcriptions are provided.
+
+* frint980428.wav/.trs is a sample of French radio
+
+* know.sph/.trs is a short fragment of an English telephone conversation
+
+NB: know.sph is in the NIST/Sphere sound file format. The Snack module must
+be installed with a specific extension for this format to be recognized.
+If this is not the case, you can still get a correct display of know.sph
+by setting the following options in the Options/Audio File... window:
+  - Rate:        8000
+  - Channels:    stereo
+  - Header size: 1024
+

@@ -1,0 +1,123 @@
+<title>HTML 2.0 form support</title>
+<H1>Forms reference document</h1>
+<hr>
+<h2> Input fields</h2>
+<p>
+<form>
+<ul>
+<li>Text fields
+	<ul>
+	<li>Basic: <input name=basic>
+	<li>Initialized: <input name=init value="some data">
+	<li>Specify type: <input name=type type=text>
+	<li>Specify size
+		<ul>
+		<li>1 <input name=s1 size=1>
+		<li>5 <input name=s5 size=5>
+		<li>30 <input name=s30 size=30 value="this has data too">
+		</ul>
+	<li>Specify maxlength
+		<ul>
+		<li>1 <input name=m1 maxlength=1>
+		<li>5 <input name=m5 maxlength=5>
+		<li>30 <input name=m30 maxlength=30>
+		</ul>
+	<li>I suppose for completeness, I should include an entry field (or 2)
+		that includes both maximum length and size (length/size)
+		<ul>
+		<li>1/1 <input name=a maxlength=1 size=1>
+		<li>1/5 <input name=b maxlength=1 size=5> (this is silly)
+		<li>5/3 <input name=c maxlength=5 size=3>
+		</ul>
+	</ul>
+<li>Password fields are like input fields, only you can't see what you
+	are typing.  The <tt>value</tt> attribute is required for some reason.
+	<ul>
+	<li>Normal password: <input type=password name=secret value="">
+	<li>Password, with max size and length:
+		<input type=password name=secret2 size=8 maxlength=8 value="sh">
+	</ul>
+<li>Check boxes are either on or off
+	<ul>
+	<li>This on is off: <input type=checkbox name=c1 value=off>
+	<li>This on is on: <input type=checkbox checked name=c1 value=on>
+	</ul>
+<li>Radiobuttons come in groups.  Exactly one button in each group
+	may be selected at once.
+	<ul>
+	<li>Group 1 - none selected:
+		<input type=radio name=r1 value=a>
+		<input type=radio name=r1 value=b>
+		<input type=radio name=r1 value=c>
+	<li>Group 2 - one selected:
+		<input type=radio name=r2 value=a>
+		<input type=radio name=r2 value=on CHECKED>
+		<input type=radio name=r2 value=c>
+	</ul>
+<li>Image types.  These are just like image maps, only inside forms.
+	They also act like submit buttons:<br>
+	<input type=image name=lake src=lake.gif>
+<li>Reset buttons.  These reset everything to their initial values
+	<ul>
+	<li>normal: <input type=reset>
+	<li>label specified: <input type=reset value=oops>
+	</ul>
+<li>Submit buttons. If you have only 1 input field, or an image map,
+	then you don't need a submit button.  Otherwise you do,  You can
+	have several, and each can supply a different value.
+	<ul>
+	<li>normal: <input type=submit>
+	<li>label specified: <input type=submit value="hit&#10;me">
+	<li>Optional value <input type=submit name=sub value="Mee-too">
+	</ul>
+<li>Finally, there are hidden fields.  You can't see them, but they
+	send their values back anyway.  There is one right
+	here (<input type=hidden name=hide value=hidden>).
+</ul>
+</form><form>
+<hr>
+<h2>Selection fields (this is a differenct form) </h2>
+<p>
+Selection fields contain an enumerated list of values
+<ul>
+<li>Default
+	<select name=override>
+	<option>red
+	<option>green
+	<option>blue
+	</select>
+<li>The values returned don't have to match what you see
+	<select name=default>
+	<option value=F00>red
+	<option value=0F0>green
+	<option value=00F>blue
+	</select>
+<li>Specified number of visible items
+	<ul>
+	<li>1 (This user interface is temporary - what would YOU like to see instead?)
+		<select name=sel1 size=1>
+		<option>red
+		<option>green
+		<option>blue
+		</select>
+	<li>3
+		<select name=sel3 size=3>
+		<option>red
+		<option>green
+		<option>blue
+		<option>purple
+		<option>mauve
+		</select>
+	</ul>
+</ul>
+<hr>
+<h2>Text Areas</h2>
+<p>
+Text area fields allow free-form, preformatted text.<br>
+<textarea name=text cols=30 rows=5
+>This is the text
+that is used as an initial
+value.
+</form>
+<hr>
+<a href=help.html>home</a>

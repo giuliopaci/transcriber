@@ -1,0 +1,523 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="GENERATOR" content="Mozilla/4.61 [en] (X11; I; Linux 2.2.12-32smp i686) [Netscape]">
+</head>
+<body text="#000000" bgcolor="#FFFFFF" link="#0000FF" vlink="#FF0000" alink="#000088">
+
+<h1>
+Transcriber 1.4 file's map</h1>
+
+<h2>
+&nbsp;Transcriber-1.4/</h2>
+
+<ul>
+<li>
+COPYING</li>
+
+<li>
+README</li>
+
+<li>
+contrib/html_library-0.3/*</li>
+
+<dd>
+Simple HTML display library version 0.3 by Stephen Uhler</dd>
+
+<li>
+<a href="#convert">convert/*</a></li>
+
+<dd>
+Tcl script modules for format conversion</dd>
+
+<li>
+demo/*</li>
+
+<dd>
+sound and transcription demo files</dd>
+
+<li>
+doc/*</li>
+
+<dd>
+help files</dd>
+
+<li>
+etc/*</li>
+
+<dd>
+default configuration file, DTD, localization file</dd>
+
+<li>
+img/*</li>
+
+<dd>
+bitmap images</dd>
+
+<li>
+<a href="#src">src/*</a></li>
+
+<dd>
+sources for new Tcl commands and Tk widgets</dd>
+
+<li>
+<a href="#tcl">tcl/*</a></li>
+
+<dd>
+Tcl scripts</dd>
+</ul>
+
+<h2>
+
+<hr WIDTH="100%"><a NAME="tcl"></a>tcl/*</h2>
+
+<h3>
+tcl/About.tcl</h3>
+Display online help. Tries to view it in a standard browser (Navigator
+or Explorer), else use the "Simple HTML display library" in Tcl included
+in the distribution.
+<h3>
+tcl/BgShape.tcl</h3>
+Compute the shape of a signal. Script launched as a background sub-process
+by Transcriber when background&nbsp; shape calculation mode is on.
+<h3>
+tcl/ComputeShape.tcl</h3>
+Stand-alone script for pre-computing a set of signal shapes (see comments
+in the code for the command line options)
+<h3>
+tcl/Debug.tcl</h3>
+Very rough debugger window which can be activated when debug menu in general
+options is on.
+<h3>
+tcl/Dialog.tcl</h3>
+Some generic functions for management of the user interface, e.g.:
+<ul>
+<li>
+ListFrame, EntryFrame, ListEntryFrame, MenuEntryFrame, MenuFrame, RadioFrame,
+ColorFrame: create a frame with a variable editor of various kinds</li>
+
+<li>
+proc ListEditor: generic list editor used for configuration of Glossary,
+Bindings, Localization and Event lists.</li>
+
+<li>
+proc ChooseFont: generic font chooser (also works for named fonts)</li>
+</ul>
+
+<h3>
+tcl/Edit.tcl</h3>
+Management of the text editor pane.
+<ul>
+<li>
+CreateTextFrame, EmptyTextFrame, DestroyTextFrame: creation/destruction
+of text widget with associated scrollbars and bindings. All commands to
+the text widget are filtered by TextFilter</li>
+
+<li>
+InitEditor, Create*Button, Insert*Button,&nbsp; ChangeSyncButton, InsertData:
+creation of text and buttons in the editor.</li>
+
+<li>
+CopyAll, PasteAll, tk_text*, :TextCmd,&nbsp; InsertText: cut/copy/paste
+with embedded tags</li>
+
+<li>
+TextFilter: all actions to the text widget are trapped :</li>
+
+<ul>
+<li>
+insertion of chars is only allowed in data segments (i.e. after an index
+position with a '*data*' text tag); the transcription is updated accordingly.</li>
+
+<li>
+suppression of chars with part of the editor with the 'locked' text tag
+(i.e. sync, turns, section buttons) is avoided. When deleting one char
+of an event, the whole event is suppressed.</li>
+
+<li>
+position of the cursor in the text editor is constrained to be in a data
+section with various heuristics, and the signal view is synchronized with
+the new position</li>
+</ul>
+
+<li>
+GetDataFromPos: get XML text id associated with the cursor position in
+the text editor</li>
+
+<li>
+ModifyText: update an XML text field from the content of the text editor</li>
+
+<li>
+ViewAroundText: tries to show some context around current text cursor</li>
+
+<li>
+TextFirstSync, TextLastSync, TextNext*: move in the transcription</li>
+
+<li>
+Find, FindNext, Replace, ReplaceAll: Find &amp; Replace</li>
+</ul>
+
+<h3>
+tcl/Episode.tcl</h3>
+Management of global properties of the transcription edited in "File/Edit
+Episode attributes..."
+<h3>
+tcl/Events.tcl</h3>
+Management of:
+<ul>
+<li>
+Overlapping speech</li>
+
+<li>
+Background conditions</li>
+
+<li>
+Speech and non-speech events</li>
+</ul>
+
+<h3>
+tcl/Interface.tcl</h3>
+Management of the user interface.
+<ul>
+<li>
+BuildGUI: creation of fonts, widgets, bindings, menus</li>
+
+<li>
+ConfigureGeneral: "Options/General..."</li>
+
+<li>
+EncodingChooser: (only for Tcl/Tk >= 8.1) for output file default encoding</li>
+
+<li>
+EditGlossary</li>
+
+<li>
+ConfigureBindings: implementation of "Options/Bindings..."</li>
+
+<li>
+ConfigureColors: implementation of "Options/Colors..."</li>
+</ul>
+
+<h3>
+tcl/Main.tcl</h3>
+The main script part&nbsp; loads all needed libraries and other script
+parts, reads configuration, parses the command line.
+<ul>
+<li>
+Main: the procedure called at startup with all command line arguments.</li>
+
+<li>
+Quit: !</li>
+
+<li>
+InitDefault, LoadOptions, SaveOptions: initialization of the global array
+v(*) with default configuration values and user saved values (found in
+~/.transcriber for Unix).</li>
+
+<li>
+Local, *Local...: management of localization</li>
+
+<li>
+LoadModules: load Snack, tcLex, html_library and other tcl modules.</li>
+
+<li>
+StartWith: parses command line options and open sound and transcription
+file.</li>
+</ul>
+
+<h3>
+tcl/Menu.tcl</h3>
+
+<ul>
+<li>
+add_menu, ..., bind_menu: generic menu management</li>
+
+<li>
+InitMenus: create menu for Transcriber application</li>
+
+<li>
+Update*Menu: enable/disable some menu items.</li>
+</ul>
+
+<h3>
+tcl/Play.tcl</h3>
+Management of various playback modes
+<ul>
+<li>
+PlayRange: launches playback of an excerpt of the currrent sound file</li>
+
+<li>
+Cursor*: automatic move of signal cursor</li>
+
+<li>
+Play: launches playback in current mode (play selection, with pauses or
+beeps...)</li>
+</ul>
+
+<h3>
+tcl/Segmt.tcl</h3>
+Within Transcriber, a "segmentation" designs one layer of the transcription
+(i.e., sections, turns, synchros, background conditions) and also the associated
+segmentation widget displayed under the signal.
+<ul>
+<li>
+CreateSegmentWidget,&nbsp; ..., DestroySegmentWidgets: management of the
+4 segmentation widgets and their associated bindings</li>
+
+<li>
+InitSegmt, AddSegmt, ... : management of the segmentation (viewed in an
+associated segment widget) and stored in memory as a Tcl list:</li>
+
+<ul>{ {start_position&nbsp; end_position description color} ...}</ul>
+
+<li>
+GetSegmentFromPos, ..., SegmentSelect: mouse-driven selection of segments</li>
+
+<li>
+SegmentMove: move segment boundaries with the mouse</li>
+
+<li>
+SetCurrentSegment: highlight given segment in signal and text view. If
+necessary, moves text and signal cursor to some compatible, heuristic-driven
+places.</li>
+
+<li>
+JoinTransTags, SplitTransTags, JoinData, SplitData: split transcription
+at given point and update XML data structure (used as intermediate functions
+between user level and segmentation list level)</li>
+
+<li>
+InsertSegment, DeleteSegment, ChangeSegType: creation/destruction of breakpoints
+and creation of turns/sections at a given breakpoint.</li>
+</ul>
+
+<h3>
+tcl/Signal.tcl</h3>
+
+<ul>
+<li>
+EmptySignal: reset current sound file</li>
+
+<li>
+Signal: open given sound file and optionally get associated shape</li>
+
+<li>
+ShapeDone, ShapeAbort: interaction with background shape calculation sub-process</li>
+
+<li>
+LookForShape: tries to find a shape file matching the sound file name</li>
+
+<li>
+LookForSignal: tries to find a sound file&nbsp; matching the transcription
+name in the known sound paths</li>
+
+<li>
+SoundFileType: identifies a sound file header, else returns "RAW"</li>
+
+<li>
+OpenAudioFile: menu "File/Open audio file..."</li>
+
+<li>
+ConfigureAudioFile: menu "Options/Audio File..."</li>
+
+<li>
+OpenSound: creates a local sound Snack object&nbsp; or give access to a
+remote sound through sockets (using SoundClient)</li>
+</ul>
+
+<h3>
+tcl/SoundServer.tcl</h3>
+Stand-alone script to be used for providing access to sound files on a
+server (to be configured for the application, see the code).
+<h3>
+tcl/Speaker.tcl</h3>
+Speakers and turns management
+<ul>
+<li>
+'speaker' namespace:</li>
+
+<ul>
+<li>
+speaker::create/get_atts/set_atts/... : management of speaker list</li>
+
+<li>
+speaker::find : menu "Edit/Speakers/Find speaker"</li>
+
+<li>
+speaker::import : menu "Edit/Speakers/Import from file..."</li>
+</ul>
+
+<li>
+'turn' namespace:</li>
+
+<ul>
+<li>
+turn::choose/choose_* : menu "Segmentation/Edit turn attributes..."</li>
+</ul>
+</ul>
+
+<h3>
+tcl/Spelling.tcl</h3>
+Spell checking with ispell if available
+<h3>
+tcl/Synchro.tcl</h3>
+Management of the list of breakpoint times
+<h3>
+tcl/Topic.tcl</h3>
+Topic and sections management, very similar to Speaker.tcl
+<h3>
+tcl/Trans.tcl</h3>
+Management of transcription I/O and display
+<blockquote>
+<li>
+trs::import/export : default I/O for transcription in the native .trs XML
+format</li>
+
+<li>
+InitConvertors: read convertor plug-ins found in sibling 'convert' directory</li>
+
+<li>
+ReadFile: generic file input using default encoding</li>
+
+<li>
+OpenSegmt: display a supplementary segmentation layer under the signal
+- not user interface yet provided</li>
+
+<li>
+SegmtToTrans: convert a simple, single layer, segmentation (as found in
+most label formats) to a transcription data structure.</li>
+
+<li>
+ReadTrans; WriteTrans: reads/writes a transcription file</li>
+
+<li>
+OpenTransFile/OpenTransOrSoundFile/SaveTrans: user interface for transcription
+I/O</li>
+
+<li>
+NormalizeTrans: Normalize the transcription by "filling the holes" with
+sections or turns and creates empty data sections between non-contiguous
+breakpoints</li>
+
+<li>
+ConvertData: attempt to find event tags in a .typ transcription file (rough
+parsing)</li>
+
+<li>
+DisplayTrans: creates the display of the transcription in the editor window</li>
+
+<li>
+TextFromSync: construct the character string which will be displayed for
+the given segment&nbsp; in the segmentation under the signal</li>
+</blockquote>
+
+<h3>
+tcl/Undo.tcl</h3>
+Managmenent of:
+<blockquote>
+<li>
+Undo (not reliable)</li>
+
+<li>
+Auto-save and rescue</li>
+
+<li>
+Logging of transcribers' activity</li>
+</blockquote>
+
+<h3>
+tcl/Waveform.tcl</h3>
+
+<ul>
+<li>
+Create sound frame</li>
+
+<li>
+Synchronize waveform, axis and scrollbars</li>
+
+<li>
+Resolution setting and selection zooming</li>
+
+<li>
+Cursor and selection handling</li>
+
+<li>
+Events bindings for cursor position and&nbsp; selection</li>
+</ul>
+
+<h3>
+tcl/Xml.tcl</h3>
+Gereric-purpose XML library. Loads and initialize XmlItem, XmlDtd ans XmlParse
+<h3>
+tcl/XmlDtd.tcl</h3>
+Management of an XML DTD
+<h3>
+tcl/XmlItem.tcl</h3>
+Management of XML tags and data in Tcl in an object-oriented way
+<h3>
+tcl/XmlParse.tcl</h3>
+Parsing of an XML document in Tcl using the tcLex library.
+<h2>
+
+<hr WIDTH="100%"><a NAME="convert"></a>convert/*</h2>
+Directory containing transcription I/O filters (see convert/README for
+more infos). Provided filters are:
+<ul>
+<li>
+ESPS/xwaves .lab input</li>
+
+<li>
+TIMIT .phn/.wrd/.txt input</li>
+
+<li>
+OGI .lola input</li>
+
+<li>
+LIMSI .lbl input</li>
+
+<li>
+LDC .typ input/output</li>
+
+<li>
+NIST .stm output</li>
+</ul>
+
+<h2>
+
+<hr WIDTH="100%"><a NAME="src"></a>src/*</h2>
+
+<h3>
+src/axis.c</h3>
+C code for 'axis' Tk widget
+<h3>
+src/segmt.c</h3>
+C code for 'segmt' Tk widget
+<h3>
+src/shape.c</h3>
+C code for Snack sound sub-commands:
+<blockquote>
+<li>
+$snd centi</li>
+
+<li>
+$snd shape</li>
+
+<li>
+$snd get</li>
+
+<li>
+$snd order</li>
+</blockquote>
+
+<h3>
+src/trans.c</h3>
+Main body of 'trans' package
+<h3>
+src/trans.in</h3>
+Source of Transcriber launching script "trans"
+<h3>
+src/wavfm.c</h3>
+C code for 'wavfm' Tk widget
+</body>
+</html>

@@ -1,0 +1,187 @@
+<title>Summary of HTML 2.0</title>
+<h1>Tags Supported by the Library</h1>
+<dl compact>
+<dt>title, /title
+<dd>The document title.  No markup is permitted between the opening and
+closing tags, otherwise the title string is truncated at the first non
+<tt>/title</tt> tag.
+
+<dt>h1, h2, h3, h4, h5, h6  /h1, /h2, /h3, /h4, /h5, /h6
+<dd>Heading levels.
+
+<dt>p, /p (optional)
+<dd>Paragraphs are rendered block left, with one blank line.
+
+<dt>pre, /pre 
+<dd>Preformatted text.  All whitespace is preserved. Any markup
+is permitted inside of a <tt>pre</tt> tag.  Rendered in a mono-spaced font.
+
+<dt>address, /address
+<dd>Address delimeters, rendered in an italic font.
+
+<dt>blockquote, /blockquote
+<dd>Block quotes nest on the left with the list constructs and
+other <tt>blockquote</tt> tags, but the right-margin indent level
+does not nest.  They are rendered in italics, with a blank line
+above and below.
+
+<dt>ul li... /ul
+<dd>Unordered lists.  Rendered with a different marker symbol for
+each indent level.  The default symbols are: <b>O*=+-o\xd7\xb0:\xb7</b>
+
+<dt>ol li... /ol
+<dd>Ordered lists.  Rendered with a number for each list element.
+Each indent level has its own numbering.
+
+<dt>dir li... /dir
+<dd>Directory listings.  Rendered the same as unordered lists.
+
+<dt>menu  li... /menu
+<dd>Menu lists.  Rendered with a unique (<tt>-&gt;</tt>) list element symbol.
+
+<dt>dl  (dt...,dd)...  /dl
+<dd>Definition lists.  There may be multiple <tt>dt</tt> elements per
+<tt>dd</tt> element.
+
+<dt>cite
+<dd>Citation.  Rendered in italics.
+<dt>code
+<dd>Code fragment.  Rendered in a mono-spaced font.
+<dt>em
+<dd>Emphasized.  Rendred in italics.
+<dt>kbd
+<dd>Keyboard or user input.  Rendered in a bold, mono-spaced font.
+<dt>samp
+<dd>Sample.  endered in a mono-spaced font.
+<dt>strong
+<dd>Different from <tt>em</tt>.  Rendered in bold face.
+<dt>var
+<dd>A variable reference. Rendered in italics.
+
+<dt>b
+<dd>Bold face.
+<dt>i
+<dd>Italics
+<dt>tt
+<dd>A typewriter, or mono-spaced font.
+<dt>br
+<dd>A line break.
+<dt>hr
+<dd>A horizontal rule.  Rendered as a full width horizontal line.
+
+<dt>a
+<dd>A hyperlink anchor. The supported parameters are
+<tt>name</tt> and <tt>href</tt>.  The <i>name</i> parameter is the
+target, or destination of a hyperlink.  It can be referenced by using
+the <code>HMgoto</code> callback, with <i>name</i> as an argument.<p>
+The <tt>href</tt> tag is accessed by two callback routines.
+<code>HMlink_setup</code> is called once for each hyperlink.  It
+is expected to associate any application specific behavior with
+a hyper-link.  The default version of <code>HMlink_setup</code>
+arranges for hyperlinks to be highlighted/dehilighted
+upon cursor entry and exit.  When the link is activated (with
+mouse button 1) <code>HMlink_callback</code>, which is supplied by
+the application, is called.<p>
+Any additional parameters supplied with the <tt>a</tt> tag are
+passed as an argument to the call-back routines.
+
+<dt>img
+<dd>An in-line image.  Inline images are obtained in two steps.
+First, The <code>align</code>, <code>alt</code>, <code>src</code>, 
+and <code>ismap</code> attributes are handled by the library.<p>
+As each inline image tag is seen, the procedure (supplied by the
+application) <code>HMset_image <i>handle src</i></code> is called.
+The application is expected to locate the image (using <i>src</i>,
+and create a TK image with it.<p>
+The application then calls <code>HM_got_image <i>handle image</i></code>,
+where <i>handle</i> was the value passed to <code>HM_set_image</code>, and
+<i>image</i> is either the name of a TK image, or an error message.<p>
+If the parameter <code>ismap</code> was supplied, then a call to
+<code>HMlink_callback</code> is made when the image is clicked on.
+</dl>
+<h1>Tags Supported by the Library that are not in the spec</h1>
+<dl compact>
+<dt>u
+<dd>underline
+
+<dt>strike
+<dd>Text is rendered with a horizontal line through it.
+
+<dt>center
+<dd>All text and images starting at the next line break are centered.
+
+<dt>dfn
+<dd>Definition terms
+
+</dl>
+
+<h1>Unsupported tags</h1>
+<dl>
+<dt>head /head
+<dd>This tag is used by servers, and has no meaning in the context of
+document display.
+
+<dt>body /body
+<dd>This tag is used by servers, and has no meaning in the context of
+document display.
+
+<dt>meta /meta
+<dd>This tag is used by servers, and has no meaning in the context of
+document display.
+
+<dt>base /base
+<dd>This tag does not effect the document display.  The functions
+<tt>HMtag_base</tt> and <tt>HMtag_/base</tt> need to be supplied by the 
+application.
+
+<dt>link
+<dd>This tag does not effect the document display.  The function
+<tt>HMtag_link</tt> needs to be supplied by the 
+application.
+
+<dt>nextid
+<dd>This tag is deprecated and does not effect the document display. 
+
+<dt>xmp
+<dt>listing
+<dd>These tags are deprecated and not supported
+
+</dl>
+<h1>Notes</h1>
+<ul>
+<li>All of the list constructs: ul,ol,menu,dir and dl support
+the <tt>compact</tt> attribute, which produces a more compact rendering
+
+<li>If the <tt>li</tt> elements are left off of lists, the
+<tt>ul,/ul</tt> or <ol,/ol> pairs act as a <i>indent</i> operator.
+
+<li>No markup may be contained within a <tt>dt</tt> element of a
+definition list, although any prevailing font properties are observered.
+
+<li>No markup is permitted between the opening and
+closing <tt>title</tt> tags, otherwise the title string is
+truncated at the first tag.
+
+<li>The application may supply its own behavior for any html tag, or override
+the default behavior by supplying a procedure of the form
+<code>HMtag_<i>tag</i></code> or
+<code>HMtag_<i>/tag</i></code>, where
+<i>tag</i> is the html tag whose behavior is to be defined.  See
+the reference manual for details.
+
+<li>The default white space and font style selection for all built-in
+tags may be changed by the application by changing values in either
+the <code>HMinsert_map</code> or <code>HMtag_map</code>.  See
+the manual for details.
+</ul>
+<h1>Exceptions</h1>
+<ul>
+<li>The text scrolling behavior is poor when the page contains large
+embedded images
+<li>In this version, there is no direct way to change the font used
+in form data entry fields, you need to use the option database.
+<li>Too much white space sometimes gets added when succesive multiple
+white-space separated html tags with no plain text are encountered.
+</ul>
+<hr>
+<a href=help.html>home</a>

@@ -1,0 +1,62 @@
+# The path to the tcl.h header file
+
+TCL_INCPATH = @TCL_SRC_DIR@/generic
+
+# The path to the tk.h header file
+
+TK_INCPATH  = @TK_SRC_DIR@/generic
+
+# The path to the X11 include files
+
+XINCLUDES   = @XINCLUDES@
+
+# Install Trans package here
+
+TRANS_LIB = @TRANS_LIB@
+TRANS_LIB_DIR = @TRANS_LIB@/@TRANS_DIR@
+TRANS_BIN = @TRANS_BIN@
+
+#----------------------------------------------------------------
+
+CC        = @CC@
+
+INCLUDES  = ${XINCLUDES} -I${TCL_INCPATH} -I${TK_INCPATH}
+
+CFLAGS    = -O @CFLAGS@ @ORDER@ ${INCLUDES} @TCLAPI@
+#CFLAGS    = -O -Wall @CFLAGS@ @AFLAG@ ${INCLUDES}
+
+LIBS      = -lc @TK_LIBS@ @TCL_LIB_SPEC@ @TK_LIB_SPEC@
+
+SHLIB_LD     = @SHLIB_LD@
+SHLIB_SUFFIX = @SHLIB_SUFFIX@
+
+all: libtrans${SHLIB_SUFFIX}
+
+OBJS =  axis.o wavfm.o segmt.o trans.o
+
+libtrans${SHLIB_SUFFIX}: ${OBJS}
+	${SHLIB_LD} ${OBJS} ${LIBS} -o libtrans${SHLIB_SUFFIX} 
+	sed s/.dll/${SHLIB_SUFFIX}/ < pkgIndex.tcl.dll > pkgIndex.tcl
+
+install:
+	@if [ ! -d ${TRANS_LIB_DIR} ] ; then \
+	    mkdir ${TRANS_LIB_DIR}; \
+	    chmod 755 ${TRANS_LIB_DIR}; \
+	else true; \
+	fi;
+	cp -f libtrans${SHLIB_SUFFIX} ${TRANS_LIB_DIR}/
+	cp -f pkgIndex.tcl ${TRANS_LIB_DIR}/
+	cp -rf ../img ../tcl ../convert ../doc ../etc ../demo ../COPYING ${TRANS_LIB_DIR}/
+	cp -rf ../contrib/html_library-0.3 ${TRANS_LIB}
+	cp -f trans ${TRANS_BIN}/trans
+	chmod ugo+x ${TRANS_BIN}/trans
+
+distrib-bin:
+	make install
+	cd ../..; tar cf - -C ${TRANS_LIB}/.. lib/@TRANS_DIR@ lib/html_library-0.3 lib/snack1.7 lib/tcLex1.2 bin/trans | gzip -c > Transcriber-bin.tar.gz
+
+clean:
+	rm -f *.o libtrans${SHLIB_SUFFIX} pkgIndex.tcl
+
+distclean: clean
+	rm -f Makefile trans config.status config.cache config.log

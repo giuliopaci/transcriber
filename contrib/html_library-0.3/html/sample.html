@@ -1,0 +1,282 @@
+<title>HTML tag-O-rama</title>
+<H1>use all HTML 1.0 tags</h1>
+<hr>
+Contents:
+<a href=#headings>headings</a>,
+<a href=#lists>lists</a>,
+<a href=#markup>markup</a>,
+<a href=#entities>entities</a>,
+<a href=#images>images</a>,
+<a href=#other>other</a>,
+<a href=#forms>forms</a>,
+<a href=#end>end</a>.
+<hr>
+<a name=headings>
+<h2>headings <i>This is level 2</i></h2>
+<h3>heading level 3</h3>
+<h4>heading level 4</h4>
+<h5>heading level 5</h5>
+<h6>heading level 6</h6>
+</a><hr>
+<a name=lists>
+<h2>List constructs</h2>
+</a>
+HTML supports 5 different list constructs:
+<dl COMPACT>
+<b><dt>ul</b><dd>Unordered lists 
+<b><dt>ol</b><dd>Ordered lists 
+<b><dt>dl</b><dd>definition lists (like this)
+<b><dt>menu</b><dd>menu lists
+<b><dt>dir</b><dd>directory lists
+</dl><p>
+All of the list constructs can nest, with each successive nesting
+level indented relative to the previous one.
+The HTML <b>blockquote</b> element, although not technically
+a list construct, nests with the other lists.
+<p>
+Lists have two rendering styles, <b>regular</b>
+<ul>
+<li>This is a regular list element
+<li>So is this
+</ul><p>
+Which leaves a little space between the elements, and
+<b>compact</b>
+<ul COMPACT>
+<li>This is a compact list element
+<li>So is this
+</ul><p>
+Compact lists are a more scrunched together.
+<h2> Examples of list elements</h2></p>
+This is a summary of the list types:
+<ul>
+<li>This is an unordered list
+<li>Each list element in an unordered list is preceded by a list
+symbol, or marker that changes depending upon the nesting level
+of the list.  As you can see, when a single list element needs to wrap
+onto the next display line, it stays indented
+<ul COMPACT>
+	<li>This is a nested unordered list
+	<li>The marker symbol changed
+	<li>This list is <b>compact</b>
+	<li>Notice less spacing between the list elements
+</ul>
+<li>Back to the outer list
+<li>Its not compact
+</ul>
+<p>
+Here is an example of an ordered list
+<ol>
+<li>This is item 1
+<li>This is item 2
+<li>You can see the list items are numbered
+<ol>
+	<li>When ordered lists are nested
+	<li>Each nesting level gets its own numbers
+</ol>
+<li>This is the end of the ordered list
+</ol>
+<p>
+The other two list styles are <b>directory</b> lists
+and <b>menu</b> lists.  For now, directory lists are rendered
+excactly like unordered lists, because no-one uses them.  
+Menu lists are also like un-ordered lists, but the're not supposed to
+nest, and they get a different list marker, like this:
+<menu compact>
+<li>menu item 1
+<li>menu item 2
+<li>menu item 3
+</menu>
+<h2>Mixed lists</h2>
+</p>
+Definition lists, ordered lists, and un-ordered lists can
+be freely intermingled (<b>block quotes</b> too).  Menu lists
+and directory lists can be combined with the others, but
+<i>officially</i> only at the highest nesting level.
+<ul>
+<li>This is an un-ordered list
+<li>Individual list items can have phrase markup, such as
+<b>bold</b> or <i>italic</i>
+<ol COMPACT>
+	<li>This is a <b>compact</b> ordered list
+	<li>The list items are numbered.  Inside this ordered list we could
+have a <b>block quote</b> which is a nested paragraph. Notice that
+blockquotes, in addition to rendering in <i>italic</i>, indent the
+right margin.
+	<li>From Moby Dick:
+<blockquote>
+Call me Ishmael.  Some years ago--never mind how
+long precisely --having little or no money in my purse, and nothing particular
+to interest me on shore, I thought I would sail about a little and see the
+watery part of the world.  It is a way I have of driving off the spleen, and
+regulating the circulation.
+</blockquote>
+	<li>Back to the list
+	<ol>
+		<li>Lists can be nested arbitrarily deep
+		<li>Nesting levels more than about 5 or 6 probably won't do
+what you expect, however.
+		<li>Within nested list elements, you can include
+preformatted objects, such as <i>tables</i> that observe the current
+list indent setting, such as<pre>
+
+<b>item		quantity		price
+----		--------		-----</b>
+  A		  27		  $4.36
+  B		  19		  $2.84
+  C		  11		  $22.34
+</pre>
+Tabs within preformatted objects each take up half of an indent level.
+You can also use line breaks inside lists.
+<br>- like this -<br>
+or even start new paragraphs.
+<p>This is a new paragraph started inside a list element.
+In general, except where explicitly prohibited (or indicated
+otherwise), you may nest any tag within any other tag.
+	</ol>
+	<li>We can also nest definition lists, like this:
+	<dl>
+		<dt>This is the defining term
+		<dd>And this is its definition
+		<dt>term 1<dt>term2
+		<dd>More than one term can have the same definition
+	</dl>
+	<li>Currently, markup can't be used inside a definition term
+of a definition list (although one can use markup out-side of it).
+</ol>
+<li>This is the outer-most list.  Although not indicated in the specification,
+you can use lists with no <code>li</code> constructs to effect indented
+paragraphs.
+<ul><br>
+This is text in an unordered list, but leaving off the <code>li</code>
+tag.  As you can see, it looks just like an indented paragraph, a 
+construct that is not defined in HTML.
+</ul>
+This is back to the outer-most list.
+</ul>
+<hr>
+<a name=markup>
+<h2> Phrase markup</h2>
+</a><p>
+HTML has many tags that affect the font style, one can use either
+<i>functional</i> tags such as <strong>strong</strong> or <cite>cite</cite>,
+which is the prefered method, or markup tags, such as <b>bold</b> or
+<i>italic</i>.
+<p>
+The basic font style is a plain medium-roman font.
+<ul>
+<li>The Quick brown fox jumped over the lazy dog.
+</ul>
+<p>
+<a name=test>target</a>
+HTML defines many tags that alter the font style.  The Three
+primary style alterations are:
+<ul>
+<li>bold:<br>
+<b>The Quick brown fox jumped over the lazy dog.</b>
+<li>italic:<br>
+<i>The Quick brown fox jumped over the lazy dog.</i>
+<li>mono-spaced font:<br>
+<tt>The Quick brown fox jumped over the lazy dog.</tt>
+</ul>
+<p>
+There are two additional styles that are deprecated, but still used
+in some contexts.  They are
+<ul>
+<li>underline:<br>
+<u>The Quick brown fox jumped over the lazy dog.</u>
+<li>strike-out:<br>
+<strike>The Quick brown fox jumped over the lazy dog.</strike>
+</ul>
+<p>
+Font styles may be arbitrarily nested, to obtain combinations
+like <b><i>bold italic</i></b> or
+<u><b><tt>Underlined bold mono-spaced</u></b></tt>.
+all of the combinations are enumerated somewhere else.
+<p>
+The <i>functional</i> tags, which map to one of more of the
+combinations above are:
+<menu COMPACT>
+<li><cite>cite</cite> - for citations
+<li><code>code</code> - for code fragments
+<li><em>em</em> - for emphasis
+<li><kbd>kbd</kbd> - for <i>user input</i>
+<li><samp>samp</samp> - for samples
+<li><strong>strong</strong>
+<li><var>var</var> - for variable references
+</menu>
+<hr>
+<a name=entities>
+<h2>HTML entities</h2>
+</a><p>
+In HTML, the characters &amp;, &lt;, &gt;, and &quot; are special, and
+need to be represented as: &amp;amp;, &amp;lt;, &amp;gt;, and &amp;quot;.
+<p>
+n addition, the entire latin-1 character set can be represented similarly, 
+such as
+&amp;reg; (&reg;) or
+&amp;ouml; (&ouml;).
+<hr>
+<a name=images>
+<h2>Images</h2>
+</a><p>
+The library can handle any inline image type that you can coerce into 
+a TK image.  Images are often used in HTML to simulate lists, as in:
+<pre>
+<img src=green_ball.gif> This is a good point
+<img src=green_ball.gif> This is a good point too
+<img src=red_ball.gif> This is a <b>bad</b> point
+<img src=red_ball.gif> so is this
+<img src=green_ball.gif> another good one
+</pre>
+<p>
+Sometimes images are used for, well images.
+<img src=lake.gif>
+<cite>The view out the window...</cite>
+<hr>
+<center>
+<a name=other>
+<h2>Other Stuff</h2></a>
+Although not in the spec, I support centering.
+<h3>This is a centered heading</h3>
+<img src=green_ball.gif>
+<img src=green_ball.gif>
+<img src=red_ball.gif>
+<img src=green_ball.gif>
+<img src=green_ball.gif>
+<pre>
+Those are centered balls.
+-
+---
+-----
+--------
+This is some more centered stuff.
+</pre>
+</center>
+<hr>
+<a name=forms>
+<h2>Forms</h2></a><p>
+HTML defines 3 types of user-modifyable constructs:
+</menu>
+<li>image maps
+<li>searchable indexes
+<li>forms
+</menu><p>
+An image map is an image defined inside a hyperlink anchor, such as:<br>
+<a href=imagemap><img src=bar.gif ismap></a>
+When you click on the image, it tacks the cursor position onto the
+<code>href</code> value, and (hopefully), the server knows what to 
+do with it.
+<p>
+The <code>isindex</code> tag is for simple searchable indexes.  They look
+like this:<br><isindex><br>
+or if you use the <code>prompt</code> parameter, like this:
+<br><isindex prompt="Type stuff here, please"><br>
+Like imagemaps, the text you entered is munged beyond recognition, and
+tacked onto the <b>current</b> link.  You can either key <code>return</code>
+or hit the <i>submit</i> button.
+<p>
+The
+<a href=forms.html>remaining contructs</a> occur inside <code>form</code>
+and <code>/form</code> tags.
+<hr>
+<a href=help.html name=end>home</a>

@@ -1,0 +1,80 @@
+Put in this directory your conversion filters.
+For example, create for your format "myf" the following file:
+
+myf.tcl
+
+containing:
+
+namespace eval myf {
+
+  # A short string describing your format for use within file chooser
+  variable msg "My format"
+   
+  # A list of authorized extensions (can use globbing syntax)
+  # The first one is used as default extension for output
+  variable ext ".myf .my2"
+
+  # The optional 'guess' proc returns 1 if the filename is of the format
+  # else 0.
+  # If this proc is not provided, default behaviour is to match one of
+  # the extensions given in the variable ext as follows:
+  proc guess {filename} {
+    variable ext
+    set filext [string tolower [file extension $name]]
+    if {[expr [lsearch $ext $filext]>=0]} {
+       # Can also try to look at file header/magic number
+       return 1
+    }
+    return 0
+  }
+
+  # The 'import' proc allows to read a fully structured transcription
+  # in a rather complex way - see typ.tcl for a complete example
+  proc import {filename} {
+    global v
+
+    # First read content of file
+    set content [ReadFile $name]
+    # Then create an XML structure following the imported file
+    set v(trans,root) [::xml::element "Trans"]
+    ...
+  }
+
+  # The 'readSegmt' proc can be provided instead of 'import' for simple
+  # segmentations (only give one of them, not both!)
+  # If 'readSegmt' is provided, the 'import' proc defaults to:
+  # proc import {name} {SegmtToTrans [readSegmt [ReadFile $name]]}
+  # 'readSegmt' gets the content of the file as input
+  # and returns a list of segments: {start stop label}
+  proc readSegmt {content} {
+      set segmt {}
+      foreach line [split $content "\n"] {
+	 if {[llength $line] == 3} {
+	    lappend segmt $line
+         }
+      }
+      return $segmt
+  }
+
+  # The 'export' proc can be used to dump the file to the format
+  # - see stm.tcl for an example
+  proc export {filename} {
+      global v
+
+      set channel [open $filename w]
+      set episode [$v(trans,root) getChilds "element" "Episode"]
+      foreach sec [$episode getChilds "element" "Section"] {
+	 foreach tur [$sec getChilds "element" "Turn"] {
+	    foreach chn [$tur getChilds] {
+	       switch [$chn getType] {
+		  "#PCDATA" { ... }	  }
+		  "Sync" { ... }
+		  "Event" { ... }
+                  ...
+               }
+            }
+         }
+     }
+     close $channel
+  }
+}

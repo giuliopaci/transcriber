@@ -1,0 +1,1128 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+<HEAD>
+   <TITLE>Transcriber's Interface</TITLE>
+   <META NAME="GENERATOR" CONTENT="Mozilla/3.01Gold (X11; I; Linux 2.0.33 i686) [Netscape]">
+   <META NAME="Author" CONTENT="Claude Barras, DGA, 1999">
+   <META NAME="Description" CONTENT="Reference Manual for Transcriber software (French version)">
+</HEAD>
+<BODY TEXT="#000000" BGCOLOR="#FFFFFF" LINK="#0000EF" VLINK="#51188E" ALINK="#FF0000">
+
+<center>
+<h1>
+Reference Manual</h1></center>
+
+<center>Interface and commands description
+<p>Transcriber 1.4.4
+<p><i><font size=+0>DGA, April 2002</font></i></center>
+
+<p>
+<hr WIDTH="100%">
+<OL>
+
+<b><LI> Startup </b>
+<OL>
+<li>
+<a href="#r1.1">Working environment</a></li>
+
+<li>
+<a href="#r1.2">Starting the tool</a></li>
+
+<li>
+<a href="#r1.3">Initial configuration</a></li>
+</OL>
+
+<B><LI>Windows</B>
+
+<OL>
+<LI><A HREF="#r66">Menu bar</A></LI>
+
+<LI><A HREF="#r67">Transcription</A></LI>
+
+<LI><A HREF="#r68">Button bar</A></LI>
+
+<LI><A HREF="#r69">Signal and segmentation</A></LI>
+</OL>
+
+<B><LI>Transcription file</B>
+
+<OL>
+<LI><A HREF="#r1">Create a new transcription</A></LI>
+
+<LI><A HREF="#r2">Read a transcription</A></LI>
+
+<LI><A HREF="#r3">Save the transcription</A></LI>
+
+<LI><A HREF="#r4">Export to another format</A></LI>
+
+<LI><A HREF="#r5">Revert to previous version</A></LI>
+
+<LI><A HREF="#r6">Automatic backup</A></LI>
+
+<LI><A HREF="#r7">Backup file</A></LI>
+
+<LI><A HREF="#r7bis">File encoding</A></LI>
+</OL>
+
+<B><LI>Signal file</B>
+
+<OL>
+<LI><A HREF="#r8">Open a signal file</A></LI>
+
+<LI><A HREF="#r9">Sound file format</A></LI>
+
+<LI><A HREF="#r10">Signal shape</A></LI>
+
+<LI><A HREF="#r11">Open a remote file</A></LI>
+</OL>
+
+<B><LI>Signal management</B>
+
+<OL>
+<LI><A HREF="#r12">Position the cursor</A></LI>
+
+<LI><A HREF="#r13">Select part of the signal</A></LI>
+
+<LI><A HREF="#r14">Signal playback</A></LI>
+
+<LI><A HREF="#r15">Segment playback</A></LI>
+
+<LI><A HREF="#r16">Fast forward</A></LI>
+
+<LI><A HREF="#r17">Go to next segment</A></LI>
+
+<LI><A HREF="#r19a">Change the sound level</A></LI>
+
+<LI><A HREF="#r19">Vertical zoom</A></LI>
+</OL>
+
+<B><LI>Edition</B>
+
+<OL>
+<LI><A HREF="#r21">Cut/Copy/Paste</A></LI>
+
+<LI><A HREF="#r22">Undo</A></LI>
+
+<LI><A HREF="#r23">Find/Replace</A></LI>
+
+<LI><A HREF="#r24">Glossary</A></LI>
+
+<LI><A HREF="#r25">Automatic space handling</A></LI>
+
+<LI><A HREF="#r6.6">Spell checking</A></LI>
+
+<LI><A HREF="#r6.7">Accented characters and internationalization</A></LI>
+</OL>
+
+<B><LI>Episode</B>
+
+<OL>
+<LI><A HREF="#r70">Edit global parameters</A></LI>
+</OL>
+
+<B><LI>Segmentation</B>
+
+<OL>
+<LI><A HREF="#r26">Insert a boundary</A></LI>
+
+<LI><A HREF="#r27">Suppress a boundary</A></LI>
+
+<LI><A HREF="#r28">Move the boundary between two segments</A></LI>
+
+<LI><A HREF="#r29">Select the signal over one or several
+segments</A></LI>
+
+<LI><A HREF="#r30">Hide/Show a segmentation</A></LI>
+</OL>
+
+<B><LI>Speech turns and speakers</B>
+
+<OL>
+<LI><A HREF="#r31">Create a new turn</A></LI>
+
+<LI><A HREF="#r32">Overlapping speech</A></LI>
+
+<LI><A HREF="#r33">Edit or suppress a turn</A></LI>
+
+<LI><A HREF="#r34">Find one speaker's turn</A></LI>
+
+<LI><A HREF="#r35">Import speakers from another file</A></LI>
+
+<LI><A HREF="#r36">Suppress unused speakers</A></LI>
+</OL>
+
+<B><LI>Sections and topics</B>
+
+<OL>
+<LI><A HREF="#r37">Create a new section</A></LI>
+
+<LI><A HREF="#r38">Edit or suppress a section</A></LI>
+
+<LI><A HREF="#r39">Find sections about a topic</A></LI>
+
+<LI><A HREF="#r40">Import topics from another file</A></LI>
+
+<LI><A HREF="#r41">Suppress unused topics</A></LI>
+</OL>
+
+<B><LI>Background noise</B>
+
+<OL>
+<LI><A HREF="#r42">Create a background mark</A></LI>
+
+<LI><A HREF="#r43">Indicate the change or the end of a background
+noise</A></LI>
+
+<LI><A HREF="#r44">Edit or suppress a background noise mark</A></LI>
+</OL>
+
+<B><LI>Events and comments</B>
+
+<OL>
+<LI><A HREF="#r45">Insert an event</A></LI>
+
+<LI><A HREF="#r46">Insert the beginning and the end of an
+event</A></LI>
+
+<LI><A HREF="#r47">Insert a comment</A></LI>
+
+<LI><A HREF="#r48">Edit or suppress an event</A></LI>
+
+<LI><A HREF="#r49">Copy/Paste an event</A></LI>
+
+<LI><A HREF="#r50">Create a keyboard shortcut for an event</A></LI>
+
+<LI><A HREF="#r51">Edit the event list</A></LI>
+
+<LI><A HREF="#r52">Configure events display</A></LI>
+</OL>
+
+<B><LI>Keyboard shortcuts</B>
+
+<OL>
+<LI><A HREF="#r53">Define a shortcut</A></LI>
+
+<LI><A HREF="#r54">Shortcut for currently used expression</A></LI>
+
+<LI><A HREF="#r55">Shortcut for an event</A></LI>
+</OL>
+
+<B><LI>Options and interface configuration</B>
+
+<OL>
+<LI><A HREF="#r56">Transcriber's name</A></LI>
+
+<LI><A HREF="#r57">Productivity monitoring</A></LI>
+
+<LI><A HREF="#r58">Colors edition</A></LI>
+
+<LI><A HREF="#r59">Fonts edition</A></LI>
+
+<LI><A HREF="#r60">Localization of the interface</A></LI>
+
+<LI><A HREF="#r18">Second signal view</A></LI>
+
+<LI><A HREF="#r61">Show/Hide central button bar</A></LI>
+
+<LI><A HREF="#r62">Save the options</A></LI>
+</OL>
+
+<B><LI>Other features</B>
+
+<OL>
+<LI><A HREF="#r65">Informations about the signal and the
+transcription</A></LI>
+
+<LI><A HREF="#r63">Quit Transcriber</A></LI>
+
+<LI><A HREF="#r64">Help</A></LI>
+</OL>
+</OL>
+<OL>
+<h3>
+<hr WIDTH="100%"><LI> Startup</h3><OL>
+
+<H4><LI>
+<a NAME="r1.1"></a>Working environment</h4>
+The software is meant to allow the transcription of long duration audio signals
+with standard hardware. For instance, several one hour long recordings (sampled
+at 16 kHz on 16 bits, mono) were already successfully transcribed with a
+PC/Pentium 200MHz under Linux. Using headphones is strongly recommended for a
+quality transcription, but loudspeakers may be useful for checking with other
+people.
+<H4><LI>
+<a NAME="r1.2"></a>Starting the tool</h4>
+
+When Transcriber is correctly installed, it can be started with the command:
+
+<ul>
+<pre>trans</pre>
+</ul>
+
+or, depending on the configuration, by clicking a given menu or icon.
+A dialog box then proposes to select a sound file to create a new transcription
+associated with this signal, or a transcription file to display or modify it.
+A short example of signal with an associated transcription are available in the
+"<tt>demo</tt>" directory, distributed with the software.
+<p>When the working configuration has been saved during a previous session, the
+current signal and transcription files are automatically opened if they are
+still available on the disk.
+<p>It is also possible to start the tool and give it the signal and/or
+transcription file as arguments on the command line. If both files are in the
+same directory, have the same name (except for the extension) and if the signal
+file has a standard extension (like <tt>.wav </tt>or .<tt>snd</tt>), the name
+of the signal file can be omitted, as it will be automatically opened:
+<ul>
+<pre>trans demo/frint980428.xml</pre>
+</ul>
+
+<H4><LI>
+<a NAME="r1.3"></a>Initial configuration</h4>
+
+After the first use of the tool, it is recommended to open the
+[<tt>Options</tt>]/[<tt>General...]</tt> menu and to fill in:
+<ul>
+<li>
+the scribe's name, which will become the default scribe saved in each
+new transcription;</li>
+
+<li>
+the language of the software interface (currently English or French);</li>
+
+<li>
+if necessary, the name of the file used to record the informations on
+production monitoring - the default state of this function is disabled
+(cf. <a href="#r57">14.2</a>);</li>
+</ul>
+and more signal specific options, in the menu
+[<tt>Options</tt>]/[<tt>Audio file...</tt>] :
+<ul>
+<li>
+the format of headerless files (cf. <a href="#r9">4.2</a>)
+;</li>
+
+<li>
+the computing mode and storage directory for the signal shape
+(cf. <a href="#r10">4.3</a>).</li>
+</ul>
+
+The options should then be saved with the menu
+[<tt>Options</tt>]/[<tt>Save configuration</tt>].
+
+
+</OL><H3><hr WIDTH="100%"><LI>Windows</h3><OL>
+
+<H4><LI><A NAME="r66"></A>Menu bar</H4>
+
+<CENTER><P><IMG SRC="../img/inter_menu.gif" HEIGHT=36 WIDTH=497></P></CENTER>
+
+<H4><LI><A NAME="r67"></A>Transcription</H4>
+
+<P>In the upper side of the interface, the orthographic transcription of
+the signal can be typed in a text editor.</P>
+
+<UL>
+<LI>for each new section (change of topic, of emission...), there is a
+button in the middle of a line (default color orange);</LI>
+
+<LI>for each new speech turn (change of speaker, or no speaker), there
+is a button at the left of a line (default color blue);</LI>
+
+<LI>for each segment in the orthographic transcription, a little circle
+(default color green) appears to the left of the line.</LI>
+</UL>
+
+<P>Each segmentation begins at time t=0; there is at least a section, a
+turn and a segment on the first 3 lines of the transcription. The line
+containing the cursor is highlighted. There is a scrollbar to the right.</P>
+
+<CENTER><P><IMG SRC="../img/inter1.gif" HEIGHT=197 WIDTH=428></P></CENTER>
+
+<H4><LI><A NAME="r68"></A>Button bar</H4>
+
+<P>In the middle, a button bar (which can be hidden) gives shortcuts for
+signal playback or for information display and shows the current filenames.</P>
+
+<CENTER><P><IMG SRC="../img/inter3.gif" HEIGHT=28 WIDTH=435></P></CENTER>
+
+<P>Available commands:</P>
+
+<UL>
+<P><IMG SRC="../img/previous.bmp" HEIGHT=16 WIDTH=16> : back to segment
+beginning or go to previous segment<BR>
+<IMG SRC="../img/backward.bmp" HEIGHT=16 WIDTH=16>: fast backward (with
+1/2 second step)<BR>
+<IMG SRC="../img/pause.bmp" HEIGHT=16 WIDTH=16> : pause<BR>
+<IMG SRC="../img/play.bmp" HEIGHT=16 WIDTH=16> : play<BR>
+<IMG SRC="../img/forward.bmp" HEIGHT=16 WIDTH=16>: fast forward (with 1/2
+second step)<BR>
+<IMG SRC="../img/next.bmp" HEIGHT=16 WIDTH=16>: go to next segment<BR>
+<IMG SRC="../img/info.bmp" HEIGHT=16 WIDTH=16>: display information window
+about signal and transcription</P>
+</UL>
+
+<H4><LI><A NAME="r69"></A>Signal and segmentation</H4>
+
+<P>Signal and segmentation appear in the lower half; there is also a scrollbar
+for choosing the part of the signal to display and another smaller scrollbar
+(which can be hidden with a contextual menu) for resolution control. Under
+the signal, the segmentations (orthographic one, in speech turns, in sections,
+in background conditions) is displayed and synchronized with the signal;
+the current segment in the orthographic transcription is highlighted. A
+second view of the signal in a different resolution can be displayed. Current
+cursor position in the signal is shown with a vertical red bar. Both cursors
+(in the text editor and in the signal) are always synchronized so that
+the current segment in the text is the same as the current segment under
+the signal; as soon as one cursor enter another segment, the other one
+is automatically moved in order to appear in the same segment.</P>
+
+<CENTER><P><IMG SRC="../img/inter2.gif" HEIGHT=183 WIDTH=430></P></CENTER>
+
+<P>On the signal, mouse controls are the following:</P>
+
+<UL>
+<LI>click button 1: set cursor to the given position</LI>
+
+<LI>click-move button 1: select part of the signal</LI>
+
+<LI>click button 2 (or shift-click button 1):&nbsp;extend the selection</LI>
+
+<LI>click button 3: display a contextual menu</LI>
+</UL>
+
+<P>On the segmentation lines, mouse controls are:</P>
+
+<UL>
+<LI>click button 1:&nbsp;select the signal on the extent of the segment</LI>
+
+<LI>click-move button 1: select the signal over several segments</LI>
+
+<LI>shift-click button 1:&nbsp;extend the selection</LI>
+
+<LI>click-move button 2 (or control-click-move button 1):&nbsp;move the boundary
+between 2 segments</LI>
+
+<LI>click button 3:&nbsp;display a contextual menu</LI>
+</UL>
+
+</OL><H3><hr WIDTH="100%"><LI>Transcription file</h3><OL>
+
+<H4><LI><A NAME="r1"></A>Create a new transcription</H4>
+
+<CENTER><P><IMG SRC="../img/inter_init.gif" HEIGHT=359 WIDTH=414></P></CENTER>
+
+<P>Choose menu [<TT>File</TT>]/[<TT>New trans</TT>]. A dialog window ask
+for the sound file to be transcribed. This can be changed later.</P>
+
+<H4><LI><A NAME="r2"></A>Read a transcription</H4>
+
+<P>With [<TT>File</TT>]/[<TT>Open trans...</TT>], you can read transcription
+files produced by Transcriber, and transcription or segmentation files in some
+standard formats identified by the filename suffix:
+<ul>
+<li> Native XML format (.trs, .xml)</li>  
+<li> OGI lola (.lola)</li>  
+<li> LDC .typ format (.typ)</li>  
+<li> ESPS/xwaves (.lab)</li>  
+<li> LIMSI label (.lbl)</li>
+<li> TIMIT format (.phn, .wrd, .txt)</li>
+<li> Childes/CHAT (.cha) experimental support, with new attributes available in
+the interface.</li>
+</ul>                                                                          
+
+The signal file associated with the transcription is
+then searched for; if it is not automatically found, the user is asked
+to look for it.</P>
+
+<H4><LI><A NAME="r3"></A>Save the transcription</H4>
+
+<CENTER><P><IMG SRC="../img/inter_savetrans.gif" HEIGHT=169 WIDTH=390></P></CENTER>
+
+<P>The transcription can be saved with menu [<TT>File</TT>]/[<TT>Save</TT>]
+if modifications occurred since creation or last save. The first time, transcription
+filename defaults to signal filename with <TT>.trs</TT> extension. It can
+be saved later under another name with [<TT>File</TT>]/[<TT>Save as...</TT>].</P>
+
+<H4><LI><A NAME="r4"></A>Export to another format</H4>
+
+<P>The transcription can be written into non-native transcription formats
+(<TT>.typ</TT>, .<TT>stm</TT> or <tt>.html</tt>) with menu
+[<TT>File</TT>]/[<TT>Export</TT>], but these formats are not as complete as the
+native one, and information can be lost in the process. However
+<tt>.html</tt> format makes printing the transcription
+possible using any browser.</P>
+
+<H4><LI><A NAME="r5"></A>Revert to previous version</H4>
+
+<P>Command [<TT>File</TT>]/[<TT>Revert</TT>] will undo all changes in memory
+and load lastly saved version on disk.</P>
+
+<H4><LI><A NAME="r6"></A>Automatic backup</H4>
+
+<CENTER><P><IMG SRC="../img/inter_delay.gif" HEIGHT=29 WIDTH=450></P></CENTER>
+
+<P>An automatic backup is performed within a fixed time after a modification
+(if the transcription has not been saved in between). It is saved in the
+same directory as the transcription with the same name surrounded with
+<TT>#</TT> character (for example, <TT>/data/transcription/#radio.trs#</TT>).
+This file will be removed the next time the transcription is regularly
+saved. Time interval is given within window [<TT>Options</TT>]/[<TT>General...</TT>];
+if it is zero, no automatic backup occurs.</P>
+
+<H4><LI><A NAME="r7"></A>Backup file</H4>
+
+<CENTER><P><IMG SRC="../img/inter_backup.gif" HEIGHT=28 WIDTH=450></P></CENTER>
+
+<P>When a previously existing transcription is read on the disk, then modified
+and saved, the existing version is kept in a file with the same name as
+the transcription followed by a string given by the user in the window
+[<TT>Options</TT>]/[<TT>General...</TT>] (for example, ~ will <TT>/data/transcription/radio.trs~)</TT>.
+If the field is empty, the previous file is not kept.</P>
+
+<H4><LI><A NAME="r7bis"></A>File encoding</H4>
+
+<P>Since Transcriber 1.4.1 under Tcl/Tk 8.1.1 or higher, the encoding for file
+output can be chosen in [<TT>Options</TT>]/[<TT>General...</TT>].
+It defaults to ISO-8859-1 (Latin1) but can be changed to other widespread
+8 bits encodings (ISO-8859-*, EUC-JP...) but also to Unicode (saved as
+UTF-8, which is backward compatible with 7 bits US-ASCII). If Latin1
+does not work and you are not sure what to use, try UTF-8 as it supersedes the
+other ones.<br>
+Upon reading,
+the encoding used is the one defined in the file header. For transcriptions
+missing this information (like the ones produced with earlier versions of
+Transcriber or Tcl/Tk), or when the encoding is not ASCII-compatible, the current encoding is used.</P>
+
+</OL><H3><hr WIDTH="100%"><LI>Signal file</h3><OL>
+
+<H4><LI><A NAME="r8"></A>Open a signal file</H4>
+
+<CENTER><P><IMG SRC="../img/inter_opensnd.gif" HEIGHT=194 WIDTH=464></P></CENTER>
+
+<P>The signal file is chosen after creation of a new transcription or by
+changing the signal linked to the transcription with menu [<TT>File</TT>]/[<TT>Open
+audio file...</TT>].</P>
+
+<H4><LI><A NAME="r9"></A>Sound file format</H4>
+
+<P>Most standard audio files are automatically recognized thanks to Snack
+library: WAV, AU, SND, AIFF, SMP, and Sphere if the format has been installed
+with Snack. Access to MP3 format can be slow due to the compression. Headerless
+sound files format (8 or 16 bits sample length, byte order...)&nbsp;is
+automatically guessed, except for sample frequency and channel count which
+are given by the user in the window [<TT>Options</TT>]/[<TT>Audio file...</TT>].</P>
+
+<CENTER><P><IMG SRC="../img/inter_confsnd.gif" HEIGHT=179 WIDTH=416></P></CENTER>
+
+<H4><LI><A NAME="r10"></A>Signal shape</H4>
+
+<P>In order to speed up signal display at lower resolutions (display of
+intervals over than 30 seconds), a low-resolution shape of the whole signal
+is computed if the signal is longer than 30 seconds. Shape computation
+is performed in background the first time a signal is displayed, and is
+stored in a specific directory for subsequent uses. Current computation
+can be stopped, or the function can be disabled in [<TT>Options</TT>]/[<TT>Audio
+file...</TT>]. Background computation mode can be disabled. The directory
+for storing shapes is also given in [<TT>Options</TT>]/[<TT>Audio file...</TT>];
+it can be a good idea to use a directory shared by all Transcriber's users
+but it must then be writable to all users in order to allow creation of
+new shapes.</P>
+
+<H4><LI><A NAME="r11"></A>Open a remote file</H4>
+
+<P>The client-server architecture for sound display and playback can be
+enabled by configuring the script <TT>tcl/SoundServer.tcl</TT> and launching
+it on the host. User choice of remote server and port is done within [<TT>Options</TT>]/[<TT>Audio
+file...</TT>].</P>
+
+</OL><H3><hr WIDTH="100%"><LI>Signal management</h3><OL>
+
+<P>During transcription, one has to listen several times to short portions
+of signal. Tape-recorder-like commands are available in the command button
+bar as long as in the menu [<TT>Signal</TT>], but keyboard shortcuts will
+probably more practical for most intensive use.</P>
+
+<H4><LI><A NAME="r12"></A>Position the cursor</H4>
+
+<P>One can place the cursor in the signal with a mouse click on the wished
+position. A precise value can be given with menu [<TT>Signal</TT>]/[<TT>Go
+to...</TT>]/[<TT>Position</TT>] or by clicking on the information line
+under the signal.</P>
+
+<CENTER><P><IMG SRC="../img/inter_cursor.gif" HEIGHT=91 WIDTH=269></P></CENTER>
+
+<H4><LI><A NAME="r13"></A>Select part of the signal</H4>
+
+<P>Part of signal can be selected by click-move-release of the left mouse
+button, and it can be extended with central button (or shift-click of the
+left button). Cursor position and selection boundary times are given under
+the signal. With option <TT>Automatic selection playback</TT> option on
+in [<TT>Options</TT>]/[<TT>General...</TT>], selected segment playback
+starts as soon as mouse button is released.</P>
+
+<CENTER><P><IMG SRC="../img/inter_select.gif" HEIGHT=120 WIDTH=440></P></CENTER>
+
+<H4><LI><A NAME="r14"></A>Signal playback</H4>
+
+<P>With play <IMG SRC="../img/play.bmp" HEIGHT=16 WIDTH=16>and pause <IMG SRC="../img/pause.bmp" HEIGHT=16 WIDTH=16>
+buttons, command [<TT>Signal</TT>]/[<TT>Play/Pause</TT>] or its shortcut
+<TT>Tab</TT>, one can start playback at cursor position or stop it. If
+a selection is active, only this part will be played.</P>
+
+The menu [<tt>Signal</tt>]/[<tt>Playback mode</tt>] allows a choice between
+the  following playback modes: continuous play (default mode), playback with
+pauses at segment boundaries, with a beep at boundaries, with a pause at the
+next boundary, or loop on the current selection if active, otherwise on the
+current segment after a pause. The duration of the pause and the selection of
+an audio file for the beep are customizable in the window
+[<tt>Options</tt>]/[<tt>Audio file...</tt>]; the parameter
+<tt>Go back before playing </tt> allows to rewind before each new playback.<p>
+          
+When Snack version 2.0 is installed with Transcriber, it is possible to
+play only the left or right channel from a stereo file using the new menu
+<tt>[Signal]/[Stereo channel]</tt>. It has no effects for mono sound files or
+when previous Snack version 1.7 is used.
+
+<H4><LI><A NAME="r15"></A>Segment playback</H4>
+
+<P>Command [<TT>Signal</TT>]/[<TT>Play segment</TT>] or its shortcuts (<TT>Shift-Tab</TT>
+or <TT>Alt-Tab</TT>) launches playback of the current segment from its
+beginning up to its end.</P>
+
+<H4><LI><A NAME="r16"></A>Fast forward</H4>
+
+<P>Fast forward <IMG SRC="../img/forward.bmp" HEIGHT=16 WIDTH=16> and backward
+<IMG SRC="../img/backward.bmp" HEIGHT=16 WIDTH=16> buttons (menu [<TT>Signal]</TT>/[<TT>Go
+to...</TT>]/[<TT>Forward</TT>] or [<TT>Backward</TT>]) make the signal
+cursor move half a second forward or backward. If mouse button is kept
+down on the command button, move becomes continuous with 0.5 second step.
+This does even work during playback - but sound becomes choppy.</P>
+
+<H4><LI><A NAME="r17"></A>Go to next segment</H4>
+
+<P>Next <IMG SRC="../img/previous.bmp" HEIGHT=16 WIDTH=16> and previous
+<IMG SRC="../img/next.bmp" HEIGHT=16 WIDTH=16> buttons (menu [<TT>Signal]</TT>/[<TT>Go
+to...</TT>]/[<TT>Previous</TT>] or [<TT>Next</TT>]) move cursor to the
+beginning of next or previous segment in the orthographic segmentation
+(even during playback which jumps to its new position).</P>
+
+<H4><LI><A NAME="r19a"></A>Change the sound level</H4>
+
+<P>Sound level is given (from 0 to100) in the window [<TT>Signal</TT>]/[<TT>Control
+panel</TT>].</P>
+
+<CENTER><P><IMG SRC="../img/inter_control.gif" HEIGHT=167 WIDTH=218></P></CENTER>
+
+<H4><LI><A NAME="r19"></A>Vertical zoom</H4>
+
+<P>For signal with low dynamic, a cursor in [<TT>Signal</TT>]/[<TT>Control
+panel</TT>] changes vertical amplitude on the signal. Volume is not modified.</P>
+
+</OL><H3><hr WIDTH="100%"><LI>Edition</h3><OL>
+
+<H4><LI><A NAME="r21"></A>Cut/Copy/Paste</H4>
+
+<P>Standard editing commands (menu [<TT>Edit</TT>]/[<TT>Copy</TT>], [<TT>Cut</TT>]
+or [<TT>Paste</TT>] and standard shortcuts <TT>Control-x/c/v</TT>)&nbsp;can
+be used to handle parts of the transcription, including events but not
+section, turn or background buttons.</P>
+
+<H4><LI><A NAME="r22"></A>Undo</H4>
+
+<P>Undo command (menu [<TT>Edit</TT>]/[<TT>Undo</TT>] or standard shortcut&nbsp;<TT>Control-z</TT>)
+is limited, and only restores orthographic transcription of the current
+segment to its previous state. A lot of actions are not undoable. Save
+often.</P>
+
+<H4><LI><A NAME="r23"></A>Find/Replace</H4>
+
+<CENTER><P><IMG SRC="../img/inter_find.gif" HEIGHT=175 WIDTH=304></P></CENTER>
+
+<P>Command [<TT>Edit</TT>]/[<TT>Find/Replace</TT>] (shortcut <TT>Control-f</TT>)
+has various options: case sensitive, backward search, use regular expressions.
+A replacement string can be given.</P>
+
+<H4><LI><A NAME="r24"></A>Glossary</H4>
+
+<P>Command [<TT>Edit</TT>]/[<TT>Glossary</TT>] or its shortcut <TT>Control-k</TT>
+has two modes: create a new entry in the glossary, or insert an existing
+entry in the editor at current position; modification of existing entries
+is possible in both modes. If part of the text is selected when the command
+is called, creation of a new entry is proposed from this selection; a comment
+can be added and choose <TT>OK</TT> in order to register it. If no text
+was selected, one can click and select an entry in the list then click <TT>Insert</TT>;
+the entry will be inserted in the current position. Glossary is currently
+kept within configuration file but will probably switch to a separate file
+in a future version.</P>
+
+<H4><LI><A NAME="r25"></A>Automatic space handling</H4>
+
+<CENTER><P><IMG SRC="../img/inter_space.gif" HEIGHT=35 WIDTH=442></P></CENTER>
+
+<P>Automatic space handling is controlled within [<TT>Options</TT>]/[<TT>General...</TT>].
+If it is active, a space is added at the end of line upon creation of a
+new breakpoint and before punctuation symbols <TT>.,;</TT> or <TT>:</TT>.</P>
+
+<H4><LI>
+<a NAME="r6.6"></a>Spell checking</h4>
+
+Spell checking is started by the command [<tt>Edit</tt>]/[<tt>Spell
+checking</tt>]. It relies on the installation of the '<tt>ispell</tt>' software
+(standard on most Unix systems but not with Windows). The dictionary used for
+the correction is automatically deduced from the language selected in the
+global options (<a HREF="r70">cf 7.1</a>). An error message indicates if the
+dictionary was not found or if the name does not match; it is then necessary to
+check your local installation of <tt>ispell </tt> to determine the correct name
+of the dictionary.
+<p>When an unknown word is found, a dialog box proposes to:
+<ul>
+<li>
+add it to the dictionary - it will then be memorized forever;</li>
+
+<li>
+ignore and go to next word;
+</li>
+
+<li>
+replace the selected word by one of the selections, or after manual correction;
+</li>
+
+<li>
+close the window and stop the spell checking.</li>
+</ul>
+An option of the menu [<tt>Options</tt>]/[<tt>General</tt>]
+allows to control the spell checking on words starting with a capital
+letter. The default behavior is to ignore them.
+
+<H4><LI>
+<a NAME="r6.7"></a>Accented characters and internationalization</h4>
+The character input method is not selected in Transcriber but is
+system-dependent. Thus, with an appropriate keyboard, some characters can be
+input directly. Unix system allows you to remap some keyboard keys (like for
+instance function keys) with software tools like 'xmodmap' for X11. However it
+is also possible to input accentuated characters from keys combinations by
+defining shortcuts in Transcriber (<a href="#r53">cf. section 13</a>).
+<br> The default encoding of transcription files is ISO-8859-1 (Latin1),
+but other encodings are available if Transcriber is run with a version of
+Tcl/Tk at least 8.1.1 (<a href="#r7bis">cf. section 3.8</a>).
+
+</OL><H3><hr WIDTH="100%"><LI>Episode</h3><OL>
+
+<H4><LI><A NAME="r70"></A>Edit global parameters</H4>
+
+<CENTER><P><IMG SRC="../img/inter_epi.gif" HEIGHT=221 WIDTH=362></P></CENTER>
+
+<P>Some global informations about transcription can be given in [<TT>File</TT>]/[<TT>Edit
+episode attributes...</TT>]:</P>
+
+<UL>
+<LI>filename of sound being transcribed (without path or extension), which
+allows automatically finding the signal if it doesn't bear the same name
+as the transcription;</LI>
+
+<LI>the transcriber's name, which is used as default name upon creation
+of a new transcription;</LI>
+
+<LI>version of the transcription, which is automatically incremented and
+can't be edited;</LI>
+
+<LI>last modifications date, automatically updated and not editable;</LI>
+
+<LI>the program (emission, radio...);</LI>
+
+<LI>the recording date if it is known;</LI>
+
+<LI>the main language of the transcription.</LI>
+</UL>
+
+</OL><H3><hr WIDTH="100%"><LI>Segmentation</h3><OL>
+
+<H4><LI><A NAME="r26"></A>Insert a breakpoint</H4>
+
+<P>Command [<TT>Segmentation</TT>]/[<TT>Insert breakpoint</TT>] or its
+shortcut <TT>Return</TT> create a new breakpoint at current cursor position
+in the text and in the signal. Boundary positions are rounded to the nearest
+milli-second, so any new breakpoint must be at least 1 ms away from existing
+ones. A new line appears in the transcription, and segment is sliced at
+cursor position. This can be done during playback.</P>
+
+<CENTER><P><IMG SRC="../img/inter_seg0.gif" HEIGHT=240 WIDTH=242 ALIGN=CENTER>
+=&gt; <IMG SRC="../img/inter_seg1.gif" HEIGHT=240 WIDTH=241 ALIGN=CENTER></P></CENTER>
+
+<H4><LI><A NAME="r27"></A>Suppress a breakpoint</H4>
+
+<P>Command [<TT>Segmentation</TT>]/[<TT>Delete breakpoint</TT>] or its
+shortcut <TT>Shift-Backspace</TT> suppress the breakpoint at the beginning
+of current segment and fold its content with previous segment. If the breakpoint
+was also the beginning of a new turn or a new section, they are also removed.</P>
+
+<H4><LI><A NAME="r28"></A>Move the boundary between two segments</H4>
+
+<P>By clicking with central mouse button (or with left button with <TT>Control</TT>
+key pressed) over a boundary between two segments and moving the mouse,
+one can move the boundary and the one which are synchronized in other segmentations.</P>
+
+<H4><LI><A NAME="r29"></A>Select the signal over one or several segments</H4>
+
+<P>With a click of the left mouse button over a segment under the signal,
+the signal is selected over the extent of the segment, and signal cursor
+moves at the beginning of the segment. The selection can be extended with
+<TT>Shift</TT> click of left button.</P>
+
+<H4><LI><A NAME="r30"></A>Hide/Show a segmentation</H4>
+
+<P>With a click of right button, a contextual menu appears and gives commands
+for signal playback, resolution, and showing or hiding each segmentation.</P>
+
+</OL><H3><hr WIDTH="100%"><LI>Speech turns and speakers</h3><OL>
+
+<H4><LI><A NAME="r31"></A>Create a new turn</H4>
+
+<CENTER><P><IMG SRC="../img/inter_turn.gif" HEIGHT=292 WIDTH=451></P></CENTER>
+
+<P>Command [<TT>Segmentation</TT>]/[<TT>Create turn...</TT>] or its shortcut
+<TT>Control-t</TT> creates a new speech turn from the beginning of current
+segment. A speech turn is described by it(s) speaker(s) and other optional
+parameters:</P>
+
+<UL>
+<LI>elocution mode (spontaneous or planned),</LI>
+
+<LI>recording quality (high, medium, low),</LI>
+
+<LI>bandwidth of signal (telephonic speech or studio recording).</LI>
+</UL>
+
+<P>First line of the window is for overlapping speech (see next section).
+Central part is for creation, selection or modification of speakers. By
+clicking on <TT>Create Speaker</TT> or by typing directly a new name, a
+new speaker is created; one can further describe its type, dialect... A
+sorted list of already defined speakers appears to the right, with a selection
+of recently used speakers. By clicking on a name, the speaker is chosen
+as speaker for the turn. Spelling of its name and other characteristics
+can be modified after a click on <TT>Modify Speaker</TT>, and then validating
+with <TT>OK</TT>; the changes will apply to the whole transcription. The
+field <TT>no speaker </TT>can be chosen for signal segments without speech.</P>
+
+<H4><LI><A NAME="r32"></A>Overlapping speech</H4>
+
+<CENTER><P><IMG SRC="../img/inter_over1.gif" HEIGHT=107 WIDTH=490></P></CENTER>
+
+<P>During creation or modification of turn parameters, <TT>overlapping
+speech</TT> can be activated. Second speaker can be chosen the same way
+as the first one. In the text editor, each segment contains 2 lines beginning
+with <TT>1</TT> or <TT>2</TT>; orthographic segmentation under the signal
+is split horizontally for each speaker. Return to non-overlapping speech
+is done by deactivating the <TT>overlapping speech</TT> field in turn
+parameters; only first speaker is kept and transcriptions of both are merged
+in one single text.</P>
+
+<CENTER><P><IMG SRC="../img/inter_over.gif" HEIGHT=151 WIDTH=405></P></CENTER>
+
+<H4><LI><A NAME="r33"></A>Edit or suppress a turn</H4>
+
+<CENTER><P><IMG SRC="../img/inter_desturn.gif" HEIGHT=62 WIDTH=416></P></CENTER>
+
+<P>Command [<TT>Segmentation</TT>]/[<TT>Edit turn attributes...</TT>] allows
+for edition and destruction of the speech turn which contains current segment
+(even if the current segment is not the first segment of the turn). Alternatively,
+one can click on the turn button in the editor window. All parameters given
+during creation can be modified. A button allows destruction of the turn.</P>
+
+<H4><LI><A NAME="r34"></A>Find one speaker's turns</H4>
+
+<CENTER><P><IMG SRC="../img/inter_findspk.gif" HEIGHT=202 WIDTH=210></P></CENTER>
+
+<P>Command [<TT>Edit</TT>]/[<TT>Speakers</TT>]/[<TT>Find speaker</TT>]
+displays the list of speakers in the transcription. By clicking on the
+name, number of occurrences of this speaker in the transcription is shown
+under the list. <TT>Next</TT> button moves to the next speech turn of the
+speaker.</P>
+
+<H4><LI><A NAME="r35"></A>Import speakers from another file</H4>
+
+<CENTER><P><IMG SRC="../img/inter_impspk.gif" HEIGHT=202 WIDTH=365></P></CENTER>
+
+<P>Command [<TT>Edit</TT>]/[<TT>Speakers</TT>]/[<TT>Import from file...</TT>]
+asks for a transcription file and displays the list of speakers within
+this file which doesn't yet exist in the current transcription. User can
+select/unselect speakers by clicking on its name, or select one speakers
+which <TT>Global name</TT> field is on.</P>
+
+<H4><LI><A NAME="r36"></A>Suppress unused speakers</H4>
+
+<P>Command [<TT>Edit</TT>]/[<TT>Speakers</TT>]/[<TT>Remove unused speakers</TT>]
+suppress any speakers which doesn't appear in any speech turn.</P>
+
+</OL><H3><hr WIDTH="100%"><LI>Sections and topics</h3><OL>
+
+<H4><LI><A NAME="r37"></A>Create a new section</H4>
+
+<CENTER><P><IMG SRC="../img/inter_sect.gif" HEIGHT=245 WIDTH=277></P></CENTER>
+
+<P>Command [<TT>Segmentation</TT>]/[<TT>Create section...</TT>] or its
+shortcut <TT>Control-e</TT> creates a new section at beginning of current
+segment. Section type (&quot;report&quot;, &quot;filler&quot; or &quot;nontrans&quot;)
+and topic can be chosen in the dialog window. Already defined topics list
+is on the right, recently used ones are on the left. Click <TT>New topic</TT>
+or type in directly a text to define a new topic. If an existing topic
+is selected, one can click <TT>Modify topic</TT> and edit it, then choose
+<TT>OK</TT>. You can choose <TT>no topic</TT> or empty the <TT>Topic</TT>
+field. A new speech turn is automatically created at the beginning of the
+section; the current speaker is proposed as default value.</P>
+
+<H4><LI><A NAME="r38"></A>Edit or suppress a section</H4>
+
+<P>Command [<TT>Segmentation</TT>]/[<TT>Edit section attributes...</TT>]
+allows edition and suppression of the section which contains the current
+segment. One can also click on the chosen section button in the text editor.
+All section parameters can be modified, and a button allows for section
+destruction.</P>
+
+<H4><LI><A NAME="r39"></A>Find sections about a topic</H4>
+
+<CENTER><P><IMG SRC="../img/inter_findtop.gif" HEIGHT=166 WIDTH=194></P></CENTER>
+
+<P>Command [<TT>Edit</TT>]/[<TT>Topics</TT>]/[<TT>Find topic</TT>] displays
+a list of already defined topics. Click on a topic and its count will appear
+under the list. <TT>Next</TT> button moves to the next section about the
+topic.</P>
+
+<H4><LI><A NAME="r40"></A>Import topics from another file</H4>
+
+<CENTER><P><IMG SRC="../img/inter_imptop.gif" HEIGHT=174 WIDTH=208></P></CENTER>
+
+<P>Command [<TT>Edit</TT>]/[<TT>Topics</TT>]/[<TT>Import from file...</TT>]
+ask for a transcription file and displays a list of new topics. User can
+select/deselect topics by clicking on their name.</P>
+
+<H4><LI><A NAME="r41"></A>Suppress unused topics</H4>
+
+<P>Command [<TT>Edit</TT>]/[<TT>Topics</TT>]/[<TT>Remove unused topics</TT>]
+suppress unused topics from the list.</P>
+
+</OL><H3><hr WIDTH="100%"><LI>Background noise</h3><OL>
+
+<P>The segmentation in acoustic conditions if for lasting modifications
+in background noises. The marks are for a change in background state; their
+value replace the previous one. Each transcriptions begins with an empty
+background condition at t=0.</P>
+
+<H4><LI><A NAME="r42"></A>Create a background mark</H4>
+
+<CENTER><P><IMG SRC="../img/inter_creatbg.gif" HEIGHT=139 WIDTH=170></P></CENTER>
+
+<P>Command [<TT>Segmentation</TT>]/[<TT>Insert background</TT>] creates
+a background mark at current cursor position in the signal. It is not allowed
+to create two marks at the same time index. If the cursor in the signal
+is at the beginning of the segment, background mark will always be synchronized
+with segment beginning, and background icon appears at the beginning of
+line. Background type (speech, music, electric noise, other) is chosen;
+value defaults to previous one. A music icon appears in the editor at current
+position of the cursor. Background segmentation under the signal is colored
+(grey default color) on signal parts with noise.</P>
+
+<CENTER><P><IMG SRC="../img/inter_dispbg.gif" HEIGHT=229 WIDTH=417></P></CENTER>
+
+<H4><LI><A NAME="r43"></A>Indicate the change or the end of a background noise</H4>
+
+<P>Create at the position of the end of noise a new background mark with
+all noise types empty. For a noise change, don't mark the end of the previous
+noise, but only the new one which replaces the previous one.</P>
+
+<H4><LI><A NAME="r44"></A>Edit or suppress a background noise mark</H4>
+
+<P>Background noise marks can be edited or suppressed by clicking on the
+music icon in the editor. If it is deleted, current background conditions
+become the ones defined in the previous background mark.</P>
+
+</OL><H3><hr WIDTH="100%"><LI>Events and comments</h3><OL>
+
+<H4><LI><A NAME="r45"></A>Insert an event</H4>
+
+<CENTER><P><IMG SRC="../img/inter_event.gif" HEIGHT=209 WIDTH=394></P></CENTER>
+
+<P>Command [<TT>Edit</TT>]/[<TT>Insert event</TT>] or <TT>Control-d</TT>
+pops up a window for defining:</P>
+
+<UL>
+<LI>event type:&nbsp;noise, comment, pronunciation mark, lexical mark,
+language change;</LI>
+
+<LI>description of the event. A list of predefined values can be available
+to the right;</LI>
+
+<LI>temporal extent of the event (except for comments); an event can be
+instantaneous or have an extent. In this last case, start and end of events
+must be given. A mark can also apply to the previous or the following word.</LI>
+</UL>
+
+<H4><LI><A NAME="r46"></A>Insert the beginning and the end of an event</H4>
+
+<P>If a part of text is selected before the insertion of the event, beginning
+and end of event marks are simultaneously inserted</P>
+
+<H4><LI><A NAME="r47"></A>Insert a comment</H4>
+
+<P>[<TT>Edit</TT>]/[<TT>Insert comment</TT>] inserts a comment event. Comments
+have no temporal extent.</P>
+
+<H4><LI><A NAME="r48"></A>Edit or suppress an event</H4>
+
+<P>Click on the event in the text editor and edit or destroy the event.
+Events can also be deleted in the text editor like a single character.</P>
+
+<H4><LI><A NAME="r49"></A>Copy/Paste an event</H4>
+
+<P>Within Transcriber, events can be copied/pasted. When pasted in other
+applications, event marks will appear as XML tags.</P>
+
+<H4><LI><A NAME="r50"></A>Create a keyboard shortcut for an event</H4>
+
+<P>See shortcut section</P>
+
+<H4><LI><A NAME="r51"></A>Edit the default event list</H4>
+
+<CENTER><P><IMG SRC="../img/inter_editevent.gif" HEIGHT=243 WIDTH=259></P></CENTER>
+
+<P>Noise list, pronunciation marks, lexical marks or language list can
+be edited with [<TT>Options</TT>]/[<TT>Events</TT>]/[<TT>Edit * list...</TT>].
+Value will appear in the editor and in the segmentation; description appears
+in the menu with list of predefined events. An empty line is a separator
+in the menu. For language list, iso639 codes should be used for consistency.</P>
+
+<H4><LI><A NAME="r52"></A>Configure events display</H4>
+
+<P>Fonts and colors for event display can be modified with menus [<TT>Options</TT>]/[<TT>Fonts</TT>]/[<TT>Events</TT>]
+and [<TT>Options</TT>]/[<TT>Colors...</TT>] ; format string for comment
+and events, and for event extent are chosen in window [<TT>Options</TT>]/[<TT>Events</TT>]/[<TT>Events
+display...</TT>].</P>
+
+<CENTER><P><IMG SRC="../img/inter_confevent.gif" HEIGHT=195 WIDTH=427></P></CENTER>
+
+</OL><H3><hr WIDTH="100%"><LI>Keyboard shortcuts</h3><OL>
+
+<P>Menu [<TT>Options</TT>]/[<TT>Bindings...</TT>] pops-up a window for
+edition, suppression or creation of bindings.</P>
+
+<H4><LI><A NAME="r53"></A>Define a shortcut</H4>
+
+<P>Click <TT>New</TT> in [<TT>Options</TT>]/[<TT>Bindings...</TT>] for creation
+of a new shortcut, then type in keyboard combination in the first field,
+replacement string in the second and click <TT>OK</TT> (end of edition)
+or <TT>Modify</TT> (before other editions). Keyboard combination can be
+directly typed with <TT>Control</TT>, <TT>Shift</TT>, <TT>Alt</TT>... if
+cursor is in the <TT>Keystrokes</TT> field. Be careful, you can override
+predefined menu shortcuts.</P>
+
+<H4><LI><A NAME="r54"></A>Shortcut for a currently used expression</H4>
+
+<P>Select currently used expression with mouse in the text editor, then
+choose menu [<TT>Options</TT>]/[<TT>Bindings...</TT>], give wished <TT>Keystrokes</TT>
+and click <TT>OK</TT>. Shortcut can also consist in the first letters of
+the expression, e.g. &quot;gor&quot; will be replaced with &quot;Gorbatchev&quot;.
+These shortcuts are not related to the glossary.</P>
+
+<H4><LI><A NAME="r55"></A>Shortcut for an event</H4>
+
+<P>Events (noise, comment, etc.) can be generated with a shortcut. Create
+an event of the wished kind in the text editor, select it and follow the
+previous instructions. Selected text can be any combination of regular
+text and one or several events.</P>
+
+<CENTER><P><IMG SRC="../img/inter_bindevent.gif" HEIGHT=224 WIDTH=458></P></CENTER>
+
+</OL><H3><hr WIDTH="100%"><LI>Options and interface configuration</h3><OL>
+
+<H4><LI><A NAME="r56"></A>Transcriber's name</H4>
+
+<CENTER><P><IMG SRC="../img/inter_name.gif" HEIGHT=29 WIDTH=449></P></CENTER>
+
+<P>Default transcriber's name is given in [<TT>Options</TT>]/[<TT>General...</TT>].
+It is used in episode parameters initialization when creating a new transcription.</P>
+
+<H4><LI><A NAME="r57"></A>Productivity monitoring</H4>
+
+<CENTER><P><IMG SRC="../img/inter_log.gif" HEIGHT=29 WIDTH=450></P></CENTER>
+
+<P>A filename for transcriber's productivity monitoring can be given in
+[<TT>Options</TT>]/[<TT>General...</TT>]. By default, the field is empty
+and function is disabled. When it is active, work duration is traced (without
+pauses), as long as produced work (number of new sections, turns, words...);
+it is displayed in window [<TT>File</TT>]/[<TT>Informations</TT>] and saved
+in the logging file at the end of the session. No automatic exploitation
+of these file is currently performed by the software.</P>
+
+<H4><LI><A NAME="r58"></A>Colors edition</H4>
+
+<CENTER><P><IMG SRC="../img/inter_color.gif" HEIGHT=355 WIDTH=286></P></CENTER>
+
+<P>Most colors can be modified with menu [<TT>Options</TT>]/[<TT>Colors...</TT>].
+</P>
+
+<H4><LI><A NAME="r59"></A>Fonts edition</H4>
+
+<CENTER><P><IMG SRC="../img/inter_font.gif" HEIGHT=204 WIDTH=226></P></CENTER>
+
+<P>Fonts used for text display are modified with menu [<TT>Options</TT>]/[<TT>Fonts</TT>].</P>
+
+<H4><LI><A NAME="r60"></A>Localization of the interface</H4>
+
+<CENTER><P><IMG SRC="../img/inter_conflocal.gif" HEIGHT=89 WIDTH=499></P></CENTER>
+
+<P>Language for the interface is chosen in [<TT>Options</TT>]/[<TT>General...</TT>].
+It defaults to English, and French is available. Localization in new language
+can be created. When no localization is available, the original English
+message is kept. As soon as non-localized messages are displayed, they
+are added to the list of messages to be localized. In order to keep your
+localization, give a <TT>Localization file</TT> name in [<TT>Options</TT>]/[<TT>General...</TT>]
+and choose [<TT>Options</TT>]/[<TT>Save configuration</TT>].</P>
+
+<CENTER><P><IMG SRC="../img/inter_editlocal.gif" HEIGHT=233 WIDTH=315></P></CENTER>
+
+<H4><LI><A NAME="r18"></A>Second signal view</H4>
+
+<CENTER><P><IMG SRC="../img/inter_second.gif" HEIGHT=296 WIDTH=441></P></CENTER>
+
+<P>Menu [<TT>Options</TT>]/[<TT>Display</TT>]/[<TT>Second signal view</TT>]
+shows or hide a second view of the signal, which can be displayed at another
+resolution. Resizing the window can be necessary for a correct display.</P>
+
+<H4><LI><A NAME="r61"></A>Show/Hide central button bar</H4>
+
+<P>Central button bar display is switched on/off with [<TT>Options</TT>]/[<TT>Display</TT>]/[<TT>Command
+buttons</TT>].</P>
+
+<H4><LI><A NAME="r62"></A>Save the options</H4>
+
+<P>Modified options, window positions, keyboard shortcuts, glossary content
+and currently edited filenames are saved with command [<TT>Options</TT>]/[<TT>Save
+configuration</TT>] in a configuration file (defaults to <TT>~/.transcriber);</TT>
+this file is read at startup and currently edited files will be automatically
+reopen at beginning of next session.</P>
+
+</OL><H3><hr WIDTH="100%"><LI>Other features</h3><OL>
+
+<H4><LI><A NAME="r65"></A>Informations about the signal and the transcription</H4>
+
+<P>Button <IMG SRC="../img/info.bmp" HEIGHT=16 WIDTH=16>or command [<TT>File</TT>]/[<TT>Informations</TT>]
+displays a window with informations about signal filename, duration, word
+count, etc. Click <TT>update</TT> button for an update of the informations.</P>
+
+<H4 ALIGN=CENTER><IMG SRC="../img/inter_info.gif" HEIGHT=190 WIDTH=424></H4>
+
+<H4><LI><A NAME="r63"></A>Quit Transcriber</H4>
+
+<P>Menu [<TT>File</TT>]/[<TT>Quit</TT>] or <TT>Control-q</TT> ; save of
+the transcription is proposed if necessary. If corresponding option is
+activated, save of the configuration is also proposed.</P>
+
+<CENTER><P><IMG SRC="../img/inter_saveconf.gif" HEIGHT=93 WIDTH=256></P></CENTER>
+
+<H4><LI><A NAME="r64"></A>Help</H4>
+
+<P>Online help is available with menu [<TT>Help</TT>] ; help files can
+also be viewed with any HTML browser with frames</P>
+
+</BODY>
+</HTML>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE Trans SYSTEM "trans-13.dtd">
+<Trans scribe="myl" audio_filename="know" version="1" version_date="990830">
+<Speakers>
+<Speaker id="spk1" name="speaker#1" check="no" dialect="native" accent="" scope="local"/>
+<Speaker id="spk2" name="speaker#2" check="no" dialect="native" accent="" scope="local"/>
+</Speakers>
+<Episode>
+<Section type="report" startTime="0" endTime="23.962">
+<Turn startTime="0" endTime="0.258" speaker="spk2">
+<Sync time="0"/>
+((Yeah)).
+</Turn>
+<Turn speaker="spk1" mode="spontaneous" startTime="0.258" endTime="2.41">
+<Sync time="0.258"/>
+{inhale} He's hilarious. {laugh}
+</Turn>
+<Turn speaker="spk2" mode="spontaneous" startTime="2.41" endTime="3.055" channel="telephone">
+<Sync time="2.41"/>
+He's great.
+</Turn>
+<Turn speaker="spk1 spk2" mode="spontaneous" startTime="3.055" endTime="4.77">
+<Sync time="3.055"/>
+<Who nb="1"/>
+{inhale} He's really a trip.
+<Who nb="2"/>
+I know. But it really shows you,
+</Turn>
+<Turn speaker="spk2" mode="spontaneous" startTime="4.77" endTime="9.202">
+<Sync time="4.77"/>
+I mean, you know, you really don't have to put up with the Anthony's of the world.
+</Turn>
+<Turn speaker="spk1" mode="spontaneous" startTime="9.202" endTime="12.806">
+<Sync time="9.202"/>
+((I-)) You know what, Ann, it's like, I mean, {exhale}
+</Turn>
+<Turn speaker="spk1 spk2" mode="spontaneous" startTime="12.806" endTime="16.553">
+<Sync time="12.806"/>
+<Who nb="1"/>
+I just didn't know. You know, everyone tells you "you don't know, you don't know, you don't know."
+<Who nb="2"/>
+I know.
+</Turn>
+<Turn speaker="spk1" mode="spontaneous" startTime="16.553" endTime="19.639">
+<Sync time="16.553"/>
+And the thing is, you don't know, so you don't even know that you don't know. {laugh}
+</Turn>
+<Turn speaker="spk1 spk2" mode="spontaneous" startTime="19.639" endTime="20.026">
+<Sync time="19.639"/>
+<Who nb="1"/>
+{inhale}
+<Who nb="2"/>
+{laugh}
+</Turn>
+<Turn speaker="spk1" mode="spontaneous" startTime="20.026" endTime="22.624">
+<Sync time="20.026"/>
+You know what I mean? It's like- {exhale} I don't know. You know, I just-
+</Turn>
+<Turn speaker="spk2" mode="spontaneous" startTime="22.624" endTime="23.962">
+<Sync time="22.624"/>
+{laugh}
+</Turn>
+</Section>
+</Episode>
+</Trans>

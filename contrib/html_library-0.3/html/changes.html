@@ -1,0 +1,28 @@
+<title>HTML library changes</title>
+<h1>Release 0.1 -> release 0.3 Changes</h1>
+<h2>Changes in the html_library</h2>
+<ul>
+<li>Fixed <code>HMmap_esc</code> to close a potential security hole
+<li>Added fragment support, using the<code>
+    HMgoto</code> and <code>HMwent_to</code> callbacks.
+<li>Added HTML/2.0 <i>forms</i>, and <i>isindex</i>  support.
+<li>Fix for #nnn; processing courtesy joe@morton.rain.com.
+<li>Added application control over text insertion point.
+<li>Added hooks for HTML 3.0 tables.
+<li>Added application hooks for controlling the initial rendering state.
+  This permits applications to render HTML incrementally.
+<li>Fixed bug in <code>HMextract_param</code> when parameters had embedded \n's.
+<li>Changed stack management routines to use real lists.
+<li>Added a <i>new font</i> callback.
+<li>Improved the documentation a bit.
+</ul>
+<h2>Changes to sample application</h2>
+<ul>
+<li>Added better check for proper versions of Tk and Tcl.
+<li>Added support for internal links.
+<li>Added support for <i>.bmp</i> images.
+<li>Added a font callback for better user feedback during font downloading.
+<li>Added support for a Netscape-like HTML <code>font</code> tag.
+</ul>
+<hr>
+<a href=help.html>home</a>
