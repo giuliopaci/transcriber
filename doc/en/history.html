@@ -2,7 +2,7 @@
 <html>
 <head>
    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-   <meta name="GENERATOR" content="Mozilla/4.61 [en] (X11; I; Linux 2.2.12-32smp i686) [Netscape]">
+   <meta name="GENERATOR" content="Mozilla/4.78 [en] (X11; U; Linux 2.4.7-10 i686) [Netscape]">
    <meta name="Author" content="C. Barras">
    <title>Transcriber's History</title>
 </head>
@@ -11,21 +11,117 @@
 <h2>
 History of Transcriber versions</h2>
 
+<hr WIDTH="100%"><b><font size=+0>Version 1.4.5</font></b>
+<p>Released on July 11, 2002.
+<br>needs Tcl/Tk 8.0-8.3, Snack 1.7 or preferably 2.0.1, tcLex 1.2
+<p>New or modified functions:
+<ul>
+<li>
+added new playback mode stopping before (rather than after) next boundary;
+added related menu entry</li>
+
+<li>
+added menu entry and ctrl-return binding for playing next segment</li>
+
+<li>
+added bindings alt-backspace/delete for deleting word before/after cursor
+respectively.</li>
+
+<li>
+added ctrl-alt-t binding for modifying turn attributesImplementation.</li>
+
+<li>
+added support for floating boundaries.&nbsp;They are viewed in the text
+editor as empty circles (standard boundaries being displayed as full bullets)
+and it is possible to toggle the state of each boundary or of the whole
+set of boundaries by right-clicking (or control-left-clicking) on the bullet
+(except the first one). When a boundary is moved, the neighbouring floating
+ones move while keeping a proportionality up to the next "hard" boundary.&nbsp;A
+floating boundary becomes automatically fixed after being moved.&nbsp;The
+floating state is marked in the .trs format with a space before the time
+value (this behaviour is meant for backward compatibility of .trs files
+with prior versions of Transcriber and should evolve in the future). Floating
+boundaries are intended for later support of import and edition of non-temporized
+manual transcriptions or dialogs.</li>
+
+<li>
+added import filters for various formats defined by NIST speech group (/www.nist.gov/speech/),
+especially the output of the 'sclite' scoring tool (alignement between
+word hypothesis from automatic speech recognition and manual reference)
+- see header of convert/sclite.tcl file -, the acoustic segmentation .sdt
+format and the word segmentation .ctm format (developed for the Coretex
+European project).</li>
+
+<li>
+reworked remote playback support (the script tcl/SoundServer.tcl needs
+to be launched on the client side) - feature still experimental</li>
+
+<li>
+support for client-server scripting of Transcriber through sockets.&nbsp;One
+need to launch the tool with: "trans -patch tcl/Socket.tcl" - see tcl/Socket.tcl
+for details on API. Experimental, intended for interface with other tools.</li>
+</ul>
+changes or bug fixes:
+<ul>
+<li>
+improved support for NIST .stm format (convert/stm.tcl).</li>
+
+<li>
+store encoding used along with default settings and localization texts
+for better portability.</li>
+
+<li>
+improved default setting of shape directory for Windows/Mac platforms.</li>
+
+<li>
+turn around for Tcl8.3.2 bug involving 'a grave' appearing as 'A tilde'.</li>
+
+<li>
+turn around for Tk bug resulting in a bad cursor position when moving to
+the end of a word.</li>
+
+<li>
+define word boundary to be empty char on Unix platform, similar to Windows
+settings.</li>
+
+<li>
+take user preference about start or end of line into account when changing
+line with cursor.</li>
+
+<li>
+do not limit temporal display to 30 sec any more when the signal is not
+available.</li>
+
+<li>
+case insensitive split of the apostrophe for French and Italian spell checking.</li>
+
+<li>
+selection of a speaker in the list of speakers in the turn attribute windows
+now also possible with space keystroke.</li>
+
+<li>
+corrected automatic XML&nbsp;encoding detection for OS whose default encoding
+is not ASCII&nbsp;compatible (e.g.&nbsp;asiatic).</li>
+
+<li>
+corrected possible display inconsistency of axis (delayed repaint).</li>
+
+<li>
+various corrections to the configuration/compilation step.</li>
+</ul>
+
 <hr WIDTH="100%"><b><font size=+0>Version 1.4.4</font></b>
 <p>Released on April 19, 2002.
 <br>needs Tcl/Tk 8.0-8.3, Snack 1.7 or preferably 2.0.1, tcLex 1.2
-<p>New or modified functions:  none.
+<p>New or modified functions: none.
 <p>Implementation changes or bug fixes:
 <ul>
 <li>
-The cursor disappeared after playing a segment with Shift-Tab - fixed.
-</li>
+The cursor disappeared after playing a segment with Shift-Tab - fixed.</li>
 
 <li>
-The waveform display was sometimes not correctly refreshed - fixed.
-</li>
+The waveform display was sometimes not correctly refreshed - fixed.</li>
 </ul>
-
 
 <hr WIDTH="100%"><b><font size=+0>Version 1.4.3</font></b>
 <p>Released on June 21, 2001.
