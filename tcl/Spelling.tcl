@@ -4,17 +4,21 @@
 # distributed under the GNU General Public License (see COPYING file)
 
 ################################################################
+if {$::tcl_platform(platform) == "windows"} {
+	package require registry 1.0
+}
+
 # Check spelling
 
 proc SpellChecking {} {
    global v
 
-   if {$::tcl_platform(platform) == "windows"} {
-     tk_messageBox -type ok -icon error -message \
- 	 [Local "Sorry, spell checker not available on this platform"]
-   }
+  # if {$::tcl_platform(platform) == "windows"} {
+  #   tk_messageBox -type ok -icon error -message \
+  #	 [Local "Sorry, spell checker not available on this platform"]
+  # }
 
-   OpenIspell
+   OpenAspell
 
    if ![info exists v(tk,edit)] return
    set t $v(tk,edit)
@@ -258,16 +262,16 @@ proc SpellReplace {} {
    SpellLoop
 }
 
-# Close ispell and withdraw spell-checking window
+# Close aspell and withdraw spell-checking window
 proc SpellClose {} {
    global v
 
-   CloseIspell
+   CloseAspell
    $v(tk,edit)-bis tag remove spell 0.0 end
    catch {wm withdraw .spell}
 }
 
-# Check one word via ispell
+# Check one word via aspell
 # Output: 1 if OK, 0 if wrong => word lists in v(spell,miss) / v(spell,guess)
 # called by SpellLoop
 proc SpellOneWrd {wrd} {
@@ -278,12 +282,12 @@ proc SpellOneWrd {wrd} {
       return 1
    }
 
-   # get ispell answer
+   # get aspell answer
    puts $v(spell) $wrd
    set ans [gets $v(spell)]
    gets $v(spell)
 
-   # analyze ispell answer
+   # analyze aspell answer
    set ok 1
    set count 0
    set v(spell,miss) {}
@@ -306,8 +310,8 @@ proc SpellOneWrd {wrd} {
 	 set ok 0
       }
       default {
-	 catch {CloseIspell}
-	 error "Unrecognized ispell answer '$ans' for word '$wrd'"
+	 catch {CloseAspell}
+	 error "Unrecognized aspell answer '$ans' for word '$wrd'"
       }
    }
    # always accept guesses ?
@@ -318,10 +322,10 @@ proc SpellOneWrd {wrd} {
    return $ok
 }
 
-# Open ispell as a subprocess
+# Open aspell as a subprocess
 # Choice of dictionary name not very robust; should be at user option ?
 # Called by SpellOne
-proc OpenIspell {} {
+proc OpenAspell {} {
    global v
 
    if {![info exists v(spell)]} {
@@ -334,23 +338,45 @@ proc OpenIspell {} {
       catch {set lang $::iso639($lang)}
       set lang [string tolower $lang]
       # special test for english
-      # a table [iso639] -> [ispell dictionary names] would be useful here
+      # a table [iso639] -> [aspell dictionary names] would be useful here
       if {$lang == "english"} {
 	 set lang "american"
       } elseif {$lang == ""} {
 	 set lang "default"
       }
+	
+	if {$::tcl_platform(os) == "Darwin"} {
+		  tk_messageBox -type ok -icon error -message [Local "Sorry, ASpell spellchecker doesn't exist on Mac OS yet."]
+		  return -code return	
+	}
 
-      if {[catch {
-	 set chan [open "| ispell -a -d $lang" w+]
-      }]} {
-	 tk_messageBox -type ok -icon error -message [Local "Sorry, couldn't launch spell checker"]\n($err)
+	if {$::tcl_platform(platform) == "windows"} {
+		if {[catch { set AspellPath [registry get HKEY_LOCAL_MACHINE\\SOFTWARE\\Aspell "Path"]} err ]} {
+            tk_messageBox -type ok -icon error -message [Local "Please, check your Aspell spellchecker installation."]\n($err)
+            OpenURL {aspell.net/win32/}
+		    return -code return
+		} else {
+            set CurPwd [pwd]
+            cd $AspellPath
+            set chan [open "| aspell -d $lang pipe" w+]
+            # return in Transcriber directory
+            cd $CurPwd
+		}
+    }
+    if {$::tcl_platform(os) == "Linux"} {
+        if {[catch {
+		   set chan [open "| aspell -d $lang pipe" w+]	
+      } err ]} {
+	 tk_messageBox -type ok -icon error -message [Local "Sorry, couldn't launch spell checker. Please check Aspell installation."]\n($err)
+	 OpenURL aspell.sourceforge.net
 	 return -code return
-      }
+        }
+    }
       fconfigure $chan -buffering line
       if {[gets $chan res] < 0} {
 	 catch {close $chan} err
-	 tk_messageBox -type ok -icon error -message [format [Local "Sorry, couldn't find %s dictionary"] $lang]\n($err)
+	 tk_messageBox -type ok -icon error -message [format [Local "Sorry, couldn't find %s dictionary. Please install the Aspell dictionnary that you need."] $lang]\n($err)
+  	 OpenURL aspell.sourceforge.net
 	 return -code return
       }
       set v(spell) $chan
@@ -358,7 +384,8 @@ proc OpenIspell {} {
    }
 }
 
-proc CloseIspell {} {
+
+proc CloseAspell {} {
    global v
 
    # save dictionnary before leaving
