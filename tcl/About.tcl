@@ -181,22 +181,23 @@ proc OpenURL { URL } {
     global v
 
     if {$::tcl_platform(os) == "Darwin"} {
-        if { $v(browser) == ""} { exec open $URL }
-        else { exec $v(browser) $URL }
+        if { $v(browser) == ""} { exec open $URL &}
+        else { exec $v(browser) $URL &}
     }
     
     if {$::tcl_platform(os) == "Linux"} {
         if { $v(browser) == ""} {
-            if { [catch {exec mozilla $URL}] == 0 } {
-	    	set v(browser) mozilla
-	    } elseif { [catch {exec firefox $URL}] == 0 } {
-	    	set v(browser) firefox
-	    } else {
+            if { [catch {exec mozilla $URL &}] == 0 } {
+        	    	  set v(browser) mozilla
+	        } elseif { [catch {exec firefox $URL &}] == 0 } {
+	    	       set v(browser) firefox
+	        } else {
                 tk_messageBox -type ok -icon error -message [format [Local "Please define your default browser."] ]
                 set v(browser) [SelectBrowser]
+                catch { exec $v(browser) $URL &}
             }
         } else {
-            catch { exec $v(browser) $URL }
+            catch { exec $v(browser) $URL &}
         }
     }
 
@@ -204,7 +205,7 @@ proc OpenURL { URL } {
         if { $v(browser) == ""} {
             set v(browser) [FindWinDefaultBrowser]
         }
-        catch { exec $v(browser) "$URL" }
+        catch { exec $v(browser) $URL &}
     }
 }
 
