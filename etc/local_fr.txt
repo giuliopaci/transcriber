@@ -962,5 +962,9 @@ Word
 	Mot
 {Zoom selection}
 	{Zoom de la sélection}
+{Update db}
+	{Mise à jour base de donnée}
+{External Speakers Database :}
+	{BD Locuteurs Externes :}
 }
 

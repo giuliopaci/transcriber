@@ -1,5 +1,8 @@
 # Default configuration for Transcriber - read with encoding iso8859-1
 #  -*-tcl-*-
+
+# Personal external speakers database
+list,ext .speaker
 				     
 # Personal configuration will be saved upon request in the following file:
 options,unix  ".transcriber"

@@ -312,7 +312,7 @@ proc SetBindings {} {
 
 proc ConfigureGeneral {} {
    global v
-
+    global env
    # Keep initial values for 'Cancel' (but not for 'lang')
    foreach name {
       scribe,name autosave,time backup,ext encoding
@@ -328,6 +328,7 @@ proc ConfigureGeneral {} {
    pack $g -fill both -expand true -side top
    EntryFrame $g.en1 "Default scribe's name" v(scribe,name)
    EntryFrame $g.en2 "Log trace in file" v(trace,name)
+   EntryFrame $g.en3 "External Speakers Database " v(list,ext) 
 
    set g [frame $f.fr1 -relief raised -bd 1 -width 25c]
    pack $g -fill both -expand true -side top
@@ -399,7 +400,10 @@ proc ConfigureGeneral {} {
 	 ChangedLocal
       }
    } else {
-      TraceInit 1
+       ::speaker::reset_dbg
+       ::speaker::importg $env(HOME)/[file tail $v(list,ext)]
+       ::speaker::store_dbg
+       TraceInit 1
    }
 }
 

@@ -226,11 +226,12 @@ proc InitMenus {} {
 	 {"Spell checking"   	cmd {SpellChecking}}
 	 {"Glossary"		cmd {EditGlossary} -bind "Ctrl-k"}
 	 {"Speakers"		cascade {
-	    {"Find speaker"		cmd {::speaker::find}}	
-	    {"Import from file..." 	cmd {::speaker::import}}
-	    {"Remove unused speakers" 		cmd {::speaker::purge}}
-	    {""}
- 	    {"Automatic import from selected file"	check v(importSpeakers)}
+	     {"Find speaker"		cmd {::speaker::find}}	
+	     {"Import from file..." 	cmd {::speaker::import}}
+	     {"Remove unused speakers" 		cmd {::speaker::purge}}
+	     {"Update db" 		cmd {::speaker::Maj_bdg}}
+	     {""}
+	     {"Automatic import from selected file"	check v(importSpeakers)}
 	 }}
 	 {"Topics"		cascade {
 	    {"Find topic"		cmd {::topic::find}}	
