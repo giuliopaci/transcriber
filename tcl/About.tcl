@@ -163,7 +163,7 @@ proc HMset_image {win handle src} {
       HMgot_image $handle $image
    }
 }
-
+----
 proc OpenURL { URL } {
     #
     # Job    Open an url with the default browser
@@ -179,7 +179,7 @@ proc OpenURL { URL } {
     # July 27, 2004
     #
     global v
-    
+
     if {$::tcl_platform(os) == "Darwin"} {
         if { $v(browser) == ""} { exec open $URL }
         else { exec $v(browser) $URL }
@@ -187,18 +187,19 @@ proc OpenURL { URL } {
     
     if {$::tcl_platform(os) == "Linux"} {
         if { $v(browser) == ""} {
-            if { [catch {exec mozilla $URL}] == 0 } { set v(browser) mozilla }
-            elseif { [catch {exec firefox $URL}] == 0 } {set v(browser) firefox }
-            else {
+            if { [catch {exec mozilla $URL}] == 0 } {
+	    	set v(browser) mozilla
+	    } elseif { [catch {exec firefox $URL}] == 0 } {
+	    	set v(browser) firefox
+	    } else {
                 tk_messageBox -type ok -icon error -message [format [Local "Please define your default browser."] ]
                 set v(browser) [SelectBrowser]
             }
-        }
-        else {
-            catch { exec $v(browser] $URL }
+        } else {
+            catch { exec $v(browser) $URL }
         }
     }
-    
+
     if {$::tcl_platform(platform) == "windows"} {
         if { $v(browser) == ""} {
             set v(browser) [FindWinDefaultBrowser]
@@ -206,8 +207,6 @@ proc OpenURL { URL } {
         catch { exec $v(browser) "$URL" }
     }
 }
-
-
 
 proc FindWinDefaultBrowser {} {
     #
@@ -222,11 +221,11 @@ proc FindWinDefaultBrowser {} {
     # July 27, 2004
     #
     set BrowserKey [registry get HKEY_CLASSES_ROOT\\http\\shell\\open\\command ""]
-    
+
     if { [string equal [string index [string trim $BrowserKey " "] 0] "\""]} {
         set BrowserPath [string trimleft $BrowserKey "\""]
         set BrowserPath [string range $BrowserPath 0 [expr { [string first "\"" $BrowserPath ]-1}]]
-        
+
     } else {
         set BrowserPath [string range $BrowserKey 0 [string first " " $BrowserKey ]]
     }
@@ -245,9 +244,9 @@ proc SelectBrowser {} {
     # July 27, 2004
     #
     if [catch {SaveIfNeeded} err] return
-    
+
     set name [tk_getOpenFile -title [Local "Select your default browser"]]
-    
+
     return $name
 }
 
