@@ -493,6 +493,12 @@ proc ChooseFont {font} {
    set g [frame $f.top -relief raised -bd 1 -width 25c]
    pack $g -fill x -side top
 
+   # Current font
+   set h [frame $g.fnt]
+   pack $h -side top
+   label $h.lab -text "Current font: $v(font,$font)" -relief raised
+   pack $h.lab -side top -padx 3m -pady 3m 
+   
    # Family menu button
 
    set h [frame $g.fam]
