@@ -44,7 +44,8 @@ proc InitConvertors {} {
       upvar 0 ${format}::msg msg
       upvar 0 ${format}::ext ext
       if {[info command ${format}::import] != ""
-	  || [info command ${format}::readSegmt] != ""} {
+	  || [info command ${format}::readSegmt] != ""
+	  || [info command ${format}::readSegmtSet] != ""} {
 	 lappend v(newtypes) [list $msg $ext]
 	 # Add default guess proc from input extensions
 	 if {[info command ${format}::guess] == ""} {
@@ -55,6 +56,15 @@ proc InitConvertors {} {
 		  return [expr [lsearch $ext $filext]>=0]
 	       }
 	    }
+	 }
+	 # Add default readSegmt proc from readSegmtSet
+	 if {[info command ${format}::readSegmt] == ""
+	     && [info command ${format}::readSegmtSet] != ""} {
+	   namespace eval $format {
+	     proc readSegmt {content} {
+	       return [lindex [lindex [readSegmtSet $content] 0] 0]
+	     }
+	   }
 	 }
 	 if {[info command ${format}::import] != ""} {
 	    eval lappend v(ext,trs) $ext
@@ -106,7 +116,14 @@ proc OpenSegmt {{name ""}} {
        {"Label file"   {$v(ext,lbl)}}
        {"All files"   {*}}
      }]
-     set name [tk_getOpenFile -filetypes $types -initialdir $v(trans,path) \
+     if {$v(labelNames) != {}} {
+       set path [file dir [lindex $v(labelNames) 0]]
+     } elseif {$v(trans,name) == "" && $v(sig,name) != ""} {
+       set path [file dir $v(sig,name)]
+     } else {
+       set path $v(trans,path)
+     }
+     set name [tk_getOpenFile -filetypes $types -initialdir $path \
 		   -title [Local "Open segmentation file"]]
    }
    if {$name != ""} {
@@ -125,12 +142,23 @@ proc OpenSegmt {{name ""}} {
       # Choose uique segmentation id
       set i 1
       set seg lbl$i
-      while {[info exists v(trans,$seg)]} {
-	set seg seg[incr i]
+      if {[info command ${format}::readSegmtSet] != ""} {
+	set result [${format}::readSegmtSet [ReadFile $name]]
+      } else {
+	set result [list [list [${format}::readSegmt [ReadFile $name]] "[file tail $name] ([namespace tail $format])"]]
       }
-      set v(trans,$seg) [${format}::readSegmt [ReadFile $name]]
-      foreach wavfm $v(wavfm,list) {
-	CreateSegmentWidget $wavfm $seg "[file tail $name] ([namespace tail $format])" -full white
+      foreach set $result {
+	foreach {segments entryname color} $set break
+	if {$color == ""} {
+	  set color white
+	}
+	while {[info exists v(trans,$seg)]} {
+	  set seg lbl[incr i]
+	}
+	set v(trans,$seg) $segments
+	foreach wavfm $v(wavfm,list) {
+	  CreateSegmentWidget $wavfm $seg $entryname -full $color
+	}
       }
       lappend v(labelNames) $name
    }
