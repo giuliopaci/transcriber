@@ -78,6 +78,10 @@ proc CreateTextFrame {f {top 0}} {
    #bind $v(tk,edit) <Key-less> { KbdPlayForward -1; break }
    #bind $v(tk,edit) <Key-greater> { KbdPlayForward +1; break }
    bind $v(tk,edit) <Shift-Return> { tkTextInsert %W "\n\t"; break }
+
+   # alt-backspace/delete: delete word before/after cursor respectively
+   bind $v(tk,edit) <Alt-Key-BackSpace> {%W mark set tmp "insert wordend"; tkTextSetCursor %W [tkTextPrevPos %W insert tcl_startOfPreviousWord]; %W delete insert tmp; break }
+   bind $v(tk,edit) <Alt-Key-Delete> {%W mark set tmp "insert wordstart"; tkTextSetCursor %W [tkTextNextWord %W insert]; %W delete tmp insert; break }
 }
 
 # called from: InitEditor; CloseTrans
