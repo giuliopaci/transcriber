@@ -513,8 +513,8 @@ proc ConfigureGeneral {} {
     label $i.lab -text [Local "Default browser:"]
     set v(browser,but) [button $i.v(browser,but) -text [Local $v(browser)] -default disabled ]
     bind $i.v(browser,but) <Button-1>	{
-    set v(browser) [SelectBrowser]
-    $v(browser,but) configure -text $v(browser)
+	set v(browser) [SelectBrowser]
+	$v(browser,but) configure -text $v(browser)
     }
     pack $i.lab $i.v(browser,but) -side left -padx 3m -pady 3m -fill x -expand true
    

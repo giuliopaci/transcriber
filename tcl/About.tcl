@@ -244,7 +244,6 @@ proc SelectBrowser {} {
     # V 1.0
     # July 27, 2004
     #
-    if [catch {SaveIfNeeded} err] return
 
     set name [tk_getOpenFile -title [Local "Select your default browser"]]
 
