@@ -416,6 +416,8 @@ proc UpdateEditMenu {} {
 proc UpdateSegmentationMenu {} {
    global v
 
+   if {$::tcl_platform(platform) == "macintosh"} return
+
    if {[GetSegmtNb seg0] > 0} {
       set state normal
    } else {

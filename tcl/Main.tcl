@@ -32,7 +32,7 @@ exec wish8.0 "$0" ${1:+"$@"}
 proc Main {argv} {
    global v
 
-   wm title . "Transcriber 1.4.3"
+   wm title . "Transcriber 1.4.pre5"
    wm protocol . WM_DELETE_WINDOW { Quit }
 
    InitDefaults
@@ -287,13 +287,24 @@ proc InitDefaults {} {
 
    # If shape path is not defined by user, look for a writable path
    if {$v(path,shape)==""} {
-      foreach path "/var/lib/transcriber /var/lib/trans /var/tmp/trans /tmp/trans /var/tmp /tmp /temp" {
-	 if {[file isdir $path] && [file writable $path]} {
-	    set v(path,shape) $path
-	    break
-	 }
-      }
-      # We could pop-up a dialog box to the user and inform of the choice
+     set testpaths {}
+     if {[info exists env(TMP)]} {
+       lappend testpaths $env(TMP)
+     }
+     if {[info exists env(TEMP)]} {
+       lappend testpaths $env(TEMP)
+     }
+     if {$::tcl_platform(platform) == "unix"} {
+       lappend testpaths "/var/lib/transcriber" "/var/lib/trans" "/var/tmp/trans" "/tmp/trans" "/var/tmp"
+     }
+     lappend testpaths "/tmp" "/temp"
+     foreach path $testpaths {
+       if {[file isdir $path] && [file writable $path]} {
+	 set v(path,shape) $path
+	 break
+       }
+     }
+     # We could pop-up a dialog box to the user and inform of the choice
    }
 
    # Localization file
