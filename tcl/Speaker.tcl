@@ -559,6 +559,7 @@ namespace eval turn {
       variable lst [ListFrame $w22.lst [::speaker::all_names]]
       $lst conf -height 6
       bind $lst <ButtonRelease-1>  "::turn::choose_lst"
+      bind $lst <Key-space>  "::turn::choose_lst"
       # Detect normal keypress when entry is disabled
       foreach key {Control-Key Alt-Key Meta-Key Return Escape Tab} {
 	 bind $ent <$key> {continue}
