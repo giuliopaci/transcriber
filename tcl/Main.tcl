@@ -778,6 +778,14 @@ proc StartWith {argv} {
 	 set val [lindex $argv $i]
 
 	 switch -glob -- $val {
+	    "-set" {
+	      # set a global variable to a given value, overrinding configuration file
+	      # (names with special chars e.g. "shape,wanted" need to be quoted at shell level)
+	      # syntax: trans -set varname value ...
+	      set varname [lindex $argv [incr i]]
+	      set value [lindex $argv [incr i]]
+	      set v(varname) $value
+	    }
 	    "-noshape" {
 	       set v(shape,wanted) 0
 	    }
@@ -794,6 +802,51 @@ proc StartWith {argv} {
 	       foreach file [glob $path] {
 		  uplevel \#0 [list source $file]
 	       }
+	    }
+	    "-convertto" {
+	      # convert a set of trs files to given format, if export filter available
+	      # syntax: trans -convertto {stm|html|...} *.trs
+	      # resulting files are stored in current directory
+	      wm withdraw .
+ 	      update
+	      set format [lindex $argv [incr i]]
+	      if {[info command convert::${format}::export] == ""} {
+		if {$format != ""} {
+		  puts stderr "Conversion to format $format unsupported."
+		}
+		puts stderr "List of supported formats for exporting .trs files:"
+		foreach format [namespace children convert] {
+		  if {[info command ${format}::export] != ""} {
+		    puts stderr "\t[namespace tail $format]"
+		  }
+		}
+		exit
+	      }
+	      #CloseTrans -nosave 
+	      set ext [lindex [set ::convert::${format}::ext] 0]
+	      puts stderr "Converting .trs files to $format format ($ext):"
+	      set nb 0
+	      while {[set name [lindex $argv [incr i]]] != ""} {
+		if {[lsearch -exact $::trs::ext [string tolower [file extension $name]]] < 0
+		    || ![file readable $name]} {
+		  puts stderr "(ignoring non .trs file name $name)"
+		  continue
+		}
+		puts stderr "$name"
+		if {[catch {
+		  trs::import $name
+		  set v(sig,min) 0
+		  set v(trans,format) trans
+		  NormalizeTrans
+		  convert::${format}::export [file tail [file root $name]]$ext
+		  incr nb
+		} err]} {
+		  puts stderr "error with $name: $err"
+		}
+		CloseTrans -nosave
+	      }
+	      puts stderr "$nb file(s) processed."
+	      exit
 	    }
  	    "-cfg" {
 	      # The -cfg option is used and detailled in the InitDefault procedure
