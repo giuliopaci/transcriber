@@ -313,7 +313,7 @@ proc InitDefaults {argv} {
    # Indeed, due to problems with the global speaker database management,
    # it is temporarily disabled
    set speakerFile $env(HOME)/[file tail $v(list,ext)]
-   if { [ file exists $speakerFile ] == 1 } {
+   if { ( [ file exists $speakerFile ] == 1 ) && ([string length [string trim $v(list,ext)]] != 0 ) } {
 	tk_messageBox -type ok -message "The speaker database $speakerFile is not compatible with the current version of Transcriber. Please, rename or delete it." -icon error
         exit
    }  
