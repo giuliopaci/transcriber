@@ -1,40 +1,74 @@
-<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
-<html>
-<head>
+<!DOCTYPE doctype PUBLIC "-//w3c//dtd html 4.0 transitional//en"><html><head>
    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
    <meta name="GENERATOR" content="Mozilla/4.78 [en] (X11; U; Linux 2.4.7-10 i686) [Netscape]">
-   <meta name="Author" content="C. Barras">
-   <title>Transcriber's History</title>
-</head>
-<body text="#000000" bgcolor="#FFFFFF" link="#0000EF" vlink="#51188E" alink="#FF0000">
+   <meta name="Author" content="C. Barras"><title>Transcriber's History</title></head>
+
+<body text="#000000" bgcolor="#ffffff" link="#0000ef" vlink="#51188e" alink="#ff0000">
 
 <h2>
 History of Transcriber versions</h2>
 
-<hr WIDTH="100%"><b><font size=+0>Version 1.4.6</font></b>
+<hr width="100%"><b><font size="+0">Version 1.4.6</font></b>
 <p>In progress.
-<p>New or modified functions:
-<ul>
+</p><p>New or modified functions:
+</p><ul>
 	    <li>multiwav extension, allowing several synchronized audio
 	      files to be associated with a single transcription. New audio
 	      files can be added using the contextual menu on the waveform
 	      (right-click), or a list of audio files can be given on the
 	      command line when launching the tool.
 	      It is derived from an original proposal by David Gelbart and
-	      Dan Ellis from ICSI, intended for meeting recordings management.</li>
-</ul>
-changes or bug fixes:
+	      Dan Ellis from ICSI, intended for meeting recordings management.</li><li>Czech localization of the menus added, kindly provided by Zdenek Konopasek.</li>
+  <li>Management of several configuration files (menus "Options/Save
+configuration as..." and "Options/Load configuration file..."); a
+configuration file may be specified at startup with '-cfg filename'
+command line option.</li>
+  <li>Save audio selection in a separate .wav file (menu "File/Save audio selection as...").</li>
+  <li>Explicit message when signal shape is not available and resolution display is thus limited.<br>
+  </li>
+  <li>Text editor may be hidden (checkbox menu "Options/Display/Text editor", '-notext' command line option).</li>
+  <li>Segmentation layers for background, sections or turns which are
+not in use (i.e. having a single segment for the whole document) may be
+automatically hidden (checkbox menu "Options/Display/Smart segmentation display").</li>
+  <li>Random colorization of the turn segmentation layer, so that a
+color is automatically attributed to all occurences of the same speaker
+in the document (checkbox menu "Options/Display/Colorize speaker segments"). </li>
+  <li>Open a label file and display under the signal (menu
+"Options/Display/Open segmentation file..." or command line option
+"-lbl filename" -- option may be repeated). The label file information
+may span several segmentation layers.<br>
+  </li>
+  <li>Improved support of NIST .ctm file (including RT'03 format
+extensions and multi-level display as labels); .stm can be either imported or displayed as multi-level labels.<br>
+  </li>
+  <li>Added '-convertto format filename ...' command line option for
+converting a set of file from the Transcriber format to the given
+format in batch mode.<br>
+  </li>
+  <li>Various other command line options added: '-set option value' for
+overriding configuration value, '-sig2' for display of second signal
+view, '-socket' for activation of external scripting service, '-help'
+for a list of options.<br>
+  </li>
+</ul>changes or bug fixes:
 <ul>
 <li>added compatibility update for Tcl8.4, due to changes in (internal) Tcl
 	      and C API. Transcriber binary libs will probably be incompatible between
-	      Tcl versions 8.3 and 8.4</li>
-</ul>
-
-<hr WIDTH="100%"><b><font size=+0>Version 1.4.5</font></b>
+	      Tcl versions 8.3 and 8.4</li><li>added support for Mac OS X (Darwin/Aqua).</li>
+  <li>extended conversion filter API with 'readSegmtSet', for management of multi-level label files.<br>
+  </li>
+  <li>discard unreadable default signal or transcription files from a configuration file.<br>
+  </li>
+  <li>localization of the interface is now in a separate file for each language, for a better extensibility.</li>
+  <li>segmentation layer name in the signal contextual menu becomes more explicit ("Background", "Turns", etc.)<br>
+  </li>
+  <li>resolved a confusion involving GB-2312 encoding<br>
+  </li>
+</ul><hr width="100%"><b><font size="+0">Version 1.4.5</font></b>
 <p>Released on July 11, 2002.
 <br>needs Tcl/Tk 8.0-8.3, Snack 1.7 or preferably 2.0.1, tcLex 1.2
-<p>New or modified functions:
-<ul>
+</p><p>New or modified functions:
+</p><ul>
 <li>
 added new playback mode stopping before (rather than after) next boundary;
 added related menu entry</li>
@@ -129,12 +163,12 @@ corrected possible display inconsistency of axis (delayed repaint).</li>
 various corrections to the configuration/compilation step.</li>
 </ul>
 
-<hr WIDTH="100%"><b><font size=+0>Version 1.4.4</font></b>
+<hr width="100%"><b><font size="+0">Version 1.4.4</font></b>
 <p>Released on April 19, 2002.
 <br>needs Tcl/Tk 8.0-8.3, Snack 1.7 or preferably 2.0.1, tcLex 1.2
-<p>New or modified functions: none.
-<p>Implementation changes or bug fixes:
-<ul>
+</p><p>New or modified functions: none.
+</p><p>Implementation changes or bug fixes:
+</p><ul>
 <li>
 The cursor disappeared after playing a segment with Shift-Tab - fixed.</li>
 
@@ -142,11 +176,11 @@ The cursor disappeared after playing a segment with Shift-Tab - fixed.</li>
 The waveform display was sometimes not correctly refreshed - fixed.</li>
 </ul>
 
-<hr WIDTH="100%"><b><font size=+0>Version 1.4.3</font></b>
+<hr width="100%"><b><font size="+0">Version 1.4.3</font></b>
 <p>Released on June 21, 2001.
 <br>needs Tcl/Tk 8.0-8.3, Snack 1.7 or preferably 2.0.1, tcLex 1.2
-<p>New or modified functions:
-<ul>
+</p><p>New or modified functions:
+</p><ul>
 <li>
 when Snack version 2.0 is installed with Transcriber, it is possible to
 play only the left or right channel from a stereo file using the new menu
@@ -220,11 +254,11 @@ sub-command 'cursor' has been created for that purpose and is used in tcl/Wavefo
 Cursor.</li>
 </ul>
 
-<hr WIDTH="100%"><b><font size=+0>Version 1.4.2</font></b>
+<hr width="100%"><b><font size="+0">Version 1.4.2</font></b>
 <p>Released on January 6, 2000
 <br>needs Tcl/Tk 8.0-8.2, Snack 1.6, tcLex 1.2
-<p>New or modified functions:
-<ul>
+</p><p>New or modified functions:
+</p><ul>
 <li>
 boundary move can be forced with Shift-Button2 (or Shift-Control-Button1)
 - in this case, other boundaries are pushed accordingly.</li>
@@ -296,14 +330,14 @@ encoding, and display of non-ascii chars sometimes fails.</li>
 <tt>src/shape.c</tt> slightly modified to follow API change in Snack1.6.4</li>
 </ul>
 
-<hr WIDTH="100%"><font size=+0><b>Version 1.4.1 </b>(offers Unicode support
+<hr width="100%"><font size="+0"><b>Version 1.4.1 </b>(offers Unicode support
 under Tcl/Tk 8.1.1 or higher)</font>
 <p>Released on October 28, 1999
 <br>needs Tcl/Tk 8.0-8.2, Snack 1.6, tcLex 1.2
 <br>compiled under Linux/x86 (Debian 1.3/2.0), Linux/alpha, Solaris (SunOS
 5.5), SGI (IRIX 6.2).
-<p>New or modified functions:
-<ul>
+</p><p>New or modified functions:
+</p><ul>
 <li>
 Unicode support, only available under Tcl/Tk 8.1.1 or higher. The encoding
 used for writing the transcriptions can be chosen in [<tt>Options</tt>]/[<tt>General...</tt>].
@@ -335,14 +369,14 @@ into the <tt>convert </tt>sub-directory for supporting new input or output
 formats (see <tt>convert/README</tt> file).</li>
 </ul>
 
-<hr WIDTH="100%"><font size=+0><b>Version 1.4 </b>(mostly a stable version
+<hr width="100%"><font size="+0"><b>Version 1.4 </b>(mostly a stable version
 of 1.3 beta)</font>
 <p>Released on September 27, 1999
 <br>needs Tcl/Tk 8.0-8.2, Snack 1.6, tcLex 1.2
 <br>compiled under Linux/x86 (Debian 1.3/2.0), Linux/alpha, Solaris (SunOS
 5.5), SGI (IRIX 6.2).
-<p>New or modified functions:
-<ul>
+</p><p>New or modified functions:
+</p><ul>
 <li>
 handling of raw sound files is improved - a default header size can be
 given in the [<tt>Options</tt>]/[<tt>Audio file...</tt>] window; changes
@@ -379,14 +413,14 @@ shape calculation mode disabled by default for Windows platform; background
 calculation is always disabled.</li>
 </ul>
 
-<hr WIDTH="100%"><b><font size=+0>Version 1.3b7</font></b>
+<hr width="100%"><b><font size="+0">Version 1.3b7</font></b>
 <p>Released on July 6, 1999
 <br>needs Tcl/Tk 8.0 or 8.1, Snack 1.5p2 or 1.6a2 (do not use 1.6b1 under
 Linux), tcLex 1.1.3 (do not use older release with Tcl/Tk8.1)
 <br>compiled under Linux/x86 (Debian 1.3/2.0), Linux/alpha, Solaris (SunOS
 5.5), SGI (IRIX 6.2), Windows NT.
-<p>New or modified functions:
-<ul>
+</p><p>New or modified functions:
+</p><ul>
 <li>
 check spelling (GUI for using 'ispell' external program)</li>
 
@@ -435,10 +469,10 @@ NT platform.</li>
 updated "Help" menu for display of correct .html files.</li>
 </ul>
 
-<hr WIDTH="100%"><b><font size=+0>Version 1.3b6</font></b>
+<hr width="100%"><b><font size="+0">Version 1.3b6</font></b>
 <p>Released on May 17, 1999
-<p>New or modified functions:
-<ul>
+</p><p>New or modified functions:
+</p><ul>
 <li>
 completely new French reference and user manual (HTML format)</li>
 
@@ -501,10 +535,10 @@ mp3 sound files partially working, but randomly causing Transcriber to
 crash</li>
 </ul>
 
-<hr WIDTH="100%"><b>Version 1.3b5</b>
+<hr width="100%"><b>Version 1.3b5</b>
 <p>Released on March 23, 1999
-<p>New or modified functions:
-<ul>
+</p><p>New or modified functions:
+</p><ul>
 <li>
 transcription time monitoring has been rewritten and is displayed inside
 the "Informations" window if a log file is given</li>
@@ -519,10 +553,10 @@ Implementation changes or bug fixes:
 bug in 1.3b4 with turn attributes edition</li>
 </ul>
 
-<hr WIDTH="100%"><b>Version 1.3b4</b>
+<hr width="100%"><b>Version 1.3b4</b>
 <p>Released on March 16, 1999
-<p>New or modified functions:
-<ul>
+</p><p>New or modified functions:
+</p><ul>
 <li>
 Cut/Copy/Paste of mixed text and events works as expected</li>
 
@@ -554,10 +588,10 @@ Format used in list edition since 1.3b3 slightly modified to allow a generic
 n-fields edition instead of 2-fields only</li>
 </ul>
 
-<hr WIDTH="100%"><b>Version 1.3b3</b>
+<hr width="100%"><b>Version 1.3b3</b>
 <p>Released on March 7, 1999
-<p>New or modified functions:
-<ul>
+</p><p>New or modified functions:
+</p><ul>
 <li>
 DTD: extended Event tag with attributes type (noise/lexical/pronounce/language)
 and extent (begin/end/previous/next/instantaneous); previously defined
@@ -643,10 +677,10 @@ Updated Transcriber URL to its new home page inside distribution and docs</li>
 no more patch to tk_getSaveFile lib for choosing the save format</li>
 </ul>
 
-<hr WIDTH="100%"><b>Version 1.3b2</b>
+<hr width="100%"><b>Version 1.3b2</b>
 <p>(not publically) released on February 12, 1999
-<p>New or modified functions:
-<ul>
+</p><p>New or modified functions:
+</p><ul>
 <li>
 DTD:</li>
 
@@ -676,11 +710,11 @@ Implementation changes or bug fixes:
 Modifs to Xml parsing libs</li>
 </ul>
 
-<hr WIDTH="100%"><b>Version 1.3b1</b>
+<hr width="100%"><b>Version 1.3b1</b>
 <p>Released on January 21, 1999 - test under Linux (Debian 1.3/2.0), Solaris
 (SunOS 5.5), SGI (IRIX 6.2).
-<p>New or modified functions:
-<ul>
+</p><p>New or modified functions:
+</p><ul>
 <li>
 a new XML format becomes the native format for the tool instead of LDC's
 .typ</li>
@@ -737,11 +771,11 @@ installation procedure and global tool structure has been reworked thanks
 to D. van Leeuven useful hints</li>
 </ul>
 
-<hr WIDTH="100%"><b>Version 1.2</b>
+<hr width="100%"><b>Version 1.2</b>
 <p>Released on September 16, 1998 - test under Linux (Debian 1.3 and Redhat
 4.3), Solaris, SGI (IRIX 6.2).
-<p>New functions:
-<ul>
+</p><p>New functions:
+</p><ul>
 <li>
 Signal:</li>
 
@@ -808,8 +842,8 @@ Default configuration file was named "~/.trancriber" (without 's'); it
 was corrected.</li>
 
 <li>
-Shortcut for 'Signal/Replay Segment' has been moved from &lt;Alt-Tab> to
-&lt;Shift-Tab>; it could be a problem on some platforms.</li>
+Shortcut for 'Signal/Replay Segment' has been moved from &lt;Alt-Tab&gt; to
+&lt;Shift-Tab&gt;; it could be a problem on some platforms.</li>
 
 <li>
 Menus 'Segmentation/Move to.../First segment' and '.../Last segment' are
@@ -905,10 +939,10 @@ the "src" sub-directory</li>
 </ul>
 </ul>
 
-<hr WIDTH="100%"><b>Version 1.1</b>
+<hr width="100%"><b>Version 1.1</b>
 <p>Released on June 26, 1998 - test under Linux (Debian), Solaris, SGI.
-<p>Modifications:
-<ul>
+</p><p>Modifications:
+</p><ul>
 <li>
 SNACK 1.1 module from K&aring;re Sj&ouml;lander is used instead of Sox
 libraries for audio playback. This solution is more stable and portable
@@ -920,8 +954,7 @@ No modifications of the user interface, installation procedure still rather
 crude.</li>
 </ul>
 
-<hr WIDTH="100%"><b>Version 1.0</b>
+<hr width="100%"><b>Version 1.0</b>
 <p>Released on May 25, 1998 - development under PC/Linux (Debian 1.3);
 test under Sun Solaris.
-</body>
-</html>
+</p></body></html>
