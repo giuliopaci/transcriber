@@ -317,11 +317,23 @@ proc OpenAudioFile {{mode "reset"}} {
       if {![file isdir $path]} {
 	 set path [pwd]
       }
-      set audiopen [tk_getOpenFile -filetypes $types \
-		  -initialdir $path -title "Open audio file"]
+      # support multiple simultaneous file open (Tcl/Tk>=8.4) for MultiWav mode
+      if {[info tclversion] >= 8.4 && $mode == "add"} {
+	set audiopen [tk_getOpenFile -filetypes $types -multiple \
+			-initialdir $path -title "Open audio file"]
+      } else {
+	set audiopen [tk_getOpenFile -filetypes $types \
+			-initialdir $path -title "Open audio file"]
+      }
    }
    if {$audiopen != ""} {
-      Signal $audiopen $mode
+      if {[info tclversion] >= 8.4 && $mode == "add"} {
+	foreach audio $audiopen {
+	  Signal $audio $mode
+	}
+      } else {
+	Signal $audiopen $mode
+      }
       UpdateFilename
    }
    unset audiopen
