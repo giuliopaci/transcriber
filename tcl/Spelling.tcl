@@ -9,9 +9,10 @@
 proc SpellChecking {} {
    global v
 
-   if {$::tcl_platform(platform) == "windows"} {
+   if {$::tcl_platform(os) == "Darwin"} {
      tk_messageBox -type ok -icon error -message \
- 	 [Local "Sorry, spell checker not available on this platform"]
+        [Local "Sorry, spell checker not available on this platform"]
+        return
    }
 
    OpenAspell
