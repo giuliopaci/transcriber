@@ -494,13 +494,19 @@ proc ChooseFont {font} {
    pack $g -fill x -side top
 
    # Family menu button
+
    set h [frame $g.fam]
    pack $h -side top
    label $h.lab -text "Family:"
-   eval tk_optionMenu $h.men fontsel-family  [lsort [font families]]
-   $h.men conf -width [maxlength [font families]]
-   pack $h.lab $h.men -side left -padx 3m -pady 3m
 
+   pack $h.lab -side top -padx 3m -pady 3m
+
+   set lst [ListFrame $h.lst [lsort [font families]]]
+
+   $h.lst conf -height 8 -width [maxlength [font families]]
+   bind $lst <ButtonRelease-1>  { set fontsel-family [%W get [%W curselection]]}
+   pack $h.lab $h.lst -side left -padx 3m -pady 3m
+   
    # Size menu / entry
    set h [frame $g.siz]
    pack $h -side top
