@@ -94,7 +94,7 @@ proc UpdateConvertorMenu {} {
       if {[info command ${format}::export] != ""} {
 	 if {[namespace tail $format] == "cha" && !$v(chatMode)} continue
 	 append_menu "Export" [subst {
-	    {"Export to $msg..."	cmd {SaveTrans as $format}}
+	    {"Export to $msg..."        cmd {SaveTrans as $format}}
 	 }]
       }
    }
@@ -153,7 +153,7 @@ proc OpenSegmt {args} {
 		     -multiple 1 -title [Local "Open segmentation file"]]
      } else {
        set names [list [tk_getOpenFile -filetypes $types -initialdir $path \
-			   -title [Local "Open segmentation file"]]]
+		           -title [Local "Open segmentation file"]]]
      }
    }
    foreach name $names {
@@ -394,10 +394,10 @@ proc WriteTrans {name format} {
    # Try to guess format from extension if not given - unused feature
 #    if {$format == ""} {
 #       foreach format [concat [namespace children convert] "trs"] {
-# 	 if {[info exists ${format}::ext]
-# 	     && [lsearch [set ${format}::ext] $ext] >= 0} {
-# 	    break
-# 	 }
+#          if {[info exists ${format}::ext]
+#              && [lsearch [set ${format}::ext] $ext] >= 0} {
+#             break
+#          }
 #       }
 #    }
    if {[lsearch [set ${format}::ext] $ext] < 0} {
@@ -730,7 +730,7 @@ proc ConvertData {data} {
 	       }
 	    }
 	    set elem [::xml::element "Event" \
-			  [list "desc" $evt "extent" $extn] -after $data]
+		          [list "desc" $evt "extent" $extn] -after $data]
 	 }
 	 default {
 	    set elem [::xml::element "Comment" [list "desc" $evt] -after $data]
@@ -807,8 +807,8 @@ proc DisplayTrans {} {
 		     AddSegmt seg0 $t3 $t4 $txt $id
 		     # Test overlap with previous turn for display
 		     if {$time($tprev) > $time($t3)} {
-			ChangeSyncButton $idprev over1
-			ChangeSyncButton $id over2
+		        ChangeSyncButton $idprev over1
+		        ChangeSyncButton $id over2
 		     }
 		  }
 		  set t3 $t4
@@ -844,8 +844,20 @@ proc DisplayTrans {} {
 		   InsertScope $chn
 	       }
 	       "Event" - "Comment" {
-		  InsertEvent $chn
-		  append txt [StringOfEvent $chn]
+		   # Enable to display a " " between 2 contiguous events
+		   # In that case, if an event is deleted, it will be replaced by a " "                        
+		   set prevBrother     [$chn         getBrother * * -1]
+		   set prevPrevBrother [$prevBrother getBrother * * -1]
+		   if { ( [$prevBrother class] == "data" && [$prevBrother getData] == "" )
+		     && ([$prevPrevBrother class]=="element" && [$prevPrevBrother getType]=="Event")} {
+		            $prevBrother setData " "
+		            append txt " "
+		            InsertData $prevBrother
+		    }
+		   
+
+		    InsertEvent $chn
+		    append txt [StringOfEvent $chn]
 	       }
 	       "Who" {
 		  if {[$chn getAttr "nb"] > 1} {
