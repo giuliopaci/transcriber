@@ -1,0 +1,788 @@
+# Localization for Transcriber saved on Thu Mar 23 10:10:48 GMT 2000 with encoding iso8859-1
+
+array set local_fr {
+{}
+	{}
+{%s word(s) checked}
+	{%s mot(s) vérifié(s)}
+0
+	{}
+1
+	{}
+{1 mn}
+	{}
+{1 sec}
+	{}
+2
+	{}
+3
+	{}
+4
+	{}
+5
+	{}
+{5 mn}
+	{}
+6
+	{}
+7
+	{}
+8
+	{}
+9
+	{}
+10
+	{}
+{10 sec}
+	{}
+11
+	{}
+{19 cent...}
+	{}
+{30 sec}
+	{}
+About...
+	{A propos de...}
+{Add to dictionnary}
+	{Ajoute au dictionnaire}
+{Adjust playback speed (%)}
+	{}
+{An automatically saved version was found. Rescue from it?}
+	{Une sauvegarde automatique a été retrouvée. Voulez-vous la récupérer?}
+{Apply to next word}
+	{Appliqué au mot suivant}
+{Apply to previous word}
+	{Appliqué au mot précédent}
+{Apply to selection}
+	{Appliqué à la sélection}
+Arabic
+	arabe
+{Ask user to save configuration before leaving}
+	{Propose d'enregistrer la configuration avant de quitter}
+{Audio file}
+	{Fichier son}
+{Audio file options}
+	{Options pour fichiers sons}
+{Audio file...}
+	{Fichier son...}
+{Audio filename}
+	{Nom du fichier son}
+{Auto-save interval (in minutes)}
+	{Délai avant enregistrement automatique (minutes)}
+{Automatic selection playback}
+	{Rejoue automatiquement la sélection}
+{Automatic space insertion}
+	{Insertion automatique des espaces}
+Axis
+	Axes
+background
+	{}
+{Background attributes}
+	{Paramètres du bruit de fond}
+{Backup extension}
+	{Entension pour le fichier de sauvegarde}
+Backward
+	Arrière
+{Backward and play}
+	{Arrière puis démarre}
+{Backward search}
+	{Recherche arrière}
+{Beep at segment boundaries}
+	{Bip aux frontières des segments}
+{Beep sound file}
+	{Fichier son pour le bip}
+bg
+	{}
+Bindings
+	{Raccourcis clavier}
+Bindings...
+	{Raccourcis clavier...}
+Browse...
+	Parcourir...
+Bulgarian
+	bulgare
+Cancel
+	Annuler
+{Case sensitive}
+	{Distinction majuscules/minuscules}
+Channel
+	Canal
+Channels
+	{Nombre de canaux}
+{Check spelling of capitalized words}
+	{Vérifie l'orthographe des mots capitalisés}
+Chinese
+	chinois
+{Choose beep file}
+	{}
+{Choose first speaker}
+	{Choisir le 1er locuteur}
+{Choose font}
+	{Choisir la police}
+{Choose second speaker}
+	{Choisir le 2eme locuteur}
+{Choose speaker}
+	{Choisissez un locuteur}
+{Choose speaker...}
+	{Choisissez un locuteur...}
+{Choose topic}
+	{Choisissez un sujet}
+{Choose topic...}
+	{Choisissez un sujet...}
+{Cleaning up memory...}
+	{Nettoyage de la mémoire...}
+{Clock clicks per second}
+	{Clics d'horloge par seconde}
+Close
+	Fermer
+Code
+	Code
+Colors...
+	Couleurs...
+{Command buttons}
+	{Boutons de commande}
+Comment
+	Commentaire
+{Compute low-resolution shape for long sound files}
+	{Calcule une image basse résolution des longs signaux}
+{Configure colors}
+	{Configurer les couleurs}
+{Configure event display}
+	{Configure l'affichage des événements}
+{Configure events}
+	{Configure les événements}
+{Continuous playback}
+	{Lecture en continu}
+{Control panel}
+	{Panneau de contrôle}
+Copy
+	Copier
+{Create section...}
+	{Créer une section...}
+{Create speaker}
+	{Créer un locuteur}
+{Create turn...}
+	{Créer un tour...}
+{Current segment}
+	{Segment courant}
+Cursor
+	Curseur
+{Cursor position}
+	{Position du curseur}
+Cut
+	Couper
+Czech
+	tchèque
+Danish
+	danois
+Debug
+	Deboguage
+{Debug menu}
+	{Menu de déboguage}
+{Default scribe's name}
+	{Nom du transcripteur}
+{Default settings for raw sound files:}
+	{Paramètres pour les fichiers sans entête:}
+{Default text cursor position}
+	{Position du curseur par défaut}
+Delete
+	Supprimer
+{Delete breakpoint}
+	{Supprimer la frontière}
+Description
+	Description
+Destroy
+	Détruire
+Dialect
+	Accent
+Display
+	Affichage
+{Displaying transcription...}
+	{Affichage de la transcription...}
+{Do shape computation in background}
+	{Calcul de l'enveloppe en tâche de fond}
+down
+	diminue
+Dutch
+	hollandais
+Edit
+	Edition
+{Edit comment}
+	{Modifier un commentaire}
+{Edit episode attributes...}
+	{Paramètres de l'épisode...}
+{Edit event}
+	{Modifier un événement}
+{Edit language list...}
+	{Modifier la liste des langues...}
+{Edit lexical list...}
+	{Modifier la liste lexicale...}
+{Edit noise list...}
+	{Modifier la liste des bruits...}
+{Edit pronounce list...}
+	{Modifier la liste des prononciations...}
+{Edit section attributes}
+	{Paramètres de la section}
+{Edit section attributes...}
+	{Paramètres de la section...}
+{Edit translation}
+	{Modifier les traductions}
+{Edit turn attributes}
+	{Paramètres du tour}
+{Edit turn attributes...}
+	{Paramètres du tour...}
+{End of event}
+	{Fin d'événement}
+{End of line}
+	{Fin de ligne}
+English
+	anglais
+{Episode attributes}
+	{Paramètres de l'épisode}
+{Event display...}
+	{Affichage des événements}
+{Event foreground}
+	{}
+Events
+	Evénements
+{Events display...}
+	{Affichage des événements...}
+{Expand waveform}
+	{Agrandir le signal}
+{Expert mode}
+	{Mode expert}
+Export
+	Exporter
+{Export to .stm format...}
+	{Exporter au format .stm...}
+{Export to .typ format...}
+	{Exporter au format .typ...}
+{Export to LDC .typ format...}
+	{Exporter au format LDC .typ...}
+{Export to LDC format...}
+	{Exporter au format LDC...}
+{Export to STM format...}
+	{Exporter au format STM...}
+Extent
+	Etendue
+Fidelity
+	Fidélité
+File
+	Fichier
+filler
+	{}
+Find
+	Chercher
+{Find and replace}
+	{Chercher et remplacer}
+{Find next}
+	Suivant
+{Find speaker}
+	{Chercher un locuteur}
+{Find topic}
+	{Chercher un sujet}
+Find/Replace
+	Chercher/Remplacer
+Finnish
+	finlandais
+{First segment}
+	{Premier segment}
+Fonts
+	Polices
+Forward
+	Avant
+French
+	français
+{General options}
+	{Options générales}
+General...
+	Général...
+German
+	allemand
+Glossary
+	Glossaire
+{Go back before playing (in seconds)}
+	{Recul avant lecture (en secondes)}
+{Go to...}
+	{Aller à...}
+Greek
+	grec
+{Header size}
+	{Taille de l'entête}
+Hebrew
+	hébreu
+Help
+	Aide
+{Highlighted text bg}
+	{}
+Hindi
+	hindi
+Hungarian
+	hongrois
+Ignore
+	{}
+{Import from file...}
+	{Importer à partir du fichier...}
+{Import speakers from file}
+	{Importer des locuteurs du fichier}
+{Import speakers...}
+	{Importer des locuteurs...}
+{Import topics from file}
+	{Importer des sujets d'un fichier}
+Index
+	{}
+indicatif
+	{}
+Information
+	Information
+Informations
+	Informations
+Insert
+	Insérer
+{Insert background}
+	{Insérer un bruit de fond}
+{Insert breakpoint}
+	{Insérer une frontière}
+{Insert comment}
+	{Insérer un commentaire}
+{Insert event}
+	{Insérer une balise}
+{Insert event...}
+	{Insérer une balise...}
+Insert...
+	Insérer...
+{Instantaneous event}
+	{Evénement instantané}
+{Instantaneous noise}
+	{Bruit instantané}
+Interface
+	Interface
+{Isolated noise}
+	{Bruit isolé}
+Italian
+	italien
+Japanese
+	japonais
+jingle
+	{}
+Keystrokes
+	Touches
+Korean
+	coréen
+Language
+	Langue
+Language...
+	Langue...
+{Last modification date}
+	{Date de dernière modification}
+{Last segment}
+	{Dernier segment}
+Latin
+	latin
+Lexical
+	Lexical
+Lexical...
+	Lexical...
+Lists
+	Listes
+{Localization file}
+	{Fichier de traduction}
+{Localization in French}
+	{Traduction en français}
+Localize...
+	Traduction...
+{Log trace in file}
+	{Enregistre l'activité dans}
+{Loop on segment or selection after a pause}
+	{Boucle sur segment ou sélection après pause}
+{Main features}
+	Fonctionnalités
+{mal prononcé}
+	{}
+Message
+	Message
+Messages
+	Messages
+Mode
+	Mode
+Modify
+	Modifier
+{Modify speaker}
+	{Editer le locuteur}
+{Modify topic}
+	{Editer le sujet}
+{mot inconnu}
+	{}
+{Move breakpoint}
+	{Déplacer une frontière}
+{Move to...}
+	Déplacement...
+Name
+	Nom
+New
+	Nouveau
+{New language}
+	{Nouvelle langue}
+{New topic}
+	{Nouveau sujet}
+{New trans}
+	{Nouvelle transcription}
+Next
+	Suivant
+{Next section}
+	{Section suivante}
+{Next synchro}
+	{Synchro suivante}
+{Next turn}
+	{Tour suivant}
+{no speaker}
+	{pas de locuteur}
+Noise
+	Bruit
+{Noise foreground}
+	{}
+Noises...
+	Bruits...
+nontrans
+	{}
+Norwegian
+	norvégien
+{not saved (unsupported output format)}
+	{non sauvé (format non supporté)}
+néologisme
+	{}
+OK
+	{}
+{Open audio file...}
+	{Ouvrir un fichier son...}
+{Open remote audio file}
+	{Ouvrir le fichier son à distance}
+{Open segmentation file}
+	{Ouvrir le fichier de segmentation}
+{Open trans...}
+	{Ouvrir une transcription...}
+{Open transcription file}
+	{Ouvrir le fichier de transcription}
+{Open transcription or audio file}
+	{Ouvrir une transcription ou un signal}
+Options
+	Options
+{orthographe incertaine}
+	{}
+other
+	autre
+{Overlapping noise}
+	{Bruit superposé}
+{Overlapping speech}
+	{Parole superposée}
+Paste
+	Coller
+{Pause at segment boundaries}
+	{Pause aux frontières des segments}
+{Pause duration (in seconds)}
+	{Durée de pause (en secondes)}
+{Pause duration between segments}
+	{Durée de pause entre segments}
+Persian
+	perse
+{Play around cursor}
+	{Joue autour du curseur}
+{Play segment}
+	{Joue le segment}
+{Play with pauses}
+	{Joue avec pauses}
+Play/Pause
+	Joue/Pause
+Playback
+	Restitution
+{Playback mode}
+	{Mode de lecture}
+{Please open signal for transcription}
+	{Ouvrez le signal correspondant à la transcription}
+Polish
+	polonais
+Port
+	{}
+Portuguese
+	portugais
+Position
+	Position
+{Position (in seconds)}
+	{Position (en secondes)}
+Presentation
+	Présentation
+Previous
+	Précédent
+{Previous section}
+	{Section précédente}
+{Previous synchro}
+	{Synchro précédente}
+{Previous turn}
+	{Tour précédent}
+{Principal language}
+	{Langue principale}
+Program
+	Programme
+Prononciation
+	Prononciation
+Pronounce
+	Prononciation
+Pronounce...
+	Prononciation...
+quad
+	{}
+Quit
+	Quitter
+Rate
+	Fréquence
+{Reading transcription file...}
+	{Lecture du fichier de transcription...}
+Recalibrate
+	Recalibration
+{Recent topics}
+	{Sujets récents}
+{Recording date}
+	{Date d'enregistrement}
+{Reduce waveform}
+	{Réduire l'enveloppe}
+{Reference manual}
+	{Manuel de référence}
+Refresh
+	{}
+{Refresh list}
+	{}
+{Remove unused speakers}
+	{Supprime les locuteurs inutilisés}
+{Remove unused topics}
+	{Supprime les sujets inutilisés}
+Replace
+	Remplacer
+{Replace all}
+	{Tout remplacer}
+{Replacement string}
+	{Chaîne de remplacement}
+{Replay segment}
+	{Rejoue le segment}
+report
+	{}
+Resolution
+	Résolution
+{Resolution bar}
+	{Barre de résolution}
+Restart
+	Redémarre
+Revert
+	{Revenir au fichier}
+Romanian
+	roumain
+Russian
+	russe
+Save
+	Enregistrer
+{Save as...}
+	{Enregistrer sous...}
+{Save configuration}
+	{Enregistrer la configuration}
+{Save configuration before leaving?}
+	{Enregistrer la configuration avant de quitter ?}
+{Second signal view}
+	{Deuxième vue du signal}
+Section
+	Section
+{Sections foreground}
+	{}
+Segmentation
+	Segmentation
+{Segments foreground}
+	{}
+Server
+	Serveur
+{sigle lu}
+	{}
+Signal
+	Signal
+{Signal name}
+	{Nom du signal}
+{Sorry, couldn't find %s dictionary}
+	{Désolé, le dictionnaire %s est introuvable}
+Spanish
+	espagnol
+{Speaker foreground}
+	{}
+Speakers
+	Locuteurs
+{Spell checking}
+	{Correction orthographique}
+{spelling checked}
+	{orthographe vérifiée}
+{Start of line}
+	{Début de ligne}
+{Stop at next segment boundary}
+	{Stop à la prochaine frontière}
+{Store signal shapes in}
+	{Enregistre les enveloppes des signaux dans}
+Synchro
+	Synchro
+Text
+	Texte
+{Text foreground}
+	{}
+Topic
+	Sujet
+Topics
+	Sujets
+{Topics menu}
+	{Liste des sujets}
+{Transcriber's name}
+	{Nom du transcripteur}
+{Transcription %s saved.}
+	{Enregistrement de %s effectuée.}
+{Transcription has been modified - Save before closing?}
+	{La transcription a été modifiée - Enregistrer avant fermeture ?}
+Translation
+	Traduction
+Turkish
+	turc
+Undo
+	Annuler
+{Unknown format}
+	{Format inconnu}
+{Unzoom selection}
+	{Supprime le zoom}
+Update
+	{}
+{Use regular expression}
+	{Utilise une expression régulière}
+{User guide}
+	{Guide utilisateur}
+Value
+	Valeur
+Version
+	Version
+{Vertical zoom (dB)}
+	{Zoom vertical (dB)}
+Volume
+	Volume
+{Warning !
+All changes will be lost.
+Really revert from file ?}
+	{Attention!
+Toutes les modifications seront perdues.
+Revenir à la version enregistrée?}
+{Waveform bg}
+	{}
+Word
+	Mot
+{[b] bruit indéterminé}
+	{}
+{[bb] bruit de bouche}
+	{}
+{[bg] bruit de gorge}
+	{}
+{[ch] voix chuchotée}
+	{}
+{[conv] conversations de fond}
+	{}
+{[e] expiration}
+	{}
+{[i] inspiration}
+	{}
+{[mic] bruits micro}
+	{}
+{[n] reniflement}
+	{}
+{[pap] froissement de papiers}
+	{}
+{[pf] soufle}
+	{}
+{[pi] inintelligible}
+	{}
+{[pif] inintelligible/faible}
+	{}
+{[r] respiration}
+	{}
+{[rire] rires du locuteur}
+	{}
+{[rire] voix avec rire}
+	{}
+{[shh] souffle électrique}
+	{}
+{[sif] sifflement du locuteur}
+	{}
+{[tx] toux, râclement,éternuement}
+	{}
+{global name}
+	{nom global}
+lapsus
+	{}
+mono
+	{}
+{no topic}
+	{pas de sujet}
+{Recently used speakers}
+	{Locuteurs récents}
+{rire en fond}
+	{}
+{rupture de syntaxe}
+	{}
+seg0
+	{}
+seg1
+	{}
+seg2
+	{}
+{sigle épelé}
+	{}
+{Sort by...}
+	{Trier par...}
+{Speaker menu}
+	{Liste des locuteurs}
+{Speaker name}
+	{Nom du locuteur}
+{Start of event}
+	{Début d'événement}
+stereo
+	{}
+Swedish
+	suédois
+top
+	{}
+{toux en fond}
+	{}
+Turn
+	Tour
+Type
+	Catégorie
+up
+	augmente
+{unsupported output format %s}
+        {format de sortie non supporté}
+{View all}
+	{Vue complète}
+{Zoom selection}
+	{Zoom de la sélection}
+{Load configuration file...}
+	{Charger une configuration...}
+{Save configuration as...}
+	{Enregistrer la configuration sous...}
+{   No audio file opened !
+This will create an empty
+ audio file ! Really save ?}
+	{Aucun fichier son ouvert !
+Ceci génèrera un fichier
+ son vide ! Continuer ?}
+{No audio segment selected !}
+	{Aucune sélection audio !}
+{Save audio selection as...}
+	{Enregistrer la sélection audio sous...}
+{%s not saved !!}
+	{%s non sauvegardé !!}
+{%s saved !!}
+	{%s sauvegardé !!}
+{Resolution > 30" impossible !
+
+Can't find the signal shape.}
+	{Résolution > 30" impossible !
+Enveloppe du signal non disponible.}
+}
+

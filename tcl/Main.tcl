@@ -338,12 +338,10 @@ proc InitDefaults {argv} {
      # We could pop-up a dialog box to the user and inform of the choice
    }
 
-   # Localization file
-   if {$v(file,local) == "" || [catch {
-      LoadLocal $v(file,local)
-   }]} {
-      LoadLocal [file join $v(path,etc) "local.txt"]
-   }
+   # Localization file (local.txt kept for backward compatibility with modified files)
+   LoadLocal [file join $v(path,etc) "local.txt"]
+   LoadLocal [file join $v(path,etc) "local_$v(lang).txt"]
+   LoadLocal [format $v(file,local) $v(lang)]
    # We could use env(LC_MESSAGES) and LANG for default value of v(lang)
 
    UpdateLangList
@@ -433,8 +431,8 @@ proc SaveOptions {{mode ""}} {
    puts $f "\n\# following options use default values\n\# $old"
    close $f
 
-   # also save localization file
-   SaveLocal
+   # also save localization file - now rather done after edition
+   # SaveLocal
 }
 
 ################################################################
@@ -487,9 +485,12 @@ proc restoreEncoding {} {
 
 proc LoadLocal {fileName} {
   global v
-
+  
+  if {![file readable $fileName]} return
   readEncoding $fileName
-  uplevel \#0 [list source $fileName]
+  catch {
+    uplevel \#0 [list source $fileName]
+  }
   restoreEncoding
 }
 
@@ -497,7 +498,7 @@ proc EditLocal {{only_empty 0}} {
    global v
    if {$v(lang) != "en"} {
       upvar \#0 local_$v(lang) local
-      catch {
+      if {![catch {
 	 foreach nam [lsort -dictionary [array names local]] {
 	    if {$only_empty && $local($nam) != ""} continue
 	    lappend new [list $nam $local($nam)]
@@ -505,14 +506,15 @@ proc EditLocal {{only_empty 0}} {
 	 set new [ListEditor $new "Localization in $::iso639($v(lang))" \
 		      {"Message" "Translation"}]
 	 unset local
-	 array set local [join $new]
+         array set local [join $new]
+      }]} {
 	 # Update menus if needed
 	 ChangedLocal
-	 # SaveLocal - rather done within "Options / Save configuration"
-	 if {$v(file,local) == ""} {
-	    set m "To keep your modifications, enter a localization file name , then choose menu Options/Save configuration"
+	 # SaveLocal - formerly done within "Options / Save configuration"
+	 if {$v(file,local) != "" && [set fileName [SaveLocal]] != ""} {
+	   set m [format [Local "Modifications saved in the file %s"] $fileName]
 	 } else {
-	    set m "To keep your modifications, choose menu Options/Save configuration"
+	   set m [Local "To keep your modifications, please provide a valid localization file name, come back to this edition window and click OK. Save also the configuration for reusing this file automatically in a next session."]
 	 }
 	 tk_messageBox -type ok -icon warning -message $m
       }
@@ -522,6 +524,15 @@ proc EditLocal {{only_empty 0}} {
 proc ChangedLocal {} {
    global v
 
+   # try to read language-specific localization file if necessary
+   if {![array exists local_$v(lang)]} {
+     set fileName [format $v(file,local) $v(lang)]
+     if {$fileName != $v(file,local) && [file readable $fileName]} {
+       LoadLocal $fileName
+     } else {
+       LoadLocal [file join $v(path,etc) "local_$v(lang).txt"]
+     }
+   }
    SetBindings
    InitMenus
    UpdateLangList
@@ -536,12 +547,23 @@ proc SaveLocal {} {
    if {$v(file,local) == ""} {
       return
    }
-   # save localization file using UTF-8 encoding if possible
-   #set enc [writeEncoding "utf-8"]
-   set enc [writeEncoding]
-   set f [open $v(file,local) w]
+   set fileName [format $v(file,local) $v(lang)]
+   if {$fileName == $v(file,local)} {
+     set langs [info globals local_*]
+   } else {
+     if {[info globals local_$v(lang)] == {}} return
+     set langs local_$v(lang)
+   }
+   if {[llength $langs] > 1} {
+     # save localization file for multiple languages using UTF-8 encoding
+     set enc [writeEncoding "utf-8"]
+   } else {
+     # save language specific localization file using default system encoding
+     set enc [writeEncoding]
+   }
+   set f [open $fileName w]
    puts $f "\# Localization for Transcriber saved on [clock format [clock seconds]]$enc"
-   foreach locvar [info globals local_*] {
+   foreach locvar $langs {
       puts $f "\narray set $locvar \{"
       foreach nam [lsort -dictionary [array names ::$locvar]] {
 	 puts $f "[list $nam]\n\t[list [set ::${locvar}($nam)]]"
@@ -550,6 +572,7 @@ proc SaveLocal {} {
    }
    close $f
    restoreEncoding
+   return $fileName
 }
 
 # Usage: Local "Message in english"
@@ -559,16 +582,18 @@ proc SaveLocal {} {
 
 proc Local {message} {
    global v
-   upvar \#0 local_$v(lang) local
 
-   if {[catch {
-      set translation $local($message)
-      if {$translation != ""} {
+   if {$v(lang) != "en"} {
+     upvar \#0 local_$v(lang) local
+     if {[catch {
+       set translation $local($message)
+       if {$translation != ""} {
 	 set message $translation
-      }
-   }] && $v(lang) != "en"} {
-      # register undefined message for edition
-      set local($message) ""
+       }
+     }]} {
+       # register undefined message for edition
+       set local($message) ""
+     }
    }
    return $message
 }

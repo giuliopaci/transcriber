@@ -360,7 +360,7 @@ proc ConfigureGeneral {} {
       if {$lang == $v(lang)} {
 	 set current_nam $nam
       }
-      if {$lang == "en" || [info exists ::local_$lang]} {
+     if {$lang == "en" || [info exists ::local_$lang] || [file readable [file join $v(path,etc) "local_$lang.txt"]]} {
 	 lappend langlist $lang $nam
       } else {
 	 lappend langother $lang $nam
