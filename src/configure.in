@@ -129,6 +129,8 @@ case $system in
         ;;
 esac
 
+
+
 #--------------------------------------------------------------------
 #       Disable stub support. This is necessary if you
 #       want to run Snack with Tcl/Tk 8.0 up to 8.0.5
@@ -153,6 +155,32 @@ else
     #SNACK_LIB_SPEC="-L${SNACK_INSTALL_PATH}/snack1.6 -lsnack"
     #SNACK_LIB_SPEC=""
 fi
+
+#--------------------------------------------------------------------
+#       Set machine-dependent variables needed for compilation
+#--------------------------------------------------------------------
+
+OpSys=`uname -s`
+OS=""
+LIB_SUFFIX=""
+
+case $OpSys in
+    MINGW*)
+	OS=Windows
+	LIBS="${TCL_LIB_SPEC} ${TK_LIB_SPEC} -ltkstub84"
+	INCLUDES="${XINCLUDES} -I${TCL_PREFIX}/include -I{$TK_PREFIX}/include"
+	OUTPUT_FILES="Makefile"
+	LIB_SUFFIX=.dll
+        ;;
+    *)
+	OS=UnixLike
+	LIBS="-lc $TK_LIBS $TCL_LIB_SPEC $TK_LIB_SPEC"
+	INCLUDES="$XINCLUDES -I$TCL_SRC_DIR/generic -I$TK_SRC_DIR/generic -I$TCL_PREFIX/include -I$TK_PREFIX/include"
+    	OUTPUT_FILES="trans Makefile"
+	LIB_SUFFIX="${SHLIB_SUFFIX}"
+        ;;
+esac
+
 
 #--------------------------------------------------------------------
 # Expand @references@ to autoconf variables in Makefile.in
@@ -197,4 +225,10 @@ AC_SUBST(SUFFIX)
 AC_SUBST(TCLAPI)
 #AC_SUBST(ORDER)
 
-AC_OUTPUT(Makefile trans)
+####
+AC_SUBST(LIBS)
+AC_SUBST(OS)
+AC_SUBST(INCLUDES)
+AC_SUBST(LIB_SUFFIX)
+
+AC_OUTPUT("$OUTPUT_FILES")
