@@ -67,9 +67,9 @@ proc CreateTextFrame {f {top 0}} {
    # Special chars can be generated with bindings
    RegisterBindings $v(bindings)
 
-   bind $v(tk,edit) <Up>   {tkTextSetCursor %W "insert-1l lineend"; break }
-   bind $v(tk,edit) <Down> {tkTextSetCursor %W "insert+1l"; tkTextSetCursor %W "insert lineend"; break }
-   #bind $v(tk,edit) <Up> { TextNextSync -1; break }
+   bind $v(tk,edit) <Up>   {TextNextLine -1; break }
+   bind $v(tk,edit) <Down> {TextNextLine +1; break }
+   #bind $v(tk,edit) <Up>   { TextNextSync -1; break }
    #bind $v(tk,edit) <Down> { TextNextSync +1; break }
    bind $v(tk,edit) <Control-Up> {  TextNextTurn -1; break }
    bind $v(tk,edit) <Control-Down> { TextNextTurn +1; break }
@@ -532,6 +532,18 @@ proc ViewAroundText {} {
 
 # Goto end of next/previous synchro/segment/section depending on $rel
 # (or current insert pos if move impossible)
+
+proc TextNextLine {{dir +1}} {
+  global v
+
+  tkTextSetCursor $v(tk,edit) "insert${dir}l"
+  if {$v(preferedPos) == "begin"} {
+    tkTextSetCursor $v(tk,edit) "insert linestart"
+  } elseif {$v(preferedPos) == "end"} {
+    tkTextSetCursor $v(tk,edit) "insert lineend"
+  }
+}
+
 proc TextNextSync {rel} {
    global v
 
