@@ -163,7 +163,7 @@ proc HMset_image {win handle src} {
       HMgot_image $handle $image
    }
 }
-----
+
 proc OpenURL { URL } {
     #
     # Job    Open an url with the default browser
