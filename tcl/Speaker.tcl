@@ -1070,8 +1070,8 @@ namespace eval turn {
       bind $lst <Key-space>  "::turn::choose_lst"
    
       # key up/down let control choice in local list of speakers
-      bind $w <Key-Up> "tk::ListboxUpDown $lst -1; ::turn::choose_lst"
-      bind $w <Key-Down> "tk::ListboxUpDown $lst 1; ::turn::choose_lst"
+      bind $w <Key-Up> "tkListboxUpDown $lst -1; ::turn::choose_lst"
+      bind $w <Key-Down> "tkListboxUpDown $lst 1; ::turn::choose_lst"
 
        set w33lg [frame $w2lg.f2]
        pack $w33lg -side left -fill both -expand 1

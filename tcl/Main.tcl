@@ -697,6 +697,7 @@ proc LoadModules {} {
       tkTextNextWord
       tkTextPrevPos
       tkTextSetCursor
+      tkListboxUpDown
     } {
       if {![llength [info commands $cmd]]} {
 	tk::unsupported::ExposePrivateCommand $cmd
