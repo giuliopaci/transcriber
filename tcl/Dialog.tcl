@@ -476,6 +476,7 @@ proc UpdatList {{idx 0}} {
 #  - if "Cancel", returns initial font value in the same format
 #         and reconfigure named font to initial value
 proc ChooseFont {font} {
+   global v
    global fontsel-family fontsel-size fontsel-weight fontsel-slant fontsel-nam
    
    # Analyse input font
@@ -543,6 +544,11 @@ abcdefghijklmnopqrstuvwxyz
       }
       return $initial
    }
+
+   # update fonts of widgets: Axis, Speaker, Section, Segmentation
+   set v(font,$font) $value
+   UpdateFont
+
    return $value
 }
 
@@ -560,6 +566,7 @@ proc ChooseFontVal {} {
    if {$style != ""} {
       lappend font $style
    }
+
    return $font
 }
 
@@ -572,4 +579,101 @@ proc ChooseFontUpdate {w field n1 n2 op} {
    } else {
       $w conf -font [ChooseFontVal]
    }
+}
+
+proc UpdateFont {} {
+    # JOB: update the font of the following widget: Axis, Speaker, Section, Segmentation
+    #
+    # IN: nothing
+    # OUT: nothing
+    # MODIFY: nothing
+    #
+    # Author: Mathieu Manta
+    # Version: 1.0
+    # Date: 03 2005
+    # A faire: Toutes les lignes de commandes sont elles nécessaires ????
+    #    pourquoi ne pas mettre tous les update font dans cette procédure ?
+    #    pourquoi ne pas mutualiser avec updatecolor ?
+
+   global v
+
+   UpdateNEFonts
+
+   # Update Axis
+#   font configure ${fontsel-nam} -$field [set fontsel-$field]
+ #  font configure axis $v(font,axis)
+
+   # a quoi sert cette boucle ?
+   foreach wavfm $v(wavfm,list) {
+      set f [winfo parent $wavfm] 
+      if [winfo exists $f.seg0] {
+	 $f.seg0 config -fg $v(color,fg-sync) -full $v(color,bg-sync) -font $v(font,trans)
+      }
+      if [winfo exists $f.seg1] {
+	 $f.seg1 config -fg $v(color,fg-turn) -full $v(color,bg-turn) -font $v(font,trans)
+      }
+      if [winfo exists $f.seg2] {
+	 $f.seg2 config -fg $v(color,fg-sect) -full $v(color,bg-sect) -font $v(font,trans)
+      }
+      if [winfo exists $f.bg] {
+	 $f.bg config -fg $v(color,fg-back) -full $v(color,bg-back)
+      }
+       # a quoi sert cette boucle ?
+      foreach w [concat $f [winfo children $f]] {
+	 if {[winfo class $w] != "Scrollbar"} {
+	    $w config -bg $v(color,bg)
+	 }
+      }
+      # ???
+      $wavfm config -selectbackground $v(color,bg-sel) 
+   }
+
+    .msg config -bg $v(color,bg) -font $v(font,mesg)
+   if [info exists v(tk,edit)] {
+      set t $v(tk,edit)-bis
+      $t conf -bg $v(color,bg-text) -fg $v(color,fg-text) -font $v(font,text)
+      $t tag conf "event" -background $v(color,bg-evnt) -foreground $v(color,fg-evnt) -font $v(font,event)
+      #$t tag conf "entities" -background $v(color,bg-evnt) -foreground $v(color,fg-evnt) -font $v(font,NEbutton)
+      foreach w [$t window names] {
+	 switch -glob -- [$w conf -command] {
+	    *section* {
+	       $w conf -font $v(font,section)
+	    }
+	    *turn* {
+	       $w conf -font $v(font,speaker)
+	    }
+	 }
+      }
+ #     $v(img,circle) conf -foreground $v(color,bg-sync)
+ #     $v(img,over1) conf -foreground $v(color,bg-sync)
+ #     $v(img,over2) conf -foreground $v(color,bg-sync)
+   }
+}
+
+proc UpdateNEFonts {} {
+
+    # JOB: switch the display of the NE interface
+    #
+    # IN: f, name of the NE window
+    # OUT: nothing
+    # MODIFY: nothing
+    #
+    # Author: Sylvain Galliano
+    # Version: 1.0
+    # Date: October 20, 2004
+
+    # comment ça marche ?
+    global v
+
+    set t $v(tk,edit)-bis
+
+    foreach macro "$v(listNE,macroclass) meto" {
+	foreach part {"tag" "text"} {
+	    if { $v(checkNEcolor,$part) == 1 } {
+		$t tag conf NE$macro$part -font $v(font,NEbutton)
+	    } else {
+		$t tag conf NE$macro$part -foreground  black
+	    }
+	}
+    }
 }

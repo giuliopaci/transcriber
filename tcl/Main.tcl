@@ -140,6 +140,7 @@ proc Quit {} {
 #  font,mesg      font used for messages
 #  font,text      font used for text editor
 #  font,trans     font used for transcriptions in segments
+#  font,section   font used for the sections
 #  geom,$w        default geometry for window $w
 #  glossary       value/comment word pairs of user glossary
 #  img,$name      bitmap image
@@ -223,7 +224,7 @@ proc Quit {} {
 #  trans,saved    flag if transcription has been saved at least once
 #  trans,seg?     list of transcription segments at level ?
 #  type,chosen    section type chosen in dialog or menu
-#  pref,ver	  version of the user preference file
+#  pref,ver          version of the user preference file
 #  undo,list      infos for undo
 #  undo,redo      flag on if undo is in fact redo
 #  var,msg        variable for selection infos and other messages
@@ -314,12 +315,12 @@ proc InitDefaults {argv} {
    # it is temporarily disabled
 #   set speakerFile $env(HOME)/[file tail $v(list,ext)]
 #   if { ( [ file exists $speakerFile ] == 1 ) && ([string length [string trim $v(list,ext)]] != 0 ) } {
-#	set choice [tk_messageBox -type yesno -default no -message "Due to a bug of Transcriber 1.5.0, the speaker database $speakerFile has to be removed. May I do it ?" -icon question]
-#	if { ($choice == yes) } {
-#		file delete $speakerFile
-#	} else {
-#         	exit
-#	}
+#        set choice [tk_messageBox -type yesno -default no -message "Due to a bug of Transcriber 1.5.0, the speaker database $speakerFile has to be removed. May I do it ?" -icon question]
+#        if { ($choice == yes) } {
+#                file delete $speakerFile
+#        } else {
+#                 exit
+#        }
 #   }  
    
    # Init user name
@@ -931,37 +932,37 @@ proc StartWith {argv} {
 		    InitModif
 		    while {[set name [lindex $argv [incr i]]] != ""} {
 		      if {![file readable $name]} {
-			puts stderr "(skipping non readable file $name)"
-			continue
+		        puts stderr "(skipping non readable file $name)"
+		        continue
 		      }
 		      set format ""
 		      if {[trs::guess $name]} {
-			set format "trs"
+		        set format "trs"
 		      } else {
-			foreach ns [namespace children convert] {
-			  if {[info command ${ns}::guess] != "" && [${ns}::guess $name]} {
-			    set format $ns
-			    break
-			  }
-			}
+		        foreach ns [namespace children convert] {
+		          if {[info command ${ns}::guess] != "" && [${ns}::guess $name]} {
+		            set format $ns
+		            break
+		          }
+		        }
 		      }
 		      if {$format == "" || [info command ${format}::import] == ""} {
-			puts stderr "(skipping non transcription file $name)"
-			continue
+		        puts stderr "(skipping non transcription file $name)"
+		        continue
 		      }
 		      puts stderr "converting $name ($format)"
 
 		      if {[catch {
-			${format}::import $name
-			set v(sig,min) 0
-			set v(trans,format) $format
-			if {[set msg [NormalizeTrans]] != ""} {
-			  puts -nonewline stderr $msg
-			}
-			${nsformat}::export [file tail [file root $name]]$ext
-			incr nb
+		        ${format}::import $name
+		        set v(sig,min) 0
+		        set v(trans,format) $format
+		        if {[set msg [NormalizeTrans]] != ""} {
+		          puts -nonewline stderr $msg
+		        }
+		        ${nsformat}::export [file tail [file root $name]]$ext
+		        incr nb
 		      } err]} {
-			puts stderr "error with $name: $err ($::errorInfo)"
+		        puts stderr "error with $name: $err ($::errorInfo)"
 		      }
 		      ::xml::init
 		      ::speaker::init

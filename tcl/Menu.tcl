@@ -16,9 +16,9 @@ exec wish "$0" "$@"
 # and
 #  - name = name of menu or item
 #  - type options = command {command content}
-#		    radio {variable [value]}
-#		    check variable
-#		    cascade {sub-items list}
+#                    radio {variable [value]}
+#                    check variable
+#                    cascade {sub-items list}
 #  - arguments = options for item configuration
 #
 # At first level, one should use only "cascade"
@@ -73,41 +73,41 @@ proc add_menu {m liste} {
 	       set Menu(menu,$name) $new_m
 	       lappend option -menu [add_menu $new_m $arg]
 	    }
-            -acc {
-               if {[info tclversion] < 8.4 || [tk windowingsystem] != "aqua"} {
-                  lappend option $cmd $arg
-               }
-           }
+	    -acc {
+	       if {[info tclversion] < 8.4 || [tk windowingsystem] != "aqua"} {
+		  lappend option $cmd $arg
+	       }
+	   }
 	    -bind {
-               if {![regsub -- {-([^-]*)$} $arg {-Key-\1} sequence]} {
-                  set sequence "Key-$arg"
-               }
-               if {[info tclversion] >= 8.4 && [tk windowingsystem] == "aqua"} {
-                  if {[regsub "C(trl)?-" $arg "Cmd-" arg] 
-                  || [regsub "A(lt)?-" $arg "Alt-" arg]
-                  || [regsub "S(hift)?-" $arg "Shift-" arg]} {
-                     lappend option -accelerator [string toupper $arg]
-                  }
-                  foreach {short long} {
-                     "C(trl)?-" "Command-"
-                     "A(lt)?-" "Option-" 
-                     "S(hft)?-" "Shift-"
-                  } {
-                     regsub $short $sequence $long sequence
-                  }
-               } else {
-                  lappend option -accelerator $arg
-                  foreach {short long} {
-                     "C(trl)?-" "Control-"
-                     "A-" "Alt-" 
-                     "S(hft)?-" "Shift-"
-                  } {
-                     regsub $short $sequence $long sequence
-                  }
-               }
+	       if {![regsub -- {-([^-]*)$} $arg {-Key-\1} sequence]} {
+		  set sequence "Key-$arg"
+	       }
+	       if {[info tclversion] >= 8.4 && [tk windowingsystem] == "aqua"} {
+		  if {[regsub "C(trl)?-" $arg "Cmd-" arg] 
+		  || [regsub "A(lt)?-" $arg "Alt-" arg]
+		  || [regsub "S(hift)?-" $arg "Shift-" arg]} {
+		     lappend option -accelerator [string toupper $arg]
+		  }
+		  foreach {short long} {
+		     "C(trl)?-" "Command-"
+		     "A(lt)?-" "Option-" 
+		     "S(hft)?-" "Shift-"
+		  } {
+		     regsub $short $sequence $long sequence
+		  }
+	       } else {
+		  lappend option -accelerator $arg
+		  foreach {short long} {
+		     "C(trl)?-" "Control-"
+		     "A-" "Alt-" 
+		     "S(hft)?-" "Shift-"
+		  } {
+		     regsub $short $sequence $long sequence
+		  }
+	       }
 	    }
 	    -* {
-	       lappend option $cmd $arg	       
+	       lappend option $cmd $arg               
 	    }
 	    default {error "$name : Bad menu syntax $cmd $arg"}
 	 }
@@ -198,22 +198,22 @@ proc InitMenus {} {
    # Global menu
    #{"Close"               -bind "Ctrl-w"  cmd {CloseAndDestroyTrans}}
    create_menu {
-      {"File" -underline 0	cascade {
-	 {"New trans"		-bind "Ctrl-n"	cmd {NewTrans}}
-	 {"Open trans..." 	-bind "Ctrl-o"	cmd {OpenTransFile}}
-	 {"Save"		-bind "Ctrl-s"	cmd {SaveTrans}}
-	 {"Save as..."				cmd {SaveTrans as}}
-	 {"Export"		cascade {}}
+      {"File" -underline 0        cascade {
+	 {"New trans"                -bind "Ctrl-n"        cmd {NewTrans}}
+	 {"Open trans..."         -bind "Ctrl-o"        cmd {OpenTransFile}}
+	 {"Save"                -bind "Ctrl-s"        cmd {SaveTrans}}
+	 {"Save as..."                                cmd {SaveTrans as}}
+	 {"Export"                cascade {}}
 	 {""}
-	 {"Revert"				cmd {RevertTrans}}
+	 {"Revert"                                cmd {RevertTrans}}
 	 {""}
-	 {"Informations"	cmd {CreateInfoFrame}}
-	 {"Edit episode attributes..."	cmd {EditEpisode}}	
+	 {"Informations"        cmd {CreateInfoFrame}}
+	 {"Edit episode attributes..."        cmd {EditEpisode}}        
 	 {""}
-	 {"Open video file..." 			cmd {OpenVideoFile}}
-	 {"Open audio file..." 	-bind "Ctrl-a"	cmd {OpenAudioFile}}
-	 {"Synchronized audio files"		cascade {
-	   {"Add audio file..." 	cmd {OpenAudioFile add}}
+	 {"Open video file..."                         cmd {OpenVideoFile}}
+	 {"Open audio file..."         -bind "Ctrl-a"        cmd {OpenAudioFile}}
+	 {"Synchronized audio files"                cascade {
+	   {"Add audio file..."         cmd {OpenAudioFile add}}
 	   {""}
 	 }}
 	 {"Save audio segment(s)"  cascade {
@@ -221,158 +221,160 @@ proc InitMenus {} {
 		{"Automatic..." cmd   {SaveAudioSegmentAuto}}
 	 }}
 	 {""}
-	 {"Open segmentation file..." 	cmd {OpenSegmt}}
+	 {"Open segmentation file..."         cmd {OpenSegmt}}
 	 {""}
-	 {"Quit"		-bind "Ctrl-q"	cmd {Quit}}
+	 {"Quit"                -bind "Ctrl-q"        cmd {Quit}}
       }}
-      {"Edit" -underline 0	cascade {
-	 {"Undo"	-bind "Ctrl-z"		cmd {Undo} -state disabled}
+      {"Edit" -underline 0        cascade {
+	 {"Undo"        -bind "Ctrl-z"                cmd {Undo} -state disabled}
 	 {""}
-	 {"Cut"		-acc "Ctrl-x"		cmd { TextCmd Cut }}
-	 {"Copy"	-acc "Ctrl-c"		cmd { TextCmd Copy }}
-	 {"Paste"	-acc "Ctrl-v"		cmd { TextCmd Paste }}
+	 {"Cut"                -acc "Ctrl-x"                cmd { TextCmd Cut }}
+	 {"Copy"        -acc "Ctrl-c"                cmd { TextCmd Copy }}
+	 {"Paste"        -acc "Ctrl-v"                cmd { TextCmd Paste }}
 	 {""}
-	 {"Find/Replace"   	cmd {Find} -bind "Ctrl-f"}
-	 {"Spell checking"   	cmd {SpellChecking}}
-	 {"Glossary"		cmd {EditGlossary} -bind "Ctrl-k"}
-	 {"Speakers"		cascade {
-	     {"Find speaker"		cmd {::speaker::find}}	
-	     {"Import from file..." 	cmd {::speaker::import}}
-	     {"Remove unused speakers" 		cmd {::speaker::purge}}
+	 {"Find/Replace"           cmd {Find} -bind "Ctrl-f"}
+	 {"Spell checking"           cmd {SpellChecking}}
+	 {"Glossary"                cmd {EditGlossary} -bind "Ctrl-k"}
+	 {"Speakers"                cascade {
+	     {"Find speaker"                cmd {::speaker::find}}        
+	     {"Import from file..."         cmd {::speaker::import}}
+	     {"Remove unused speakers"                 cmd {::speaker::purge}}
 	 }}
-	 {"Topics"		cascade {
-	    {"Find topic"		cmd {::topic::find}}	
-	    {"Import from file..." 	cmd {::topic::import}}
-	    {"Remove unused topics" 		cmd {::topic::purge}}
+	 {"Topics"                cascade {
+	    {"Find topic"                cmd {::topic::find}}        
+	    {"Import from file..."         cmd {::topic::import}}
+	    {"Remove unused topics"                 cmd {::topic::purge}}
 	    {""}
- 	    {"Automatic import from selected file"	check v(importTopics)}
+	     {"Automatic import from selected file"        check v(importTopics)}
 	 }}
 	 {""}
-	 {"Insert event..."		cascade {
-	    {"Isolated noise"	cmd {CreateEvent "b" "noise" "instantaneous" 1}  -bind "Ctrl-d"}
-	    {"Overlapping noise"	cmd {CreateAutoEvent "b" "noise" "previous" 1}}
-	    {"Pronounce"		cmd {CreateAutoEvent "" "pronounce" "previous" 1} -bind "Alt-equal"}
-	    {"Language"			cmd {CreateAutoEvent "en" "language" "previous" 1}}
-	    {"Lexical"			cmd {CreateAutoEvent "" "lexical" "previous" 1}}
-	    {"Comment"			cmd {CreateAutoEvent "" "comment"}}
+	 {"Insert event..."                cascade {
+	    {"Isolated noise"        cmd {CreateEvent "b" "noise" "instantaneous" 1}  -bind "Ctrl-d"}
+	    {"Overlapping noise"        cmd {CreateAutoEvent "b" "noise" "previous" 1}}
+	    {"Pronounce"                cmd {CreateAutoEvent "" "pronounce" "previous" 1} -bind "Alt-equal"}
+	    {"Language"                        cmd {CreateAutoEvent "en" "language" "previous" 1}}
+	    {"Lexical"                        cmd {CreateAutoEvent "" "lexical" "previous" 1}}
+	    {"Comment"                        cmd {CreateAutoEvent "" "comment"}}
 	    {"Named Entities"                 cmd {CreateAutoEvent "" "entities"} -bind "Ctrl-e"} 
 	 }}
       }}
-      {"Signal" -underline 0	cascade {
-	 {"Play/Pause"		cmd {PlayOrPause} -bind "Tab"}
-	 {"Play segment"	cmd {PlayCurrentSegmt} -bind "Shift-Tab"}
-	 {"Play next segment"	cmd {PlayNextSegmt} -bind "Ctrl-Return"}
-	 {"Play around cursor"	cmd {PlayAround} -bind "Alt-space"}
-	 {"Playback mode"		cascade {
-	    {"Continuous playback"	radio {v(playbackMode) "continuous"}}
-	    {"Pause at segment boundaries"	radio {v(playbackMode) "pause"}}
-	    {"Beep at segment boundaries"	radio {v(playbackMode) "beep"}}
+      {"Signal" -underline 0        cascade {
+	 {"Play/Pause"                cmd {PlayOrPause} -bind "Tab"}
+	 {"Play segment"        cmd {PlayCurrentSegmt} -bind "Shift-Tab"}
+	 {"Play next segment"        cmd {PlayNextSegmt} -bind "Ctrl-Return"}
+	 {"Play around cursor"        cmd {PlayAround} -bind "Alt-space"}
+	 {"Playback mode"                cascade {
+	    {"Continuous playback"        radio {v(playbackMode) "continuous"}}
+	    {"Pause at segment boundaries"        radio {v(playbackMode) "pause"}}
+	    {"Beep at segment boundaries"        radio {v(playbackMode) "beep"}}
 	    {"Stop before next segment boundary" radio {v(playbackMode) "next"}}
-	    {"Stop at next segment boundary"	radio {v(playbackMode) "stop"}}
+	    {"Stop at next segment boundary"        radio {v(playbackMode) "stop"}}
 	    {"Loop on segment or selection after a pause" radio {v(playbackMode) "loop"}}
 	 }}
- 	 {"Stereo channel"		cascade {
-	   {"Left"	radio {v(sig,map) "1 0 1 0"} -command {if {[IsPlaying]} {PauseAudio; Play}} -bind "Alt-6"}
-	    {"Right"	radio {v(sig,map) "0 1 0 1"} -command {if {[IsPlaying]} {PauseAudio; Play}} -bind "Alt-7"}
-	    {"Both"	radio {v(sig,map) "1 0 0 1"} -command {if {[IsPlaying]} {PauseAudio; Play}} -bind "Alt-8"}
+	  {"Stereo channel"                cascade {
+	   {"Left"        radio {v(sig,map) "1 0 1 0"} -command {if {[IsPlaying]} {PauseAudio; Play}} -bind "Alt-6"}
+	    {"Right"        radio {v(sig,map) "0 1 0 1"} -command {if {[IsPlaying]} {PauseAudio; Play}} -bind "Alt-7"}
+	    {"Both"        radio {v(sig,map) "1 0 0 1"} -command {if {[IsPlaying]} {PauseAudio; Play}} -bind "Alt-8"}
 	 }}
 	 {""}
-	 {"Go to..."		cascade {
-	    {"Forward"		cmd {PlayForward +1} -bind "Alt-Right"}
-	    {"Backward"		cmd {PlayForward -1} -bind "Alt-Left"}
-	    {"Previous"		cmd {MoveNextSegmt -1} -bind "Alt-Up"}
-	    {"Next"		cmd {MoveNextSegmt +1} -bind "Alt-Down"} 
+	 {"Go to..."                cascade {
+	    {"Forward"                cmd {PlayForward +1} -bind "Alt-Right"}
+	    {"Backward"                cmd {PlayForward -1} -bind "Alt-Left"}
+	    {"Previous"                cmd {MoveNextSegmt -1} -bind "Alt-Up"}
+	    {"Next"                cmd {MoveNextSegmt +1} -bind "Alt-Down"} 
 	    {""}
-	    {"Position"		cmd {EditCursor}} 
+	    {"Position"                cmd {EditCursor}} 
 	 }}
 	 {""}
-	 {"Resolution"		cascade {
-	    {"1 sec"	cmd {Resolution 1} -bind "Alt-1"}
-	    {"10 sec"	cmd {Resolution 10} -bind "Alt-2"}
-	    {"30 sec"	cmd {Resolution 30} -bind "Alt-3"}
-	    {"1 mn"	cmd {Resolution 60} -bind "Alt-4"}
-	    {"5 mn"	cmd {Resolution 300} -bind "Alt-5"}
+	 {"Resolution"                cascade {
+	    {"1 sec"        cmd {Resolution 1} -bind "Alt-1"}
+	    {"10 sec"        cmd {Resolution 10} -bind "Alt-2"}
+	    {"30 sec"        cmd {Resolution 30} -bind "Alt-3"}
+	    {"1 mn"        cmd {Resolution 60} -bind "Alt-4"}
+	    {"5 mn"        cmd {Resolution 300} -bind "Alt-5"}
 	    {""}
-	    {"up"	cmd {ZoomReso -1} -bind "Alt-9"}
-	    {"down"	cmd {ZoomReso +1} -bind "Alt-0"}
+	    {"up"        cmd {ZoomReso -1} -bind "Alt-9"}
+	    {"down"        cmd {ZoomReso +1} -bind "Alt-0"}
 	    {""}
-	    {"View all"		cmd {ViewAll} -bind "Alt-a"}
+	    {"View all"                cmd {ViewAll} -bind "Alt-a"}
 	 }}
-	 {"Zoom selection"	cmd {ZoomSelection} -state disabled -bind "Alt-z"}
-	 {"Unzoom selection"	cmd {UnZoom} -state disabled  -bind "Alt-u"}
+	 {"Zoom selection"        cmd {ZoomSelection} -state disabled -bind "Alt-z"}
+	 {"Unzoom selection"        cmd {UnZoom} -state disabled  -bind "Alt-u"}
 	 {""}
-	 {"Control panel"	cmd {CreateGainFrame}}
+	 {"Control panel"        cmd {CreateGainFrame}}
       }}
-      {"Segmentation" -underline 2	cascade {
-	 {"Move to..."	cascade {
-	    {"Next synchro"	cmd {TextNextSync +1} -acc "Down"}
-	    {"Previous synchro"	cmd {TextNextSync -1} -acc "Up"}
-	    {"First segment"	cmd {TextFirstSync} -acc "Ctrl-Home"}
-	    {"Last segment"	cmd {TextLastSync} -acc "Ctrl-End"}
+      {"Segmentation" -underline 2        cascade {
+	 {"Move to..."        cascade {
+	    {"Next synchro"        cmd {TextNextSync +1} -acc "Down"}
+	    {"Previous synchro"        cmd {TextNextSync -1} -acc "Up"}
+	    {"First segment"        cmd {TextFirstSync} -acc "Ctrl-Home"}
+	    {"Last segment"        cmd {TextLastSync} -acc "Ctrl-End"}
 	    {""}
-	    {"Next turn"	cmd {TextNextTurn +1} -acc "Ctrl-Down"}
-	    {"Previous turn"	cmd {TextNextTurn -1} -acc "Ctrl-Up"}
+	    {"Next turn"        cmd {TextNextTurn +1} -acc "Ctrl-Down"}
+	    {"Previous turn"        cmd {TextNextTurn -1} -acc "Ctrl-Up"}
 	    {""}
-	    {"Next section"	cmd {TextNextSection +1} -acc "Page Down"}
-	    {"Previous section"	cmd {TextNextSection -1} -acc "Page Up"}
+	    {"Next section"        cmd {TextNextSection +1} -acc "Page Down"}
+	    {"Previous section"        cmd {TextNextSection -1} -acc "Page Up"}
 	 }}
 	 {""}
-	 {"Insert breakpoint"	cmd {InsertSegment} -bind "Return"}
-	 {"Insert background"	cmd {CreateBackground}}
+	 {"Insert breakpoint"        cmd {InsertSegment} -bind "Return"}
+	 {"Insert background"        cmd {CreateBackground}}
 	 {""}
-	 {"Create turn..."	cmd {ChangeSegType Turn} -bind "Ctrl-t"}
-	 {"Create section..."	cmd {ChangeSegType Section} -bind "Ctrl-r"}
-	 {"Edit turn attributes..."	cmd {::turn::edit} -bind "Ctrl-Alt-t"}	
-	 {"Edit section attributes..."	cmd {::section::edit}}	
+	 {"Create turn..."        cmd {ChangeSegType Turn} -bind "Ctrl-t"}
+	 {"Create section..."        cmd {ChangeSegType Section} -bind "Ctrl-r"}
+	 {"Edit turn attributes..."        cmd {::turn::edit} -bind "Ctrl-Alt-t"}        
+	 {"Edit section attributes..."        cmd {::section::edit}}        
 	 {""}
 	 {"Move breakpoint"   cmd { tk_messageBox -type ok -message "Just click on the segment boundary with central button (or control-click with left button) and drag it to the new position! Use shift modifier for a forced move."}}
 	 {"Delete breakpoint"   cmd { DeleteSegment } -bind "Ctrl-BackSpace"}
       }}
-      {"Options" -underline 0	cascade {
-	 {"General..."		cmd {ConfigureGeneral}}
-	 {"Audio file..."	cmd {ConfigureAudioFile}}
-	 {"Events"	cascade {
-	    {"Events display..."	cmd {ConfigureEvents}}
-	    {"Edit noise list..."	cmd {ConfEventName "noise" "Noise"}}
-	    {"Edit pronounce list..."	cmd {ConfEventName "pronounce" "Pronounce"}}
-	    {"Edit lexical list..."	cmd {ConfEventName "lexical" "Lexical"}}
-	    {"Edit language list..."	cmd {ConfEventName "language" "Language"}}
-	    {"Edit named entities list..."	cmd {ConfEventName "entities" "Named Entities"}} 
+      {"Options" -underline 0        cascade {
+	 {"General..."                cmd {ConfigureGeneral}}
+	 {"Audio file..."        cmd {ConfigureAudioFile}}
+	 {"Events"        cascade {
+	    {"Events display..."        cmd {ConfigureEvents}}
+	    {"Edit noise list..."        cmd {ConfEventName "noise" "Noise"}}
+	    {"Edit pronounce list..."        cmd {ConfEventName "pronounce" "Pronounce"}}
+	    {"Edit lexical list..."        cmd {ConfEventName "lexical" "Lexical"}}
+	    {"Edit language list..."        cmd {ConfEventName "language" "Language"}}
+	    {"Edit named entities list..."        cmd {ConfEventName "entities" "Named Entities"}} 
 	 }}
-	 {"Display" -underline 0	cascade {
-	    {"Text editor"	check v(view,.edit) -command {SwitchTextFrame} -bind "F2"}
+	 {"Display" -underline 0        cascade {
+	    {"Text editor"        check v(view,.edit) -command {SwitchTextFrame} -bind "F2"}
 	    {"NE buttons"  check v(view,.edit.ne) -command {SwitchNEFrame .edit.ne} -bind "F3"}
-	    {"Command buttons"	check v(view,.cmd) -command {SwitchFrame .cmd  -after .edit} -bind "F4"}
-	    {"First signal view"	check v(view,.snd) -command {SwitchFrame .snd} -bind "F5"} 
-	    {"Second signal view"	check v(view,.snd2) -command {SwitchFrame .snd2} -bind "F6"}
+	    {"Command buttons"        check v(view,.cmd) -command {SwitchFrame .cmd  -after .edit} -bind "F4"}
+	    {"First signal view"        check v(view,.snd) -command {SwitchFrame .snd} -bind "F5"} 
+	    {"Second signal view"        check v(view,.snd2) -command {SwitchFrame .snd2} -bind "F6"}
 	    {"Messages"  check v(view,.msg) -command {SwitchFrame .msg -side bottom} -bind "F7"}
-	    {"Smart segmentation display"	check v(hideLevels) -command {UpdateSegmtView}}
-	    {"Colorize speaker segments"	check v(colorizeSpk) -command {ColorizeSpk}}
+	    {"Smart segmentation display"        check v(hideLevels) -command {UpdateSegmtView}}
+	    {"Colorize speaker segments"        check v(colorizeSpk) -command {ColorizeSpk}}
 	 }}
-	 {"Fonts"	cascade {
-	    {"Text"		cmd {set v(font,text)  [ChooseFont text] }}
-	    {"Events"		cmd {set v(font,event) [ChooseFont event] }}
-	    {"Segmentation"	cmd {set v(font,trans) [ChooseFont trans]}}
-	    {"Information"	cmd {set v(font,info)  [ChooseFont info] }}
-	    {"Messages"		cmd {set v(font,mesg)  [ChooseFont mesg] }}
-	    {"Lists"		cmd {set v(font,list)  [ChooseFont list] }}
-	    {"Axis"		cmd {set v(font,axis)  [ChooseFont axis] }}
-	    {"NE buttons"      cmd {set v(font,NEbutton) [ChooseFont NEbutton];UpdateNEFrame .edit.ne }} 
+	 {"Fonts"        cascade {
+	    {"Axis"                cmd {set v(font,axis)  [ChooseFont axis] }}
+	    {"Events"                cmd {set v(font,event) [ChooseFont event] }}
+	    {"Information"        cmd {set v(font,info)  [ChooseFont info] }}
+	    {"Lists"                cmd {set v(font,list)  [ChooseFont list] }}
+	    {"Messages"                cmd {set v(font,mesg)  [ChooseFont mesg] }}
+	    {"Named Entities"      cmd {set v(font,NEbutton) [ChooseFont NEbutton];UpdateNEFrame .edit.ne }}
+	    {"Section"        cmd {set v(font,section)   [ChooseFont section]}}
+	    {"Segmentation"        cmd {set v(font,trans)   [ChooseFont trans]}}
+	    {"Speaker"             cmd {set v(font,speaker) [ChooseFont speaker]} }
+	    {"Text"                cmd {set v(font,text)    [ChooseFont text] }}
 	 }}
-	 {"Colors..."		cmd {ConfigureColors}}
-	 {"Bindings..."		cmd {ConfigureBindings}}
+	 {"Colors..."                cmd {ConfigureColors}}
+	 {"Bindings..."                cmd {ConfigureBindings}}
 	 {""}
- 	 {"Load configuration file..."	cmd {LoadConfiguration}}
-	 {"Save configuration"		cmd {SaveOptions}}
- 	 {"Save configuration as..."	cmd {SaveOptions as}}
+	  {"Load configuration file..."        cmd {LoadConfiguration}}
+	 {"Save configuration"                cmd {SaveOptions}}
+	  {"Save configuration as..."        cmd {SaveOptions as}}
       }}
       {"Help" -underline 0 cascade {
-	 {"About..."		cmd {ViewHelp "Index"} -bind "F1"}
+	 {"About..."                cmd {ViewHelp "Index"} -bind "F1"}
 	 {""}
-	 {"Presentation"	cmd {ViewHelp "Presentation"}}
-	 {"Main features"	cmd {ViewHelp "Main features"}}
-	 {"User guide"		cmd {ViewHelp "User guide"}}
-	 {"Reference manual"	cmd {ViewHelp "Reference manual"}}
+	 {"Presentation"        cmd {ViewHelp "Presentation"}}
+	 {"Main features"        cmd {ViewHelp "Main features"}}
+	 {"User guide"                cmd {ViewHelp "User guide"}}
+	 {"Reference manual"        cmd {ViewHelp "Reference manual"}}
       }}
    }
 
@@ -384,17 +386,17 @@ proc InitMenus {} {
       if {[info tclversion] >= 8.4 && [tk windowingsystem] == "aqua"} {
 	 append_menu "Help" {
 	    {""}
-	    {"Update"		cmd {LoadModules}}
-            {"Refresh"		cmd {Refresh}}
-            {"Expert mode"	cmd {console show}}
-         }
+	    {"Update"                cmd {LoadModules}}
+	    {"Refresh"                cmd {Refresh}}
+	    {"Expert mode"        cmd {console show}}
+	 }
       } else {
 	 append_menu "Help" {
 	    {""}
-	    {"Debug"		cascade {
-	      {"Update"		cmd {LoadModules}}
-	      {"Refresh"	cmd {Refresh}}
-	      {"Expert mode"	cmd {CreateDebug}}
+	    {"Debug"                cascade {
+	      {"Update"                cmd {LoadModules}}
+	      {"Refresh"        cmd {Refresh}}
+	      {"Expert mode"        cmd {CreateDebug}}
 	    }}
 	 }
       }
