@@ -894,33 +894,50 @@ proc StartWith {argv} {
 		    }
 		    #CloseTrans -nosave 
 		    set ext [lindex [set ${nsformat}::ext] 0]
-		    puts stderr "Converting .trs files to $format format ($ext):"
+		    puts stderr "Converting transcription files to $format format ($ext):"
 		    set nb 0
+		    ::speaker::init
+		    InitModif
 		    while {[set name [lindex $argv [incr i]]] != ""} {
-		        if {[lsearch -exact $::trs::ext [string tolower [file extension $name]]] < 0
-		            || ![file readable $name]} {
-		            puts stderr "(ignoring non .trs file name $name)"
-		            continue
-		        }
-		        puts stderr "$name"
-		        if {[catch {
-		            trs::import $name
-		            set v(sig,min) 0
-		            set v(trans,format) trans
-		            if {[set msg [NormalizeTrans]] != ""} {
-		                puts -nonewline stderr $msg
-		            }
-		            ${nsformat}::export [file tail [file root $name]]$ext
-		            incr nb
-		        } err]} {
-		            puts stderr "error with $name: $err ($::errorInfo)"
-		        }
-		        ::xml::init
-		        ::speaker::init
-		        ::topic::init
-		        set v(trans,root) ""
-		        set v(trans,name) ""
-		        #CloseTrans -nosave
+		      if {![file readable $name]} {
+			puts stderr "(skipping non readable file $name)"
+			continue
+		      }
+		      set format ""
+		      if {[trs::guess $name]} {
+			set format "trs"
+		      } else {
+			foreach ns [namespace children convert] {
+			  if {[info command ${ns}::guess] != "" && [${ns}::guess $name]} {
+			    set format $ns
+			    break
+			  }
+			}
+		      }
+		      if {$format == "" || [info command ${format}::import] == ""} {
+			puts stderr "(skipping non transcription file $name)"
+			continue
+		      }
+		      puts stderr "converting $name ($format)"
+
+		      if {[catch {
+			${format}::import $name
+			set v(sig,min) 0
+			set v(trans,format) $format
+			if {[set msg [NormalizeTrans]] != ""} {
+			  puts -nonewline stderr $msg
+			}
+			${nsformat}::export [file tail [file root $name]]$ext
+			incr nb
+		      } err]} {
+			puts stderr "error with $name: $err ($::errorInfo)"
+		      }
+		      ::xml::init
+		      ::speaker::init
+		      ::topic::init
+		      set v(trans,root) ""
+		      set v(trans,name) ""
+		      #CloseTrans -nosave
 		    }
 		    puts stderr "$nb file(s) processed."
 		    exit
