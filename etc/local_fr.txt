@@ -968,6 +968,8 @@ Revenir à la version enregistrée?}
 	{}
 Word
 	Mot
+{You have selected several lines. Confirm their deletion ?}
+	{Vous avez sélectionné plusieurs lignes. Confirmez-vous leur suppression ?}
 {Zoom selection}
 	{Zoom de la sélection}
 {Update db}
