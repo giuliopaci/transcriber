@@ -69,11 +69,14 @@ newTopicFmt "topic\#%s"
 
 # default encoding used for transcriptions (IANA rather than tcl name)
 encoding    ISO-8859-1
+# for MacOSX, choose rather:
+#encoding    Macintosh
 # List of encoding: IANA name/usual name
 encodingList {
       {UTF-8       "Unicode (UTF-8)"}
       {}
       {ISO-8859-1  "Western (Latin1)"}
+      {Macintosh   "Western (MacRoman)"}
       {ISO-8859-2  "Central european (Latin2)"}
       {CP1250      "Czech for Windows (CP1250)"}
       {ISO-8859-3  "Latin3"}
