@@ -298,13 +298,14 @@ proc SetBindings {} {
 
    # Forget existing bindings
    foreach b [bind .] {bind . $b {}}
-   bind all <<PrevWindow>> {}
 
    # Some aliases for keyboard events
    bind . <Pause> {PlayOrPause}
    bind . <Alt-Tab> {PlayCurrentSegmt}
-   # Shift-Tab for Linux (Debian1.3) - where does this come from ?
-   catch {bind . <ISO_Left_Tab> {PlayCurrentSegmt}}
+   # alternative for Shift-Tab already defined in menu bindings
+   catch {bind . <Key-ISO_Left_Tab> {PlayCurrentSegmt; break}}
+   # the break added in previous should make following useless:
+   # bind all <<PrevWindow>> {}
 }
 
 #######################################################################
