@@ -189,6 +189,53 @@ lexical {
 	{"()"	"rupture de syntaxe"}
 }
 
+# list of Named Entities (NE) events with descriptions
+entities {
+	{"pers" "Person"}
+	{"pers.hum" ""}		
+        {"pers.anim" ""}
+	{"pers.imag" ""}             
+	{"org" "Organization"}
+	{"org.pol" ""}
+	{"org.edu" ""}
+	{"org.non-profit" ""}
+	{"org.com" ""}
+	{"gsp" "Geo-Soc-Pol"}
+	{"gsp.pers" ""}
+	{"gsp.org" ""}
+	{"gsp.loc" ""}
+        {"loc" "Location"}
+	{"loc.geo" ""}
+	{"loc.geo.line" ""}
+	{"loc.addr" ""}
+	{"loc.addr.post" ""}
+	{"loc.addr.tel" ""}
+	{"loc.addr.elec" ""}
+	{"fac" "Facilities"}
+        {"prod" "Product"}
+        {"prod.vehicule" ""}
+        {"prod.award" ""}
+        {"prod.art" ""}
+        {"prod.printing" ""}
+        {"time" "Time"}
+	{"time.date" ""}
+	{"time.date.abs" ""}
+	{"time.date.rel" ""}
+	{"time.hour" ""}
+        {"amount" "Amount"}
+	{"amount.phy" ""}
+	{"amount.phy.age" ""}
+	{"amount.phy.dur" ""}
+	{"amount.phy.temp" ""}
+	{"amount.phy.len" ""}
+	{"amount.phy.wei" ""}
+	{"amount.phy.spd" ""}
+	{"amount.cur" ""}
+	{"unk" "Unknown"}
+	{"prod.award/pers.hum" ""}
+	{"org.edu/gsp.pers" ""}
+}
+
 # format strings for event extent (%s is replaced with event description)
 event,instantaneous	"\[%s]"
 event,begin	"\[%s-]"
@@ -205,6 +252,7 @@ event,header "%s"
 event,pronounce	"pron=%s"
 event,lexical	"lex=%s"
 event,noise	"%s"
+event,entities "ent=%s"
 
 # bindings for insertion of events or special chars in text editor
 # with a list of pairs sequence-string/replacement-char (e.g. ' e => e acute)
@@ -272,6 +320,20 @@ color,hi-text "#f0f0f0"
 color,fg-evnt "grey50"
 color,bg-evnt "#d9d9d9"
 colorizeSpk   0
+color,netag-pers blue
+color,netag-org red
+color,netag-gsp orange
+color,netag-loc "#0007ff3ff"
+color,netag-fac brown
+color,netag-prod salmon
+color,netag-time "#000f0ffff" 
+color,netag-amount purple
+color,netag-meto grey
+color,netag-unk grey
+color,netag-user grey
+checkNEcolor,tag  1
+checkNEcolor,text 1
+checkNEcolor,buton 1
 
 # Fonts
 font,text    {courier 12}
@@ -281,6 +343,7 @@ font,list    {courier 12 bold}
 font,info    {helvetica 10 bold}
 font,mesg    {helvetica 10}
 font,trans   {helvetica 10}
+font,NEbutton		{arial 10}
 
 # Some geometry to be saved
 geom,.		""
@@ -291,9 +354,12 @@ geom,.gain	""
 
 # Display
 view,.edit          1
+view,.edit.ne	    0
 view,.cmd           1
 view,.inf           0
+view,.snd	    1
 view,.snd2          0
+view,.msg	    1
 hideLevels	    0
 
 # Principal signal configuration
