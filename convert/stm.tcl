@@ -4,10 +4,23 @@
 # distributed under the GNU General Public License (see COPYING file)
 
 ################################################################
-# conversion rules: updated 8 jan. 2001; 27 jun. 2001; 10 jul. 2001
+# conversion rules: updated 8 jan. 2001; 27 jun. 2001; 10 jul. 2001; 26 oct. 2004
 #
-# Export to stm:
-# -------------
+# Export to stm (with option):
+# ----------------------------
+#
+# While using stm export on command line, options can be specified by
+# setting the global variable "stmopt":
+# 
+#   ex: trans -set stmopt value -convertto stm file 
+#
+#   value can be:
+#
+#       "pron" => Replace the string to which a pronouce event applies to, only
+#                 if the "desc" attributes contains the string: "(...:)".
+#                 ex: www.tf1.fr+[pron="(URL:) WWW point TF1 point fr]
+#                  => WWW point TF1 point FR
+#
 #   file format: id channel speaker startTime endTime <o,cond,gender> transcript
 # with
 #   id = stm basename (up to 1st dot) restricted to alphanum chars (else "_")
@@ -72,51 +85,54 @@
 # (this can be disabled using command line option '-set importMinGap 0.0')
 namespace eval stm {
 
-  variable msg "STM format"
-  variable ext ".stm"
-
-  # if set to 1, also process deprecated tag format <lang=...> </lang> etc.
-  variable deprecated 0
-
-  proc export {name} {
+    variable msg "STM format"
+    variable ext ".stm"
+    
+    # if set to 1, also process deprecated tag format <lang=...> </lang> etc.
+    variable deprecated 0
+    
+    proc export {name} {
     global v
-
-    # export any 'event'?
-    setdef v(exportEvent) false
-
-    variable head ""
-    variable bgTime ""
-    variable bgLvl "off"
-    variable bgTyp ""
-    variable oldtime ""
-    variable time ""
-    variable cond
-    variable turncond
-    variable txt
-    variable channel [open $name w]
-    variable base
-    variable nontrans ""
-    variable nontime 0
-    set nxt ""
-
+	
+	# export any 'event'?
+	setdef v(exportEvent) false
+	
+	# other export option
+	setdef v(stmopt) ""
+	
+	variable head ""
+	variable bgTime ""
+	variable bgLvl "off"
+	variable bgTyp ""
+	variable oldtime ""
+	variable time ""
+	variable cond
+	variable turncond
+	variable txt
+	variable channel [open $name w]
+	variable base
+	variable nontrans ""
+	variable nontime 0
+	set nxt ""
+	
     # provide explicit informations on export and used encoding in header
-    if {![catch {encoding system}]} {
-      fconfigure $channel -encoding [EncodingFromName $::v(encoding)]
-      set msg " with encoding $::v(encoding)"
-    } else {
-      set msg ""
-    }
-    set rev [lindex [split {$Revision$}] 1]
-    puts $channel ";; Transcriber export by stm.tcl,v $rev on [clock format [clock seconds]]$msg"
-    set episode [$v(trans,root) getChilds "element" "Episode"]
-    if {[$episode getAttr program] != "" || [$episode getAttr air_date] != ""} {
-      puts $channel ";; program [$episode getAttr program] of [$episode getAttr air_date]"
-    }
-    puts $channel ";; transcribed by [$v(trans,root) getAttr scribe], version [$v(trans,root) getAttr version] of [$v(trans,root) getAttr version_date]"
-    puts $channel ";;"
-
-    # provide header for NIST sclite analysis
-    puts $channel \
+	if {![catch {encoding system}]} {
+	    fconfigure $channel -encoding [EncodingFromName $::v(encoding)]
+	    set msg " with encoding $::v(encoding)"
+	} else {
+	    set msg ""
+	}
+	set rev [lindex [split {$Revision$}] 1]
+	puts $channel ";; Transcriber export by stm.tcl,v $rev on [clock format [clock seconds]]$msg"
+	set episode [$v(trans,root) getChilds "element" "Episode"]
+	if {[$episode getAttr program] != "" || [$episode getAttr air_date] != ""} {
+	    puts $channel ";; program [$episode getAttr program] of [$episode getAttr air_date]"
+	}
+	puts $channel ";; transcribed by [$v(trans,root) getAttr scribe], version [$v(trans,root) getAttr version] of [$v(trans,root) getAttr version_date]"
+	puts $channel ";;"
+	
+	# provide header for NIST sclite analysis
+	puts $channel \
 {;; CATEGORY "0" "" ""
 ;; LABEL "O" "Overall" "Overall"
 ;;
@@ -132,178 +148,195 @@ namespace eval stm {
 ;; LABEL "female" "Female" ""
 ;; LABEL "male"   "Male" ""
 ;; LABEL "unknown"   "Unknown" ""}
-
-    # get basename from filename up to first dot,
-    # then keep only alphanumeric chars
-    #set base [$v(trans,root) getAttr "audio_filename"]    
-    set base [lindex [split [file tail $name] .] 0]
-    if {[info tclversion] >= 8.3} {
-      set alnum {[^[:alnum:]]+}
-    } else {
-      set alnum "\[^\x30-\x39\x41-\x5A\x61-\x7A\xC0-\xD6\xD8-\xF6\xF8-\xFF]+"
-    }
-    regsub -all $alnum $base "_" base
-    set base [string trim $base "_"]
-
-    set episode [$v(trans,root) getChilds "element" "Episode"]
-    foreach sec [$episode getChilds "element" "Section"] {
-      # ignore "nontrans" sections
-      if {[$sec getAttr "type"] == "nontrans"} {
-	set t0 [format %.3f [$sec getAttr "startTime"]]
-	set t1 [format %.3f [$sec getAttr "endTime"]]
-	dump $t0
-	ignore $t0 $t1
-	continue
-      }
-      foreach tur [$sec getChilds "element" "Turn"] {
-	set turncond "f0"
-	if {[$tur getAttr "mode"] == "spontaneous"} {
-	  set turncond "f1"
-	}
-	if {[$tur getAttr "channel"] == "telephone"} {
-	  set turncond "f2"
-	}
-	if {[$tur getAttr "fidelity"] == "low"} {
-	  set turncond "f4"
-	}
-	set spk [$tur getAttr "speaker"]
-	set gender ""
-	set scope "global"
-	if {$spk == ""} {
-	  set spk "inter_segment_gap"
-	  set gender ""
-	} elseif {[llength $spk] == 1} {
-	  catch {
-	    set atts [::speaker::get_atts $spk]
-	    set gender [lindex $atts 2]
-	    if {[lsearch -exact {"male" "female"} $gender] < 0} {
-	      set gender "unknown"
-	    }
-	    set scope [lindex $atts 5]
-	    if {[lindex $atts 3] == "nonnative"} {
-	      if {$turncond == "f4"} {
-		set turncond "fx"
-	      } else {
-		set turncond "f5"
-	      }
-	    }
-	  }
-	  # keep only alphanumeric chars in speaker name, replace other by _
-	  set spk [::speaker::name $spk]
-	  regsub -all $alnum $spk "_" spk
-	  set spk [string trim $spk "_"]
-	  # prefix local names by file id
-	  if {$scope != "global" && ![string match ${base}* $spk]} {
-	    set spk "${base}_$spk"
-	  }
+	
+	# get basename from filename up to first dot,
+	# then keep only alphanumeric chars
+	#set base [$v(trans,root) getAttr "audio_filename"]    
+	set base [lindex [split [file tail $name] .] 0]
+	if {[info tclversion] >= 8.3} {
+	set alnum {[^[:alnum:]]+}
 	} else {
-	  # exclude overlapping speech from stm
-	  set t0 [format %.3f [$tur getAttr "startTime"]]
-	  set t1 [format %.3f [$tur getAttr "endTime"]]
-	  dump $t0
-	  ignore $t0 $t1
-	  continue
+	    set alnum "\[^\x30-\x39\x41-\x5A\x61-\x7A\xC0-\xD6\xD8-\xF6\xF8-\xFF]+"
 	}
-	foreach chn [$tur getChilds] {
-	  if {[$chn class] == "data"} {
-	    set data [$chn getData]
-	    regsub -all "\n" $data " " data
-	    if {$nxt != ""} {
-	      if {[regexp { *([^ ]+)( .*)} $data all wrd data]} {
-		append txt [format $nxt $wrd]
-	      }
-	      set nxt ""
+	regsub -all $alnum $base "_" base
+	set base [string trim $base "_"]
+	
+	set episode [$v(trans,root) getChilds "element" "Episode"]
+	foreach sec [$episode getChilds "element" "Section"] {
+	    # ignore "nontrans" sections
+	    if {[$sec getAttr "type"] == "nontrans"} {
+		set t0 [format %.3f [$sec getAttr "startTime"]]
+		set t1 [format %.3f [$sec getAttr "endTime"]]
+		dump $t0
+		ignore $t0 $t1
+		continue
 	    }
-	    if {$txt != "" &&
-		[string index $txt [expr [string length $txt]-1]] != " "} {
-	      append txt " "
-	    }
-	    append txt $data
-	  } elseif {[$chn class] == "element"} {
-	    switch [$chn getType] {
-	      "Background" {
-		set bgTyp [$chn getAttr "type"]
-		set bgLvl [$chn getAttr "level"]		      
-		# detect first bg change after beginning of segment
-		set newtime [format %.3f [$chn getAttr "time"]]
-		if {$newtime == $time} {
-		  setcond
-		} elseif {$newtime > $time && $bgTime == ""} {
-		  set bgTime $newtime
+	    foreach tur [$sec getChilds "element" "Turn"] {
+		set turncond "f0"
+		if {[$tur getAttr "mode"] == "spontaneous"} {
+		    set turncond "f1"
 		}
-	      }
-	      "Sync" {
-		set newtime [format %.3f [$chn getAttr "time"]]
-		if {$time == "" || $newtime > $time} {
-		  set time $newtime
+		if {[$tur getAttr "channel"] == "telephone"} {
+		    set turncond "f2"
 		}
-		dump $time
-		set head "$base 1 $spk $time %s <o,%s,$gender> %s"
-		set oldtime "$time"
-		set bgTime ""
-		setcond
-	      }
-	      "Who" {
-		#set nb [$chn getAttr "nb"]
-		#append txt " \[$nb] "
-	      }
-	      "Comment" {
-		#set desc [$chn getAttr "desc"]
-		#append txt "<comment>$desc</comment>"
-	      }
-	      "Event" {
-		set desc [$chn getAttr "desc"]
-		set type [$chn getAttr "type"]
-		set extn [$chn getAttr "extent"]
-		# replace spaces with _ in description
-		regsub -all "\[ \t\n]+" $desc "_" desc
-		if {$type == "language"} {
-		  catch {set desc $::iso639($desc)}
-		  set f(begin) " \[$type=$desc-] "
-		  set f(end) " \[-$type] "
-		  set f(instantaneous) " \[$type=$desc] "
+		if {[$tur getAttr "fidelity"] == "low"} {
+		    set turncond "f4"
+		}
+		set spk [$tur getAttr "speaker"]
+		set gender ""
+		set scope "global"
+		if {$spk == ""} {
+		    set spk "inter_segment_gap"
+		    set gender ""
+		} elseif {[llength $spk] == 1} {
+		    catch {
+			set atts [::speaker::get_atts $spk]
+			set gender [lindex $atts 2]
+			if {[lsearch -exact {"male" "female"} $gender] < 0} {
+			    set gender "unknown"
+			}
+			    set scope [lindex $atts 5]
+			    if {[lindex $atts 3] == "nonnative"} {
+				if {$turncond == "f4"} {
+				    set turncond "fx"
+				} else {
+				    set turncond "f5"
+				}
+			    }
+			}
+			# keep only alphanumeric chars in speaker name, replace other by _
+			set spk [::speaker::name $spk]
+			regsub -all $alnum $spk "_" spk
+			set spk [string trim $spk "_"]
+			# prefix local names by file id
+			if {$scope != "global" && ![string match ${base}* $spk]} {
+			    set spki "${base}_$spk"
+			} 
 		} else {
-		  set f(begin) " \[$desc-] "
-		  set f(end) " \[-$desc] "
-		  set f(instantaneous) " \[$desc] "
+		    # exclude overlapping speech from stm
+		    set t0 [format %.3f [$tur getAttr "startTime"]]
+		    set t1 [format %.3f [$tur getAttr "endTime"]]
+		    dump $t0
+		    ignore $t0 $t1
+		    continue
 		}
-		switch $extn {
-		  "previous" {
-		    if {$type == "noise" || $v(exportEvent)} {
-		      if {[regexp {(.* )([^ ]+) *} $txt all txt prv]} {
-			append txt "$f(begin) $prv $f(end)"
-		      }
+		foreach chn [$tur getChilds] {
+		    if {[$chn class] == "data"} {
+			set data [$chn getData]
+			regsub -all "\n" $data " " data
+			if {$nxt != ""} {
+			    if {[regexp { *([^ ]+)( .*)} $data all wrd data]} {
+				append txt [format $nxt $wrd]
+			    }
+			    set nxt ""
+			}
+			if {$txt != "" && [string index $txt [expr [string length $txt]-1]] != " "} {
+			    append txt " "
+			}
+			append txt $data
+		    } elseif {[$chn class] == "element"} {
+			# Only if the gobal variable stmopt is set to "pron" on command line.
+			# If the next event element type is "pronouce" and its extent "previous"
+			# Replace the last word by the "desc" of the element tag, only if this
+			# desc contains (...:), for example (URL:).
+			if {$v(stmopt) != ""} {
+			    if {[$chn getType] == "Event" && [$chn getAttr "type"] == "pronounce"} {
+				if {[$chn getAttr "extent"] == "previous"} { 
+				    regexp {([^ ]+)$} $txt all lastwrd
+				    if {[regexp {([0-9][0-9])([0-9][0-9])} $lastwrd all cent ten]} {
+					$chn setAttr "desc" "(19 cent:) $cent cent $ten"
+				    }
+				    set desctmp [$chn getAttr "desc"]
+				    if {[regexp {^\(.*\:\)(\s*)(.*$)} $desctmp all type subst]} {
+					regsub -all {[^ ]+$} $txt " $subst" txt
+				    }
+				}
+			    }
+			}
+			switch [$chn getType] {
+			    "Background" {
+				set bgTyp [$chn getAttr "type"]
+				set bgLvl [$chn getAttr "level"]		      
+				# detect first bg change after beginning of segment
+				set newtime [format %.3f [$chn getAttr "time"]]
+				if {$newtime == $time} {
+				    setcond
+				} elseif {$newtime > $time && $bgTime == ""} {
+				    set bgTime $newtime
+				}
+			    }
+			    "Sync" {
+				set newtime [format %.3f [$chn getAttr "time"]]
+				if {$time == "" || $newtime > $time} {
+				    set time $newtime
+				}
+				dump $time
+				set head "$base 1 $spk $time %s <o,%s,$gender> %s"
+				set oldtime "$time"
+				set bgTime ""
+				setcond
+			    }
+			    "Who" {
+				#set nb [$chn getAttr "nb"]
+				#append txt " \[$nb] "
+			    }
+			    "Comment" {
+				#set desc [$chn getAttr "desc"]
+				#append txt "<comment>$desc</comment>"
+			    }
+			    "Event" {
+				set desc [$chn getAttr "desc"]
+				set type [$chn getAttr "type"]
+				set extn [$chn getAttr "extent"]
+				# replace spaces with _ in description
+				regsub -all "\[ \t\n]+" $desc "_" desc
+				if {$type == "language"} {
+				    catch {set desc $::iso639($desc)}
+				    set f(begin) " \[$type=$desc-] "
+				    set f(end) " \[-$type] "
+				    set f(instantaneous) " \[$type=$desc] "
+				} else {
+				    set f(begin) " \[$desc-] "
+				    set f(end) " \[-$desc] "
+				    set f(instantaneous) " \[$desc] "
+				}
+				switch $extn {
+				    "previous" {
+					if {$type == "noise" || $v(exportEvent)} {
+					    if {[regexp {(.* )([^ ]+) *} $txt all txt prv]} {
+						append txt "$f(begin) $prv $f(end)"
+					    }
+					}
+				    }
+				    "next" {
+					if {$type == "noise" || $v(exportEvent)} {
+					    set nxt "$f(begin) %s $f(end)"
+					}
+				    }
+				    "begin" - "end" - "instantaneous" {
+					if {$type == "noise" || $type == "language"|| $v(exportEvent)} {
+					    append txt $f($extn)
+					} elseif {$type == "pronounce" && $extn == "instantaneous"
+						  && ($desc == "pi" || $desc == "pif")} {
+					    append txt $f($extn)
+					}
+				    }
+				}
+			    }
+			}
 		    }
-		  }
-		  "next" {
-		    if {$type == "noise" || $v(exportEvent)} {
-		      set nxt "$f(begin) %s $f(end)"
-		    }
-		  }
-		  "begin" - "end" - "instantaneous" {
-		    if {$type == "noise" || $type == "language"|| $v(exportEvent)} {
-		      append txt $f($extn)
-		    } elseif {$type == "pronounce" && $extn == "instantaneous"
-			      && ($desc == "pi" || $desc == "pif")} {
-		      append txt $f($extn)
-		    }
-		  }
 		}
-	      }
 	    }
-	  }
 	}
-      }
+	if {[info exists tur]} {
+	    dump [format %.3f [$tur getAttr "endTime"]]
+	}
+	if {$nontrans != ""} {
+	    puts stderr "WARNING - unclosed nontrans/language/comment segment starting at $nontime in $name"
+	}
+	close $channel
     }
-    if {[info exists tur]} {
-      dump [format %.3f [$tur getAttr "endTime"]]
-    }
-    if {$nontrans != ""} {
-      puts stderr "WARNING - unclosed nontrans/language/comment segment starting at $nontime in $name"
-    }
-    close $channel
-  }
-
+    
   proc setcond {} {
     variable turncond
     variable cond
