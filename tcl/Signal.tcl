@@ -228,7 +228,7 @@ proc LookForShape {sigName} {
 
    # Search for an existing matching shape
    # (in default dir, shp sub-dir or signal dir)
-   foreach path [concat $v(path,shape) "shp ../shp ."] {
+   foreach path [concat [file join $v(path,shape)] "shp ../shp ."] {
       # Relative paths are relative to signal path
       set path [file join [file dirname $sigName] $path]
       set shape [file join $path $base.$ext]
