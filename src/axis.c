@@ -370,8 +370,8 @@ AxisWorldChanged(ClientData clientData)
          && !(a->flags & REDRAW)) {
       Tk_DoWhenIdle( AxisDisplay, (ClientData) a);
       a->flags |= REDRAW;      
-      a->flags |= REALLY;      
    }
+   a->flags |= REALLY;      
 }    
 
 /* --------------------------------------------------------------------- */
