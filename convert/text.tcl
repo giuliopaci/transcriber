@@ -36,6 +36,9 @@ namespace eval text {
      setdef v(exportOverEnd) "\#"
 
      set channel [open $name w]
+     if {![catch {encoding system}]} {
+        fconfigure $channel -encoding [EncodingFromName $::v(encoding)]
+     }
      set episode [$v(trans,root) getChilds "element" "Episode"]
      foreach sec [$episode getChilds "element" "Section"] {
        if {[$sec getAttr "type"] == "nontrans" && !$v(exportNontrans)} continue
