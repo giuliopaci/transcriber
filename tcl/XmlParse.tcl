@@ -163,7 +163,7 @@ namespace eval ::xml::parser {
       set syst [unquote $syst]
       if {$publ != ""} {
       } elseif {$syst != ""} {
-	  # if the dtd used in the trs file is under trans-14.dtd change it for compatibility with transcriber 1.4.7
+	  # if the dtd used in the trs file is under trans-14.dtd change it for compatibility with transcriber 1.5.0
 	  variable olddtd $syst
 	  regexp {trans\-([0-9]+).*} $syst all dtdnum
 	  if { $dtdnum < 14 } {

@@ -29,7 +29,7 @@ exec wish "$0" ${1:+"$@"}
 
 ################################################################
 
-set version "1.4.7"
+set version "1.5.0"
 
 proc Main {argv} {
    global v
@@ -300,11 +300,12 @@ proc InitDefaults {argv} {
    }
    LoadOptions $v(file,user)
 
-   # Migration of old user preferences to Transcriber 1.4.7
-   # This code executed at the first run after the installation of Transcriber 1.4.7
-   # The event widget size is reset because it changed since Transcriber 1.4.6
-   if { $v(pref,ver) != "1.4.7" } {
-	set v(pref,ver) "1.4.7"
+   # Migration of old user preferences to Transcriber 1.5.0
+   # This code is executed at the first run after the installation of Transcriber 1.5.0
+   # The event widget size is reset because it changed since the previous versions
+   # of Transcriber 
+   if { [ string compare 1.5.0 $v(pref,ver) ] == 1 } {
+	set v(pref,ver) "1.5.0"
 	set v(geom,.evt) ""
    }
 			      
