@@ -423,6 +423,7 @@ proc SaveOptions {{mode ""}} {
        { "All files" {*}}
      }
      set fileName [tk_getSaveFile -filetypes $types -defaultextension .cfg -initialfile "$v(scribe,name)" -initialdir $base -title  "Save configuration file"]
+     if {$fileName == ""} return  
    }
    # write options using default system encoding
    set f [open $fileName w]
