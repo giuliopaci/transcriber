@@ -32,7 +32,7 @@ exec wish "$0" ${1:+"$@"}
 proc Main {argv} {
    global v
 
-   wm title . "Transcriber 1.4.pre5"
+   wm title . "Transcriber 1.4.5"
    wm protocol . WM_DELETE_WINDOW { Quit }
 
    InitDefaults
@@ -134,6 +134,9 @@ proc Quit {} {
 #  keepconfig :   ask to save configuration before leaving
 #  lang :         language for menus ("fr" for french, default to english)
 #  language :     list of pairs iso639-code/language-name for localization
+#  multiwav,file: stores the current MultiWav menu file selection
+#  multiwav,files:list of all the files in the MultiWav menu
+#  multiwav,path: list of the full pathnames of the MultiWav menu files
 #  newtypes :     list of supported import formats with description
 #  options,file:  default file for user configuration
 #  options,list:  values to be saved in user configuration
@@ -576,7 +579,7 @@ proc LoadModules {} {
    # Source tcl libraries at global level
    foreach module {
       About Debug Dialog Edit Episode Events Interface Menu Play Segmt
-      Signal Speaker Spelling Synchro Topic Trans Undo Waveform Xml
+      Signal Speaker Spelling Synchro Topic Trans Undo Waveform Xml MultiWav
    } {
       if {$module == "Xml" && [namespace children :: xml] != ""} continue
       uplevel \#0 [list source [file join $v(path,tcl) $module.tcl]]
@@ -675,6 +678,7 @@ proc StartWith {argv} {
    global v
 
    set sig ""
+   set multiwav {}
    set trans ""
    set pos 0
    set gain 0
@@ -711,7 +715,11 @@ proc StartWith {argv} {
 		  set trans $val
 	       } elseif {[lsearch -exact $ext_au $ext] >= 0
 			 || [SoundFileType $val] != "RAW"} {
-		  set sig $val
+		 if {$sig == ""} {
+		   set sig $val
+		 } else {
+		   lappend multiwav $val
+		 }
 	       } else {
 		  return -code error "unknown format for file $val"
 	       }
@@ -723,6 +731,7 @@ proc StartWith {argv} {
    # Default values if none was given on command line
    if {$sig=="" && $trans == ""} {
       set sig $v(sig,name)
+      set multiwav $v(multiwav,path)
       set trans $v(trans,name)
       set pos $v(curs,pos)
       set gain $v(sig,gain)
@@ -734,7 +743,7 @@ proc StartWith {argv} {
    #set v(trans,path) [pwd]
    set v(trans,path)   [file join $v(path,base) "demo"]
    if {$trans == "" || [catch {
-      ReadTrans $trans $sig
+      ReadTrans $trans $sig $multiwav
       SetCursor $pos
       NewGain $gain
    } error]} {
@@ -744,7 +753,7 @@ proc StartWith {argv} {
 	 tk_messageBox -message $error -type ok -icon error
       }
       if {$sig != ""} {
-	 NewTrans $sig
+	 NewTrans $sig $multiwav
       } else {
 	 OpenTransOrSoundFile
       }

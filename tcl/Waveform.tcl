@@ -58,6 +58,8 @@ proc CreateSoundFrame {f} {
    set v($wavfm,menu) [add_menu .menu$name [subst {
       {"Audio file"		cascade {
 	 {"Open audio file..." 	cmd {OpenAudioFile}}
+	 {"Add audio file..." 	cmd {OpenAudioFile add}}
+	 {""}
       }}
       {"Playback"		cascade {
 	 {"Play/Pause"		cmd {PlayOrPause}}

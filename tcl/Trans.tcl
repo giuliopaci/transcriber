@@ -173,8 +173,8 @@ proc SegmtToTrans {segmt} {
 # Read transcriptions
 
 # Read transcription file in several formats
-# Called from: OpenTransFile, RevertTrans, StartWith
-proc ReadTrans {name {soundFile ""}} {
+# Called from: OpenTrans(OrSound)File, RevertTrans, StartWith
+proc ReadTrans {name {soundFile ""} {multiwav {}}} {
    global v
    
    # First, try to rescue from last autosaved file if it exists.
@@ -238,18 +238,29 @@ proc ReadTrans {name {soundFile ""}} {
 
    # Try to open automatically sound file else ask user
    if {$format == "trs"} {
-      LookForSignal $name $soundFile
+      LookForSignal $name $soundFile [lindex [GetFilename] 0]
    } else {
       # For newly created transcriptions, keep info about signal basename
       UpdateFilename
    }
    if {$v(sig,name) == ""} {
-      tk_messageBox -type ok -icon warning -message \
-	  [concat [Local "Please open signal for transcription"] $name]
-      OpenAudioFile
+      set rep [tk_messageBox -type okcancel -icon warning -message \
+	  [concat [Local "Please open signal for transcription"] $name]]
+      if {$rep == "ok"} {
+	OpenAudioFile
+      }
       if {$v(sig,name) == ""} {
 	 EmptySignal
       }
+   }
+   # add list of sound files found in .trs header
+   if {$format == "trs"} {
+     MW_Update
+   }
+   # also add multiple wav files from command line or configuration
+   if {[llength $multiwav] > 1} {
+     eval MW_AddFile $multiwav
+     UpdateFilename
    }
 }
 
@@ -354,7 +365,7 @@ proc WriteTrans {name format} {
 
 # Create new transcription. 
 # If audio file not given, ask through dialog box.
-proc NewTrans {{soundFile ""}} {
+proc NewTrans {{soundFile ""} {multiwav {}}} {
    global v
 
    if [catch {CloseTrans} err] return
@@ -372,6 +383,9 @@ proc NewTrans {{soundFile ""}} {
       if {$v(debug)} {puts $::errorInfo}
       EmptySignal
    }
+
+   # add multiple wav files from command line
+   eval MW_AddFile $multiwav
 
    setChatMode 0
    set v(trans,name) ""
@@ -398,9 +412,10 @@ proc SaveTrans {{as ""} {format ""}} {
       set name $v(trans,name) 
    } else {
       if {$v(trans,name) == ""} {
-	 set base [$v(trans,root) getAttr "audio_filename"]
+	# default base name is first one from list given in episode tag
+	set base [lindex [GetFilename] 0]
       } else {
-	 set base [file root [file tail $v(trans,name)]]
+	set base [file root [file tail $v(trans,name)]]
       }
       set exts [set ${format}::ext]
       set ext [lindex $exts 0]

@@ -225,6 +225,8 @@ sig,gain	0
 path,sounds   ""
 trans,name    ""
 
+multiwav,path {}
+
 # standard extensions for sounds, transcriptions, labels.
 ext,snd       {".au" ".wav" ".snd" ".sph" ".sig" ".sd" ".smp" ".aif" ".aiff" ".mp3"}
 ext,trs       {".xml" ".trs" ".typ"}

@@ -5,7 +5,8 @@
 
 ###############################################################
 
-proc EmptySignal {} {
+# if mode != reset, keep current signal size and cursor position
+proc EmptySignal {{mode "reset"}} {
    global v
 
    if {[info exists v(sig,cmd)] && $v(sig,cmd) != ""} {
@@ -13,20 +14,26 @@ proc EmptySignal {} {
 	 $wavfm config -sound "" -shape ""
       }
       catch {$v(sig,cmd) destroy}
-      StopAndRewind
+      if {$mode == "reset"} {
+        StopAndRewind
+      } else {
+	PauseAudio
+      }
    }
    # forget configuration for player
    catch {player config -file ""}
    set v(sig,cmd) ""
-   set v(sig,min) 0
-   set v(sig,base) 0
-   # If possible, empty signal has the length of current transcription
-   if {[catch {
-      set episode [$v(trans,root) getChilds "element" "Episode"]
-      set sec [lindex [$episode getChilds "element" "Section"] end]
-      set v(sig,len) [$sec getAttr "endTime"]
-   }]} {
-      set v(sig,len) 10
+   if {$mode == "reset"} {
+     set v(sig,min) 0
+     set v(sig,base) 0
+     # If possible, empty signal has the length of current transcription
+     if {[catch {
+       set episode [$v(trans,root) getChilds "element" "Episode"]
+       set sec [lindex [$episode getChilds "element" "Section"] end]
+       set v(sig,len) [$sec getAttr "endTime"]
+     }]} {
+       set v(sig,len) 10
+     }
    }
    set v(sig,name) ""
    UpdateShortName
@@ -34,17 +41,20 @@ proc EmptySignal {} {
    catch {$v(shape,cmd) destroy}
    set v(shape,cmd) ""
    ConfigAllWavfm
-   SetSelection 0 0
-   #$v(tk,gain) set 0
-   NewGain 0
+   if {$mode == "reset"} {
+     SetSelection 0 0
+     #$v(tk,gain) set 0
+     NewGain 0
+     MW_Reset
+   }
 }
 
 # Open audio file
-proc Signal {name} {
+proc Signal {name {mode "reset"}} {
    global v
 
    # Forget previous signal, open new sound and set values
-   EmptySignal
+   EmptySignal $mode
    set sound [OpenSound $name]
    set v(sig,len) [$sound length -unit seconds]
    set v(sig,cmd) $sound
@@ -117,13 +127,15 @@ proc Signal {name} {
    set nb [expr [GetSegmtNb seg0]-1]
    if {$nb >= 0} {
       set begin [GetSegmtField seg0 $nb -begin]
-      if {$begin >= $v(sig,len)} {
+      set end [GetSegmtField seg0 $nb -end]
+      if {$mode == "reset" && $begin >= $v(sig,len)
+	|| $mode != "reset" && $end >= $v(sig,len)} {
 	 # There are breakpoints after end of signal: keep previous end time
-	 set v(sig,len) [GetSegmtField seg0 $nb -end]
+	 set v(sig,len) $end
 	 foreach wavfm $v(wavfm,list) {
 	    SynchroWidgets $wavfm
 	 }
-      } else {
+       } else {
 	 # Move transcription end time to its new value
 	 set endId [GetSegmtField seg0 $nb -endId]
 	 Synchro::ModifyTime $endId $v(sig,len)
@@ -133,6 +145,10 @@ proc Signal {name} {
 
    ConfigAllWavfm
    update
+
+   if {$mode != "switch"} {
+     MW_AddFile $v(sig,name)
+   }
 
    if {$v(play,auto)} {
       PlayFromBegin
@@ -213,28 +229,31 @@ proc LookForShape {sigName} {
 # Try to find a sound file bearing the name given in the "audio_filename"
 # episode field or the same base name as the transcription;
 # open it if it succeeds.
-proc LookForSignal {transName sigName} {
+proc LookForSignal {transName sigName {base1 {}} {mode "reset"}} {
    global v
 
    # First try to read the signal if name is given
    if {$sigName != "" && ![catch {
-      Signal $sigName
+      Signal $sigName $mode
    }]} {
       return
    }
 
    # Basename can be in the root tag, or the same as the transcription
-   set names ""
-   catch {
-      set names [$v(trans,root) getAttr "audio_filename"]
+   if {$base1 != ""} {
+      lappend names $base1
    }
-   set name2 [file root [file tail $transName]]
-   if {$name2 != $names} {
-      lappend names $name2
+   set base2 [file root [file tail $transName]]
+   if {$base2 != $base1 && $base2 != ""} {
+      lappend names $base2
    }
    # Do we really need to open a different sound file ?
    if {[lsearch -exact $names [file root [file tail $v(sig,name)]]] >= 0} {
-      return
+     if {$mode == "reset"} {
+       MW_Reset
+       MW_AddFile $v(sig,name)
+     }
+     return
    }
    # List of paths to search in
    set paths [concat [list [file dirname $transName]] $v(path,sounds)]
@@ -245,9 +264,9 @@ proc LookForSignal {transName sigName} {
 	   set ext [string tolower [file extension $file]]
 	   if {[lsearch -exact $v(ext,snd) $ext] >= 0} {
 	       if {[catch {
-		  Signal $file
+		  Signal $file $mode
 	       }]} {
-		  EmptySignal
+		  EmptySignal $mode
 	       }
 	       return
 	    }
@@ -256,7 +275,7 @@ proc LookForSignal {transName sigName} {
       }
    }
    # We didn't find any adapted sound file, so we choose an empty signal
-   EmptySignal
+   EmptySignal $mode
 }
 
 # Sound file type according to Snack automatic detection (RAW, WAV,...)
@@ -272,7 +291,7 @@ proc SoundFileType {fileName} {
 }
 
 # Open audio file through selection box or with simple entry
-proc OpenAudioFile {} {
+proc OpenAudioFile {{mode "reset"}} {
    global v audiopen
 
    if {$v(sig,remote)} {
@@ -302,7 +321,7 @@ proc OpenAudioFile {} {
 		  -initialdir $path -title "Open audio file"]
    }
    if {$audiopen != ""} {
-      Signal $audiopen
+      Signal $audiopen $mode
       UpdateFilename
    }
    unset audiopen
@@ -405,7 +424,7 @@ proc ConfigureAudioFile {} {
 	     || $v(sig,server) != $initv(sig,server)
 	     || $v(sig,port) != $initv(sig,port)
 	  } {
-	    Signal $v(sig,name)
+	    Signal $v(sig,name) "switch"
 	 } elseif {[lindex [$v(sig,cmd) info] 6] == "RAW"
 		   && ($v(sig,rate) != $initv(sig,rate)
 		       || $v(sig,channels) != $initv(sig,channels)  
@@ -413,7 +432,7 @@ proc ConfigureAudioFile {} {
 		   } {
 	    # when raw files config changes, remove shape just in case
 	    file delete [LookForShape $v(sig,name)]
-	    Signal $v(sig,name)
+	    Signal $v(sig,name) "switch"
 	 }
       }
    } else {

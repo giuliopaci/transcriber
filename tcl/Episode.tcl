@@ -20,7 +20,20 @@ proc UpdateFilename {} {
    global v
 
    if {![info exist v(trans,root)] || $v(trans,root)==""} return
-   $v(trans,root) setAttr "audio_filename" [file root [file tail $v(sig,name)]]
+   if {[info exists v(multiwav,files)] && [llength $v(multiwav,files)] > 1} {
+     $v(trans,root) setAttr "audio_filename" [join $v(multiwav,files) ";"]
+   } else {
+     $v(trans,root) setAttr "audio_filename" [file root [file tail $v(sig,name)]]
+   }
+}
+
+proc GetFilename {} {
+   global v
+
+   if {![info exist v(trans,root)] || $v(trans,root)==""} {
+     return {}
+   }
+   return [split [$v(trans,root) getAttr "audio_filename"] ";"]
 }
 
 # called from: ReadTrans
@@ -115,5 +128,6 @@ proc EditEpisode {} {
 	 $item setAttr $att $dial($att)
       }
    }
+   # may call MW_Update in some way
 }
 
