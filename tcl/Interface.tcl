@@ -444,6 +444,8 @@ proc EncodingFromName {iana} {
    set enc [string tolower $iana]
    regsub "iso-" $enc "iso" enc
    regsub "_" $enc "" enc
+   # resolve confusion: IANA gb_2312-80 => Tcl gb2312; IANA gb2312 => Tcl euc-cn
+   regsub "gb2312" $enc "euc-cn" enc   
    if {[lsearch [encoding names] $enc] >= 0} {
       return $enc
    } else {
