@@ -98,24 +98,19 @@ proc ReadFile {fileName} {
 }
 
 # Open a new independant segmentation file
-# This function is not yet interfaced (has to be called manually)
-proc OpenSegmt {} {
+proc OpenSegmt {{name ""}} {
    global v
 
-   # Choose one empty seg
-   set i 3
-   while {[info exists v(trans,seg$i)]} {
-      incr i
+   if {$name == ""} {
+     set types [subst {
+       {"Label file"   {$v(ext,lbl)}}
+       {"All files"   {*}}
+     }]
+     set name [tk_getOpenFile -filetypes $types -initialdir $v(trans,path) \
+		   -title [Local "Open segmentation file"]]
    }
-   set seg "seg$i"
-
-   set types [subst {
-      {"Label file"   {$v(ext,lbl)}}
-      {"All files"   {*}}
-   }]
-   set name [tk_getOpenFile -filetypes $types -initialdir $v(trans,path) \
-		 -title [Local "Open segmentation file"]]
    if {$name != ""} {
+      if {![file readable $name]} return
       # Look for a segmentation format matching the file
       set format "none"
       foreach ns [namespace children convert] {
@@ -126,12 +121,18 @@ proc OpenSegmt {} {
       }
       if {$format == "none"} {
 	 error [format [Local "Unknown format for file %s"] $name]
-      } else {
-	 set v(trans,$seg) [${format}::readSegmt [ReadFile $name]]
       }
+      # Choose uique segmentation id
+      set i 1
+      set seg lbl$i
+      while {[info exists v(trans,$seg)]} {
+	set seg seg[incr i]
+      }
+      set v(trans,$seg) [${format}::readSegmt [ReadFile $name]]
       foreach wavfm $v(wavfm,list) {
-	 CreateSegmentWidget $wavfm $seg -fg $v(color,fg-sync) -full $v(color,bg-sync)
+	CreateSegmentWidget $wavfm $seg "[file tail $name] ([namespace tail $format])" -full white
       }
+      lappend v(labelNames) $name
    }
 }
 
@@ -483,6 +484,7 @@ proc CloseTrans {{option save}} {
    ::speaker::init
    ::topic::init
    InitSegmt seg0 seg1 seg2 bg
+   DestroyLabels
    set v(trans,name) ""
    UpdateShortName
    InitModif
@@ -787,7 +789,7 @@ proc DisplayTrans {} {
    if {[info exists v(demo)]} {
       DestroyTextFrame
       DestroySegmentWidgets
-      CreateSegmentWidget .snd.w seg0 -fg $v(color,fg-sync) -full $v(color,bg-sync) -height 1 -high $v(color,hi-sync)
+      CreateSegmentWidget .snd.w seg0 "Demo" -fg $v(color,fg-sync) -full $v(color,bg-sync) -height 1 -high $v(color,hi-sync)
       destroy .demo
       frame .demo -bd 2 -relief raised
       pack .demo -expand true -fill both -side top

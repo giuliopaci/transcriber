@@ -769,6 +769,7 @@ proc StartWith {argv} {
    set sig ""
    set multiwav {}
    set trans ""
+   set lbls {}
    set pos 0
    set gain 0
    if {[llength $argv] > 0} {
@@ -807,6 +808,17 @@ proc StartWith {argv} {
 	       foreach file [glob $path] {
 		  uplevel \#0 [list source $file]
 	       }
+	    }
+	    "-lbl" - "-lab*" - "-seg*" {
+	      # open a segmentation layer for a lbl file
+	      set name [lindex $argv [incr i]]
+	      set ext [string tolower [file extension $name]]
+	      if {[lsearch -exact $v(ext,lbl) $ext] < 0
+		|| ![file readable $name]} {
+		puts stderr "$name is not a valid label file with extension in: $v(ext,lbl)"
+		exit
+	      }
+	      lappend lbls $name
 	    }
 	    "-socket" {
 	      # launch socket facility for external scripting of Transcriber
@@ -901,6 +913,7 @@ proc StartWith {argv} {
       }
       set pos $v(curs,pos)
       set gain $v(sig,gain)
+      set lbls $v(labelNames)
    }
 
    EmptySignal
@@ -927,6 +940,9 @@ proc StartWith {argv} {
       } else {
 	 OpenTransOrSoundFile
       }
+   }
+   foreach lbl $lbls {
+     OpenSegmt $lbl
    }
 }
 

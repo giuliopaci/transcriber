@@ -226,6 +226,8 @@ path,sounds   ""
 trans,name    ""
 
 multiwav,path {}
+# list of label files
+labelNames      {}
 
 # standard extensions for sounds, transcriptions, labels.
 ext,snd       {".au" ".wav" ".snd" ".sph" ".sig" ".sd" ".smp" ".aif" ".aiff" ".mp3"}

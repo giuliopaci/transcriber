@@ -5,7 +5,7 @@
 
 ################################################################
 
-proc CreateSegmentWidget {wavfm seg args} {
+proc CreateSegmentWidget {wavfm seg name args} {
    global v
 
    set f [winfo parent $wavfm].$seg
@@ -37,7 +37,7 @@ proc CreateSegmentWidget {wavfm seg args} {
       bind $f <Button-3>  [list tk_popup $v($wavfm,menu) %X %Y]
       set menu [$v($wavfm,menu) entrycget [Local "Display"] -menu]
       add_menu $menu [subst {
-	 {"$seg" check v(view,$f) -command {SwitchSegmtView $wavfm}}
+	 {"$name" check v(view,$f) -command {SwitchSegmtView $wavfm}}
       }]
 
       lappend v($wavfm,seglist) $f
@@ -87,20 +87,10 @@ proc CreateAllSegmentWidgets {} {
    global v
 
    foreach wavfm $v(wavfm,list) {
-      CreateSegmentWidget $wavfm bg   -fg $v(color,fg-back) -full $v(color,bg-back) -empty $v(color,bg)
-      CreateSegmentWidget $wavfm seg2 -fg $v(color,fg-sect) -full $v(color,bg-sect)
-      CreateSegmentWidget $wavfm seg1 -fg $v(color,fg-turn) -full $v(color,bg-turn) -tiny {fixed 8}
-      CreateSegmentWidget $wavfm seg0 -fg $v(color,fg-sync) -full $v(color,bg-sync) -height 2 -high $v(color,hi-sync)
-   }
-}
-
-proc DestroySegmentWidget {wavfm seg} {
-   global v
-
-   set f [winfo parent $wavfm].$seg
-   if [winfo exists $f] {
-      destroy $f
-      lsuppress v($wavfm,sync) $f
+      CreateSegmentWidget $wavfm bg   "Background" -fg $v(color,fg-back) -full $v(color,bg-back) -empty $v(color,bg)
+      CreateSegmentWidget $wavfm seg2 "Sections" -fg $v(color,fg-sect) -full $v(color,bg-sect)
+      CreateSegmentWidget $wavfm seg1 "Turns" -fg $v(color,fg-turn) -full $v(color,bg-turn) -tiny {fixed 8}
+      CreateSegmentWidget $wavfm seg0 "Transcription" -fg $v(color,fg-sync) -full $v(color,bg-sync) -height 2 -high $v(color,hi-sync)
    }
 }
 
@@ -117,6 +107,34 @@ proc DestroySegmentWidgets {} {
    }
 }
  
+proc DestroyLabels {} {
+  global v
+
+  # destroy label segment widgets and associated list
+  foreach seg0 [array names v trans,lbl*] {
+    set seg [lindex [split $seg0 ,] 1]
+    foreach wavfm $v(wavfm,list) {
+      set f [winfo parent $wavfm].$seg
+      if [winfo exists $f] {
+	destroy $f
+	lsuppress v($wavfm,sync) $f
+	lsuppress v($wavfm,seglist) $f
+	catch {unset v(view,$f)}
+      }
+    }
+    unset v(trans,$seg)
+  }
+  set v(labelNames) {}
+  # destroy menu entries
+  foreach wavfm $v(wavfm,list) {
+    catch {
+      set menu [$v($wavfm,menu) entrycget [Local "Display"] -menu]
+      set index [$menu index [Local "Transcription"]]
+      $menu delete [incr index] end
+    }
+  }
+}
+
 ################################################################
 
 # Empty segmentations

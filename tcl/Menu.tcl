@@ -324,6 +324,8 @@ proc InitMenus {} {
 	    {"Command buttons"	check v(view,.cmd) -command {SwitchFrame .cmd  -before .snd}}
 	    {"Second signal view"	check v(view,.snd2) -command {SwitchSoundFrame .snd2}}
 	    {"Smart segmentation display"	check v(hideLevels) -command {UpdateSegmtView}}
+	    {""}
+	    {"Open segmentation file..." 	cmd {OpenSegmt}}
 	 }}
 	 {"Fonts"	cascade {
 	    {"Text"		cmd {set v(font,text)  [ChooseFont text] }}
