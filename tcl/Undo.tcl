@@ -84,6 +84,7 @@ proc Undo {} {
 	 set pos [lindex $undo 2]
 	 set flt [lindex $undo 3]
 	 Synchro::GetBoundaries $id previous left right leftIds rightIds
+ 	 set prev_flt [Synchro::getElastic $id]
 	 Synchro::ModifyTime $id $pos
 	 Synchro::setElastic $id $flt
 	 Synchro::ModifyElastic $leftIds $previous $pos $left
@@ -91,7 +92,7 @@ proc Undo {} {
 	 foreach i [concat $id $leftIds $rightIds] {
 	   Synchro::UpdateTimeTags $i
 	 }
-	 DoModif "MOVE $id $previous"
+	 DoModif "MOVE $id $previous $prev_flt"
       }
       "SPEAKER" {
 	 ::speaker::set_atts [lindex $undo 1] [lindex $undo 2]
