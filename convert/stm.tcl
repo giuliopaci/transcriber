@@ -69,7 +69,7 @@
 #
 # gaps not indicated by "inter_segment_gap" and shorter than 0.2 sec
 #   are ignored and concatenated to the previous segment
-
+# (this can be disabled using command line option '-set importMinGap 0.0')
 namespace eval stm {
 
   variable msg "STM format"
@@ -411,6 +411,10 @@ namespace eval stm {
   proc import {name} {
     global v
 
+    # intra-speaker inter-segment gaps which are not explicitly marked
+    # and of lower duration than given will be merged with following segment
+    setdef v(importMinGap) 0.2
+
     set file_id ""
     if {$v(sig,name) != ""} {
       set file_id [file root [file tail $v(sig,name)]]
@@ -440,7 +444,7 @@ namespace eval stm {
 	#if {$file_id !="" && $id != $file_id} continue
 	set cnd [split [string tolower [string trim $cnd " \t<>"]] ","]
 	set cond [lindex $cnd 1]
-	if {$begin-$prev < 0.2} {set begin $prev}
+	if {$begin-$prev < $v(importMinGap)} {set begin $prev}
 	# synchro times starting with "+" are floating
 	if {[string index $begin 0] == "+"} {set begin " [string range $begin 1 end]"}
 	if {[string index $end 0] == "+"} {set end "  [string range $end 1 end]"}
