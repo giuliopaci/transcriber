@@ -305,6 +305,9 @@ namespace eval speaker {
        catch {destroy $w}
        toplevel $w
        wm title $w [Local "Find speaker"]
+       if {$::tcl_platform(platform) == "windows"} {
+	       wm attributes $w -topmost 1
+       }
        #
        set w1 [frame $w.top -relief raised -bd 1]
        pack $w1 -side top -fill both -expand true
