@@ -29,7 +29,7 @@ exec wish "$0" ${1:+"$@"}
 
 ################################################################
 
-set version "1.5.0"
+set version "1.5.1"
 
 proc Main {argv} {
    global v
@@ -300,27 +300,27 @@ proc InitDefaults {argv} {
    }
    LoadOptions $v(file,user)
 
-   # Migration of old user preferences to Transcriber 1.5.0
-   # This code is executed at the first run after the installation of Transcriber 1.5.0
+   # Migration of old user preferences to Transcriber 1.5.1
+   # This code is executed at the first run after the installation of Transcriber 1.5.1
    # The event widget size is reset because it changed since the previous versions
    # of Transcriber 
-   if { [ string compare 1.5.0 $v(pref,ver) ] == 1 } {
-	set v(pref,ver) "1.5.0"
+   if { [ string compare 1.5.1 $v(pref,ver) ] == 1 } {
+	set v(pref,ver) "1.5.1"
 	set v(geom,.evt) ""
    }
    
    # Test of the presence of the global speaker database
    # Indeed, due to problems with the global speaker database management,
    # it is temporarily disabled
-   set speakerFile $env(HOME)/[file tail $v(list,ext)]
-   if { ( [ file exists $speakerFile ] == 1 ) && ([string length [string trim $v(list,ext)]] != 0 ) } {
-	set choice [tk_messageBox -type yesno -default no -message "Due to a bug of Transcriber 1.5.0, the speaker database $speakerFile has to be removed. May I do it ?" -icon question]
-	if { ($choice == yes) } {
-		file delete $speakerFile
-	} else {
-         	exit
-	}
-   }  
+#   set speakerFile $env(HOME)/[file tail $v(list,ext)]
+#   if { ( [ file exists $speakerFile ] == 1 ) && ([string length [string trim $v(list,ext)]] != 0 ) } {
+#	set choice [tk_messageBox -type yesno -default no -message "Due to a bug of Transcriber 1.5.0, the speaker database $speakerFile has to be removed. May I do it ?" -icon question]
+#	if { ($choice == yes) } {
+#		file delete $speakerFile
+#	} else {
+#         	exit
+#	}
+#   }  
    
    # Init user name
    if {$v(scribe,name)=="(unknown)"} {
