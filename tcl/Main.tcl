@@ -88,7 +88,7 @@ proc Quit {} {
 #  backup,ext:    extension for backup (default to ~)
 #  bgPos,chosen:  chosen position for background selection
 #  bindings:      pairs of key/inserted string
-#  browser :	     path to the default browser (needed to launch it)
+#  browser :             path to the default browser (needed to launch it)
 #  browser,but:   button tk widget to choose the default browser
 #  color,bg :     background color
 #  color,bg-back: background color for background noise
@@ -189,7 +189,7 @@ proc Quit {} {
 #  sig,max :      = sig,min + sig,len
 #  sig,min :      beginning of signal (should be 0)
 #  sig,name :     file name of audio signal
-#  sig,open :	  flag to see if an audio file has been opened
+#  sig,open :          flag to see if an audio file has been opened
 #  sig,port :     socket port for audio file server
 #  sig,rate :     sound rate for raw audio files
 #  sig,remote :   access to files through audio file server or not
@@ -292,15 +292,15 @@ proc InitDefaults {argv} {
    # Init user name
    if {$v(scribe,name)=="(unknown)"} {
       if {[info exists env(USER)] && $env(USER) != ""} {
-         set v(scribe,name) $env(USER)
-         catch {
-            regexp "Name: (\[^\n]*)" [exec finger $env(USER)] all Name
-            if {$Name != ""} {
-               set v(scribe,name) $Name
-            }
-         }
+	 set v(scribe,name) $env(USER)
+	 catch {
+	    regexp "Name: (\[^\n]*)" [exec finger $env(USER)] all Name
+	    if {$Name != ""} {
+	       set v(scribe,name) $Name
+	    }
+	 }
       } elseif {[info exists ::tcl_platform(user)] && $::tcl_platform(user) != ""} {
-         set v(scribe,name) $::tcl_platform(user)
+	 set v(scribe,name) $::tcl_platform(user)
       }
    }
 
@@ -507,7 +507,7 @@ proc EditLocal {{only_empty 0}} {
 	 set new [ListEditor $new "Localization in $::iso639($v(lang))" \
 		      {"Message" "Translation"}]
 	 unset local
-         array set local [join $new]
+	 array set local [join $new]
       }]} {
 	 # Update menus if needed
 	 ChangedLocal
@@ -669,13 +669,6 @@ proc LoadModules {} {
      package require QuickTimeTcl
    }
 
-   # Install html library
-   if {[catch {
-      package require html_library
-   }]} {
-      uplevel \#0 [list source [file join [file dir $v(path,base)] html_library-0.3 html_library.tcl]]
-   }
-
    # Source tcl libraries at global level
    foreach module {
       About Debug Dialog Edit Episode Events Interface Menu Play Segmt
@@ -814,46 +807,46 @@ proc StartWith {argv} {
 		}
 		"-notext" {
 		    if {$v(view,.edit)} {
-			SwitchTextFrame
+		        SwitchTextFrame
 		    }
 		}
 		"-sig2" {
 		    if {!$v(view,.snd2)} {
-			CreateSoundFrame .snd2
-			set v(view,.snd2) 1
+		        CreateSoundFrame .snd2
+		        set v(view,.snd2) 1
 		    }
 		}
 		"-patch" {
 		    set path [lindex $argv [incr i]]
 		    if {![file exists $path]} {
-			set path [file join $v(path,base) $path]
+		        set path [file join $v(path,base) $path]
 		    }
 		    if {[file isdir $path]} {
-			set path [file join $path *.tcl]
+		        set path [file join $path *.tcl]
 		    }
 		    foreach file [glob $path] {
-			uplevel \#0 [list source $file]
+		        uplevel \#0 [list source $file]
 		    }
 		}
 		"-lbl" - "-lab*" {
 		    # open a segmentation layer for followings lbl file name(s)
 		    while {1} {
-			set name [lindex $argv [expr $i+1]]
-			if {$lbls != {}} {
-			    if {[string index $name 0] == "-" || ![file readable $name] 
-				|| [LookForLabelFormat $name] == ""} break
-			} else {
-			    if {![file readable $name]} {
-				puts stderr "could not read label file $name"
-				exit
-			    }
-			    if {[LookForLabelFormat $name] == ""} {
-				puts stderr "$name is not a valid label file with extension in: $v(ext,lbl)"
-				exit
-			    }
-			}
-			incr i
-			lappend lbls $name
+		        set name [lindex $argv [expr $i+1]]
+		        if {$lbls != {}} {
+		            if {[string index $name 0] == "-" || ![file readable $name] 
+		                || [LookForLabelFormat $name] == ""} break
+		        } else {
+		            if {![file readable $name]} {
+		                puts stderr "could not read label file $name"
+		                exit
+		            }
+		            if {[LookForLabelFormat $name] == ""} {
+		                puts stderr "$name is not a valid label file with extension in: $v(ext,lbl)"
+		                exit
+		            }
+		        }
+		        incr i
+		        lappend lbls $name
 		    }
 		}
 		"-socket" {
@@ -862,13 +855,13 @@ proc StartWith {argv} {
 		    # optional socket server and client ports
 		    set val [lindex $argv [expr $i+1]]
 		    if {[string index $val 0] != "-"} {
-			set v(socket,server) $val
-			incr i
-			set val [lindex $argv [expr $i+1]]
-			if {[string index $val 0] != "-"} {
-			    set v(socket,client) $val
-			    incr i
-			}
+		        set v(socket,server) $val
+		        incr i
+		        set val [lindex $argv [expr $i+1]]
+		        if {[string index $val 0] != "-"} {
+		            set v(socket,client) $val
+		            incr i
+		        }
 		    }
 		    uplevel \#0 {source [file join $v(path,tcl) Socket.tcl]}
 		}
@@ -877,57 +870,57 @@ proc StartWith {argv} {
 		    # syntax: trans -convertto {stm|html|...} *.trs
 		    # resulting files are stored in current directory
 		    if {[info commands tk] != ""} {
-			wm withdraw .
-			update
+		        wm withdraw .
+		        update
 		    }
 		    set format [lindex $argv [incr i]]
 		    if {$format == "trs"} {
-			# re-exporting to .trs allows automatic normalization
-			set nsformat ::trs
+		        # re-exporting to .trs allows automatic normalization
+		        set nsformat ::trs
 		    } else {
-			set nsformat ::convert::${format}
+		        set nsformat ::convert::${format}
 		    }
 		    if {[info command ${nsformat}::export] == ""} {
-			if {$format != ""} {
-			    puts stderr "Conversion to format $format unsupported."
-			}
-			puts stderr "List of supported formats for exporting .trs files:"
-			foreach format [namespace children convert] {
-			    if {[info command ${format}::export] != ""} {
-				puts stderr "\t[namespace tail $format]"
-			    }
-			}
-			exit
+		        if {$format != ""} {
+		            puts stderr "Conversion to format $format unsupported."
+		        }
+		        puts stderr "List of supported formats for exporting .trs files:"
+		        foreach format [namespace children convert] {
+		            if {[info command ${format}::export] != ""} {
+		                puts stderr "\t[namespace tail $format]"
+		            }
+		        }
+		        exit
 		    }
 		    #CloseTrans -nosave 
 		    set ext [lindex [set ${nsformat}::ext] 0]
 		    puts stderr "Converting .trs files to $format format ($ext):"
 		    set nb 0
 		    while {[set name [lindex $argv [incr i]]] != ""} {
-			if {[lsearch -exact $::trs::ext [string tolower [file extension $name]]] < 0
-			    || ![file readable $name]} {
-			    puts stderr "(ignoring non .trs file name $name)"
-			    continue
-			}
-			puts stderr "$name"
-			if {[catch {
-			    trs::import $name
-			    set v(sig,min) 0
-			    set v(trans,format) trans
-			    if {[set msg [NormalizeTrans]] != ""} {
-				puts -nonewline stderr $msg
-			    }
-			    ${nsformat}::export [file tail [file root $name]]$ext
-			    incr nb
-			} err]} {
-			    puts stderr "error with $name: $err ($::errorInfo)"
-			}
-			::xml::init
-			::speaker::init
-			::topic::init
-			set v(trans,root) ""
-			set v(trans,name) ""
-			#CloseTrans -nosave
+		        if {[lsearch -exact $::trs::ext [string tolower [file extension $name]]] < 0
+		            || ![file readable $name]} {
+		            puts stderr "(ignoring non .trs file name $name)"
+		            continue
+		        }
+		        puts stderr "$name"
+		        if {[catch {
+		            trs::import $name
+		            set v(sig,min) 0
+		            set v(trans,format) trans
+		            if {[set msg [NormalizeTrans]] != ""} {
+		                puts -nonewline stderr $msg
+		            }
+		            ${nsformat}::export [file tail [file root $name]]$ext
+		            incr nb
+		        } err]} {
+		            puts stderr "error with $name: $err ($::errorInfo)"
+		        }
+		        ::xml::init
+		        ::speaker::init
+		        ::topic::init
+		        set v(trans,root) ""
+		        set v(trans,name) ""
+		        #CloseTrans -nosave
 		    }
 		    puts stderr "$nb file(s) processed."
 		    exit
@@ -983,14 +976,14 @@ Further documentation available online (Help menu) or on the Web site:
 
   http://www.etca.fr/CTA/gip/Projets/Transcriber/
 }
-            exit
+	    exit
 	    }
-            "--" {
+	    "--" {
 	      # should not be passed by wish
-            }
+	    }
 	    "-*" {
 	       puts stderr "unsupported command line option $val (try -help)."
- 	       exit
+		exit
 	    }
 	    default {
 	       # Audio and transcription given on command line
@@ -998,7 +991,7 @@ Further documentation available online (Help menu) or on the Web site:
 	       if {[lsearch -exact $ext_tr $ext] >= 0} {
 		  set trans $val
 	       } elseif {[lsearch -exact $ext_au $ext] >= 0
-			 || [SoundFileType $val] != "RAW"} {
+		         || [SoundFileType $val] != "RAW"} {
 		 if {$sig == ""} {
 		   set sig $val
 		 } else {
@@ -1006,7 +999,7 @@ Further documentation available online (Help menu) or on the Web site:
 		 }
 	       } else {
 		  puts stderr "unknown format for file $val"
-                  exit
+		  exit
 	       }
 	    }
 	 }
