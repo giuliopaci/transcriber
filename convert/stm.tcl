@@ -4,7 +4,7 @@
 # distributed under the GNU General Public License (see COPYING file)
 
 ################################################################
-# conversion rules: updated 8 jan. 2001; 27 jun. 2001; 10 jul. 2001; 26 oct. 2004
+# conversion rules: updated 8 jan. 2001; 27 jun. 2001; 10 jul. 2001; 26 oct. 2004 ; 09 déc. 2004
 #
 # Export to stm (with option):
 # ----------------------------
@@ -12,7 +12,7 @@
 # While using stm export on command line, options can be specified by
 # setting the global variable "stmopt":
 # 
-#   ex: trans -set stmopt value -convertto stm file 
+#   ex: trans -set stmopt value -export stm file 
 #
 #   value can be:
 #
@@ -20,6 +20,11 @@
 #                 if the "desc" attributes contains the string: "(...:)".
 #                 ex: www.tf1.fr+[pron="(URL:) WWW point TF1 point fr]
 #                  => WWW point TF1 point FR
+#           
+#       "svl" => in case of overlapping speech, keeps the name of tje 2 speakers
+#                for the SVL task. The segment is always ignorated for transcription task. 
+#
+#       this values are exclusives => it is not possible to have svl and pron at the same time
 #
 #   file format: id channel speaker startTime endTime <o,cond,gender> transcript
 # with
@@ -113,6 +118,7 @@ namespace eval stm {
 	variable base
 	variable nontrans ""
 	variable nontime 0
+	variable alnum
 	set nxt ""
 	
     # provide explicit informations on export and used encoding in header
@@ -195,29 +201,30 @@ namespace eval stm {
 			if {[lsearch -exact {"male" "female"} $gender] < 0} {
 			    set gender "unknown"
 			}
-			    set scope [lindex $atts 5]
-			    if {[lindex $atts 3] == "nonnative"} {
-				if {$turncond == "f4"} {
-				    set turncond "fx"
-				} else {
-				    set turncond "f5"
-				}
+			set scope [lindex $atts 5]
+			if {[lindex $atts 3] == "nonnative"} {
+			    if {$turncond == "f4"} {
+				set turncond "fx"
+			    } else {
+				set turncond "f5"
 			    }
 			}
-			# keep only alphanumeric chars in speaker name, replace other by _
-			set spk [::speaker::name $spk]
-			regsub -all $alnum $spk "_" spk
-			set spk [string trim $spk "_"]
-			# prefix local names by file id
-			if {$scope != "global" && ![string match ${base}* $spk]} {
-			    set spk "${base}_$spk"
-			} 
+		    }
+
+		    set spk [normalize_name $spk]
 		} else {
 		    # exclude overlapping speech from stm
 		    set t0 [format %.3f [$tur getAttr "startTime"]]
 		    set t1 [format %.3f [$tur getAttr "endTime"]]
 		    dump $t0
-		    ignore $t0 $t1
+		    #  exclude overlapping speech from stm but keep the speaker names for SVL task
+		    if {$v(stmopt) == "svl"} {
+			set spk1 [normalize_name [lindex $spk 0]]
+			set spk2 [normalize_name [lindex $spk 1]]
+			ignoreSVL $t0 $t1 $spk1 $spk2
+		    } else {
+			ignore $to $t1
+		    }
 		    continue
 		}
 		foreach chn [$tur getChilds] {
@@ -238,17 +245,31 @@ namespace eval stm {
 			# Only if the gobal variable stmopt is set to "pron" on command line.
 			# If the next event element type is "pronouce" and its extent "previous"
 			# Replace the last word by the "desc" of the element tag, only if this
-			# desc contains (...:), for example (URL:).
-			if {$v(stmopt) != ""} {
+			# desc contains (...:) or (cent...), for example (URL:) or (19 cent...).
+			# Note that because of tne NE, some previous event are no more closed to the
+			# word it apllies to, that why there is the test ($|\s$)
+			if {$v(stmopt) == "pron"} {
 			    if {[$chn getType] == "Event" && [$chn getAttr "type"] == "pronounce"} {
 				if {[$chn getAttr "extent"] == "previous"} { 
-				    regexp {([^ ]+)$} $txt all lastwrd
-				    if {[regexp {([0-9][0-9])([0-9][0-9])} $lastwrd all cent ten]} {
-					$chn setAttr "desc" "(19 cent:) $cent cent $ten"
-				    }
 				    set desctmp [$chn getAttr "desc"]
+				    # Replace the "19 cent..."
+				    if {[regexp {cent\.\.\.} $desctmp all]} {
+					regexp {([^ ]+)$} $txt all lastwrd
+					if {[regexp {([0-9][0-9])([0-9][0-9])} $lastwrd all cent ten]} {
+					    if { $ten != "00"} {
+						regsub {[^ ]+($|\s$)} $txt "$cent cent $ten\2" txt
+					    } else {
+						regsub {[^ ]+($|\$)} $txt "$cent cents\2" txt	
+					    }
+					}
+				    }
+				    # Replace the Roman numbers "VI" or "URL" by the right pron
 				    if {[regexp {^\(.*\:\)(\s*)(.*$)} $desctmp all type subst]} {
-					regsub -all {[^ ]+$} $txt " $subst" txt
+					regexp {([^ ]+)($|\s$)} $txt all lastwrd
+					puts $txt
+					puts $subst
+					regsub {([^ ]+)($|\s$)} $txt "$subst" txt
+					puts $txt
 				    }
 				}
 			    }
@@ -337,6 +358,24 @@ namespace eval stm {
 	close $channel
     }
     
+proc normalize_name {id} {
+    variable base
+    variable alnum
+    # keep only alphanumeric chars in speaker name, replace other by _    
+    set spk  [::speaker::name $id]
+    set atts [::speaker::get_atts $id]
+    set scope [lindex $atts 5]
+    # the following line remove the comment int speaker name wich begins with ","
+    regsub ",.*" $spk "" speaker
+    regsub -all $alnum $spk "_" spk
+    set spk [string trim $spk "_"]
+    # prefix local names by file id
+    if {$scope != "global" && ![string match ${base}* $speaker]} {
+	set spk "${base}_$spk"
+    } 
+    return $spk
+}
+
   proc setcond {} {
     variable turncond
     variable cond
@@ -443,6 +482,13 @@ namespace eval stm {
     variable base
     puts $channel "$base 1 excluded_region $t0 $t1 <o,,unknown> ignore_time_segment_in_scoring"
   }
+
+  proc ignoreSVL {t0 t1 spk1 spk2} {
+    variable channel
+    variable base
+    puts $channel "$base 1 $spk1,$spk2 $t0 $t1 <o,,unknown> ignore_time_segment_in_scoring"
+  }
+
 
   proc import {name} {
     global v
