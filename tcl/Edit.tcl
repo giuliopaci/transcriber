@@ -82,6 +82,16 @@ proc CreateTextFrame {f {top 0}} {
    # alt-backspace/delete: delete word before/after cursor respectively
    bind $v(tk,edit) <Alt-Key-BackSpace> {%W mark set tmp "insert wordend"; tkTextSetCursor %W [tkTextPrevPos %W insert tcl_startOfPreviousWord]; %W delete insert tmp; break }
    bind $v(tk,edit) <Alt-Key-Delete> {%W mark set tmp "insert wordstart"; tkTextSetCursor %W [tkTextNextWord %W insert]; %W delete tmp insert; break }
+
+   # Windows style - any but space, tab, or newline
+   catch {tcl_wordBreakAfter}; # force loading word.tcl
+   if {[info tclversion] >= 8.1} {
+     set ::tcl_wordchars "\\S"
+     set ::tcl_nonwordchars "\\s"
+   } else {
+     set ::tcl_wordchars "\[^ \t\n\]"
+     set ::tcl_nonwordchars "\[ \t\n\]"
+   }
 }
 
 # called from: InitEditor; CloseTrans
