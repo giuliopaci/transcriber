@@ -117,23 +117,27 @@ proc WavfmHeight {wavfm {val 1.0}} {
    $wavfm conf -height $v($wavfm,height)
 }
 
-proc ConfigWavfm {wavfm} {
+proc ConfigWavfm {wavfm {mode "reset"}} {
    global v
 
-   set v($wavfm,left)    0
-   set v($wavfm,size)    [setdef v($wavfm,resolution) 30]
-   if {$v(shape,cmd)=="" && $v($wavfm,size) > $v(shape,min)} {
+  if {$mode == "reset"} {
+    set v($wavfm,left)    0
+    set v($wavfm,size)    [setdef v($wavfm,resolution) 30]
+    if {$v(shape,cmd)=="" && $v($wavfm,size) > $v(shape,min)} {
       set v($wavfm,size) $v(shape,min)
-   }
-   $wavfm config -sound $v(sig,cmd) -shape $v(shape,cmd)
-   SynchroWidgets $wavfm
+    }
+  }
+  $wavfm config -sound $v(sig,cmd) -shape $v(shape,cmd)
+  if {$mode == "reset"} {
+    SynchroWidgets $wavfm
+  }
 }
 
-proc ConfigAllWavfm {} {
+proc ConfigAllWavfm {{mode "reset"}} {
    global v
 
    foreach wavfm $v(wavfm,list) {
-      ConfigWavfm $wavfm
+      ConfigWavfm $wavfm $mode
    }
 }
 

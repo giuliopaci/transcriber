@@ -40,7 +40,7 @@ proc EmptySignal {{mode "reset"}} {
    set v(sig,desc) "Signal:\tnone\nDuration:\t[Tim2Str $v(sig,len)]\n"
    catch {$v(shape,cmd) destroy}
    set v(shape,cmd) ""
-   ConfigAllWavfm
+   ConfigAllWavfm $mode
    if {$mode == "reset"} {
      SetSelection 0 0
      #$v(tk,gain) set 0
@@ -53,7 +53,9 @@ proc EmptySignal {{mode "reset"}} {
 proc Signal {name {mode "reset"}} {
    global v
 
+   set playing [IsPlaying]
    # Forget previous signal, open new sound and set values
+  
    EmptySignal $mode
    set sound [OpenSound $name]
    set v(sig,len) [$sound length -unit seconds]
@@ -143,11 +145,15 @@ proc Signal {name {mode "reset"}} {
       }
    }
 
-   ConfigAllWavfm
+   ConfigAllWavfm $mode
    update
 
    if {$mode != "switch"} {
      MW_AddFile $v(sig,name)
+   }
+
+   if {$mode == "switch" && $playing} {
+     Play
    }
 
    if {$v(play,auto)} {
