@@ -46,13 +46,16 @@ install:
 	cp -f pkgIndex.tcl ${TRANS_LIB_DIR}/
 	cp -f ../tcl/*.tcl ${TRANS_LIB_DIR}/tcl
 	cp -f ../convert/*.tcl ../convert/README ${TRANS_LIB_DIR}/convert
-	cp -rf ../img ../doc ../etc ../demo ../COPYING ../README ${TRANS_LIB_DIR}/
+	cp -rf ../img ../doc ../etc ../demo ../COPYING ${TRANS_LIB_DIR}/
 	cp -rf ../contrib/html_library-0.3 ${TRANS_LIB}
-	
+
 	@if [ ${OS} = UnixLike ] ; then \
 		cp -f trans ${TRANS_BIN}/trans; \
 		chmod ugo+x ${TRANS_BIN}/trans; \
-	fi;
+		cp ../README_UNIX ${TRANS_LIB_DIR} ; \
+	else \
+		cp ../README_WINDOWS.txt ${TRANS_LIB_DIR}; \
+	fi ;
 
 distrib-bin:
 	make install
