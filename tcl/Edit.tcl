@@ -523,7 +523,7 @@ proc TextFilter {t option args} {
 	   set data [GetDataFromPos "$idx"]
 	   if {$data != ""} {
 	       # Insert with the tag of current breakpoint
-	       set colortag [ColorTag "$idx"]
+	       set colortag [ColorNE "$idx"]
 	       if { [regexp {(^NE.*)tag} $colortag match color] } {
 		   set colortag ${color}text
 	       }

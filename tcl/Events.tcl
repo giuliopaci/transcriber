@@ -379,10 +379,12 @@ proc CreateAutoEvent {txt {type "noise"} {extent "instantaneous"} {interactif 0}
 	    if { $sel != "" } {
 		tkTextSetCursor $v(tk,edit) sel.last
 	    }
+	    #  save the current position then begin the loop from the beginning and return to the saved position
 	    $t mark set oldpos "insert"
 	    tkTextSetCursor $v(tk,edit) 0.0
-	    set pos [$t index "insert -1c"]
-	    set v(find,case) ""
+
+#	    set pos [$t index "insert -1c"]
+	    # find the color associated to the entities chosen
 	    if { [regexp {^(pers|org|gsp|loc|fac|prod|time|amount|unk).*$} $txt match tmp]} {
 		set colortag NE$tmp
 	    } 
@@ -395,7 +397,7 @@ proc CreateAutoEvent {txt {type "noise"} {extent "instantaneous"} {interactif 0}
 		if { $what == "\#PCDATA" } {
 		    switch $v(autoNE) {
 		        Add {
-		            if { [ColorTag $pos] == "" } {
+		            if { [ColorNE $pos text] == "" } {
 		                CreateEvent $txt $type $extent $interactif
 		                incr nbocc
 		            }
@@ -406,8 +408,8 @@ proc CreateAutoEvent {txt {type "noise"} {extent "instantaneous"} {interactif 0}
 		            if {  [$prevtagname getType]=="Event" && [$nexttagname getType]=="Event" } {
 		                set prevtagdesc [$prevtagname getAttr "desc"]
 		                set nexttagdesc [$nexttagname getAttr "desc"]
-		                set col [ColorTag $prevtagname.first]
-		                regexp {(.*)tag} [ColorTag $prevtagname.first] match prevtagcolor
+		                set col [ColorNE $prevtagname.first]
+		                regexp {(.*)tag} [ColorNE $prevtagname.first] match prevtagcolor
 		                if { $prevtagdesc==$txt && $nexttagdesc==$txt && $prevtagcolor=="$colortag"} {
 		                    SuppressEvent $prevtagname
 		                    incr nbocc
@@ -510,13 +512,11 @@ proc CreateEvent {txt {type "noise"} {extent "instantaneous"} {interactif 0}} {
     }] && $extent == "end"} {
 	catch {unset v(tk,dontmove)}
 	tkTextSetCursor $v(tk,edit) $sel
-	    CreateEvent $txt $type "begin"
+	CreateEvent $txt $type "begin"
 	tkTextSetCursor $v(tk,edit) $tag.last 
     }
     DoModif "EVENT"
     return $tag
-
-
 }
 
 # Insert Event in text editor
@@ -558,8 +558,11 @@ proc InsertEvent {elem {other_tags ""}} {
 		        $t tag conf NE$macro$part -foreground  black
 		    } else {
 		        set macro "meto"
-		        $t tag conf NEmeto$part -foreground  black
+		        $t tag conf NE$macro$part -foreground  black
 		    }
+		}
+		if { $part == "tag" } {
+		    $t tag raise NE$macro$part
 		}
 	    }
 	}
@@ -602,21 +605,25 @@ proc SearchSymEvent {elem} {
     set symtag ""
     if { $extent == "end" } {
 	# look for an eventual begin event non associated with an end one
-	set first [$t search -backward -- "$desc\-\]" $elem.first 0.0]
+	set sym [format $v(event,begin) [format $v(event,$type) $desc]]
+	set first [$t search -backward -- "$sym" $elem.first 0.0]
 	if { $first != "" } {
 	    #check if the element is already associated with an end event
 	    set tagfirst [TagName $first]
-	    set check [$t search -- "$desc\]"  $tagfirst.last $elem.first]
+	    set sym [format $v(event,end) [format $v(event,$type) $desc]]
+	    set check [$t search -- "$sym"  $tagfirst.last $elem.first]
 	    if { $check == "" } {
 		set symtag $tagfirst
 	    }
 	}
     }  
     if { $extent == "begin" } {
-	set last [$t search  -- "${desc}\]" $elem.last end]
+	set sym [format $v(event,end) [format $v(event,$type) $desc]]
+	set last [$t search  -- "$sym" $elem.last end]
 	if { $last != "" } {
 	    set taglast [TagName $last]
-	    set check [$t search -- "${desc}\-\]" $elem.last $taglast.first]
+	    set sym [format $v(event,begin) [format $v(event,$type) $desc]]
+	    set check [$t search -- "$sym" $elem.last $taglast.first]
 	    if { $check == "" } {
 		set symtag $taglast
 	    }
@@ -700,11 +707,11 @@ proc EditEvent {tag {mode "Edit"} {sel ""}} {
 		        catch { [unset v(tk,dontmove)] }
 		        tkTextSetCursor $v(tk,edit) $symtag.first 
 		        if { $v(extn,chosen) == "begin" } {
-		            regexp {(^NE.*)tag} [ColorTag "$tag.first"] match color
+		            regexp {(^NE.*)tag} [ColorNE "$tag.first"] match color
 		            $t tag remove ${color}text $tag.last $symtag.first
 		            CreateAutoEvent $v(desc,chosen) $v(type,chosen) end
 		        } else {
-		            regexp {(^NE.*)tag} [ColorTag "$tag.first"] match color
+		            regexp {(^NE.*)tag} [ColorNE "$tag.first"] match color
 		            $t tag remove ${color}text $symtag.last $tag.first
 		            CreateAutoEvent $v(desc,chosen) $v(type,chosen) begin
 		        }
@@ -746,20 +753,20 @@ proc SuppressEvent {tag {sym 0}} {
 
     global v
     
-    if { ![info exists v(extn,chosen)] } {
-	set v(extn,chosen) [$tag getAttr "extent"]
-    }
     set t $v(tk,edit)-bis
     #if type is event and tag is not the sym event (sym set to 0) search symetric event and suppress it
     if {[$tag getType] == "Event" && $sym == 0 } {
+	if { ![info exists v(extn,chosen)] } {
+	    set v(extn,chosen) [$tag getAttr "extent"]
+	}
 	set symtag [SearchSymEvent $tag]
 	  if { $symtag != "" } {
 	      set color ""
 	      if { $v(extn,chosen) == "begin" } {
-		  regexp {(^NE.*)tag} [ColorTag "$tag.first"] match color
+		  regexp {(^NE.*)tag} [ColorNE "$tag.first"] match color
 		  $t tag remove ${color}text "$tag.last" "$symtag.first"
 	      } else {
-		  regexp {(^NE.*)tag} [ColorTag "$tag.first"] match color
+		  regexp {(^NE.*)tag} [ColorNE "$tag.first"] match color
 		  $t tag remove ${color}text $symtag.last $tag.first 
 	      }
 	      SuppressEvent $symtag 1
@@ -795,7 +802,7 @@ proc TagName {pos} {
     return $tag
 }
 
-proc ColorTag {pos} {
+proc ColorNE {pos {part "tag"}} {
 
     # JOB: find the color tag at the position "pos" in the text
     #
@@ -814,8 +821,9 @@ proc ColorTag {pos} {
     set alltag [split [$t tag names $pos]]
     set colortag ""
     foreach tag $alltag {
-	regexp {^NE(pers|org|gsp|loc|fac|prod|time|amount|meto|unk).*$} $tag colortag 
+	regexp "^NE(pers|org|gsp|loc|fac|prod|time|amount|meto|unk)$part" $tag colortag 
     }
+
     return $colortag
 }
 
