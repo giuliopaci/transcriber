@@ -1092,7 +1092,7 @@ proc CreateOther {type values} {
    set bp [GetSegmtId $nb]
 
    set data [SplitData]
-   set tag [::xml::element $type $default -before $data]
+   set tag [::xml::element $type $values -before $data]
    InsertOther $tag "hilight"
    $t tag add $data "insert-1c"
    # Update text on segmentation
