@@ -15,7 +15,7 @@ options,macintosh  "Transcriber Configuration"
 # defaults scribe's name will be used for initialisation of episode attributes
 scribe,name   "(unknown)"
 
-# Version if user preference file
+# Version of the user preference file
 pref,ver	""
 
 # does user want shape calculation for rapid display of signal ?
