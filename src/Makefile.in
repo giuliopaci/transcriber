@@ -22,7 +22,7 @@ CC        = @CC@
 
 INCLUDES  = ${XINCLUDES} -I${TCL_INCPATH} -I${TK_INCPATH}
 
-CFLAGS    = -O @CFLAGS@ @ORDER@ ${INCLUDES} @TCLAPI@
+CFLAGS    = -O @CFLAGS@ ${INCLUDES} @TCLAPI@
 #CFLAGS    = -O -Wall @CFLAGS@ @AFLAG@ ${INCLUDES}
 
 LIBS      = -lc @TK_LIBS@ @TCL_LIB_SPEC@ @TK_LIB_SPEC@
@@ -40,13 +40,15 @@ libtrans${SHLIB_SUFFIX}: ${OBJS}
 
 install:
 	@if [ ! -d ${TRANS_LIB_DIR} ] ; then \
-	    mkdir ${TRANS_LIB_DIR}; \
+	    mkdir ${TRANS_LIB_DIR} ${TRANS_LIB_DIR}/tcl ${TRANS_LIB_DIR}/convert; \
 	    chmod 755 ${TRANS_LIB_DIR}; \
 	else true; \
 	fi;
 	cp -f libtrans${SHLIB_SUFFIX} ${TRANS_LIB_DIR}/
 	cp -f pkgIndex.tcl ${TRANS_LIB_DIR}/
-	cp -rf ../img ../tcl ../convert ../doc ../etc ../demo ../COPYING ${TRANS_LIB_DIR}/
+	cp -rf ../tcl/*.tcl ${TRANS_LIB_DIR}/tcl
+	cp -rf ../convert/*.tcl ../convert/README ${TRANS_LIB_DIR}/convert
+	cp -rf ../img ../doc ../etc ../demo ../COPYING ../README ${TRANS_LIB_DIR}/
 	cp -rf ../contrib/html_library-0.3 ${TRANS_LIB}
 	cp -f trans ${TRANS_BIN}/trans
 	chmod ugo+x ${TRANS_BIN}/trans
