@@ -31,6 +31,11 @@ playbackBeep	""
 # multiplying factor for frequency during playback - not yet supported
 playbackSpeed 1.0
 
+# remote playback settings
+playbackRemote	0
+playbackServer	""
+playbackPort	""
+
 # interval (in min) between automatic save
 autosave,time 5
 # backup extension for automatically saved files
@@ -140,6 +145,9 @@ noise	{
 	{"indicatif" ""}
 	{"jingle" ""}
 	{"top"    ""}
+ 	{"musique" ""}
+ 	{"applaude" "applaudissements"}
+ 	{"nontrans" "[nontrans] segment"}
 }
 
 # list of pronounciation events with descriptions
