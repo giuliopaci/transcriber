@@ -1,10 +1,72 @@
-# Localization for Transcriber saved on Thu Mar 23 10:10:48 GMT 2000 with encoding iso8859-1
+# Localization for Transcriber saved on Fri Oct 17 17:37:24 CEST 2003 with encoding iso8859-1
 
 array set local_fr {
 {}
 	{}
+{   No audio file opened !
+This will create an empty
+ audio file ! Really save ?}
+	{Aucun fichier son ouvert !
+Ceci génèrera un fichier
+ son vide ! Continuer ?}
+%act:
+	{}
+%add:
+	{}
+%alt:
+	{}
+%cod:
+	{}
+%coh:
+	{}
+%com:
+	{}
+%def:
+	{}
+%eng:
+	{}
+%err:
+	{}
+%exp:
+	{}
+%fac:
+	{}
+%flo:
+	{}
+%gls:
+	{}
+%gpx:
+	{}
+%int:
+	{}
+%lan:
+	{}
+%mod:
+	{}
+%mor:
+	{}
+%mov:
+	{}
+%par:
+	{}
+%pho:
+	{}
+{%s not saved !!}
+	{%s non sauvegardé !!}
+{%s saved !!}
+	{%s sauvegardé !!}
 {%s word(s) checked}
 	{%s mot(s) vérifié(s)}
+%sit:
+	{}
+%snd:
+	{}
+%spa:
+	{}
+%syn:
+	{}
+%tim:
+	{}
 0
 	{}
 1
@@ -41,8 +103,78 @@ array set local_fr {
 	{}
 {30 sec}
 	{}
+@Activities
+	{}
+@Bck
+	{}
+@Begin
+	{}
+@Bg
+	{}
+@Comment
+	{}
+@Eg
+	{}
+@End
+	{}
+@g
+	{}
+@Location
+	{}
+@NewEpisode
+	{}
+@RoomLayout
+	{}
+@situation
+	{}
+@TapeLocation
+	{}
+@TimeDuration
+	{}
+@TimeStart
+	{}
+{[b] bruit indéterminé}
+	{}
+{[bb] bruit de bouche}
+	{}
+{[bg] bruit de gorge}
+	{}
+{[ch] voix chuchotée}
+	{}
+{[conv] conversations de fond}
+	{}
+{[e] expiration}
+	{}
+{[i] inspiration}
+	{}
+{[mic] bruits micro}
+	{}
+{[n] reniflement}
+	{}
+{[pap] froissement de papiers}
+	{}
+{[pf] soufle}
+	{}
+{[pi] inintelligible}
+	{}
+{[pif] inintelligible/faible}
+	{}
+{[r] respiration}
+	{}
+{[rire] rires du locuteur}
+	{}
+{[rire] voix avec rire}
+	{}
+{[shh] souffle électrique}
+	{}
+{[sif] sifflement du locuteur}
+	{}
+{[tx] toux, râclement,éternuement}
+	{}
 About...
 	{A propos de...}
+{Add audio file...}
+	{Ajouter un fichier son...}
 {Add to dictionnary}
 	{Ajoute au dictionnaire}
 {Adjust playback speed (%)}
@@ -57,6 +189,8 @@ About...
 	{Appliqué à la sélection}
 Arabic
 	arabe
+{Arabic (ISO-8859-6)}
+	{}
 {Ask user to save configuration before leaving}
 	{Propose d'enregistrer la configuration avant de quitter}
 {Audio file}
@@ -75,6 +209,8 @@ Arabic
 	{Insertion automatique des espaces}
 Axis
 	Axes
+Background
+	{}
 background
 	{}
 {Background attributes}
@@ -97,6 +233,8 @@ Bindings
 	{Raccourcis clavier}
 Bindings...
 	{Raccourcis clavier...}
+Both
+	{}
 Browse...
 	Parcourir...
 Bulgarian
@@ -105,6 +243,8 @@ Cancel
 	Annuler
 {Case sensitive}
 	{Distinction majuscules/minuscules}
+{Central european (Latin2)}
+	{}
 Channel
 	Canal
 Channels
@@ -137,6 +277,8 @@ Close
 	Fermer
 Code
 	Code
+{Colorize speaker segments}
+	{Colorier les segments des locuteurs}
 Colors...
 	Couleurs...
 {Command buttons}
@@ -171,8 +313,14 @@ Cursor
 	{Position du curseur}
 Cut
 	Couper
+{Cyrillic (ISO-8859-5)}
+	{}
+{Cyrillic (KOI8-R)}
+	{}
 Czech
 	tchèque
+{Czech for Windows (CP1250)}
+	{}
 Danish
 	danois
 Debug
@@ -231,6 +379,8 @@ Edit
 	{Paramètres du tour}
 {Edit turn attributes...}
 	{Paramètres du tour...}
+Encoding
+	{}
 {End of event}
 	{Fin d'événement}
 {End of line}
@@ -257,12 +407,20 @@ Export
 	{Exporter au format .stm...}
 {Export to .typ format...}
 	{Exporter au format .typ...}
+{Export to Amities dialog...}
+	{}
+{Export to HTML format...}
+	{Exporter au format HTML...}
 {Export to LDC .typ format...}
 	{Exporter au format LDC .typ...}
 {Export to LDC format...}
 	{Exporter au format LDC...}
+{Export to LIMSI label...}
+	{}
 {Export to STM format...}
 	{Exporter au format STM...}
+{Export to Text...}
+	{Exporter au format texte...}
 Extent
 	Etendue
 Fidelity
@@ -299,6 +457,8 @@ General...
 	Général...
 German
 	allemand
+{global name}
+	{nom global}
 Glossary
 	Glossaire
 {Go back before playing (in seconds)}
@@ -307,10 +467,14 @@ Glossary
 	{Aller à...}
 Greek
 	grec
+{Greek (ISO-8859-7)}
+	{}
 {Header size}
 	{Taille de l'entête}
 Hebrew
 	hébreu
+{Hebrew (ISO-8859-8)}
+	{}
 Help
 	Aide
 {Highlighted text bg}
@@ -363,28 +527,48 @@ Italian
 	italien
 Japanese
 	japonais
+{Japanese (EUC-JP)}
+	{}
+{Japanese (ISO-2022-JP)}
+	{}
+{Japanese (Shift_JIS)}
+	{}
 jingle
 	{}
 Keystrokes
 	Touches
 Korean
 	coréen
+{Korean (EUC-KR)}
+	{}
+{Korean (ISO-2022-KR)}
+	{}
 Language
 	Langue
 Language...
 	Langue...
+lapsus
+	{}
 {Last modification date}
 	{Date de dernière modification}
 {Last segment}
 	{Dernier segment}
 Latin
 	latin
+Latin3
+	{}
+Latin4
+	{}
+Left
+	{}
 Lexical
 	Lexical
 Lexical...
 	Lexical...
 Lists
 	Listes
+{Load configuration file...}
+	{Charger une configuration...}
 {Localization file}
 	{Fichier de traduction}
 {Localization in French}
@@ -405,12 +589,16 @@ Messages
 	Messages
 Mode
 	Mode
+{Modifications saved in the file %s}
+	{Modifications enregistrées dans le fichier %s}
 Modify
 	Modifier
 {Modify speaker}
 	{Editer le locuteur}
 {Modify topic}
 	{Editer le sujet}
+mono
+	{}
 {mot inconnu}
 	{}
 {Move breakpoint}
@@ -435,8 +623,12 @@ Next
 	{Synchro suivante}
 {Next turn}
 	{Tour suivant}
+{No audio segment selected !}
+	{Aucune sélection audio !}
 {no speaker}
 	{pas de locuteur}
+{no topic}
+	{pas de sujet}
 Noise
 	Bruit
 {Noise foreground}
@@ -459,6 +651,8 @@ OK
 	{Ouvrir le fichier son à distance}
 {Open segmentation file}
 	{Ouvrir le fichier de segmentation}
+{Open segmentation file...}
+	{Ouvrir le fichier de segmentation...}
 {Open trans...}
 	{Ouvrir une transcription...}
 {Open transcription file}
@@ -487,6 +681,8 @@ Persian
 	perse
 {Play around cursor}
 	{Joue autour du curseur}
+{Play next segment}
+	{Joue le segment suivant}
 {Play segment}
 	{Joue le segment}
 {Play with pauses}
@@ -541,6 +737,8 @@ Recalibrate
 	Recalibration
 {Recent topics}
 	{Sujets récents}
+{Recently used speakers}
+	{Locuteurs récents}
 {Recording date}
 	{Date d'enregistrement}
 {Reduce waveform}
@@ -567,29 +765,52 @@ report
 	{}
 Resolution
 	Résolution
+{Resolution > 30" impossible !
+
+Can't find the signal shape.}
+	{Résolution > 30" impossible !
+Enveloppe du signal non disponible.}
 {Resolution bar}
 	{Barre de résolution}
 Restart
 	Redémarre
 Revert
 	{Revenir au fichier}
+Right
+	{}
+{rire en fond}
+	{}
 Romanian
 	roumain
+{rupture de syntaxe}
+	{}
 Russian
 	russe
 Save
 	Enregistrer
 {Save as...}
 	{Enregistrer sous...}
+{Save audio selection as...}
+	{Enregistrer la sélection audio sous...}
 {Save configuration}
 	{Enregistrer la configuration}
+{Save configuration as...}
+	{Enregistrer la configuration sous...}
 {Save configuration before leaving?}
 	{Enregistrer la configuration avant de quitter ?}
 {Second signal view}
 	{Deuxième vue du signal}
 Section
 	Section
+Sections
+	{}
 {Sections foreground}
+	{}
+seg0
+	{}
+seg1
+	{}
+seg2
 	{}
 Segmentation
 	Segmentation
@@ -599,33 +820,61 @@ Server
 	Serveur
 {sigle lu}
 	{}
+{sigle épelé}
+	{}
 Signal
 	Signal
 {Signal name}
 	{Nom du signal}
+{Simplified Chinese (GB)}
+	{}
+{Smart segmentation display}
+	{Affichage sélectif des segmentations}
 {Sorry, couldn't find %s dictionary}
 	{Désolé, le dictionnaire %s est introuvable}
+{Sort by...}
+	{Trier par...}
 Spanish
 	espagnol
 {Speaker foreground}
 	{}
+{Speaker menu}
+	{Liste des locuteurs}
+{Speaker name}
+	{Nom du locuteur}
 Speakers
 	Locuteurs
 {Spell checking}
 	{Correction orthographique}
 {spelling checked}
 	{orthographe vérifiée}
+{Start of event}
+	{Début d'événement}
 {Start of line}
 	{Début de ligne}
+stereo
+	{}
+{Stereo channel}
+	{}
 {Stop at next segment boundary}
 	{Stop à la prochaine frontière}
+{Stop before next segment boundary}
+	{Stoppe avant le prochain segment}
 {Store signal shapes in}
 	{Enregistre les enveloppes des signaux dans}
+Swedish
+	suédois
 Synchro
 	Synchro
+{Synchronized audio files}
+	{Fichiers son synchronisés}
 Text
 	Texte
+{Text editor}
+	{}
 {Text foreground}
+	{}
+top
 	{}
 Topic
 	Sujet
@@ -633,8 +882,14 @@ Topics
 	Sujets
 {Topics menu}
 	{Liste des sujets}
+{toux en fond}
+	{}
+{Traditional Chinese (Big5)}
+	{}
 {Transcriber's name}
 	{Nom du transcripteur}
+Transcription
+	{}
 {Transcription %s saved.}
 	{Enregistrement de %s effectuée.}
 {Transcription has been modified - Save before closing?}
@@ -643,12 +898,26 @@ Translation
 	Traduction
 Turkish
 	turc
+{Turkish (Latin5)}
+	{}
+Turn
+	Tour
+Turns
+	{}
+Type
+	Catégorie
 Undo
 	Annuler
+{Unicode (UTF-8)}
+	{}
 {Unknown format}
 	{Format inconnu}
+{unsupported output format %s}
+	{format de sortie non supporté}
 {Unzoom selection}
 	{Supprime le zoom}
+up
+	augmente
 Update
 	{}
 {Use regular expression}
@@ -661,6 +930,8 @@ Version
 	Version
 {Vertical zoom (dB)}
 	{Zoom vertical (dB)}
+{View all}
+	{Vue complète}
 Volume
 	Volume
 {Warning !
@@ -671,118 +942,11 @@ Toutes les modifications seront perdues.
 Revenir à la version enregistrée?}
 {Waveform bg}
 	{}
+{Western (Latin1)}
+	{}
 Word
 	Mot
-{[b] bruit indéterminé}
-	{}
-{[bb] bruit de bouche}
-	{}
-{[bg] bruit de gorge}
-	{}
-{[ch] voix chuchotée}
-	{}
-{[conv] conversations de fond}
-	{}
-{[e] expiration}
-	{}
-{[i] inspiration}
-	{}
-{[mic] bruits micro}
-	{}
-{[n] reniflement}
-	{}
-{[pap] froissement de papiers}
-	{}
-{[pf] soufle}
-	{}
-{[pi] inintelligible}
-	{}
-{[pif] inintelligible/faible}
-	{}
-{[r] respiration}
-	{}
-{[rire] rires du locuteur}
-	{}
-{[rire] voix avec rire}
-	{}
-{[shh] souffle électrique}
-	{}
-{[sif] sifflement du locuteur}
-	{}
-{[tx] toux, râclement,éternuement}
-	{}
-{global name}
-	{nom global}
-lapsus
-	{}
-mono
-	{}
-{no topic}
-	{pas de sujet}
-{Recently used speakers}
-	{Locuteurs récents}
-{rire en fond}
-	{}
-{rupture de syntaxe}
-	{}
-seg0
-	{}
-seg1
-	{}
-seg2
-	{}
-{sigle épelé}
-	{}
-{Sort by...}
-	{Trier par...}
-{Speaker menu}
-	{Liste des locuteurs}
-{Speaker name}
-	{Nom du locuteur}
-{Start of event}
-	{Début d'événement}
-stereo
-	{}
-Swedish
-	suédois
-top
-	{}
-{toux en fond}
-	{}
-Turn
-	Tour
-Type
-	Catégorie
-up
-	augmente
-{unsupported output format %s}
-        {format de sortie non supporté}
-{View all}
-	{Vue complète}
 {Zoom selection}
 	{Zoom de la sélection}
-{Load configuration file...}
-	{Charger une configuration...}
-{Save configuration as...}
-	{Enregistrer la configuration sous...}
-{   No audio file opened !
-This will create an empty
- audio file ! Really save ?}
-	{Aucun fichier son ouvert !
-Ceci génèrera un fichier
- son vide ! Continuer ?}
-{No audio segment selected !}
-	{Aucune sélection audio !}
-{Save audio selection as...}
-	{Enregistrer la sélection audio sous...}
-{%s not saved !!}
-	{%s non sauvegardé !!}
-{%s saved !!}
-	{%s sauvegardé !!}
-{Resolution > 30" impossible !
-
-Can't find the signal shape.}
-	{Résolution > 30" impossible !
-Enveloppe du signal non disponible.}
 }
 
