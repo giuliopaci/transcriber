@@ -207,8 +207,8 @@ Arabic
 	{Nom du fichier son}
 {Auto-save interval (in minutes)}
 	{Délai avant enregistrement automatique (minutes)}
-{Automatic}
-	{Automatique}
+{Automatic...}
+	{Automatique...}
 {Automatic import from selected file}
 	{Import automatique du fichier choisi}
 {Automatic selection playback}
