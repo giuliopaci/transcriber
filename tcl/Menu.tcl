@@ -326,7 +326,7 @@ proc InitMenus {} {
 	 {"Edit section attributes..."	cmd {::section::edit}}	
 	 {""}
 	 {"Move breakpoint"   cmd { tk_messageBox -type ok -message "Just click on the segment boundary with central button (or control-click with left button) and drag it to the new position! Use shift modifier for a forced move."}}
-	 {"Delete breakpoint"   cmd { DeleteSegment } -bind "Shift-BackSpace"}
+	 {"Delete breakpoint"   cmd { DeleteSegment } -bind "Ctrl-BackSpace"}
       }}
       {"Options" -underline 0	cascade {
 	 {"General..."		cmd {ConfigureGeneral}}
