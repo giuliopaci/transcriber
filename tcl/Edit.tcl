@@ -488,14 +488,20 @@ proc TextFilter {t option args} {
 		  set elem [lindex $tags [lsearch -glob $tags "*element*"]]
 		  if {$elem != ""} {
 		      switch [$elem getType] {
-		     "Background" {
-			 #set idx [$t index $elem.first]
-			 #SuppressBackground $elem
-		     }
-			  "Event" - "Comment" {
-			      set idx [$t index $elem.first]
-			      SuppressEvent $elem
+			"Background" {
+			  #set idx [$t index $elem.first]
+			  #SuppressBackground $elem
+			}
+			"Event" - "Comment" {
+			  set idx [$t index $elem.first]
+			  SuppressEvent $elem
+			}
+			default {
+			  if {[info commands ::tag::[$elem getType]::suppress] != {}} {
+			    set idx [$t index $elem.first]
+			    SuppressOther $elem
 			  }
+			}
 		      }
 		  } else {
 		      set data [GetDataFromPos "$idx+1c"]
