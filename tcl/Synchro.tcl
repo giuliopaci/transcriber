@@ -22,6 +22,7 @@ namespace eval Synchro {
 
       catch {unset time}
       catch {unset value}
+      catch {unset float}
       catch {unset atts}
    }
 
