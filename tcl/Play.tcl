@@ -133,6 +133,9 @@ proc CursorEvent {inc} {
       }
    }
    SetCursor $pos
+   if {[info exists v(socket,client)]} {
+     TransClient SetCursor $pos
+   }
    set v(curs,event) [after $inc [list CursorEvent $inc]]
 }
 
