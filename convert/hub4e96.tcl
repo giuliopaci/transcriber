@@ -1,139 +1,232 @@
 # RCS: @(#) $Id$
 
-# Copyright (C) 1998, DGA - part of the Transcriber program
+# Copyright (C) 1998-2000, DGA - part of the Transcriber program
 # distributed under the GNU General Public License (see COPYING file)
 
 ################################################################
 
-namespace eval hub4e {
+namespace eval hub4 {
 
-  variable msg "LDC Hub4e 96"
-  variable ext ".txt .sgml"
+  variable msg "LDC/NIST Hub4 format"
+  variable ext ".txt .sgml .utf"
 
    proc guess {name} {
      variable ext
      set filext [string tolower [file extension $name]]
      set f [open $name]; set magic [read $f 8]; close $f
-     if {$magic == "<Episode" && [lsearch $ext $filext]>=0} {
+     if {([string match "<utf*" $magic]
+	  || [string match -nocase "<episode" $magic])
+	 && [lsearch $ext $filext]>=0} {
        return 1
      } else {
        return 0
      }
    }
 
-  proc readSegmt {content} {
+  proc getOne {arrayName args} {
+    upvar $arrayName atts
+    foreach n $args {
+      set m [string tolower $n]
+      if {[info exists atts($m)]} {
+	return $atts($m)
+      }
+    }
+    return ""
+  }
+
+  proc readSegmtSet {content {import 0} args} {
     global v
    
     set esec ""
     set etur ""
     set text ""
-    foreach tier {"section" "speaker" "transcript" "nonspeech"
-      "bgmusic" "bgspeech" "bgother"} {
+    foreach tier {"section" "speaker" "transcript" "nonspeech" "noscore"
+      "bgmusic" "bgspeech" "bgother" "overlap"} {
       set $tier {}
+    }
+    if {$import} {
+      set sec ""
+      set tur ""
+      set speakers ""
+      set episode ""
+      set v(trans,root) [::xml::element "Trans"]
     }
     foreach line [split $content "\n"] {
       if {[anaTag $line type kind attlist]} {
+	set type [string tolower $type]
 	if {$kind == "close"} {
-	  if {$type == "Segment" && $text != ""} {
-	    lappend transcript [list $sync $etur $text "white"]
-	  }
-	  if {$type == "Segment"} {
+	  if {$type == "turn" || $type == "segment"} {
+	    if {$text != ""} {
+	      lappend transcript [list $sync $etur $text "white"]
+	    }
 	    unset sync
 	  }
-	  if {$type == "Section"  && $nseg == 0} {
-	    # mark empty sections with a star
+	  if {$type == "section"  && $nseg == 0} {
+	    # mark empty sections as non-trans
 	    set lastseg [lindex $section end]
-	    set lastseg [lreplace $lastseg 2 2 "*[lindex $lastseg 2]"]
+	    set lastseg [lreplace $lastseg 2 2 "(non-trans) [lindex $lastseg 2]"]
 	    set section [lreplace $section end end $lastseg]
 	  }
 	  continue
 	}
+	
 	array set atts $attlist
 	switch $type {
-	  "Episode" {
-	    set filename $atts(Filename)
+	  "episode" - "utf" {
+	    set filename [getOne atts "filename" "audio_filename"]
+	    if {$import} {
+	      set episode [::xml::element "Episode" [list "program" [getOne atts "program"] \
+		"air_date" [getOne atts "date"]] -in $v(trans,root)]
+	      $v(trans,root) setAttr "audio_filename" [file root $filename]
+	      $v(trans,root) setAttr "version" [getOne atts "version"]
+	      $v(trans,root) setAttr "version_date" [getOne atts "version_date"]
+	    }
 	  }
-	  "Section" {
-	    set t ""
-	    switch $atts(Type) {
+	  "section" {
+	    set tsec [getOne atts "type"]
+	    set top ""
+	    switch $tsec {
 	      "Story" { set t "report" }
 	      "Filler" { set t "filler" }
-	      "Commercial" { set t "nontrans" }
-	      "Local_News" { set t "nontrans" }
-	      "Sports_Report" { set t "nontrans" }
+	      "Commercial" { set t "nontrans"; set top "commercial" }
+	      "Local_News" { set t "nontrans"; set top "local news" }
+	      "Sports_Report" { set t "nontrans"; set top "sport report" }
+	      default { set t $tsec }
 	    }
 	    set nseg 0
-	    set ssec $atts(S_time)
-	    set esec $atts(E_time)
-	    lappend section [list $ssec $esec $atts(Type) $v(color,bg-sect)]
+	    set ssec [format %.3f [getOne atts "S_time" "startTime"]]
+	    set esec [format %.3f [getOne atts "E_time" "endTime"]]
+	    lappend section [list $ssec $esec $tsec]
+	    if {$import} {
+	      set sec [::xml::element "Section" \
+		[list "startTime" $ssec "endTime" $esec \
+		     "type" $t "topic" [::topic::create $top]] -in $episode]
+	    }
 	  }
-	  "Segment" {
+	  "segment" - "turn" {
 	    incr nseg
-	    set stur $atts(S_time)
-	    set etur $atts(E_time)
-	    lappend speaker [list $stur $etur $atts(Speaker) $v(color,bg-turn)]
+	    set stur [format %.3f [getOne atts "S_time" "startTime"]]
+	    set etur [format %.3f [getOne atts "E_time" "endTime"]]
+	    set s [getOne atts "speaker"]
+	    lappend speaker [list $stur $etur $s]
 	    set sync $stur
 	    set text ""
-	  }
-	  "Sync" {
-	    # some data files are corrupted
-	    if {$atts(Time)<$stur || $atts(Time)>$etur} continue
-	    if {$text != ""} {
-	      lappend transcript [list $sync $atts(Time) $text "white"]
+	    if {$import} {
+	      if {![info exists spkid($s)]} {
+		set gender [getOne atts "spkrtype"]
+		if {$gender == "altered"} {set gender "unknown"}
+		set spkid($s) [::speaker::create $s "" $gender] 
+	      }
+	      # PB: don't properly manage overlapping speech
+	      if {[info exists eetur] && $stur < $eetur} {
+		set stur $eetur
+		if {$stur >= $etur} {
+		  set etur [expr $stur + 0.001]
+		}
+	      }
+	      set tur [::xml::element "Turn" \
+		   [list "startTime" $stur "endTime" $etur "speaker" $spkid($s) \
+			"mode" [string tolower [getOne atts "mode"]] \
+			"fidelity" [string tolower [getOne atts "fidelity"]] \
+			"channel" ""] -in $sec]
+	      set eetur $etur
 	    }
-	    set sync $atts(Time)
+	  }
+	  "sync" - "time" {
+	    set t [format %.3f [getOne atts "Time" "sec"]]
+	    # some data files are corrupted
+	    if {$t<$stur || $t>$etur} {
+	      puts "wrong turn boundaries: $line"
+	      continue
+	    }
+	    if {$text != ""} {
+	      lappend transcript [list $sync $t $text "white"]
+	    }
+	    set sync $t
 	    set text ""
+	    if {$import} {
+	      ::xml::element "Sync" [list "time" $t] -in $tur
+	    }
 	  }
-	  "Comment" {
-	    #
-	  }
-	  "Background" {
+	  "background" {
+	    set t [format %.3f [getOne atts "Time" "startTime"]]
 	    # within segments, handle background also as a Sync
 	    if {[info exists sync]} {
 	      if {$text != ""} {
-		lappend transcript [list $sync $atts(Time) $text "white"]
+		lappend transcript [list $sync $t $text "white"]
 	      }
-	      set sync $atts(Time)
+	      set sync $t
 	      set text ""
 	    }
+	    if {$import && $t <= $etur} {
+	      ::xml::element "Sync" [list "time" $t] -in $tur
+	      # PB: should not reset other background kinds
+ 	      ::xml::element "Background" [string tolower $attlist] -in $tur
+ 	    }
 	    # handle Music/Speech/Other types independantly
-	    set kbg "bg[string tolower $atts(Type)]"
+	    set typ [getOne atts "type"]
+	    set lvl [string tolower [getOne atts "level"]]
+
+	    set kbg "bg[string tolower $typ]"
 	    if {[info exists tbg($kbg)] && $tbg($kbg) != ""} {
-	      lappend $kbg [list $sbg($kbg) $atts(Time) $tbg($kbg) $cbg($kbg)]
+	      lappend $kbg [list $sbg($kbg) $t $tbg($kbg) $cbg($kbg)]
 	    }
-	    set tbg($kbg) "$atts(Type)=$atts(Level)"
-	    set sbg($kbg) $atts(Time)
-	    switch $atts(Level) {
-	      "High" {
+	    set tbg($kbg) "$typ=$lvl"
+	    set sbg($kbg) $t
+	    switch $lvl {
+	      "high" {
 		set cbg($kbg) "grey50"
 	      }
-	      "Low" {
+	      "low" {
 		set cbg($kbg) "grey80"
 	      }
-	      "Off" {
+	      "off" {
 		set tbg($kbg) ""
 		set cbg($kbg) "white"
 	      }
 	    }
 	  }
-	  "Speaker_list" {
+	  "comment" {	    #
 	  }
-	  "Speaker" {
-	    set name $atts(Name)
-	    set gender [string tolower $atts(Sex)]
-	    if {$atts(Age)=="Child"} {set gender "child"}
-	    if {$gender == "unk"} {set gender "unknown"}
-	    set dialect [string tolower $atts(Dialect)]
+	  "overlap" - "b_overlap" {
+	    lappend overlap [list $atts(startTime) $atts(endTime) ""]
+	  }
+	  "b_noscore" {
+	    lappend noscore [list $atts(startTime) $atts(endTime) ""]
+	  }
+	  "unclear" - "b_unclear" {
+	    append text { [unclear]}
+	  }
+	  "foreign" - "b_foreign" {
+	    append text { [foreign]}
+	  }
+	  "speaker_list" {
+	    if {$import} {
+	      set speakers [::xml::element "Speakers" {} -in $v(trans,root)]
+	    }
+	  }
+	  "speaker" {
+	    if {$import} {
+	      set name [getOne atts "name"]
+	      set gender [string tolower [getOne atts "sex"]]
+	      if {[getOne atts "age"]=="Child"} {set gender "child"}
+	      if {$gender == "unk"} {set gender "unknown"}
+	      set dialect [string tolower [getOne atts "dialect"]]
+	      set spkid($name) [::speaker::create $name "" $gender $dialect] 
+	    }
 	  }
 	}
 	unset atts
       } else {
 	set line [string trim $line]
-	if {$line != ""} {
+	if {$line != "" && $line != {[[NS]]}} {
 	  if {$text != ""} {
 	    append text " "
 	  }
 	  append text $line
+	  if {$import} {
+	    ::xml::data "$line " -in $tur
+	  }
 	}
       }
     }
@@ -144,74 +237,70 @@ namespace eval hub4e {
     }
     # Don't show useless speaker turns at section boundaries
     set speaker [unify $speaker]
-    #set background [support [union $bgmusic $bgspeech $bgother]]
-    # Overlapping speech on clean background
-    #set overlap [intersect [overlap $speaker "Speech+Overlap"] [complement $background]]
+    set background [support [union $bgmusic $bgspeech $bgother]]
+    # Overlapping speech on clean background added to explicit overlap tags
+    set overlap [support [union $overlap [intersect [overlap $speaker] [complement $background]]] "Speech+Overlap"]
     # Speech is where transcript was typed in - plus a 0.2 sec. margin
-    #set speech [support $transcript "speech" 0.2]
-    # non-speech segments are only reliable on non-empty Filler/Story segments
-    #set nonspeech [intersect [select $section {[FS][it]*}] [complement $speech] ""]
+    set speech [support $transcript "speech" 0.2]
+    # non-speech segments are only reliable on non-empty report/filler segments
+    set nonspeech [intersect [complement $noscore] [intersect [select $section {[rf]*}] [complement $speech]] ""]
     # Detect pure music and music+speech segments
-    #set puremusic [intersect [support $bgmusic] $nonspeech "Music"]
-    #set musiconspeech [intersect [support $bgmusic] $speech "Speech+Music"]
+    set puremusic [intersect [support $bgmusic] $nonspeech "Music"]
+    set musiconspeech [intersect [support $bgmusic] $speech "Speech+Music"]
     # Detect speech on noise != music/speech
-    #set noise [intersect [support $bgother] [complement [union $bgmusic $bgspeech]]]
-    #set purenoise [intersect $noise $nonspeech "Noise"]
-    #set noisyspeech [intersect $noise $speech "Speech+Noise"]
+    set noise [intersect [support $bgother] [complement [union $bgmusic $bgspeech]]]
+    set purenoise [intersect $noise $nonspeech "Noise"]
+    set noisyspeech [intersect $noise $speech "Speech+Noise"]
     # Detect speech on speech != music/noise
-    #set speechonspeech [intersect [intersect [support $bgspeech] [complement [union $bgmusic $bgother]]] $speech "Speech+Speech"]
+    set speechonspeech [intersect [intersect [support $bgspeech] [complement [union $bgmusic $bgother]]] $speech "Speech+Speech"]
     # Pure speech
-    #set purespeech [intersect [complement [union $overlap $background]] $speech "Speech"]
-    #set silence [intersect [complement $background] $nonspeech "Silence"]
+    set purespeech [intersect [complement [union $overlap $background]] $speech "Speech"]
+    set silence [intersect [complement $background] $nonspeech "Silence"]
     # Combine all
-    #set all [selectlen [union $purespeech $silence $overlap $puremusic $musiconspeech $purenoise $noisyspeech $speechonspeech] 0.2]
-    # display (only in the interactive case)
-    if {[info command LookForSignal] != ""} {
-      # pretty, isn't it?
-      set speaker [colorize $speaker]
-      LookForSignal $filename ""
-      foreach tier {"bgmusic" "bgspeech" "bgother" "section" "speaker"} {
-	if {![info exists $tier] || [llength $tier] == 0} continue
-	set seg $tier
-	set v(trans,$seg) [set $tier]
-	foreach wavfm $v(wavfm,list) {
-	  CreateSegmentWidget $wavfm $seg -full white
-	}
-      }
+    set all [selectlen [union $purespeech $silence $overlap $puremusic $musiconspeech $purenoise $noisyspeech $speechonspeech] 0.2]
+
+    set result {}
+    lappend result [list $all "Hub4 speech/non speech" 0]
+    lappend result [list $bgmusic "Hub4 background music" 0]
+    lappend result [list $bgspeech "Hub4 background speech" 0]
+    lappend result [list $bgother "Hub4 background noise" 0]
+    lappend result [list $section "Hub4 section" 1 $v(color,bg-sect)]
+    lappend result [list [colorize $speaker] "Hub4 speaker"]
+    lappend result [list $transcript "Hub4 transcription"]
+    #LookForSignal $filename ""
+    return $result
+  }
+
+  proc readSegmt {content} {
+    # when requesting a single layer, just return transcription
+    return [lindex [lindex [readSegmtSet $content] end] 0]
+  }
+
+  proc import {name} {
+    global v
+   
+    if {![info exists v(file,speakers)]} {
+      set v(file,speakers) [file join [file dir [file dir $name]] spkrlist.sgml]
     }
-    return $transcript
+    if {[file exists $v(file,speakers)]} {
+      set content [ReadFile $v(file,speakers)]
+      append content "\n"
+    }
+    append content [ReadFile $name]
+    ::xml::dtd::xml_read $v(file,dtd)
+    readSegmtSet $content 1
   }
 
 }
 
 namespace eval :: {
 
-proc randomColor {} {
-  set sum 0
-  while {$sum < 384} {
-    set col "\#"
-    set sum 0
-    foreach c {r g b} {
-      set d [expr int(rand()*256)]
-      append col [format "%02x" $d]
-      incr sum $d
-    }
-  }
-  return $col
-}                                                                                                                     
-
 # attribute random color to segments according to label id
 proc colorize {list1} {
   set list2 {}
   foreach seg1 $list1 {
     foreach {s1 e1 t1} $seg1 break
-    if {[info exists color($t1)]} {
-      set col $color($t1)
-    } else {
-      set col [randomColor]
-      set color($t1) $col
-    }
-    lappend list2 [list $s1 $e1 $t1 $col]
+    lappend list2 [list $s1 $e1 $t1 [ColorMap $t1]]
   }
   return $list2  
 }
@@ -257,6 +346,20 @@ proc select {list1 pattern} {
     if {[string match $pattern $l1]} {
       lappend list2 $seg1
     }
+  }
+  return $list2
+}
+
+# map segment label to list
+proc map {list1 maplist} {
+  array set map $maplist
+  set list2 {}
+  foreach seg1 $list1 {
+    foreach {s1 e1 l1} $seg1 break
+    catch {
+      set l1 $map($l1)
+    }
+    lappend list2 [list $s1 $e1 $l1]
   }
   return $list2
 }
@@ -381,7 +484,7 @@ proc anaTag {line varType varKind varAtts} {
 	if {$c == "'" || $c == "\""} {
 	  set val [string range $val 1 [expr [string length $val]-2]] 
 	}
-	lappend listAtts $name $val
+	lappend listAtts [string tolower $name] $val
       }
       if {$end != ""} {
 	set kind "empty"
