@@ -82,6 +82,8 @@ proc Quit {} {
 
 # Meaning of global variables $v(...) :
 # -----------------------------------
+#  .snd.w,*       principal signal configuration
+#  .snd2.w,*      second  signal configuration
 #  autosave,name  name under which current transcription is auto-saved
 #  autosave,next  flag on if autosave handler is registred
 #  autosave,time  time before autosave after a modif (in minutes)/ 0:disabled
@@ -117,6 +119,8 @@ proc Quit {} {
 #  demo           switch to demonstration mode
 #  encoding       if a different encoding is to be used
 #  encodingList   list of IANA encoding names/usual names
+#  event,*        format strings for events type and extent
+#  entities       list of Named Entities (NE) events with descriptions
 #  ext,lbl        list of extensions for importable label files
 #  ext,snd        list of known extensions for sound files
 #  ext,trs        list of extensions for importable transcription files
@@ -136,18 +140,24 @@ proc Quit {} {
 #  font,mesg      font used for messages
 #  font,text      font used for text editor
 #  font,trans     font used for transcriptions in segments
-#  geom,$w       default geometry for window $w
+#  geom,$w        default geometry for window $w
 #  glossary       value/comment word pairs of user glossary
 #  img,$name      bitmap image
 #  keepconfig     ask to save configuration before leaving
 #  lang           language for menus ("fr" for french, default to english)
 #  language       list of pairs iso639-code/language-name for localization
+#  lexical        list of lexical events with descriptions
+#  list,ext       personal external speakers database
 #  multiwav,file  stores the current MultiWav menu file selection
 #  multiwav,files list of all the files in the MultiWav menu
 #  multiwav,path  list of the full pathnames of the MultiWav menu files
 #  newtypes       list of supported import formats with description
+#  noise          list of noise events with their descriptions
 #  options,file   default file for user configuration
 #  options,list   values to be saved in user configuration
+#  options,linux     personal configuration file on Linux 
+#  options,macintosh personal configuration file on Macintosh
+#  options,windows   personal configuration file on Windows
 #  path,base      base directory of Transcriber
 #  path,doc       directory for help files
 #  path,etc       path for default config values and DTD
@@ -167,6 +177,7 @@ proc Quit {} {
 #  playbackSpeed  speed playback factor (unsupported)
 #  preferedPos    cursor insertion pos in text editor (start/end of line)
 #  proc,id        id for numbering of socket connections to file server
+#  pronounce      list of pronounciation events with descriptions
 #  scribe,name    default transcriber's name
 #  segmt,curr     id of current segment
 #  segmt,move     id of segment whose boundary is currently being moved
