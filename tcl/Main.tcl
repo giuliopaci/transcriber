@@ -29,11 +29,13 @@ exec wish "$0" ${1:+"$@"}
 
 ################################################################
 
+set version "1.4.6+"
+
 proc Main {argv} {
    global v
 
    if {[info commands tk] != ""} {
-     wm title . "Transcriber 1.4.6+"
+     wm title . "Transcriber $::version"
      wm protocol . WM_DELETE_WINDOW { Quit }
    }
 
@@ -915,6 +917,9 @@ proc StartWith {argv} {
             "-psn*" { 
 	      # id sent by Mac OS X, to be ignored
 	    }
+	    "-v" - "-version" {
+	      puts stderr "Transcriber version $::version"
+	    }
 	    "-h" - "-help" {
 	      puts stderr {
 Transcriber - a free tool for segmenting, labeling and transcribing speech.
@@ -927,7 +932,7 @@ with command line options:
 
     -cfg filename           Override default configuration file
     -debug                  Add debug options in the help menu
-    -h/-help                This message
+    -h/-help                Display this message, then exit
     -lbl/-label filename    Display labels under the signal (may be repeated)
     -noshape                Disable signal shape mechanism
     -notext                 Disable display of text editor
@@ -935,6 +940,7 @@ with command line options:
     -set option value       Override an option of the configuation file
     -sig2                   Enable display of second signal view
     -socket                 Enable external scripting through sockets
+    -version                Display version, then exit
 
    filename(s) may be either a transcription, a signal file or both files.
    If several signal files are given, the multiwav mode is activated.
