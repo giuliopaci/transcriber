@@ -3,10 +3,10 @@
 
 # Personal external speakers database
 list,ext .speaker
-
+				     
 # Path to default browser
 browser ""
-				     
+
 # Personal configuration will be saved upon request in the following file:
 options,unix  ".transcriber"
 options,windows  "transcriber.pref"
@@ -72,11 +72,14 @@ newTopicFmt "topic\#%s"
 
 # default encoding used for transcriptions (IANA rather than tcl name)
 encoding    ISO-8859-1
+# for MacOSX, choose rather:
+#encoding    Macintosh
 # List of encoding: IANA name/usual name
 encodingList {
       {UTF-8       "Unicode (UTF-8)"}
       {}
       {ISO-8859-1  "Western (Latin1)"}
+      {Macintosh   "Western (MacRoman)"}
       {ISO-8859-2  "Central european (Latin2)"}
       {CP1250      "Czech for Windows (CP1250)"}
       {ISO-8859-3  "Latin3"}
@@ -240,12 +243,14 @@ sig,gain	0
 path,sounds   ""
 trans,name    ""
 
+videoFile ""
+
 multiwav,path {}
 # list of label files
 labelNames      {}
 
 # standard extensions for sounds, transcriptions, labels.
-ext,snd       {".au" ".wav" ".snd" ".sph" ".sig" ".sd" ".smp" ".aif" ".aiff" ".mp3"}
+ext,snd       {".au" ".wav" ".snd" ".sph" ".sig" ".sd" ".smp" ".aif" ".aiff" ".mp3" ".ogg"}
 ext,trs       {".xml" ".trs" ".typ"}
 ext,lbl       {".lab" ".lola" ".lbl" ".phn" ".wrd" ".txt"}
 
