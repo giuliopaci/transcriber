@@ -324,8 +324,12 @@ proc OpenAudioFile {{mode "reset"}} {
 	 set audiopen ""
       }
    } else {
+	   set upperExt [string toupper $v(ext,snd)]
+	   set allExt [concat $v(ext,snd) $upperExt]
       set types [subst {
-	 {"Audio files" {$v(ext,snd)}}
+	      
+	 {"Audio files" {$allExt} }
+	 
 	 {"All files"   {*}}
       }]
       set path [lindex $v(path,sounds) 0]
