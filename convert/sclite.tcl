@@ -275,12 +275,12 @@ namespace eval ::convert::sclite {
     if {[info command LookForSignal] != ""} {
       global v
       #puts $file_id
-      if {$v(sig,name) == ""} {LookForSignal $file_id ""}
+      if {$v(sig,name) == "" && $file_id != ""} {LookForSignal $file_id ""}
       foreach seg {ref hyp} {
 	if {![info exists $seg] || [llength $seg] == 0} continue
 	set v(trans,$seg) [set $seg]
 	foreach wavfm $v(wavfm,list) {
-	  CreateSegmentWidget $wavfm $seg -full white
+	  CreateSegmentWidget $wavfm $seg "sclite:$seg" -full white
 	}
       }
     }
