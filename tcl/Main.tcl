@@ -785,7 +785,7 @@ proc StartWith {argv} {
 	      # syntax: trans -set varname value ...
 	      set varname [lindex $argv [incr i]]
 	      set value [lindex $argv [incr i]]
-	      set v(varname) $value
+	      set v($varname) [subst -nocommands -novariables $value]
 	    }
 	    "-debug" {
 	      set v(debug) 1
@@ -820,17 +820,25 @@ proc StartWith {argv} {
 	       }
 	    }
 	    "-lbl" - "-lab*" {
-	      # open a segmentation layer for a lbl file
-	      set name [lindex $argv [incr i]]
-	      if {![file readable $name]} {
-		puts stderr "could not read $name"
-		exit
+	      # open a segmentation layer for followings lbl file name(s)
+	      while {1} {
+		set name [lindex $argv [expr $i+1]]
+		if {$lbls != {}} {
+		  if {[string index $name 0] == "-" || ![file readable $name] 
+		      || [LookForLabelFormat $name] == ""} break
+		} else {
+		  if {![file readable $name]} {
+		    puts stderr "could not read label file $name"
+		    exit
+		  }
+		  if {[LookForLabelFormat $name] == ""} {
+		    puts stderr "$name is not a valid label file with extension in: $v(ext,lbl)"
+		    exit
+		  }
+		}
+		incr i
+		lappend lbls $name
 	      }
-	      if {[LookForLabelFormat $name] == ""} {
-		puts stderr "$name is not a valid label file with extension in: $v(ext,lbl)"
-		exit
-	      }
-	      lappend lbls $name
 	    }
 	    "-socket" {
 	      # launch socket facility for external scripting of Transcriber
@@ -875,7 +883,7 @@ proc StartWith {argv} {
 		  convert::${format}::export [file tail [file root $name]]$ext
 		  incr nb
 		} err]} {
-		  puts stderr "error with $name: $err"
+		  puts stderr "error with $name: $err ($::errorInfo)"
 		}
 		CloseTrans -nosave
 	      }
