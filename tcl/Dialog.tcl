@@ -34,7 +34,10 @@ proc CreateModal {w title} {
    wm title $w [Local $title]
    #wm iconname $w $title
    wm protocol $w WM_DELETE_WINDOW { }
-   wm transient $w .
+   if {[info tclversion] < 8.4 || [tk windowingsystem] != "aqua"} {
+     # transient setting did not seem to work correctly on Mac OS X + aqua
+     wm transient $w .
+   }
    return $w
 }
 
