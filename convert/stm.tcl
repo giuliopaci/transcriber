@@ -362,12 +362,12 @@ proc normalize_name {id} {
     set spk  [::speaker::name $id]
     set atts [::speaker::get_atts $id]
     set scope [lindex $atts 5]
-    # the following line remove the comment int speaker name wich begins with ","
-    regsub ",.*" $spk "" speaker
+    # the following line remove the comment into speaker name wich begins with ","
+    regsub ",.*" $spk "" spk
     regsub -all $alnum $spk "_" spk
     set spk [string trim $spk "_"]
     # prefix local names by file id
-    if {$scope != "global" && ![string match ${base}* $speaker]} {
+    if {$scope != "global" && ![string match ${base}* $spk]} {
 	set spk "${base}_$spk"
     } 
     return $spk
