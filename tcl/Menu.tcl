@@ -320,8 +320,10 @@ proc InitMenus {} {
 	    {"Edit language list..."	cmd {ConfEventName "language" "Language"}}
 	 }}
 	 {"Display" -underline 0	cascade {
-	    {"Command buttons"	check v(view,.cmd) -command {SwitchFrame .cmd  -after .edit}}
+	    {"Text editor"	check v(view,.edit) -command {SwitchTextFrame}}
+	    {"Command buttons"	check v(view,.cmd) -command {SwitchFrame .cmd  -before .snd}}
 	    {"Second signal view"	check v(view,.snd2) -command {SwitchSoundFrame .snd2}}
+	    {"Smart segmentation display"	check v(hideLevels) -command {UpdateSegmtView}}
 	 }}
 	 {"Fonts"	cascade {
 	    {"Text"		cmd {set v(font,text)  [ChooseFont text] }}
