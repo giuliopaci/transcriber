@@ -143,6 +143,30 @@ proc DestroyTextFrame {} {
    }
 }
 
+proc SwitchTextFrame {} {
+   global v
+
+   # Switch display/hide
+   set f .edit
+   if {[winfo ismapped $f]} {
+      set v(geom,.) [wm geom .]
+      pack forget $f
+      pack configure .snd -expand true
+      wm geom . {}
+      set v(view,$f) 0
+   } else {
+      pack $f -expand true -fill both -side top
+      if {[catch {
+	 pack $f -before .cmd
+      }]} {catch {
+	 pack $f -before .snd
+      }}
+      pack configure .snd -expand false
+      wm geom . $v(geom,.)
+      set v(view,$f) 1
+   }
+}
+
 ################################################################
 
 # called from: DisplayTrans

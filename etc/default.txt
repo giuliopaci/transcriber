@@ -267,6 +267,7 @@ geom,.evt	""
 geom,.gain	""
 
 # Display
+view,.edit          1
 view,.cmd           1
 view,.inf           0
 view,.snd2          0
