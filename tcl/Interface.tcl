@@ -333,6 +333,10 @@ proc CreateInfoFrame {{f .inf}} {
       toplevel $f
       wm title $f [Local "Informations"]
 
+	if {$::tcl_platform(platform) == "windows"} {
+	      wm attributes $f -topmost 1 
+      }
+
       message $f.sig -font list -justify left \
 	  -width 15c -anchor w -textvariable v(sig,desc)
       pack $f.sig -padx 3m -pady 2m -anchor w
@@ -385,6 +389,10 @@ proc CreateGainFrame {{f .gain}} {
    if {![winfo exists $f]} {
       toplevel $f
       wm title $f [Local "Control panel"]
+
+	if {$::tcl_platform(platform) == "windows"} {
+	      wm attributes $f -topmost 1 
+      }
 
      if {[info tclversion] < 8.4 || [tk windowingsystem] != "aqua"} {
        scale $f.s -label [Local "Volume"] \
