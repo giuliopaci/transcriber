@@ -40,7 +40,7 @@ namespace eval typ {
 	 set lines [concat $lines [list "<sn $v(sig,max)>"]]
       }
       foreach line $lines {
-	 if [regexp {<([a-z][a-z0-9]*) ([0-9.]+)( ([^>]+))?>( <<((male|female|child), ((I|O), )?)?(.*)>>)?} \
+	if [regexp {<([a-z][a-z0-9]*) ([0-9.]+)( ([^>]+))?>([ \t]*<<((male|female|child), ((I|O), )?)?(.*)>>)?} \
 		 $line match code time hasattrib attrib hasname hasgender gender hasnativ nativ name] {
 	    if {[info exists begin] && $time>0} {
 	       if {$time<$begin} {
@@ -125,7 +125,8 @@ namespace eval typ {
 	    if {$text != ""} {
 	       append text " "
 	    }
-	    append text $line
+	   #append text $line
+	   append text [string trim $line]
 	 }
       }
       if [info exists begin] {
