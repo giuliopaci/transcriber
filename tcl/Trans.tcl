@@ -107,6 +107,19 @@ proc ReadFile {fileName} {
    return $text
 }
 
+proc LookForLabelFormat {name} {
+   global v
+   # Look for a segmentation format matching the file
+   set format ""
+  foreach ns [lsort [namespace children convert]] {
+     if {[info command ${ns}::readSegmt] != "" && [${ns}::guess $name]} {
+       set format $ns
+       break
+     }
+   }
+   return $format
+}
+
 # Open a new independant segmentation file
 proc OpenSegmt {{name ""}} {
    global v
@@ -129,14 +142,8 @@ proc OpenSegmt {{name ""}} {
    if {$name != ""} {
       if {![file readable $name]} return
       # Look for a segmentation format matching the file
-      set format "none"
-      foreach ns [namespace children convert] {
-	 if {[info command ${ns}::readSegmt] != "" && [${ns}::guess $name]} {
-	    set format $ns
-	    break
-	 }
-      }
-      if {$format == "none"} {
+      set format [LookForLabelFormat $name]
+      if {$format == ""} {
 	 error [format [Local "Unknown format for file %s"] $name]
       }
       # Choose uique segmentation id

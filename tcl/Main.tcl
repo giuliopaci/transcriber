@@ -822,9 +822,7 @@ proc StartWith {argv} {
 	    "-lbl" - "-lab*" {
 	      # open a segmentation layer for a lbl file
 	      set name [lindex $argv [incr i]]
-	      set ext [string tolower [file extension $name]]
-	      if {[lsearch -exact $v(ext,lbl) $ext] < 0
-		|| ![file readable $name]} {
+	      if {![file readable $name] || [LookForLabelFormat $name] == ""} {
 		puts stderr "$name is not a valid label file with extension in: $v(ext,lbl)"
 		exit
 	      }
