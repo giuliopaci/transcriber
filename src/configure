@@ -664,6 +664,8 @@ case $system in
         ;;
 esac
 
+
+
 #--------------------------------------------------------------------
 #       Disable stub support. This is necessary if you
 #       want to run Snack with Tcl/Tk 8.0 up to 8.0.5
@@ -695,8 +697,35 @@ else
 fi
 
 #--------------------------------------------------------------------
+#       Set machine-dependent variables needed for compilation
+#--------------------------------------------------------------------
+
+OpSys=`uname -s`
+OS=""
+LIB_SUFFIX=""
+
+case $OpSys in
+    MINGW*)
+	OS=Windows
+	LIBS="${TCL_LIB_SPEC} ${TK_LIB_SPEC} -ltkstub84"
+	INCLUDES="${XINCLUDES} -I${TCL_PREFIX}/include -I{$TK_PREFIX}/include"
+	OUTPUT_FILES="Makefile"
+	LIB_SUFFIX=.dll
+        ;;
+    *)
+	OS=UnixLike
+	LIBS="-lc $TK_LIBS $TCL_LIB_SPEC $TK_LIB_SPEC"
+	INCLUDES="$XINCLUDES -I$TCL_SRC_DIR/generic -I$TK_SRC_DIR/generic -I$TCL_PREFIX/include -I$TK_PREFIX/include"
+    	OUTPUT_FILES="trans Makefile"
+	LIB_SUFFIX="${SHLIB_SUFFIX}"
+        ;;
+esac
+
+
+#--------------------------------------------------------------------
 # Expand @references@ to autoconf variables in Makefile.in
 #--------------------------------------------------------------------
+
 
 
 
@@ -735,6 +764,12 @@ fi
 
 
 #AC_SUBST(ORDER)
+
+####
+
+
+
+
 
 trap '' 1 2 15
 cat > confcache <<\EOF
@@ -848,7 +883,7 @@ done
 
 ac_given_srcdir=$srcdir
 
-trap 'rm -fr `echo "Makefile trans" | sed "s/:[^ ]*//g"` conftest*; exit 1' 1 2 15
+trap 'rm -fr `echo ""$OUTPUT_FILES"" | sed "s/:[^ ]*//g"` conftest*; exit 1' 1 2 15
 EOF
 cat >> $CONFIG_STATUS <<EOF
 
@@ -905,6 +940,9 @@ s%@TRANS_DIR@%$TRANS_DIR%g
 s%@TRANS_BIN@%$TRANS_BIN%g
 s%@SUFFIX@%$SUFFIX%g
 s%@TCLAPI@%$TCLAPI%g
+s%@OS@%$OS%g
+s%@INCLUDES@%$INCLUDES%g
+s%@LIB_SUFFIX@%$LIB_SUFFIX%g
 
 CEOF
 EOF
@@ -946,7 +984,7 @@ EOF
 
 cat >> $CONFIG_STATUS <<EOF
 
-CONFIG_FILES=\${CONFIG_FILES-"Makefile trans"}
+CONFIG_FILES=\${CONFIG_FILES-""$OUTPUT_FILES""}
 EOF
 cat >> $CONFIG_STATUS <<\EOF
 for ac_file in .. $CONFIG_FILES; do if test "x$ac_file" != x..; then
