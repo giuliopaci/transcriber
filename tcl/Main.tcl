@@ -537,6 +537,8 @@ proc ChangedLocal {} {
    }
    SetBindings
    InitMenus
+   if { $v(view,.snd) } { InitWavContextualMenu .snd.1 }
+   if { $v(view,.snd2) } { InitWavContextualMenu .snd2.1 }
    UpdateLangList
    UpdateDepList
    UpdateHeaderList
@@ -774,179 +776,179 @@ proc setdef {varName val} {
 
 # Open audio file and transcription from command line else from defaults
 proc StartWith {argv} {
-   global v
+    global v
 
-   # v(sig,open) set to "" if no opened signal
-   set v(sig,open) "0"
-
-   set sig ""
-   set multiwav {}
-   set video ""
-   set trans ""
-   set lbls {}
-   set pos 0
-   set gain 0
-   if {[llength $argv] > 0} {
-      set ext_tr [concat $v(ext,trs) $v(ext,lbl)]
-      set ext_au $v(ext,snd)
-      for {set i 0} {$i < [llength $argv]} {incr i} {
-	 set val [lindex $argv $i]
-
-	 switch -glob -- $val {
-	    "-set" {
-	      # set a global variable to a given value, overrinding configuration file
-	      # (names with special chars e.g. "shape,wanted" need to be quoted at shell level)
-	      # syntax: trans -set varname value ...
-	      set varname [lindex $argv [incr i]]
-	      set value [lindex $argv [incr i]]
-	      set v($varname) [subst -nocommands -novariables $value]
-	    }
-	    "-debug" {
-	      set v(debug) 1
-	    }
-	    "-demo" {
-	      set v(demo) 1
-	    }
-	    "-noshape" {
-	       set v(shape,wanted) 0
-	    }
-	    "-notext" {
-	       if {$v(view,.edit)} {
-		 SwitchTextFrame
-	       }
-	    }
-	    "-sig2" {
-	      if {!$v(view,.snd2)} {
-		CreateSoundFrame .snd2
-		set v(view,.snd2) 1
-	      }
-	    }
-	    "-patch" {
-	       set path [lindex $argv [incr i]]
-	       if {![file exists $path]} {
-		  set path [file join $v(path,base) $path]
-	       }
-	       if {[file isdir $path]} {
-		  set path [file join $path *.tcl]
-	       }
-	       foreach file [glob $path] {
-		  uplevel \#0 [list source $file]
-	       }
-	    }
-	    "-lbl" - "-lab*" {
-	      # open a segmentation layer for followings lbl file name(s)
-	      while {1} {
-		set name [lindex $argv [expr $i+1]]
-		if {$lbls != {}} {
-		  if {[string index $name 0] == "-" || ![file readable $name] 
-		      || [LookForLabelFormat $name] == ""} break
-		} else {
-		  if {![file readable $name]} {
-		    puts stderr "could not read label file $name"
+    # v(sig,open) set to "" if no opened signal
+    set v(sig,open) "0"
+    
+    set sig ""
+    set multiwav {}
+    set video ""
+    set trans ""
+    set lbls {}
+    set pos 0
+    set gain 0
+    if {[llength $argv] > 0} {
+	set ext_tr [concat $v(ext,trs) $v(ext,lbl)]
+	set ext_au $v(ext,snd)
+	for {set i 0} {$i < [llength $argv]} {incr i} {
+	    set val [lindex $argv $i]
+	    
+	    switch -glob -- $val {
+		"-set" {
+		    # set a global variable to a given value, overrinding configuration file
+		    # (names with special chars e.g. "shape,wanted" need to be quoted at shell level)
+		    # syntax: trans -set varname value ...
+		    set varname [lindex $argv [incr i]]
+		    set value [lindex $argv [incr i]]
+		    set v($varname) [subst -nocommands -novariables $value]
+		}
+		"-debug" {
+		    set v(debug) 1
+		}
+		"-demo" {
+		    set v(demo) 1
+		}
+		"-noshape" {
+		    set v(shape,wanted) 0
+		}
+		"-notext" {
+		    if {$v(view,.edit)} {
+			SwitchTextFrame
+		    }
+		}
+		"-sig2" {
+		    if {!$v(view,.snd2)} {
+			CreateSoundFrame .snd2
+			set v(view,.snd2) 1
+		    }
+		}
+		"-patch" {
+		    set path [lindex $argv [incr i]]
+		    if {![file exists $path]} {
+			set path [file join $v(path,base) $path]
+		    }
+		    if {[file isdir $path]} {
+			set path [file join $path *.tcl]
+		    }
+		    foreach file [glob $path] {
+			uplevel \#0 [list source $file]
+		    }
+		}
+		"-lbl" - "-lab*" {
+		    # open a segmentation layer for followings lbl file name(s)
+		    while {1} {
+			set name [lindex $argv [expr $i+1]]
+			if {$lbls != {}} {
+			    if {[string index $name 0] == "-" || ![file readable $name] 
+				|| [LookForLabelFormat $name] == ""} break
+			} else {
+			    if {![file readable $name]} {
+				puts stderr "could not read label file $name"
+				exit
+			    }
+			    if {[LookForLabelFormat $name] == ""} {
+				puts stderr "$name is not a valid label file with extension in: $v(ext,lbl)"
+				exit
+			    }
+			}
+			incr i
+			lappend lbls $name
+		    }
+		}
+		"-socket" {
+		    # launch socket facility for external scripting of Transcriber
+		    # (see tcl/Socket.tcl code for more details)
+		    # optional socket server and client ports
+		    set val [lindex $argv [expr $i+1]]
+		    if {[string index $val 0] != "-"} {
+			set v(socket,server) $val
+			incr i
+			set val [lindex $argv [expr $i+1]]
+			if {[string index $val 0] != "-"} {
+			    set v(socket,client) $val
+			    incr i
+			}
+		    }
+		    uplevel \#0 {source [file join $v(path,tcl) Socket.tcl]}
+		}
+		"-export" - "-convertto" {
+		    # convert a set of trs files to given format, if export filter available
+		    # syntax: trans -convertto {stm|html|...} *.trs
+		    # resulting files are stored in current directory
+		    if {[info commands tk] != ""} {
+			wm withdraw .
+			update
+		    }
+		    set format [lindex $argv [incr i]]
+		    if {$format == "trs"} {
+			# re-exporting to .trs allows automatic normalization
+			set nsformat ::trs
+		    } else {
+			set nsformat ::convert::${format}
+		    }
+		    if {[info command ${nsformat}::export] == ""} {
+			if {$format != ""} {
+			    puts stderr "Conversion to format $format unsupported."
+			}
+			puts stderr "List of supported formats for exporting .trs files:"
+			foreach format [namespace children convert] {
+			    if {[info command ${format}::export] != ""} {
+				puts stderr "\t[namespace tail $format]"
+			    }
+			}
+			exit
+		    }
+		    #CloseTrans -nosave 
+		    set ext [lindex [set ${nsformat}::ext] 0]
+		    puts stderr "Converting .trs files to $format format ($ext):"
+		    set nb 0
+		    while {[set name [lindex $argv [incr i]]] != ""} {
+			if {[lsearch -exact $::trs::ext [string tolower [file extension $name]]] < 0
+			    || ![file readable $name]} {
+			    puts stderr "(ignoring non .trs file name $name)"
+			    continue
+			}
+			puts stderr "$name"
+			if {[catch {
+			    trs::import $name
+			    set v(sig,min) 0
+			    set v(trans,format) trans
+			    if {[set msg [NormalizeTrans]] != ""} {
+				puts -nonewline stderr $msg
+			    }
+			    ${nsformat}::export [file tail [file root $name]]$ext
+			    incr nb
+			} err]} {
+			    puts stderr "error with $name: $err ($::errorInfo)"
+			}
+			::xml::init
+			::speaker::init
+			::topic::init
+			set v(trans,root) ""
+			set v(trans,name) ""
+			#CloseTrans -nosave
+		    }
+		    puts stderr "$nb file(s) processed."
 		    exit
-		  }
-		  if {[LookForLabelFormat $name] == ""} {
-		    puts stderr "$name is not a valid label file with extension in: $v(ext,lbl)"
+		}
+		"-cfg" {
+		    # The -cfg option is used and detailled in the InitDefault procedure
+		    # but has to be declared here just to avoid any option problem.
+		    # Increment "i" to avoid interpreting the configuration file as an argument  
+		    incr i
+		}
+		"-psn*" { 
+		    # id sent by Mac OS X, to be ignored
+		}
+		"-v" - "-version" {
+		    puts stderr "Transcriber version $::version"
 		    exit
-		  }
-		}
-		incr i
-		lappend lbls $name
-	      }
 	    }
-	    "-socket" {
-	      # launch socket facility for external scripting of Transcriber
-	      # (see tcl/Socket.tcl code for more details)
-	      # optional socket server and client ports
-	      set val [lindex $argv [expr $i+1]]
-	      if {[string index $val 0] != "-"} {
-		set v(socket,server) $val
-		incr i
-		set val [lindex $argv [expr $i+1]]
-		if {[string index $val 0] != "-"} {
-		  set v(socket,client) $val
-		  incr i
-		}
-	      }
-	      uplevel \#0 {source [file join $v(path,tcl) Socket.tcl]}
-	    }
-	    "-export" - "-convertto" {
-	      # convert a set of trs files to given format, if export filter available
-	      # syntax: trans -convertto {stm|html|...} *.trs
-	      # resulting files are stored in current directory
-	      if {[info commands tk] != ""} {
-		wm withdraw .
-		update
-	      }
-	      set format [lindex $argv [incr i]]
-	      if {$format == "trs"} {
-		# re-exporting to .trs allows automatic normalization
-		set nsformat ::trs
-	      } else {
-		set nsformat ::convert::${format}
-	      }
-	      if {[info command ${nsformat}::export] == ""} {
-		if {$format != ""} {
-		  puts stderr "Conversion to format $format unsupported."
-		}
-		puts stderr "List of supported formats for exporting .trs files:"
-		foreach format [namespace children convert] {
-		  if {[info command ${format}::export] != ""} {
-		    puts stderr "\t[namespace tail $format]"
-		  }
-		}
-		exit
-	      }
-	      #CloseTrans -nosave 
-	      set ext [lindex [set ${nsformat}::ext] 0]
-	      puts stderr "Converting .trs files to $format format ($ext):"
-	      set nb 0
-	      while {[set name [lindex $argv [incr i]]] != ""} {
-		if {[lsearch -exact $::trs::ext [string tolower [file extension $name]]] < 0
-		    || ![file readable $name]} {
-		  puts stderr "(ignoring non .trs file name $name)"
-		  continue
-		}
-		puts stderr "$name"
-		if {[catch {
-		  trs::import $name
-		  set v(sig,min) 0
-		  set v(trans,format) trans
-		  if {[set msg [NormalizeTrans]] != ""} {
-		    puts -nonewline stderr $msg
-		  }
-		  ${nsformat}::export [file tail [file root $name]]$ext
-		  incr nb
-		} err]} {
-		  puts stderr "error with $name: $err ($::errorInfo)"
-		}
-		::xml::init
-		::speaker::init
-		::topic::init
-		set v(trans,root) ""
-		set v(trans,name) ""
-		#CloseTrans -nosave
-	      }
-	      puts stderr "$nb file(s) processed."
-	      exit
-	    }
- 	    "-cfg" {
-	      # The -cfg option is used and detailled in the InitDefault procedure
-	      # but has to be declared here just to avoid any option problem.
-	      # Increment "i" to avoid interpreting the configuration file as an argument  
-	      incr i
- 	    }
-            "-psn*" { 
-	      # id sent by Mac OS X, to be ignored
-	    }
-	    "-v" - "-version" {
-	      puts stderr "Transcriber version $::version"
-	      exit
-	    }
-	    "-h" - "-help" {
-	      puts stderr {
+		"-h" - "-help" {
+		    puts stderr {
 Transcriber - a free tool for segmenting, labeling and transcribing speech.
-
+		
 Syntax:
 
     trans \[options\] filename(s) ...
@@ -981,7 +983,7 @@ Further documentation available online (Help menu) or on the Web site:
 
   http://www.etca.fr/CTA/gip/Projets/Transcriber/
 }
-               exit
+            exit
 	    }
             "--" {
 	      # should not be passed by wish
@@ -1060,9 +1062,9 @@ Further documentation available online (Help menu) or on the Web site:
 	 }
 	 OpenTransOrSoundFile
       }
-   }
+   }  
    foreach lbl $lbls {
-     OpenSegmt $lbl
+       OpenSegmt $lbl
    }
 }
 

@@ -6,96 +6,122 @@
 ################################################################
 
 proc CreateSoundFrame {f} {
-   global v
+    global v
 
-   # embedded frame for optional inclusion of video
-   frame $f; pack $f -fill both -side top; set f $f.1
-   frame $f -bd 1 -relief raised -bg $v(color,bg)
-   setdef v($f.w,height) 100
-   set wavfm [wavfm $f.w -padx 10 -bd 0 -bg $v(color,bg) \
+    # embedded frame for optional inclusion of video
+    frame $f; 
+    if {$v(view,$f)} { 
+	pack $f -fill both -side top
+    } 
+    set f $f.1
+    frame $f -bd 1 -relief raised -bg $v(color,bg)
+    setdef v($f.w,height) 100
+    set wavfm [wavfm $f.w -padx 10 -bd 0 -bg $v(color,bg) \
 		  -height $v($f.w,height) -selectbackground $v(color,bg-sel)]
-   axis $f.a -padx 10 -bd 0 -bg $v(color,bg) -font axis
-
-   set g $f.scr
-   frame $g -bg $v(color,bg)
-   set v($wavfm,scroll) [scrollbar $g.pos -orient horizontal -width 15\
-	-command [list ScrollTime $wavfm]]
-   pack $g.pos -fill x -side left -expand true -anchor n
-
-   # optional resolution scrollbar
-   frame $g.reso
-   label $g.reso.lab -text "Resolution" -font {fixed 10} -bd 0 -padx 10 -pady 0
-   set v($wavfm,scale) [scrollbar $g.reso.scrol -command [list ScrollReso $wavfm] -orient horizontal -width 8 -bd 1]
-   pack $g.reso.lab -side top
-   pack $g.reso.scrol -fill x -expand true
-   # Default : display resolution scrollbar
-   setdef v(view,$g.reso) 1
-   if {$v(view,$g.reso)} {
-      pack $g.reso -padx 0 -pady 0 -side right
-   }
-
-   pack $g -side top -fill x
-
-   pack $f.w -fill both -expand true -side top
-   pack $f.a -fill x -side top
-   pack $f -fill both -side top
-   set v($wavfm,sync) [list $wavfm $f.a]
-   lappend v(wavfm,list) $wavfm
-
-   # Register the bindings at the frame level
-   bindtags $wavfm [list $wavfm Wavfm $f . all]
-   bindtags $f.a [list $f.a Axis $f . all]
-
-   # Selection/cursor position with B1
-   bind $f <Button-1>  [list BeginCursorOrSelect $wavfm %X]
-   bind $f <B1-Motion> [list SelectMore $wavfm %X]
-   bind $f <ButtonRelease-1> [list EndCursorOrSelect $wavfm]
+    axis $f.a -padx 10 -bd 0 -bg $v(color,bg) -font axis
+    
+    set g $f.scr
+    frame $g -bg $v(color,bg)
+    set v($wavfm,scroll) [scrollbar $g.pos -orient horizontal -width 15\
+			      -command [list ScrollTime $wavfm]]
+    pack $g.pos -fill x -side left -expand true -anchor n
+    
+    # optional resolution scrollbar
+    frame $g.reso
+    label $g.reso.lab -text "Resolution" -font {fixed 10} -bd 0 -padx 10 -pady 0
+    set v($wavfm,scale) [scrollbar $g.reso.scrol -command [list ScrollReso $wavfm] -orient horizontal -width 8 -bd 1]
+    pack $g.reso.lab -side top
+    pack $g.reso.scrol -fill x -expand true
+    # Default : display resolution scrollbar
+    setdef v(view,$g.reso) 1
+    if {$v(view,$g.reso)} {
+	pack $g.reso -padx 0 -pady 0 -side right
+    }
+    
+    pack $g -side top -fill x
+    
+    pack $f.w -fill both -expand true -side top
+    pack $f.a -fill x -side top
+    pack $f -fill both -side top
+    set v($wavfm,sync) [list $wavfm $f.a]
+    lappend v(wavfm,list) $wavfm
+    
+    # Register the bindings at the frame level
+    bindtags $wavfm [list $wavfm Wavfm $f . all]
+    bindtags $f.a [list $f.a Axis $f . all]
+    
+    # Selection/cursor position with B1
+    bind $f <Button-1>  [list BeginCursorOrSelect $wavfm %X]
+    bind $f <B1-Motion> [list SelectMore $wavfm %X]
+    bind $f <ButtonRelease-1> [list EndCursorOrSelect $wavfm]
    bind $f <Shift-Button-1>  [list ExtendOldSelection $wavfm %X]
+    
+    # Extend selection with B2
+    bind $f <Button-2>  [list ExtendOldSelection $wavfm %X]
+    
+    # Contextual menus with B3
+    InitWavContextualMenu $f 
+    bind $f <Button-3>  [list tk_popup $v($wavfm,menu) %X %Y]
+    bind $f <Control-Button-1>  [list tk_popup $v($wavfm,menu) %X %Y]
+    
+    return $wavfm
+}
 
-   # Extend selection with B2
-   bind $f <Button-2>  [list ExtendOldSelection $wavfm %X]
+proc InitWavContextualMenu {f} {
 
-   # Contextual menus with B3
-   regsub -all {\.} $wavfm {_} name
-   set v($wavfm,menu) [add_menu .menu$name [subst {
-      {"Audio file"		cascade {
-	 {"Open audio file..." 	cmd {OpenAudioFile}}
-	 {"Add audio file..." 	cmd {OpenAudioFile add}}
+    # JOB: create the contextual menu on wave frame
+    #
+    # IN: f, the name of the wav frame, i.e. snd.1 or snd2.1
+    # OUT: nothing
+    # MODIFY: nothing
+    #
+    # Author: Claude Barras, Sylvain Galliano
+    # Version: 1.1
+    # Date: October 20, 2004
+
+    global v
+    
+    set wavfm $f.w
+    set g $f.src
+
+    regsub -all {\.} $wavfm {_} name
+    catch {destroy .menu$name}
+    set v($wavfm,menu) [add_menu .menu$name [subst {
+	{"Audio file"		cascade {
+	    {"Open audio file..." 	cmd {OpenAudioFile}}
+	    {"Add audio file..." 	cmd {OpenAudioFile add}}
 	 {""}
-      }}
-      {"Playback"		cascade {
-	 {"Play/Pause"		cmd {PlayOrPause}}
-	 {"Replay segment"	cmd {PlayCurrentSegmt}}
-	 {"Play around cursor"	cmd {PlayAround}}
-      }}
-      {"Position"		cascade {
-	 {"Forward"	cmd {PlayForward +1}}
-	 {"Backward"	cmd {PlayForward -1}}
-	 {"Previous"	cmd {MoveNextSegmt -1}}
-	 {"Next"	cmd {MoveNextSegmt +1}} 
-      }}
-      {"Resolution"		cascade {
-	 {"1 sec"	cmd {Resolution 1 $wavfm}}
-	 {"10 sec"	cmd {Resolution 10 $wavfm}}
-	 {"30 sec"	cmd {Resolution 30 $wavfm}}
-	 {"1 mn"	cmd {Resolution 60 $wavfm}}
-	 {"5 mn"	cmd {Resolution 300 $wavfm}}
-	 {""}
-	 {"up"		cmd {ZoomReso -1 $wavfm}}
-	 {"down"	cmd {ZoomReso +1 $wavfm}}
-	 {""}
-	 {"View all"	cmd {ViewAll $wavfm}}
-      }}
-      {"Display"		cascade {
-	 {"Resolution bar"	check v(view,$g.reso) -command {SwitchFrame $g.reso}}
-	 {"Reduce waveform"	cmd {WavfmHeight $wavfm [expr 1/1.2]}}
-	 {"Expand waveform"	cmd {WavfmHeight $wavfm 1.2}}
-	 {""}
-      }}
-   }]]
-   bind $f <Button-3>  [list tk_popup $v($wavfm,menu) %X %Y]
-   bind $f <Control-Button-1>  [list tk_popup $v($wavfm,menu) %X %Y]
-   return $wavfm
+	}}
+	{"Playback"		cascade {
+	    {"Play/Pause"		cmd {PlayOrPause}}
+	    {"Replay segment"	cmd {PlayCurrentSegmt}}
+	    {"Play around cursor"	cmd {PlayAround}}
+	}}
+	{"Position"		cascade {
+	    {"Forward"	cmd {PlayForward +1}}
+	    {"Backward"	cmd {PlayForward -1}}
+	    {"Previous"	cmd {MoveNextSegmt -1}}
+	    {"Next"	cmd {MoveNextSegmt +1}} 
+	}}
+	{"Resolution"		cascade {
+	    {"1 sec"	cmd {Resolution 1 $wavfm}}
+	    {"10 sec"	cmd {Resolution 10 $wavfm}}
+	    {"30 sec"	cmd {Resolution 30 $wavfm}}
+	    {"1 mn"	cmd {Resolution 60 $wavfm}}
+	    {"5 mn"	cmd {Resolution 300 $wavfm}}
+	    {""}
+	    {"up"		cmd {ZoomReso -1 $wavfm}}
+	    {"down"	cmd {ZoomReso +1 $wavfm}}
+	    {""}
+	    {"View all"	cmd {ViewAll $wavfm}}
+	}}
+	{"Display"		cascade {
+	    {"Resolution bar"	check v(view,$g.reso) -command {SwitchFrame $g.reso}}
+	    {"Reduce waveform"	cmd {WavfmHeight $wavfm [expr 1/1.2]}}
+	    {"Expand waveform"	cmd {WavfmHeight $wavfm 1.2}}
+	    {""}
+	}}
+    }]]
 }
 
 proc SwitchSoundFrame {f} {
@@ -110,6 +136,7 @@ proc SwitchSoundFrame {f} {
      pack forget $f
    } else {
      pack $f -fill x
+
    }
 }
 
