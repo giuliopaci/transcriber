@@ -866,7 +866,13 @@ proc StartWith {argv} {
 		update
 	      }
 	      set format [lindex $argv [incr i]]
-	      if {[info command convert::${format}::export] == ""} {
+	      if {$format == "trs"} {
+		# re-exporting to .trs allows automatic normalization
+		set nsformat ::trs
+	      } else {
+		set nsformat ::convert::${format}
+	      }
+	      if {[info command ${nsformat}::export] == ""} {
 		if {$format != ""} {
 		  puts stderr "Conversion to format $format unsupported."
 		}
@@ -879,7 +885,7 @@ proc StartWith {argv} {
 		exit
 	      }
 	      #CloseTrans -nosave 
-	      set ext [lindex [set ::convert::${format}::ext] 0]
+	      set ext [lindex [set ${nsformat}::ext] 0]
 	      puts stderr "Converting .trs files to $format format ($ext):"
 	      set nb 0
 	      while {[set name [lindex $argv [incr i]]] != ""} {
@@ -896,7 +902,7 @@ proc StartWith {argv} {
 		  if {[set msg [NormalizeTrans]] != ""} {
 		    puts -nonewline stderr $msg
 		  }
-		  convert::${format}::export [file tail [file root $name]]$ext
+		  ${nsformat}::export [file tail [file root $name]]$ext
 		  incr nb
 		} err]} {
 		  puts stderr "error with $name: $err ($::errorInfo)"
