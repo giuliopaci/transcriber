@@ -282,7 +282,10 @@ proc ReadTrans {name {soundFile ""} {multiwav {}}} {
    }
    InitModif
    GetVersion
-   NormalizeTrans
+   if {[set msg [NormalizeTrans]] != ""} {
+     tk_messageBox -message $msg -title [Local "File format checking"] -type ok -icon error
+     puts stderr $msg
+   }
    DisplayTrans
    TraceOpen
 
@@ -586,8 +589,11 @@ proc TransInfo {} {
 
 proc NormalizeTrans {} {
    global v
+   set msg ""
 
    if {![info exist v(trans,root)] || $v(trans,root)==""} return
+   DisplayMessage [Local "Checking temporal consistency..."]; update
+
    set episode [$v(trans,root) getChilds "element" "Episode"]
 
    # Contrain sections to be a partition of the episode
@@ -598,10 +604,16 @@ proc NormalizeTrans {} {
        set t2 [$sec getAttr "startTime"]
        if {$t2 < $t1} {
 	 $sec setAttr "startTime" $t1
+	 append msg "shifted start time of overlapping section $t2 -> $t1\n"
        } elseif {$t2 > $t1} {
 	 ::xml::element "Section" [list "type" "nontrans" "startTime" $t1 "endTime" $t2] -before $sec
+	 #append msg "inserted new section between $t1-$t2\n"
        }
        set t1 [$sec getAttr "endTime"]
+       # detect inconsistency in sections
+       if {$t1 <= $t2} {
+	 append msg "WARNING - section interval inconsistency $t2-$t1\n"
+       }
      }
      # Don't add a new section up to the end, because we will synchronize
      # the last breakpoint to the end of signal - else it would be done with:
@@ -619,17 +631,25 @@ proc NormalizeTrans {} {
 	  set t2 [$turn getAttr "startTime"]
 	  if {$t2 < $t1} {
 	    $turn setAttr "startTime" $t1
+	    append msg "shifted start time of overlapping turn $t2 -> $t1\n"
 	  } elseif {$t2 > $t1} {
 	    ::xml::element "Turn" [list "startTime" $t1 "endTime" $t2] \
 		-before $turn
+	    #append msg "inserted new turn between $t1-$t2\n"
 	  }
 	  set t1 [$turn getAttr "endTime"]
+	  # detect inconsistency in turns
+	  if {$t1 <= $t2} {
+	    append msg "WARNING - turn interval inconsistency $t2-$t1\n"
+	  }
 	}
 	set t2 [$sec getAttr "endTime"]
 	if {$t2 < $t1} {
 	  $turn setAttr "endTime" $t2
+	  append msg "shifted end time of overlapping turn $t1 -> $t2\n"
 	} elseif {$t2 > $t1} {
 	  ::xml::element "Turn" [list "startTime" $t1 "endTime" $t2] -in $sec
+	  #append msg "inserted new turn between $t1-$t2\n"
 	}
       }
 
@@ -641,6 +661,7 @@ proc NormalizeTrans {} {
 	    ::xml::element "Sync" [list "time" $t1] -begin $turn
 	 }
 	 if {$sync != "" && [$sync getAttr "time"] < $t1} {
+	   append msg "shifted synchro [$sync getAttr time] -> $t1\n"
 	   $sync setAttr "time" $t1
 	 }
 	 # Create data between non-contiguous breakpoints
@@ -662,6 +683,11 @@ proc NormalizeTrans {} {
 		      && [$data getAttr "nb"] == 1))} {
 		     ::xml::data "" -after $elem
 	       }
+	    } else {
+	      if {$t2 < $t1} {
+		# detect inconsistency in times
+		append msg "WARNING - element time inconsistency at $t2\n"
+	      }
 	    }
 	    set t1 $t2
 	 }
@@ -674,6 +700,7 @@ proc NormalizeTrans {} {
 	 }
       }
    }
+   return $msg
 }
 
 ################################################################
