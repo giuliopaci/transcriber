@@ -32,7 +32,7 @@ exec wish "$0" ${1:+"$@"}
 proc Main {argv} {
    global v
 
-   wm title . "Transcriber 1.4.5"
+   wm title . "Transcriber 1.4.6"
    wm protocol . WM_DELETE_WINDOW { Quit }
 
    InitDefaults $argv
@@ -822,7 +822,11 @@ proc StartWith {argv} {
 	    "-lbl" - "-lab*" {
 	      # open a segmentation layer for a lbl file
 	      set name [lindex $argv [incr i]]
-	      if {![file readable $name] || [LookForLabelFormat $name] == ""} {
+	      if {![file readable $name]} {
+		puts stderr "could not read $name"
+		exit
+	      }
+	      if {[LookForLabelFormat $name] == ""} {
 		puts stderr "$name is not a valid label file with extension in: $v(ext,lbl)"
 		exit
 	      }
@@ -833,7 +837,7 @@ proc StartWith {argv} {
 	      # (see tcl/Socket.tcl code for more details)
 	      uplevel \#0 {source [file join $v(path,tcl) Socket.tcl]}
 	    }
-	    "-convertto" {
+	    "-export" - "-convertto" {
 	      # convert a set of trs files to given format, if export filter available
 	      # syntax: trans -convertto {stm|html|...} *.trs
 	      # resulting files are stored in current directory
@@ -909,15 +913,15 @@ with command line options:
     -socket                 Enable external scripting through sockets
 
    filename(s) may be either a transcription, a signal file or both files.
-   If several signal files are given, the multiwav function is activated.
+   If several signal files are given, the multiwav mode is activated.
 
    
 Alternative syntax:
 
-    trans -convertto format filename ...
+    trans -export format filename ...
 
   converts a set of transcription files in the .trs format to the format
-  given, then exits. Type trans -convertto for a list of supported formats.
+  given, then exits. Type 'trans -export' for a list of supported formats.
 
 
 Further documentation available online (Help menu) or on the Web site:
