@@ -393,6 +393,9 @@ namespace eval stm {
 	if {$oldtime >= $t1} {
 	  puts stderr "WARNING - non-positive stm segment $oldtime-$t1 in $base.stm"
 	}
+	if {[string first "inter_segment_gap" $head] >= 0 } {
+	  puts stderr "WARNING - transcription for no-speaker stm segment $oldtime-$t1 in $base.stm"	
+	}
       }
     }
     set head ""
