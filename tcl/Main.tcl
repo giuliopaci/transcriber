@@ -312,6 +312,7 @@ proc InitDefaults {} {
 proc LoadOptions {fileName {keep 0}} {
    global v
 
+   readEncoding $fileName
    catch {
       set f [open $fileName r]
       while {[gets $f oneline]>=0} {
@@ -332,6 +333,7 @@ proc LoadOptions {fileName {keep 0}} {
       }
       close $f
    }
+   restoreEncoding
 }
 
 proc SaveOptions {{fileName ""}} {
@@ -340,9 +342,10 @@ proc SaveOptions {{fileName ""}} {
    if {$fileName == ""} {
       set fileName $v(file,user)
    }
+   # write options using default system encoding
    set f [open $fileName w]
    set v(geom,.) [wm geom .]
-   puts $f "\# Options for Transcriber saved on [clock format [clock seconds]]"
+   puts $f "\# Options for Transcriber saved on [clock format [clock seconds]][writeEncoding]"
    set old ""
    foreach {var def} $v(options,list) {
       if {$v($var) != $def} {
@@ -362,10 +365,58 @@ proc SaveOptions {{fileName ""}} {
 
 ################################################################
 
-proc LoadLocal {fileName} {
-   global v
+# Use encoding informations for reading/writing configuration
+# and localization files
 
-   uplevel \#0 [list source $fileName]
+# switch system to encoding used for saving a file
+# (necessary for sourcing a file, where fconfigure is not possible)
+# need to call restoreEncoding after saving
+proc readEncoding {fileName} {
+  catch {
+    if {![info exists ::defaultEncoding]} {
+      set ::defaultEncoding [encoding system]
+    }
+    set f [open $fileName]
+    set line [gets $f]
+    close $f
+    if {[regexp "encoding (\[^ \]+)" $line all enc]} {
+      encoding system $enc
+    }
+  }
+}
+
+# switch system to chosen encoding for saving a file
+# return a string message to put in the header of the file
+# need to call restoreEncoding after writing if encoding not empty
+proc writeEncoding {{enc ""}} {
+  set msg ""
+  catch {
+    if {$enc != ""} {
+      if {![info exists ::defaultEncoding]} {
+	set ::defaultEncoding [encoding system]
+      }
+      encoding system $enc
+    }
+    set msg " with encoding [encoding system]"
+  }
+  return $msg
+}
+
+# restore default system encoding
+proc restoreEncoding {} {
+   catch {
+     encoding system $::defaultEncoding
+   }
+}
+
+################################################################
+
+proc LoadLocal {fileName} {
+  global v
+
+  readEncoding $fileName
+  uplevel \#0 [list source $fileName]
+  restoreEncoding
 }
 
 proc EditLocal {{only_empty 0}} {
@@ -411,8 +462,10 @@ proc SaveLocal {} {
    if {$v(file,local) == ""} {
       return
    }
+   # save localization file using UTF-8 encoding if possible
+   set enc [writeEncoding "utf-8"]
    set f [open $v(file,local) w]
-   puts $f "\# Localization for Transcriber saved on [clock format [clock seconds]]"
+   puts $f "\# Localization for Transcriber saved on [clock format [clock seconds]]$enc"
    foreach locvar [info globals local_*] {
       puts $f "\narray set $locvar \{"
       foreach nam [lsort -dictionary [array names ::$locvar]] {
@@ -421,6 +474,7 @@ proc SaveLocal {} {
       puts $f "\}\n"
    }
    close $f
+   restoreEncoding
 }
 
 # Usage: Local "Message in english"

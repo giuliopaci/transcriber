@@ -1,4 +1,4 @@
-# Default configuration for Transcriber
+# Default configuration for Transcriber - read with encoding iso8859-1
 #  -*-tcl-*-
 				     
 # Personal configuration will be saved upon request in the following file:
