@@ -27,7 +27,7 @@ proc CreateTextFrame {f {top 0}} {
 	    }}
 	}
     }
-    set v(tk,edit) [text $f.txt -wrap word  -width 80 -height 8 \
+    set v(tk,edit) [text $f.txt -wrap word  -width 40 -height 8 \
 			-fg $v(color,fg-text) -bg $v(color,bg-text) \
 			-font text -yscrollcommand [list $f.ysc set]]
     scrollbar $f.ysc -orient vertical -command [list $f.txt yview]
