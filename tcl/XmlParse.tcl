@@ -169,7 +169,7 @@ namespace eval ::xml::parser {
       # the current one, else the given subset will be read
       if {$conf(-keepdtd)} {
 	 set dtdname [::xml::dtd::name]
-	 if {[file tail $dtdname] != [file tail $syst]} {
+	 if {$conf(-keepdtd) != 3 && [file tail $dtdname] != [file tail $syst]} {
 	    if {$conf(-keepdtd) == 2} {
 	      parse_error "External DTD '$syst' doesn't match requested '$dtdname'"
 	    } else {

@@ -401,7 +401,7 @@ namespace eval speaker {
       set pref "import_"
       ::xml::dtd::id::set_prefix $pref
       if {[catch {
-	  set spktree [::xml::parser::read_file $filename -keepdtd 1]
+	  set spktree [::xml::parser::read_file $filename -keepdtd 3]
       } err]} {
 	 ::xml::dtd::id::set_prefix ""
 	  return -code error -errorinfo $::errorInfo "Couldn't import speakers from $filename"
@@ -481,7 +481,7 @@ namespace eval speaker {
 	set pref "maj_"
 	::xml::dtd::id::set_prefix $pref
 	if {[catch {
-	    set spktree [::xml::parser::read_file $filename -keepdtd 1]
+	    set spktree [::xml::parser::read_file $filename -keepdtd 3]
 	} err]} {
 	    ::xml::dtd::id::set_prefix ""
 	    return -code error -errorinfo $::errorInfo "Couldn't import global speakers from $filename"
@@ -589,7 +589,7 @@ namespace eval speaker {
 	
 	
 	if {[catch {
-	    set spktree [::xml::parser::read_file $filename -keepdtd 1]
+	    set spktree [::xml::parser::read_file $filename -keepdtd 3]
 	} err]} {
 	    ::xml::dtd::id::set_prefix ""
 	    return -code error -errorinfo $::errorInfo "Couldn't import speakers from $filename"

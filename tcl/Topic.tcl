@@ -225,7 +225,7 @@ namespace eval topic {
       set pref "import_"
       ::xml::dtd::id::set_prefix $pref
       if {[catch {
-	 set tpctree [::xml::parser::read_file $filename -keepdtd 1]
+	 set tpctree [::xml::parser::read_file $filename -keepdtd 3]
       } err]} {
 	 ::xml::dtd::id::set_prefix ""
 	 return -code error -errorinfo $::errorInfo "Couldn't import topics from $filename"
