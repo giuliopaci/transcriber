@@ -281,6 +281,14 @@ proc PlayCurrentSegmt {} {
    Play
 }
 
+proc PlayNextSegmt {} {
+   global v
+
+   TextNextSync +1
+   set v(playbackSegmt) 1
+   Play
+}
+
 #################################################################
 # Play a little part of signal before and after cursor position
 

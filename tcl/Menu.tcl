@@ -226,6 +226,7 @@ proc InitMenus {} {
       {"Signal" -underline 0	cascade {
 	 {"Play/Pause"		cmd {PlayOrPause} -bind "Tab"}
 	 {"Play segment"	cmd {PlayCurrentSegmt} -bind "Shift-Tab"}
+	 {"Play next segment"	cmd {PlayNextSegmt} -bind "Ctrl-Return"}
 	 {"Play around cursor"	cmd {PlayAround} -bind "Alt-space"}
 	 {"Playback mode"		cascade {
 	    {"Continuous playback"	radio {v(playbackMode) "continuous"}}
