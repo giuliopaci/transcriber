@@ -54,6 +54,9 @@ proc CreateWidgets {} {
    CreateTextFrame .edit
    CreateCommandFrame .cmd
    set v(tk,wavfm) [CreateSoundFrame .snd]
+   if {!$v(view,.edit)} {
+     pack configure .snd -expand true
+   }
    #CreateGainFrame .gain
    if {$v(view,.snd2)} {
       CreateSoundFrame .snd2
