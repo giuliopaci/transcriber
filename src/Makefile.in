@@ -27,6 +27,12 @@ libtrans${SHLIB_SUFFIX}: ${OBJS}
 	sed s/.dll/${SHLIB_SUFFIX}/ < pkgIndex.tcl.dll > pkgIndex.tcl
 
 install:
+	@if [ ! -d ${TRANS_LIB} ] ; then \
+	    mkdir ${TRANS_LIB}  ; \
+	fi;
+	@if [ ! -d ${TRANS_BIN} ] ; then \
+	    mkdir ${TRANS_BIN}  ; \
+	fi;
 	@if [ ! -d ${TRANS_LIB_DIR} ] ; then \
 	    mkdir ${TRANS_LIB_DIR} ${TRANS_LIB_DIR}/tcl ${TRANS_LIB_DIR}/convert; \
 	    chmod 755 ${TRANS_LIB_DIR} ${TRANS_LIB_DIR}/tcl ${TRANS_LIB_DIR}/convert; \
