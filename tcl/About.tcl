@@ -70,11 +70,13 @@ proc ViewHelp {{name "Index"}} {
    } elseif {[catch {
       exec iexplore $url &
    }] && [catch {
-      exec "c:\\Program Files\\Internet Explorer\\IEXPLORE.EXE" $url
+	exec "C:\\Program Files\\Internet Explorer\\IEXPLORE.EXE" $url	
    }] && [catch {
       exec netscape -remote "openFile ($url)"
    }] && [catch {
       exec netscape $url &
+   }] && [catch {
+      exec mozilla $url &
    }]} {
       # Switch back to a page without frames for the Tcl HTML viewer
       set arr(Index) "about.html"
