@@ -1,6 +1,6 @@
 #!/bin/sh
 #  -*-tcl-*-\
-exec wish "$0" ${1:+"$@"}
+exec tclsh "$0" ${1:+"$@"}
 
 # RCS: @(#) $Id$
 
@@ -17,7 +17,7 @@ exec wish "$0" ${1:+"$@"}
 # to make signal display at low resolutions go faster within Transcriber.
 
 # load snack and trans packages.
-set base [file dir [file dir [info script]]]
+set base [file dir [file dir [file join [pwd] [info script]]]]
 lappend auto_path $base [file dir $base]
 set vsnack [package require snack]
 if {[package vcompare $vsnack 1.7] < 0} {
@@ -26,7 +26,9 @@ if {[package vcompare $vsnack 1.7] < 0} {
 catch {
   package require snacksphere
 }
-package require trans 1.5
+catch {
+  package require snackogg
+}
 
 proc Main {sigName shapeName {rate 16000} {channels 1} {header 0}} {
   sound s -file $sigName -guessproperties 1 -frequency $rate -channels $channels -skiphead $header
@@ -34,8 +36,8 @@ proc Main {sigName shapeName {rate 16000} {channels 1} {header 0}} {
   s shape shp -format MULAW
   shp write $shapeName -fileformat WAV
   puts $shapeName
-  #exit
-  destroy .
+  catch {destroy .}
+  exit
 }
 
 eval Main $argv
