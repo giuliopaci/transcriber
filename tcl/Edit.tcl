@@ -738,7 +738,6 @@ proc Find {} {
    if ![winfo exists $w] {
       toplevel $w
       wm title $w [Local "Find and replace"]
-      wm attributes $w -topmost 1
       set v(find,what) ""
       set v(find,direction) "-forward"
       set v(find,case) "-nocase"
