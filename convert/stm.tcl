@@ -210,7 +210,7 @@ namespace eval stm {
 			set spk [string trim $spk "_"]
 			# prefix local names by file id
 			if {$scope != "global" && ![string match ${base}* $spk]} {
-			    set spki "${base}_$spk"
+			    set spk "${base}_$spk"
 			} 
 		} else {
 		    # exclude overlapping speech from stm
