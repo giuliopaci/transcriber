@@ -316,6 +316,11 @@ proc ReadTrans {name {soundFile ""} {multiwav {}}} {
      eval MW_AddFile $multiwav
      UpdateFilename
    }
+   # trace if the name of the dtd has been updated to do like if the transcription have been modified
+#   if { [info exists ::xml::parser::modifdtd] && $::xml::parser::modifdtd == "1" } {
+#       set v(trans,modif) 1
+#       RegisterAutoSave 
+#   }
 }
 
 proc setChatMode {newMode} {
@@ -465,6 +470,19 @@ proc NewTrans {{soundFile ""} {multiwav {}}} {
 proc SaveTrans {{as ""} {format ""}} {
    global v
 
+    if { [info exists ::xml::parser::modifdtd] && $::xml::parser::modifdtd == "1" } {
+	set rep [tk_messageBox -message [Local "This file is formated for older version of Transcriber (<1.4.7).\nExport to new format ?\n\n\"yes\" will export to new format and make your file only usable with Transcriber-1.4.7 or higher (recommended).\n\n\"no\" will keep the original format."] -type yesnocancel -icon question]
+	switch $rep {
+	    cancel { return }
+	    yes    {
+		set ::xml::parser::modifdtd 0
+	    }
+	    no {
+		set ::xml::parser::modifdtd 0
+		set ::xml::dtd::name  [file join $v(path,etc)  "$::xml::parser::olddtd"]
+	    }
+	}
+    }
    if {[GetSegmtNb seg0] <= 0} return
    if {$format == ""} {
       set format "trs"
@@ -518,9 +536,24 @@ proc SaveTrans {{as ""} {format ""}} {
    return $name
 }
 
+
 proc SaveIfNeeded {} {
    global v
 
+    if { [info exists ::xml::parser::modifdtd] && $::xml::parser::modifdtd == "1" } {
+	set rep [tk_messageBox -message [Local "This file is formated for older version of Transcriber (<1.4.7).\nExport to new format ?\n\n\"yes\" will export to new format and make your file only usable with Transcriber-1.4.7 or higher (recommended).\n\n\"no\" will keep the original format."] -type yesnocancel -icon question]
+	switch $rep {
+	    cancel { return -code error cancel }
+	    yes    {
+		set ::xml::parser::modifdtd 0
+		if {[SaveTrans]==""} {return -code error cancel}
+	    }
+	    no {
+		set ::xml::parser::modifdtd 0
+		set ::xml::dtd::name  [file join $v(path,etc)  "$::xml::parser::olddtd"]
+	    }
+	}
+    }
    if {[HasModifs]} {
       set answer [tk_messageBox -message [Local "Transcription has been modified - Save before closing?"] -type yesnocancel -icon question]
       switch $answer {

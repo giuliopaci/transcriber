@@ -163,7 +163,14 @@ namespace eval ::xml::parser {
       set syst [unquote $syst]
       if {$publ != ""} {
       } elseif {$syst != ""} {
-	 set syst [file join [file dirname $conf(-filename)] $syst]
+	  # if the dtd used in the trs file is under trans-14.dtd change it for compatibility with transcriber 1.4.7
+	  variable olddtd $syst
+	  regexp {trans\-([0-9]+).*} $syst all dtdnum
+	  if { $dtdnum < 14 } {
+	      regsub {[0-9]+} $syst {14} syst
+	      variable modifdtd 1
+	  }
+	  set syst [file join [file dirname $conf(-filename)] $syst]
       }
       # If asked to keep current DTD, verify external DTD filename matches
       # the current one, else the given subset will be read
@@ -188,7 +195,7 @@ namespace eval ::xml::parser {
       [lexer current] end
       [lexer current] begin dtd-decl
    }
-   
+
    # start of internal subset
    lappend rules {dtd-decl} "\\\[" {} {
       if {$conf(-keepdtd)} {

@@ -250,7 +250,7 @@ proc InitDefaults {argv} {
    set v(path,image) [file join $v(path,base) "img"]
    set v(path,doc)   [file join $v(path,base) "doc"]
    set v(path,etc)   [file join $v(path,base) "etc"]
-   set v(file,dtd)   [file join $v(path,etc)  "trans-13.dtd"]
+   set v(file,dtd)   [file join $v(path,etc)  "trans-14.dtd"]
 
    # Read values from default configuration file
    set v(file,default) [file join $v(path,etc) "default.txt"]

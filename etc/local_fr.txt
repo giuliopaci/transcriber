@@ -966,6 +966,16 @@ Text
 	{Le texte "%s" sera automatiquement étiqueté - Continuer ?}
 {The text "%s" tagged with "%s" will be automaticaly untagged - Continue ?}
 	{Le texte "%s" étiquetté avec "%s" sera automatiquement désétiqueté - Continuer ?}
+{This file is formated for older version of Transcriber (<1.4.7).
+Export to new format ?
+
+"yes" will export to new format and make your file only usable with Transcriber-1.4.7 or higher (recommended).
+
+"no" will keep the original format.}
+			  {Ce fichier est au format d'une plus ancienne version de Transcriber (< 1.4.7).
+			  Exporter au nouveau format ?
+			  "oui" exporte au nouveau format et rend votre fichier seulement utilisable avec Transcriber-1.4.7 ou plus récent (recommandé).
+			  "non" conserve le format original.}
 Time
 	Temps
 top
