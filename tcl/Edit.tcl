@@ -28,8 +28,8 @@ proc CreateTextFrame {f {top 0}} {
 	}
     }
     set v(tk,edit) [text $f.txt -wrap word  -width 40 -height 8 \
-			-fg $v(color,fg-text) -bg $v(color,bg-text) \
-			-font text -yscrollcommand [list $f.ysc set]]
+		        -fg $v(color,fg-text) -bg $v(color,bg-text) \
+		        -font text -yscrollcommand [list $f.ysc set]]
     scrollbar $f.ysc -orient vertical -command [list $f.txt yview]
     pack $f.txt -side left -fill both -expand true
     pack $f.ysc -side right -fill y
@@ -212,7 +212,8 @@ proc CreateSectionButton {section} {
        -text $name -width [max 20 [string length $name]] \
        -cursor top_left_arrow \
        -activeforeground $v(color,fg-sect) -fg $v(color,fg-sect) \
-       -activebackground $v(color,bg-sect) -bg $v(color,bg-sect)
+       -activebackground $v(color,bg-sect) -bg $v(color,bg-sect) \
+       -font $v(font,section)
    return $button
 }
 
@@ -272,7 +273,8 @@ proc CreateTurnButton {turn} {
        -text $name -anchor w -padx 1m -pady 0 \
        -cursor top_left_arrow \
        -activeforeground $v(color,fg-turn) -fg $v(color,fg-turn) \
-       -activebackground $v(color,bg-turn) -bg $v(color,bg-turn)
+       -activebackground $v(color,bg-turn) -bg $v(color,bg-turn) \
+       -font $v(font,speaker)
    return $button
 }
 
@@ -465,8 +467,8 @@ proc TextFilter {t option args} {
 	      set nbSelectLines [expr {$LastLine - $FirstLine +1}]
 	      if  { $nbSelectLines > 1  } {
 		  set choice [tk_messageBox -type yesno -default no -message \
-				  [Local "You have selected several lines. Confirm their deletion ?"] \
-				  -icon question ]
+		                  [Local "You have selected several lines. Confirm their deletion ?"] \
+		                  -icon question ]
 		  
 		  if { $choice == "no" } { return }
 	      }
@@ -488,20 +490,20 @@ proc TextFilter {t option args} {
 		  set elem [lindex $tags [lsearch -glob $tags "*element*"]]
 		  if {$elem != ""} {
 		      switch [$elem getType] {
-			"Background" {
-			  #set idx [$t index $elem.first]
-			  #SuppressBackground $elem
-			}
-			"Event" - "Comment" {
-			  set idx [$t index $elem.first]
-			  SuppressEvent $elem
-			}
-			default {
-			  if {[info commands ::tag::[$elem getType]::suppress] != {}} {
-			    set idx [$t index $elem.first]
-			    SuppressOther $elem
-			  }
-			}
+		        "Background" {
+		          #set idx [$t index $elem.first]
+		          #SuppressBackground $elem
+		        }
+		        "Event" - "Comment" {
+		          set idx [$t index $elem.first]
+		          SuppressEvent $elem
+		        }
+		        default {
+		          if {[info commands ::tag::[$elem getType]::suppress] != {}} {
+		            set idx [$t index $elem.first]
+		            SuppressOther $elem
+		          }
+		        }
 		      }
 		  } else {
 		      set data [GetDataFromPos "$idx+1c"]
@@ -509,7 +511,7 @@ proc TextFilter {t option args} {
 		      # Update corresponding segment
 		      if {$data != ""} {
 		     # Display text on transcription and segmentation 
-			  ModifyText $data
+		          ModifyText $data
 		      }
 		  }
 	      }
@@ -938,7 +940,7 @@ proc CheckTerminator {t} {
     tkTextSetCursor $t $oldcursor
     if {$found != 1} {
 	tk_dialog .my_errormsg "Terminator not valid" \
-        "The terminator is not valid for CHILDES format" ""  0 "Ok"
+	"The terminator is not valid for CHILDES format" ""  0 "Ok"
 	
     }
 
