@@ -81,6 +81,9 @@ namespace eval stm {
   proc export {name} {
     global v
 
+    # export any 'event'?
+    setdef v(exportEvent) false
+
     variable head ""
     variable bgTime ""
     variable bgLvl "off"
@@ -266,19 +269,19 @@ namespace eval stm {
 		}
 		switch $extn {
 		  "previous" {
-		    if {$type == "noise"} {
+		    if {$type == "noise" || $v(exportEvent)} {
 		      if {[regexp {(.* )([^ ]+) *} $txt all txt prv]} {
 			append txt "$f(begin) $prv $f(end)"
 		      }
 		    }
 		  }
 		  "next" {
-		    if {$type == "noise"} {
+		    if {$type == "noise" || $v(exportEvent)} {
 		      set nxt "$f(begin) %s $f(end)"
 		    }
 		  }
 		  "begin" - "end" - "instantaneous" {
-		    if {$type == "noise" || $type == "language"} {
+		    if {$type == "noise" || $type == "language"|| $v(exportEvent)} {
 		      append txt $f($extn)
 		    } elseif {$type == "pronounce" && $extn == "instantaneous"
 			      && ($desc == "pi" || $desc == "pif")} {
