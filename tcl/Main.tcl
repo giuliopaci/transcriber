@@ -787,6 +787,12 @@ proc StartWith {argv} {
 	      set value [lindex $argv [incr i]]
 	      set v(varname) $value
 	    }
+	    "-debug" {
+	      set v(debug) 1
+	    }
+	    "-demo" {
+	      set v(demo) 1
+	    }
 	    "-noshape" {
 	       set v(shape,wanted) 0
 	    }
@@ -795,8 +801,12 @@ proc StartWith {argv} {
 		 SwitchTextFrame
 	       }
 	    }
-	    "-debug" {set v(debug) 1}
-	    "-demo" {set v(demo) 1}
+	    "-sig2" {
+	      if {!$v(view,.snd2)} {
+		CreateSoundFrame .snd2
+		set v(view,.snd2) 1
+	      }
+	    }
 	    "-patch" {
 	       set path [lindex $argv [incr i]]
 	       if {![file exists $path]} {
@@ -809,7 +819,7 @@ proc StartWith {argv} {
 		  uplevel \#0 [list source $file]
 	       }
 	    }
-	    "-lbl" - "-lab*" - "-seg*" {
+	    "-lbl" - "-lab*" {
 	      # open a segmentation layer for a lbl file
 	      set name [lindex $argv [incr i]]
 	      set ext [string tolower [file extension $name]]
@@ -879,8 +889,51 @@ proc StartWith {argv} {
             "-psn*" { 
 	      # id sent by Mac OS X, to be ignored
 	    }
+	    "-h" - "-help" {
+	      puts stderr {
+Transcriber - a free tool for segmenting, labeling and transcribing speech.
+
+Syntax:
+
+    trans \[options\] filename(s) ...
+
+with command line options:
+
+    -cfg filename           Override default configuration file
+    -debug                  Add debug options in the help menu
+    -h/-help                This message
+    -lbl/-label filename    Display labels under the signal (may be repeated)
+    -noshape                Disable signal shape mechanism
+    -notext                 Disable display of text editor
+    -patch filename         Execute tcl script at startup
+    -set option value       Override an option of the configuation file
+    -sig2                   Enable display of second signal view
+    -socket                 Enable external scripting through sockets
+
+   filename(s) may be either a transcription, a signal file or both files.
+   If several signal files are given, the multiwav function is activated.
+
+   
+Alternative syntax:
+
+    trans -convertto format filename ...
+
+  converts a set of transcription files in the .trs format to the format
+  given, then exits. Type trans -convertto for a list of supported formats.
+
+
+Further documentation available online (Help menu) or on the Web site:
+
+  http://www.etca.fr/CTA/gip/Projets/Transcriber/
+}
+               exit
+	    }
+            "--" {
+	      # should not be passed by wish
+            }
 	    "-*" {
-	       return -code error "unsupported command line option $val"
+	       puts stderr "unsupported command line option $val (try -help)."
+ 	       exit
 	    }
 	    default {
 	       # Audio and transcription given on command line
@@ -895,7 +948,8 @@ proc StartWith {argv} {
 		   lappend multiwav $val
 		 }
 	       } else {
-		  return -code error "unknown format for file $val"
+		  puts stderr "unknown format for file $val"
+                  exit
 	       }
 	    }
 	 }
@@ -903,7 +957,7 @@ proc StartWith {argv} {
    }
 
    # Default values if none was given on command line
-   if {$sig=="" && $trans == ""} {
+   if {$sig=="" && $trans == "" && $lbls == {}} {
       if {[file readable $v(sig,name)]} {
 	set sig $v(sig,name)
 	set multiwav $v(multiwav,path)
@@ -938,6 +992,9 @@ proc StartWith {argv} {
       if {$sig != ""} {
 	 NewTrans $sig $multiwav
       } else {
+	 if {$lbls != {}} {
+	   set v(trans,path) [file dir [lindex $lbls 0]]
+	 }
 	 OpenTransOrSoundFile
       }
    }
