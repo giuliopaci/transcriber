@@ -11,8 +11,8 @@ proc SpellChecking {} {
 
    if {$::tcl_platform(os) == "Darwin"} {
      tk_messageBox -type ok -icon error -message \
-        [Local "Sorry, spell checker not available on this platform"]
-        return
+	[Local "Sorry, spell checker not available on this platform"]
+	return
    }
 
    OpenAspell
@@ -91,14 +91,14 @@ proc SpellLoop {} {
       if {[regexp {\(|\)} $wrd]} continue
 
       # skip frequent French or Italian words with apostrophe
-      set FrenchApostr "c|d|j|l|m|n|qu|s|t|ç|jusqu|lorsqu|puisqu"
-      set ItalianApostr "l|dell|all|d|un|c|nell|dall|sull|s|quest|quell|com|anch|tutt|n|vent|mezz|trent|sant|dov|cos|senz|dev|m|cinquant|quarant|tant|bell|quand|gliel|nient|cent|quant|ventiquattr|sessant|del|sott|settant|t|ch|qualcos|v|nel|gl|ottant|nessun|quattr|prim|terz|quart|novant|null|foss|buon|fors|degl|grand|al|quarantott|il|diciott|ultim|second|coll|pover|pier|quint|neanch|brav|altr"
+   #   set FrenchApostr "c|d|j|l|m|n|qu|s|t|ç|jusqu|lorsqu|puisqu"
+   #   set ItalianApostr "l|dell|all|d|un|c|nell|dall|sull|s|quest|quell|com|anch|tutt|n|vent|mezz|trent|sant|dov|cos|senz|dev|m|cinquant|quarant|tant|bell|quand|gliel|nient|cent|quant|ventiquattr|sessant|del|sott|settant|t|ch|qualcos|v|nel|gl|ottant|nessun|quattr|prim|terz|quart|novant|null|foss|buon|fors|degl|grand|al|quarantott|il|diciott|ultim|second|coll|pover|pier|quint|neanch|brav|altr"
 
-      if {($v(spell,lang) == "french" && [regexp -nocase "^($FrenchApostr)'(.*)" $wrd all art wrd]) || ($v(spell,lang) == "italian" && [regexp -nocase "^($ItalianApostr)'(.*)" $wrd all art wrd])} {
-         set l [expr [string length $art]+1]
-         set pos [${t}-bis index "$pos + $l chars"]
-         if {$wrd == ""} continue
-      }
+   #   if {($v(spell,lang) == "french" && [regexp -nocase "^($FrenchApostr)'(.*)" $wrd all art wrd]) || ($v(spell,lang) == "italian" && [regexp -nocase "^($ItalianApostr)'(.*)" $wrd all art wrd])} {
+   #      set l [expr [string length $art]+1]
+   #      set pos [${t}-bis index "$pos + $l chars"]
+   #      if {$wrd == ""} continue
+   #   }
 
       # highlight current word
       ${t}-bis tag add spell $pos insert
@@ -108,7 +108,6 @@ proc SpellLoop {} {
       if {!$v(spell,names) && [regexp "^\[A-Z]" $wrd]} continue
 
       if {$wrd != ""} {
-	 incr v(spell,count)
 	 # just to see from time to time where we are
 	 if {[expr $v(spell,count) % 50] == 0} {
 	    ${t}-bis see insert
@@ -117,16 +116,9 @@ proc SpellLoop {} {
 	 # let user choose to keep/modify unknown word
 	 if {![SpellOneWrd $wrd]} {
 
-	    # Accept any concatenation of existing words.
-	    set lst [split $wrd "-"]
-	    if {[llength $lst] > 1} {
-	       set ok 1
-	       foreach subwrd $lst {
-		  if {![SpellOneWrd $subwrd]} {
-		     set ok 0
-		  }
-	       }
-	       if {$ok} continue
+	    # Accept word concatenation with more than 1 hyphen, but if 1 subwrd is misspelled no guess is proposed.
+	    if { [regsub -all {\--} $wrd " " tmp] > 0} {
+		set v(spell,miss) {} 
 	    }
 
 	    $t mark set insert "insert"
@@ -134,7 +126,7 @@ proc SpellLoop {} {
 	    set v(spell,new) $wrd
 	    SpellUpdate
 	    return
-	 }
+	  }
       }
    }
 }
@@ -157,9 +149,6 @@ proc SpellUpdate {} {
 
 proc SpellWindow {} {
     global v
-
-
-
 
     set w .spell
     if ![winfo exists $w] {
@@ -276,53 +265,104 @@ proc SpellClose {} {
    catch {wm withdraw .spell}
 }
 
-# Check one word via aspell
-# Output: 1 if OK, 0 if wrong => word lists in v(spell,miss) / v(spell,guess)
-# called by SpellLoop
 proc SpellOneWrd {wrd} {
+# Job: Check one word via aspell
+#
+# In some Aspell dictionnaries (for example english) hyphen-words are considered as several words. 
+# So, when spell checked, Aspell outputs an answer per word checked. That point is handled in that procedure.
+# Moreover, if in an hyphen-word more than 1 subword in misspelled then no guess will be displayed
+#
+# Input: the work to spellcheck
+# Output: 1 if OK, 0 if wrong => word lists in v(spell,miss) / v(spell,guess)
+#
+# called by SpellLoop
+# 
+# Date: february 11, 2005
+# Author: Mathieu MANTA
    global v
 
-   set wrd [string trim $wrd -']
+   set wrd [string trim $wrd '-']
    if {$wrd == ""} {
       return 1
    }
 
-   # get aspell answer
+   # Ask Aspell to spellcheck $wrd
    puts $v(spell) $wrd
-   set ans [gets $v(spell)]
-   gets $v(spell)
+
+   # Get Aspell answer(s), 1 line per word checked
+   # With some diccionaries Aspell may reply 1 line per sub-word of an hyphen word
+   while { [set line [gets $v(spell)]] != "" } {
+	  lappend lstLines $line
+	   # increment Nb of words checked by Aspell
+	  incr v(spell,count)
+   }
+
+   set lstWrd [split $wrd "-"]
 
    # analyze aspell answer
    set ok 1
    set count 0
+   set err 0
    set v(spell,miss) {}
-   set v(spell,guess) {}
-   switch [string range $ans 0 0] {
-      "*" - "+" - "-" {
-      }
-      "&" - "?" {
-	 set ok 0
-	 set count [lindex $ans 2]
-	 set lst [split [lindex [split $ans ":"] 1] ","]
-	 foreach w [lrange $lst 0 [expr $count-1]] {
-	    lappend v(spell,miss) [string trim $w]
+
+   set i 0
+   set correct ""
+
+   while { $i < [llength $lstLines]} {
+	set ans [lindex $lstLines $i]
+	switch [ string range $ans 0 0 ] {
+	    "*"  {
+		# word correct
+		if {$err == 1} {
+		    # concatenate the guess and the current correct subword
+		    set correct "[lindex $lstWrd $i]-"
+		    for {set j 0} {$j < [llength $v(spell,miss)]} {incr j} {
+		        set tmpstring ""
+		        lset v(spell,miss) $j [append tmpstring [lindex $v(spell,miss) $j] $correct]
+		    }
+		} else {
+		    # concatenate the last correct string with the correct current word
+		    set correct "$correct[lindex $lstWrd $i]-"
+		    }
+
+
 	 }
-	 foreach w [lrange $lst $count end] {
-	    lappend v(spell,guess) [string trim $w]
+      "&"  {
+	 # word misspelled with guess
+	 incr err
+	 if {$err > 1} {
+	       # to many errors in the hyphen-word, no suggestion will be proposed
+	       set v(spell,miss) {}
+	       return $ok
+		    }
+	 set ok 0
+	 # Nb of guess proposed 
+	 set count [lindex $ans 2]
+	 # list of all guess
+	 set lst [split [lindex [split $ans ":"] 1] ","]
+	 # concatenate former correct subword with guess and add 
+	 foreach w [lrange $lst 0 [expr $count-1]] {
+	    set tmpstring ""
+	    lappend v(spell,miss) [append tmpstring $correct [string trim $w] -]
 	 }
       }
       "\#" {
+	 # word misspelled without guess
+	 set v(spell,miss) {}
 	 set ok 0
+	 return $ok
       }
-      default {
-	 catch {CloseAspell}
-	 error "Unrecognized aspell answer '$ans' for word '$wrd'"
-      }
+	default {
+	    catch {CloseAspell}
+	    error "Unrecognized aspell answer '$ans' for word '$wrd'"
+	}
    }
-   # always accept guesses ?
-   if {[llength $v(spell,guess)] > 0} {
-      #puts "$wrd guessed by $v(spell,guess)"
-      set ok 1
+   incr i
+  }
+
+   # trim "-"  characters that have been added during the concatenation
+   for {set i 0} {$i < [llength $v(spell,miss)]} {incr i} {
+	lset v(spell,miss) $i "[string trim [lindex $v(spell,miss) $i] '-']"
    }
    return $ok
 }
@@ -357,23 +397,23 @@ proc OpenAspell {} {
 
 	if {$::tcl_platform(platform) == "windows"} {
 		if {[catch { set AspellPath [registry get HKEY_LOCAL_MACHINE\\SOFTWARE\\Aspell "Path"]} err ]} {
-            tk_messageBox -type ok -icon error -message [Local "Please, check your Aspell spellchecker installation."]\n($err)
-            OpenURL {aspell.net/win32/}
+	    tk_messageBox -type ok -icon error -message [Local "Please, check your Aspell spellchecker installation."]\n($err)
+	    OpenURL {aspell.net/win32/}
 		    return -code return
 		} else {
-            set CurPwd [pwd]
-            cd $AspellPath
-            set chan [open "| aspell -d $lang pipe" w+]
-            # return in Transcriber directory
-            cd $CurPwd
+	    set CurPwd [pwd]
+	    cd $AspellPath
+	    set chan [open "| aspell -d $lang pipe" w+]
+	    # return in Transcriber directory
+	    cd $CurPwd
 		}
 	}
 
 	if {$::tcl_platform(os) == "Linux"} {
-     	if {[catch { set chan [open "| aspell -d $lang pipe"  w+] }]} {
+	     if {[catch { set chan [open "| aspell -d $lang pipe"  w+] }]} {
 		tk_messageBox -type ok -icon error -message [Local "Sorry, couldn't launch spell checker"]\n($err)
-	 	return -code return
-      	}
+		 return -code return
+	      }
 	}
       fconfigure $chan -buffering line
       if {[gets $chan res] < 0} {
@@ -383,6 +423,7 @@ proc OpenAspell {} {
       }
       set v(spell) $chan
       set v(spell,lang) $lang
+
    }
 }
 
