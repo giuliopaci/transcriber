@@ -54,7 +54,7 @@ proc SwitchSegmtView {wavfm} {
      if {$v(view,$f)} {
        #pack $f -fill x -padx 10 -after $wavfm
        pack $f -fill x -padx 10 -before [winfo parent $wavfm].a
-     } elseif {[winfo ismapped $f]} {
+     } else {
        pack forget $f
      }
    }
