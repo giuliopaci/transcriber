@@ -189,7 +189,9 @@ proc InitMenus {} {
 	 {""}
 	 {"Informations"	cmd {CreateInfoFrame}}
 	 {"Edit episode attributes..."	cmd {EditEpisode}}	
+	 {""}
 	 {"Open audio file..." 	-bind "Ctrl-a"	cmd {OpenAudioFile}}
+	 {"Save audio selection as..."          cmd {SaveAudioSegment as}}
 	 {""}
 	 {"Quit"		-bind "Ctrl-q"	cmd {Quit}}
       }}
@@ -319,7 +321,9 @@ proc InitMenus {} {
 	 {"Colors..."		cmd {ConfigureColors}}
 	 {"Bindings..."		cmd {ConfigureBindings}}
 	 {""}
-	 {"Save configuration"	cmd {SaveOptions}}
+ 	 {"Load configuration file..."	cmd {LoadConfiguration}}
+	 {"Save configuration"		cmd {SaveOptions}}
+ 	 {"Save configuration as..."	cmd {SaveOptions as}}
       }}
       {"Help" -underline 0 cascade {
 	 {"About..."		cmd {ViewHelp "Index"}}

@@ -35,7 +35,7 @@ proc Main {argv} {
    wm title . "Transcriber 1.4.5"
    wm protocol . WM_DELETE_WINDOW { Quit }
 
-   InitDefaults
+   InitDefaults $argv
    LoadModules
    InitConvertors
    BuildGUI
@@ -181,6 +181,7 @@ proc Quit {} {
 #  sig,max :      = sig,min + sig,len
 #  sig,min :      beginning of signal (should be 0)
 #  sig,name :     file name of audio signal
+#  sig,open :	  flag to see if an audio file has been opened
 #  sig,port :     socket port for audio file server
 #  sig,rate :     sound rate for raw audio files
 #  sig,remote :   access to files through audio file server or not
@@ -219,7 +220,7 @@ proc Quit {} {
 #  wavfm,list :   list of all waveform views
 #  zoom,list :    infos for unzoom
 
-proc InitDefaults {} {
+proc InitDefaults {argv} {
    global v env
 
    catch {unset v}
@@ -239,22 +240,33 @@ proc InitDefaults {} {
    # Override default values with user values
    # (default name for user configuration file can be 
    # overriden with environnement variable $TRANSCRIBER)
-  if {[info exists env(TRANSCRIBER)]} {
-      set v(file,user) $env(TRANSCRIBER)
-   } else {
-     switch $::tcl_platform(platform) {
-       "windows" {
-	 if {[info exists env(USERPROFILE)]} {
-	   set v(file,user) [file join $env(USERPROFILE) $v(options,windows)]
-	 } else {
-	   set v(file,user) [file join $env(HOME) $v(options,windows)]
+   if {[llength $argv] > 0} {
+     for {set i 0} {$i < [llength $argv]} {incr i} {
+       set val [lindex $argv $i]
+       if { $val == "-cfg"} {
+	 set v(file,user) [lindex $argv [incr i]]
+	 break
+       }
+     }
+   }
+   if {![info exists v(file,user)] } {
+     if {[info exists env(TRANSCRIBER)]} {
+       set v(file,user) $env(TRANSCRIBER)
+     } else {
+       switch $::tcl_platform(platform) {
+	 "windows" {
+	   if {[info exists env(USERPROFILE)]} {
+	     set v(file,user) [file join $env(USERPROFILE) $v(options,windows)]
+	   } else {
+	     set v(file,user) [file join $env(HOME) $v(options,windows)]
+	   }
 	 }
-       }
-       "macintosh" {
-	 set v(file,user) [file join $env(PREF_FOLDER) $v(options,macintosh)]
-       }
-       "unix" {
-	 set v(file,user) [file join $env(HOME) $v(options,unix)]
+	 "macintosh" {
+	   set v(file,user) [file join $env(PREF_FOLDER) $v(options,macintosh)]
+	 }
+	 "unix" {
+	   set v(file,user) [file join $env(HOME) $v(options,unix)]
+	 }
        }
      }
    }
@@ -323,6 +335,31 @@ proc InitDefaults {} {
    UpdateHeaderList
 }
 
+proc LoadConfiguration {} {
+  global v env
+   
+  SaveIfNeeded
+  set base [file dirname $v(file,user)]
+  set types {
+    { "configuration file" {.cfg}}
+    { "All files" {*}}
+  }   
+  set fileName [tk_getOpenFile -filetypes $types -defaultextension .cfg -initialfile "$v(scribe,name)" -initialdir $base -title  "Load configuration file"]
+  if {$fileName == ""} return
+  CloseTrans
+  LoadOptions $fileName 
+  ChangedLocal
+  set pos $v(curs,pos)
+  set gain $v(sig,gain)
+  if {$v(trans,name) != ""} {
+    ReadTrans $v(trans,name) $v(sig,name) $v(multiwav,path)
+  } elseif {$v(sig,name) != ""} {
+    NewTrans $v(sig,name) $v(multiwav,path)
+  }
+  SetCursor $pos
+  NewGain $gain
+}
+ 
 proc LoadOptions {fileName {keep 0}} {
    global v
 
@@ -350,11 +387,18 @@ proc LoadOptions {fileName {keep 0}} {
    restoreEncoding
 }
 
-proc SaveOptions {{fileName ""}} {
+proc SaveOptions {{mode ""}} {
    global v
 
-   if {$fileName == ""} {
+   if {$mode != "as"} {
       set fileName $v(file,user)
+   } else {
+     set base [file dirname $v(file,user)]
+     set types {
+       { "configuration file" {.cfg}}
+       { "All files" {*}}
+     }
+     set fileName [tk_getSaveFile -filetypes $types -defaultextension .cfg -initialfile "$v(scribe,name)" -initialdir $base -title  "Save configuration file"]
    }
    # write options using default system encoding
    set f [open $fileName w]
@@ -477,7 +521,8 @@ proc SaveLocal {} {
       return
    }
    # save localization file using UTF-8 encoding if possible
-   set enc [writeEncoding "utf-8"]
+   #set enc [writeEncoding "utf-8"]
+   set enc [writeEncoding]
    set f [open $v(file,local) w]
    puts $f "\# Localization for Transcriber saved on [clock format [clock seconds]]$enc"
    foreach locvar [info globals local_*] {
@@ -677,6 +722,9 @@ proc setdef {varName val} {
 proc StartWith {argv} {
    global v
 
+   # v(sig,open) set to "" if no opened signal
+   set v(sig,open) "0"
+
    set sig ""
    set multiwav {}
    set trans ""
@@ -687,6 +735,7 @@ proc StartWith {argv} {
       set ext_au $v(ext,snd)
       for {set i 0} {$i < [llength $argv]} {incr i} {
 	 set val [lindex $argv $i]
+
 	 switch -glob -- $val {
 	    "-noshape" {
 	       set v(shape,wanted) 0
@@ -705,6 +754,12 @@ proc StartWith {argv} {
 		  uplevel \#0 [list source $file]
 	       }
 	    }
+ 	    "-cfg" {
+	      # The -cfg option is used and detailled in the InitDefault procedure
+	      # but has to be declared here just to avoid any option problem.
+	      # Increment "i" to avoid interpreting the configuration file as an argument  
+	      incr i
+ 	    }
 	    "-*" {
 	       return -code error "unsupported command line option $val"
 	    }

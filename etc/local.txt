@@ -755,9 +755,34 @@ Type
 	Catégorie
 up
 	augmente
+{unsupported output format %s}
+        {format de sortie non supporté}
 {View all}
 	{Vue complète}
 {Zoom selection}
 	{Zoom de la sélection}
+{Load configuration file...}
+	{Charger une configuration...}
+{Save configuration as...}
+	{Enregistrer la configuration sous...}
+{   No audio file opened !
+This will create an empty
+ audio file ! Really save ?}
+	{Aucun fichier son ouvert !
+Ceci génèrera un fichier
+ son vide ! Continuer ?}
+{No audio segment selected !}
+	{Aucune sélection audio !}
+{Save audio selection as...}
+	{Enregistrer la sélection audio sous...}
+{%s not saved !!}
+	{%s non sauvegardé !!}
+{%s saved !!}
+	{%s sauvegardé !!}
+{Resolution > 30" impossible !
+
+Can't find the signal shape.}
+	{Résolution > 30" impossible !
+Enveloppe du signal non disponible.}
 }
 

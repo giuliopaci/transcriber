@@ -193,6 +193,9 @@ proc ScrollReso {wavfm cmd {val 0} {unit ""}} {
 
    if ($v(sig,len)<0) return;
 
+   if {[winfo exists .noshapemsg]} {
+          destroy .noshapemsg
+   }   
    # Try to keep cursor stable - else center of screen
    set curs $v(curs,pos)
    if {($curs >= $v($wavfm,left)) && ($curs <= $v($wavfm,right))} {
@@ -201,12 +204,11 @@ proc ScrollReso {wavfm cmd {val 0} {unit ""}} {
       set ratio 0.5
    }
    set t [expr $v($wavfm,left)+$v($wavfm,size)*$ratio]
-
    if {$cmd=="moveto"} {
-      if {$val>0} {set v($wavfm,size) [expr $val*$v(sig,len)]}
+     if {$val>0} {set v($wavfm,size) [expr $val*$v(sig,len)]}
    } elseif {$cmd=="scroll"} {
       if {$val>0} {
-	 set scale 1.1
+	set scale 1.1
       } else {
 	 set scale 0.9
       }
@@ -218,6 +220,7 @@ proc ScrollReso {wavfm cmd {val 0} {unit ""}} {
    }
    # Min value for zoom if no shape is available
    if {$v(sig,cmd) != "" && $v(shape,cmd) == "" && $v($wavfm,size) > $v(shape,min)} {
+      NoShapeMessage
       DisplayMessage "Lower resolution not allowed without signal shape"
       set v($wavfm,size) $v(shape,min)
    }
@@ -225,6 +228,21 @@ proc ScrollReso {wavfm cmd {val 0} {unit ""}} {
    set v($wavfm,resolution) $v($wavfm,size) 
    SynchroWidgets $wavfm
 }
+
+proc NoShapeMessage {} {
+  set m .noshapemsg
+  if {[winfo exists $m]} {
+    destroy $m
+  }  
+  toplevel $m
+  wm title $m "Warning !"
+  wm geometry $m 250x100+500+350
+  label $m.l -text [Local "Resolution > 30\" impossible !\n\nCan't find the signal shape."]
+  button $m.b -text "Ok" -command {destroy .noshapemsg}
+  pack $m.l -fill both -expand true -padx 3m -pady 2m
+  pack $m.b -padx 3m -pady 2m
+  bell -displayof $m
+} 
 
 proc Resolution {reso {win ""}} {
    global v
@@ -565,4 +583,76 @@ proc UnZoom {{win ""}} {
       SynchroWidgets $win
       config_entry "Signal" "Unzoom selection" -state disabled
    }
+}
+# Save Audio Segment [as] 
+# Select the name, format and directory of the file to saved 
+# returns empty string if save failed (or was canceled)
+proc SaveAudioSegment {{as ""} {format ""}} {
+   global v 
+
+   set tmp "yes"
+   snack::sound player
+ 
+   if {$format == ""} {
+       set format ".wav"
+   }
+   if {$v(sel,begin) == $v(sel,end) } {
+      set tmp [tk_messageBox -icon warning -message [Local "No audio segment selected !"] \
+                                -title "Warning" -type ok]
+      return ""
+   } else {
+       player conf -file $v(sig,name)
+       if { $v(sig,open) == "0" } {
+           set v(sig,name) "empty" 
+           set tmp [tk_messageBox -icon question -message [Local "   No audio file opened !\nThis will create an empty\n audio file ! Really save ?"] \
+                                               -title "Warning" -type yesno]
+       }
+       if {$tmp == "yes"} {
+             set types {
+		    { "Wave file" {.wav}}
+		    { "AU file" {.au}}
+		    { "Sound file" {.snd}}
+		    { "SD file" {.sd}}
+		    { "SMP file" {.smp}}
+		    { "AIFF" {.aiff}}
+		    { "RAW file" {.raw}}
+		    { "All Files" {*}}
+	       }
+	       set base [file root [file tail $v(sig,name)]]
+	       set zone [concat [format "%6.2f" $v(sel,begin)]-[format "%-6.2f" $v(sel,end)]]
+	       set name [tk_getSaveFile -filetypes $types -defaultextension $format \
+					-initialfile "$base\_$zone$format" -initialdir $v(trans,path) \
+					-title "Save audio segment"]
+	       if {$name != "" && [file extension $name] == ""} {
+		   append name $format
+	       }
+	       if {$name == ""} {return}
+	} else {return}
+     }
+   if [catch {
+	 PauseAudio
+	 set wavename $v(sig,name)
+	 if {$wavename == ""} return
+
+	 # if possible, keep previously open sound file
+	 if {[player cget -file] != $wavename} {
+	     player conf -file $wavename -channels $v(sig,channels) -frequency $v(sig,rate) -skiphead $v(sig,header) -guessproperties 1
+	 }
+	 if { $v(sig,cmd) != "" } { 
+	     set rate [$v(sig,cmd) cget -frequency]
+	     player write $name -start [expr int($v(sel,begin)*$rate)] -end [expr int($v(sel,end)*$rate)]
+	 } else {
+		set time [expr int([format "%6.3f" [expr $v(sel,end) - $v(sel,begin)]]*16000)]
+		set f [snack::filter generator 0.0 0 0.0 sine $time] 
+		set s [snack::sound]
+		$s filter $f
+		$s write $name   
+	   }  
+   } res] {
+	 tk_messageBox -message [format [Local "%s not saved !!"] $name] -type ok -icon error
+	 return "" 
+      } else {
+              tk_messageBox -message [format [Local "%s saved !!"] $name] -type ok -icon info
+        }
+   return $name
 }

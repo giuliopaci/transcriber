@@ -440,8 +440,10 @@ proc SaveTrans {{as ""} {format ""}} {
       if [catch {
 	 WriteTrans $name $format
       } res] {
-	 tk_messageBox -message "$name not saved\n$res" -type ok -icon error
+	 tk_messageBox -message [format [Local "%s not saved !!"] $name] -type ok -icon error
 	 return "" 
+      } else {
+	  tk_messageBox -message [format [Local "%s saved !!"] $name] -type ok -icon info 
       }
       if {$format == "trs"} {
 	 set v(trans,name) $name
