@@ -336,6 +336,18 @@ proc ConfigureAudioFile {} {
    pack $h -side top -fill x -expand true
    FrameState $h $v(sig,remote)
 
+   # Configuration for remote playback
+   set g [frame $f.rpb -relief raised -bd 1]
+   pack $g -fill both -expand true -side top
+   checkbutton $g.chk -text "Remote playback" -variable v(playbackRemote) -anchor w -padx 3m -command "FrameState $g.frem \$v(playbackRemote)"
+   pack $g.chk -side top -fill x -expand true
+   set h [frame $g.frem]
+   EntryFrame $h.ser "Server" v(playbackServer)
+   EntryFrame $h.por "Port" v(playbackPort)
+   pack $h.ser $h.por -side left -expand true -fill x
+   pack $h -side top -fill x -expand true
+   FrameState $h $v(playbackRemote)
+
    # Configuration for raw sound files
    set g [frame $f.raw -relief raised -bd 1]
    pack $g -fill both -expand true -side top
@@ -435,10 +447,15 @@ proc BrowseBeep {} {
 #   if v(sig,remote) is true)
 #   Returns a Snack sound command (either locally or via a socket)
 
-proc OpenSound {name} {
+proc OpenSound {name {player 0}} {
    global v
 
-   if {! $v(sig,remote)} {
+   if {$player} {
+     foreach {remote server port} [list $v(playbackRemote) $v(playbackServer) $v(playbackPort)] break
+   } else {
+     foreach {remote server port} [list $v(sig,remote) $v(sig,server) $v(sig,port)] break
+   }
+   if {! $remote} {
       if {![file exists $name]} {
 	 return -code error "Sound file $name doesn't exist"
       }
@@ -446,18 +463,22 @@ proc OpenSound {name} {
       set sound [snack::sound -file $name -channels $v(sig,channels) -frequency $v(sig,rate) -skiphead $v(sig,header) -guessproperties 1]
    } else {
       # Open socket connection on file server
-      if [catch {socket $v(sig,server) $v(sig,port)} channel] {
-	 error "Couldn't open file server on $v(sig,server) \n($channel)"
+      if [catch {socket $server $port} channel] {
+	 error "Couldn't open file server on $server \n($channel)"
       }
       fconfigure $channel -buffering full -translation binary
 
       # Create tcl command for file access
-      if {![info exists v(proc,id)]} {
-	 set v(proc,id) 0
+      if {$player} {
+	set sound rplayer
       } else {
-	 incr v(proc,id)
+	if {![info exists v(proc,id)]} {
+	  set v(proc,id) 0
+	} else {
+	  incr v(proc,id)
+	}
+	set sound rsound$v(proc,id)
       }
-      set sound rsound$v(proc,id)
       proc $sound {cmd args} "eval SoundClient $sound $channel \$cmd \$args"
 
       # Open audio file on server with format options
@@ -478,7 +499,7 @@ proc SoundClient {proc channel cmd args} {
    #puts "$proc: $cmd $args"
    set code "ok"
    puts $channel [concat $cmd $args]
-   flush $channel
+   catch {flush $channel}
    set res [gets $channel]
    if {[regexp {^ *CODE +([^ ]+) +LEN +(-?[0-9]+) *$} $res x code len]} {
       if {$len > 0} {

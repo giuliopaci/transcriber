@@ -19,20 +19,36 @@ proc PlayRange {{begin 0} {end 0} {script {}}} {
    set wavename $v(sig,name)
    if {$wavename == ""} return
 
-   if {[info commands player] == ""} {
-      snack::sound player
+   if {$v(playbackRemote)} {
+     if {[info commands rplayer] != "" && [rplayer cget -file] != $wavename} {
+       rplayer destroy
+     }
+     if {[info commands rplayer] == ""} {
+       OpenSound $wavename 1
+     }
+   } elseif {[info commands player] == ""} {
+     snack::sound player
      if {$::tcl_platform(platform) != "macintosh" && [info commands snack::filter] != "" && ![info exists v(sig,filter)]} {
        set v(sig,filter) [snack::filter map]
      }
    }
-   if {!$v(sig,remote)} {
+   if {$v(playbackRemote)} {
+     set rate [$v(sig,cmd) cget -frequency]
+     rplayer play -start [expr int($begin*$rate)] -end [expr int($end*$rate)]
+   } elseif {$v(sig,remote)} {
+      set snd [OpenSound $wavename]
+      set rate [$snd cget -frequency]
+      set chan [$snd dump -start [expr int($begin*$rate)] -end [expr int($end*$rate)] -byteorder $::tcl_platform(byteOrder)]
+      player conf -channel $chan
+      player play -command [list close $chan]
+   } else {
       # if possible, keep previously open sound file
       if {[player cget -file] != $wavename} {
 	 player conf -file $wavename -channels $v(sig,channels) -frequency $v(sig,rate) -skiphead $v(sig,header) -guessproperties 1
       }
       # Apply multiplying factor to frequency - does not work with current
       # snack version.
-      player conf -frequency [expr int([$v(sig,cmd) cget -frequency]*$v(playbackSpeed))]
+      #player conf -frequency [expr int([$v(sig,cmd) cget -frequency]*$v(playbackSpeed))]
       set rate [$v(sig,cmd) cget -frequency]
       if {[$v(sig,cmd) cget -channels] == 2 && [info exists v(sig,filter)]} {
 	eval $v(sig,filter) configure $v(sig,map)
@@ -40,12 +56,6 @@ proc PlayRange {{begin 0} {end 0} {script {}}} {
       } else {
 	player play -start [expr int($begin*$rate)] -end [expr int($end*$rate)]
       }
-   } else {
-      set snd [OpenSound $wavename]
-      set rate [$snd cget -frequency]
-      set chan [$snd dump -start [expr int($begin*$rate)] -end [expr int($end*$rate)] -byteorder $::tcl_platform(byteOrder)]
-      player conf -channel $chan
-      player play -command [list close $chan]
    }
    CursorStart $begin $end
    IsPlaying 1
@@ -60,6 +70,11 @@ proc PauseAudio {} {
    if {[info commands player] != ""} {
       catch {close [player conf -channel]}
       player stop
+   }
+   if {[info commands rplayer] != ""} {
+     if {[catch {rplayer stop}]} {
+       catch {rplayer destroy}
+     }
    }
    catch {beeper stop}
    CursorStop
@@ -97,8 +112,13 @@ proc CursorStop {} {
 proc CursorEvent {inc} {
    global v
 
-   set pos [expr $v(curs,start)+[audio elapsedTime]*$v(playbackSpeed)]
-   if {$pos>$v(curs,max) || ![audio active]} {
+  if {$v(playbackRemote) && [info commands rplayer] != ""} {
+     set audio rplayer
+   } else {
+     set audio audio
+   }
+   set pos [expr $v(curs,start)+[$audio elapsedTime]*$v(playbackSpeed)]
+   if {$pos>$v(curs,max) || ![$audio active]} {
       PauseAudio
       # Command to be launched after signal playback (rewind by default)
       eval $v(play,after)

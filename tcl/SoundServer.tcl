@@ -19,11 +19,15 @@ exec wish8.0 "$0" ${1:+"$@"}
 # Get libraries
 set base [file dir [file dir [file join [pwd] [info script]]]]
 lappend auto_path $base [file dir $base]
-package require sound 1.7
-catch {
-   package require snacksphere
+set vsnack [package require snack]
+if {[package vcompare $vsnack 1.7] < 0} {
+  error "Found Snack package version $vsnack; needs 1.7 or higher"
 }
-package require trans 1.5
+catch {
+  # in Snack 1.7, snackSphere package was renamed snacksphere
+  package require snacksphere
+}
+#package require trans 1.5
 
 # Default port
 set port 8032
@@ -32,13 +36,13 @@ set port 8032
 set shp_path "/var/tmp"
 
 # Authorized signal base pathname
-set basename "/home/parole/sounds"
+set basename "/data/sounds"
 
 # List of authorized sound extensions
 set exts {".au" ".wav" ".snd" ".sph" ".sig" ".sd" ".smp" ".aif" ".aiff" ".mp3" ".raw"}
 
 # Debug mode
-set debug 1
+set debug 0
 
 # For header dump
 sound header
@@ -152,8 +156,23 @@ proc NextCmd {sock snd} {
 	    "cget" -
 	    "order" -
 	    "info" -
-	    "length" {
+	    "length" -
+	    "stop" {
 	       ExecCmd $sock [concat $snd $line]
+	    }
+	    "play" {
+	       # filter playback command
+	       set v(-start) 0
+	       set v(-end) -1
+	       set v(-devicerate) ""
+	       array set v [lrange $line 1 end]
+	       if {$v(-end)<0} {
+		  set v(-end) [$snd length]
+	       }
+	       ExecCmd $sock [concat $snd "play" "-start" $v(-start) "-end" $v(-end)]
+	    }
+	    "elapsedTime" - "active" - "play_gain" {
+	      ExecCmd $sock [concat "audio" $line]
 	    }
 	    "destroy" {
 	       catch {shp$snd destroy}
@@ -349,9 +368,12 @@ foreach {option value} $argv {
       "-base" {
 	 set basename $value
       }
+      "-debug" {
+	 set debug 1
+      }
       default {
 	 puts "unsupported command line option '$option'"
-         puts "Syntax: $argv0 ?-shape $shp_path? ?-port $port ?-base $basename?"
+         puts "Syntax: $argv0 ?-shape $shp_path? ?-port $port ?-base $basename? ?-debug?"
          exit 1
       }
    }
