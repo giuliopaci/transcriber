@@ -237,6 +237,8 @@ proc InitMenus {} {
 	 {"Glossary"		cmd {EditGlossary} -bind "Ctrl-k"}
 	 {"Speakers"		cascade {
 	     {"Find speaker"		cmd {::speaker::find}}	
+	     {"Import from file..." 	cmd {::speaker::import}}
+	     {"Remove unused speakers" 		cmd {::speaker::purge}}
 	 }}
 	 {"Topics"		cascade {
 	    {"Find topic"		cmd {::topic::find}}	
