@@ -49,7 +49,7 @@ proc CreateTextFrame {f {top 0}} {
    # Suppress local control bindings to allow global menu accelerators
    foreach k {
       Tab Insert Return Pause Shift-BackSpace Shift-Tab ISO_Left_Tab
-      Alt-Up Alt-Down Alt-Left Alt-Right Alt-Tab Control-Tab
+      Alt-Up Alt-Down Alt-Left Alt-Right Alt-Tab Control-Tab Option-Key
    } {
       catch {bind Text <$k> { continue }}
    }

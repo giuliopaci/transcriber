@@ -94,7 +94,12 @@ proc Signal {name {mode "reset"}} {
 	       ShapeAbort
 	       
 	       # launch sub-process
-	      set bg [open [list "|" [info nameofexecutable] [file join $v(path,tcl) BgShape.tcl] $name $shapeName $v(sig,rate) $v(sig,channels) $v(sig,header)]]
+               if {$::tcl_platform(os) == "Darwin"} {
+                  set tclsh "tclsh"
+               } else {
+                  set tclsh [info nameofexecutable]
+               }
+	       set bg [open [list "|" $tclsh [file join $v(path,tcl) BgShape.tcl] $name $shapeName $v(sig,rate) $v(sig,channels) $v(sig,header)]]
 	       fileevent $bg readable [list ShapeDone $bg $sound $name $shapeName]
 	       set v(shape,bgchan) $bg
 	       
@@ -166,11 +171,15 @@ proc Signal {name {mode "reset"}} {
 proc ShapeDone {channel sound sigName shapeName} {
    global v
 
+   fileevent $channel readable {}
+   catch {
+     exec kill -9 [pid $channel]
+   }
    set res [string trim [read $channel]]
-   if {![catch {
-      close $channel
-   } err]
-       && $v(sig,cmd) == $sound
+   catch {
+     close $channel
+   } 
+   if {$v(sig,cmd) == $sound
        && $v(sig,name) == $sigName
        && $res == $shapeName
     } {

@@ -92,6 +92,7 @@ proc CreateSoundFrame {f} {
       }}
    }]]
    bind $f <Button-3>  [list tk_popup $v($wavfm,menu) %X %Y]
+   bind $f <Control-Button-1>  [list tk_popup $v($wavfm,menu) %X %Y]
    return $wavfm
 }
 

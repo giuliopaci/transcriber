@@ -87,7 +87,13 @@ proc add_menu {m liste} {
                   || [regsub "A(lt)?-" $arg "Alt-" arg]
                   || [regsub "S(hift)?-" $arg "Shift-" arg]} {
                      lappend option -accelerator [string toupper $arg]
-                     set sequence ""
+                  }
+                  foreach {short long} {
+                     "C(trl)?-" "Command-"
+                     "A(lt)?-" "Option-" 
+                     "S(hft)?-" "Shift-"
+                  } {
+                     regsub $short $sequence $long sequence
                   }
                } else {
                   lappend option -accelerator $arg

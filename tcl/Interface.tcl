@@ -449,6 +449,7 @@ proc EncodingFromName {iana} {
    regsub "_" $enc "" enc
    # resolve confusion: IANA gb_2312-80 => Tcl gb2312; IANA gb2312 => Tcl euc-cn
    regsub "gb2312" $enc "euc-cn" enc   
+   regsub "macintosh" $enc "macRoman" enc   
    if {[lsearch [encoding names] $enc] >= 0} {
       return $enc
    } else {
@@ -507,6 +508,8 @@ proc BindBack {} {
    global v lst
 
    catch {
+      bind $lst(e0) <Command-KeyPress> {if {[string length %A] > 0} {tkEntryInsert %W "<Command-%K>"}; break}
+      bind $lst(e0) <Option-KeyPress> {if {[string length %A] > 0} {tkEntryInsert %W "<Option-%K>"}; break}
       bind $lst(e0) <Alt-KeyPress> {if {[string length %A] > 0} {tkEntryInsert %W "<Alt-%K>"}; break}
       bind $lst(e0) <Control-KeyPress> {if {[string length %A] > 0} {tkEntryInsert %W "<Control-%K>"}; break}
       bind $lst(e0) <Control-Alt-KeyPress> {if {[string length %A] > 0} {tkEntryInsert %W "<Control-Alt-%K>"}; break}
@@ -524,7 +527,7 @@ proc RegisterBindings {new} {
    foreach subl $v(bindings) {
       foreach {s1 s2} $subl {}
       # count plain chars to delete before current char - can be wrong !
-      regsub -all "<(Control|Alt|Meta)-\[^>]+>" $s1 "" s3
+      regsub -all "<(Control|Alt|Meta|Command|Option)-\[^>]+>" $s1 "" s3
       regsub -all "<\[^>]+>" $s3 "." s3
       set l [expr [string length $s3]-1]
       catch {

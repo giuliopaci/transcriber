@@ -57,11 +57,12 @@ proc PlayRange {{begin 0} {end 0} {script {}}} {
 	player play -start [expr int($begin*$rate)] -end [expr int($end*$rate)]
       }
    }
-   CursorStart $begin $end
-   IsPlaying 1
    
    # Callback after playback
    set v(play,after) $script
+
+   IsPlaying 1
+   CursorStart $begin $end
 }
 
 # Stop current play and freeze cursor
@@ -241,7 +242,7 @@ proc IsPlaying {{state {}}} {
          $v(tk,play) config -state normal
 	 $v(tk,stop) config -state disabled
       }
-      update
+      #update
       set v(play,state) $state
    } else {
       if ![info exists v(play,state)] {
@@ -279,6 +280,7 @@ proc PlayBut {} {
 	Play
       }
     }
+    update
   }
 }
 
