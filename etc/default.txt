@@ -346,8 +346,8 @@ font,list    {courier 12 bold}
 font,info    {helvetica 10 bold}
 font,mesg    {helvetica 10}
 font,trans   {helvetica 10}
-font,NEbutton		{arial 10}
-font,speaker {courier 12}
+font,namEnt		{arial 10}
+font,turn {courier 12}
 font,section {courier 12}
 
 # Some geometry to be saved

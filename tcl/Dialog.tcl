@@ -548,12 +548,9 @@ abcdefghijklmnopqrstuvwxyz
       if {[lsearch [font names] $font] >= 0} {
 	 eval font configure $font ${init-conf}
       }
+      UpdateInterfaceFont $initial $font
       return $initial
    }
-
-   # update fonts of widgets: Axis, Speaker, Section, Segmentation
-   set v(font,$font) $value
-   UpdateFont
 
    return $value
 }
@@ -564,7 +561,7 @@ proc ChooseFontVal {} {
    set style ""
    if {${fontsel-weight} == "bold"} {
       lappend style "bold"
-   }
+   } 
    if {${fontsel-slant} == "italic"} {
       lappend style "italic"
    }
@@ -579,107 +576,152 @@ proc ChooseFontVal {} {
 proc ChooseFontUpdate {w field n1 n2 op} {
    global fontsel-nam
 
-   if {[lsearch [font names] ${fontsel-nam}] >= 0} {
-      global fontsel-$field
-      font configure ${fontsel-nam} -$field [set fontsel-$field]
-   } else {
-      $w conf -font [ChooseFontVal]
-   }
+   set font [ChooseFontVal]
+
+
+   $w conf -font $font
+
+   UpdateInterfaceFont $font ${fontsel-nam}
+
 }
 
-proc UpdateFont {} {
-    # JOB: update the font of the following widget: Axis, Speaker, Section, Segmentation
+proc GetConfFont {font attribut} {
+    # JOB: Get the value of atttribut in font    
     #
-    # IN: nothing
+    # IN: 
+    #    font    : font from which attribut is extracted ex: Tahoma 10 {bold italic}
+    #    attribut: attribut that must be returned (can be family, size, weight or slant)
+    #
+    # OUT: the value of attribut in font
+    # MODIFY: nothing
+    #
+    # Author: Mathieu Manta
+    # Version: 1.0
+    # Date: 02 2005
+
+    switch -exact -- $attribut {
+	family { return [lindex $font 0]}
+	size   { return [lindex $font 1]}
+	weight {
+		  if {[lsearch [lindex $font 2] bold] != -1} {
+		        return bold
+		  } else { 
+		        return  normal
+		  }
+		}
+	slant {
+		  if {[lsearch [lindex $font 2] italic] != -1} {
+		        return italic
+		  } else { 
+		        return  roman
+		  }
+		}
+
+    }
+
+
+}
+
+proc UpdateInterfaceFont {fontVal fontName} {
+
+    # JOB: update the font $fontName of Transcriber interface with the value $fontval
+    #
+    # IN: 
+    #    fontVal : the font configuration ex: Tahoma 10 italic
+    #    fontName: name of the font to modify ex: trans, text, ...
     # OUT: nothing
     # MODIFY: nothing
     #
     # Author: Mathieu Manta
     # Version: 1.0
-    # Date: 03 2005
-    # A faire: Toutes les lignes de commandes sont elles nécessaires ????
-    #    pourquoi ne pas mettre tous les update font dans cette procédure ?
-    #    pourquoi ne pas mutualiser avec updatecolor ?
+    # Date: 02 2005
 
    global v
+   
+   # Update Named Entities font
+   if {$fontName == "namEnt"} {
+	    UpdateNEFont $fontVal
+    }
 
-   UpdateNEFonts
-
-   # Update Axis
-#   font configure ${fontsel-nam} -$field [set fontsel-$field]
- #  font configure axis $v(font,axis)
-
-   # a quoi sert cette boucle ?
+   # Update fonts that can be updated with configure
+    if {$fontName=="mesg" || $fontName=="info" } {
+	set tmp [ GetConfFont $fontVal slant] 
+	font configure $fontName -slant  $tmp
+	set tmp [ GetConfFont $fontVal family]
+	font configure $fontName -family $tmp
+	set tmp [ GetConfFont $fontVal size]
+	font configure $fontName -size   $tmp
+	set tmp [ GetConfFont $fontVal weight]
+	font configure $fontName -weight $tmp
+    }
+   
    foreach wavfm $v(wavfm,list) {
       set f [winfo parent $wavfm] 
-      if [winfo exists $f.seg0] {
-	 $f.seg0 config -fg $v(color,fg-sync) -full $v(color,bg-sync) -font $v(font,trans)
+      if { $fontName=="trans" } {
+	    if [winfo exists $f.seg0] {
+		$f.seg0 config -font $fontVal
+	    }
+	    if [winfo exists $f.seg1] {
+		$f.seg1 config -font $fontVal
+	    }
+	    if [winfo exists $f.seg2] {
+		$f.seg2 config -font $fontVal
+	    }
+	    if [winfo exists $f.bg] {
+		$f.bg config -font $fontVal
+	    }
+	 
       }
-      if [winfo exists $f.seg1] {
-	 $f.seg1 config -fg $v(color,fg-turn) -full $v(color,bg-turn) -font $v(font,trans)
-      }
-      if [winfo exists $f.seg2] {
-	 $f.seg2 config -fg $v(color,fg-sect) -full $v(color,bg-sect) -font $v(font,trans)
-      }
-      if [winfo exists $f.bg] {
-	 $f.bg config -fg $v(color,fg-back) -full $v(color,bg-back)
-      }
-       # a quoi sert cette boucle ?
-      foreach w [concat $f [winfo children $f]] {
-	 if {[winfo class $w] != "Scrollbar"} {
-	    $w config -bg $v(color,bg)
-	 }
-      }
-      # ???
-      $wavfm config -selectbackground $v(color,bg-sel) 
+      #$wavfm config -selectbackground $v(color,bg-sel) -font $fontVal
    }
 
-    .msg config -bg $v(color,bg) -font $v(font,mesg)
    if [info exists v(tk,edit)] {
       set t $v(tk,edit)-bis
-      $t conf -bg $v(color,bg-text) -fg $v(color,fg-text) -font $v(font,text)
-      $t tag conf "event" -background $v(color,bg-evnt) -foreground $v(color,fg-evnt) -font $v(font,event)
-      #$t tag conf "entities" -background $v(color,bg-evnt) -foreground $v(color,fg-evnt) -font $v(font,NEbutton)
+      if {$fontName == "text"} {
+	    $t conf -font $fontVal
+      }
+      if {$fontName == "event"} {
+	    $t tag conf "event" -font $fontVal
+      }
       foreach w [$t window names] {
 	 switch -glob -- [$w conf -command] {
 	    *section* {
-	       $w conf -font $v(font,section)
+	       if {$fontName == "section"} { 
+		        $w conf -font $fontVal
+	       }
 	    }
 	    *turn* {
-	       $w conf -font $v(font,speaker)
+	       if {$fontName == "turn"} {
+		    $w conf -font $fontVal
+	       }
 	    }
 	 }
       }
- #     $v(img,circle) conf -foreground $v(color,bg-sync)
- #     $v(img,over1) conf -foreground $v(color,bg-sync)
- #     $v(img,over2) conf -foreground $v(color,bg-sync)
-   }
+   
+    }
 }
 
-proc UpdateNEFonts {} {
+proc UpdateNEFont {fontNE} {
 
-    # JOB: switch the display of the NE interface
+    # JOB: Change the font of the named entities to fontNE
     #
-    # IN: f, name of the NE window
+    # IN:
+    #    fontNE : New named entity font - ex: Tahoma 10 {bold italic}
+    #
     # OUT: nothing
     # MODIFY: nothing
     #
-    # Author: Sylvain Galliano
+    # Author: Mathieu MANTA
     # Version: 1.0
-    # Date: October 20, 2004
+    # Date: March 1st, 2005
 
-    # comment ça marche ?
     global v
 
     set t $v(tk,edit)-bis
 
     foreach macro "$v(listNE,macroclass) meto" {
 	foreach part {"tag" "text"} {
-	    if { $v(checkNEcolor,$part) == 1 } {
-		$t tag conf NE$macro$part -font $v(font,NEbutton)
-	    } else {
-		$t tag conf NE$macro$part -foreground  black
-	    }
+		$t tag conf NE$macro$part -font $fontNE
 	}
     }
 }

@@ -145,9 +145,9 @@ proc CreateNEFrame {f} {
 	foreach micro $v(listNE,$macro) {
 	    regsub -all {\.} $micro "" name
 	    if { $v(checkNEcolor,buton) == 1 } {
-		button $f.$macro.$name -text $micro -font $v(font,NEbutton) -bg $v(color,netag-$macro) -pady 0 -width [maxlength $v(listNE,all)] -command "CreateAutoEvent $micro entities"
+		button $f.$macro.$name -text $micro -font $v(font,namEnt) -bg $v(color,netag-$macro) -pady 0 -width [maxlength $v(listNE,all)] -command "CreateAutoEvent $micro entities"
 	    } else {
-		button $f.$macro.$name -text $micro -font $v(font,NEbutton) -pady 0 -width [maxlength $v(listNE,all)] -command "CreateAutoEvent $micro entities"
+		button $f.$macro.$name -text $micro -font $v(font,namEnt) -pady 0 -width [maxlength $v(listNE,all)] -command "CreateAutoEvent $micro entities"
 	    }
 	    pack $f.$macro.$name -ipadx 2
 	}
@@ -664,7 +664,7 @@ proc EditGlossary {} {
    }
    catch {
       set v(glossary) [ListEditor $v(glossary) "Glossary" \
-			   {"Value" "Comment"} $new GlosBack]
+		           {"Value" "Comment"} $new GlosBack]
    }
 }
 
@@ -694,7 +694,7 @@ proc ConfigureBindings {} {
    }
    catch {
       RegisterBindings [ListEditor $v(bindings) "Bindings" \
-			{"Keystrokes" "Replacement string"} $new BindBack]
+		        {"Keystrokes" "Replacement string"} $new BindBack]
    }
 }
 
@@ -756,32 +756,32 @@ proc ConfigureColors {} {
    
     set i 0
     foreach set {
-	{"Waveform bg"		bg
-	    "selected"		bg-sel}
-	{"Segments foreground"	fg-sync
-	    "background"		bg-sync}
-	{"Current segment"	hi-sync}
-	{"Speaker foreground"	fg-turn
-	    "background"		bg-turn}
-	{"Sections foreground"	fg-sect
-	    "background"		bg-sect}
-	{"Noise foreground"	fg-back
-	    "background"		bg-back}
-	{"Text foreground"	fg-text
-	    "background"		bg-text}
-	{"Highlighted text bg"	hi-text}
-	{"Event foreground"	fg-evnt
-	    "background"		bg-evnt}
-	{"NE pers"	netag-pers
-	    "NE org"		netag-org}
-	{"NE gsp"	netag-gsp
-	    "NE loc"		netag-loc}
-	{"NE fac"	netag-fac
-	    "NE prod"		netag-prod}
-	{"NE time"	netag-time
-	    "NE amount"		netag-amount}
-	{"NE metonymy"	netag-meto
-	    "NE unknown"		netag-unk}
+	{"Waveform bg"                bg
+	    "selected"                bg-sel}
+	{"Segments foreground"        fg-sync
+	    "background"                bg-sync}
+	{"Current segment"        hi-sync}
+	{"Speaker foreground"        fg-turn
+	    "background"                bg-turn}
+	{"Sections foreground"        fg-sect
+	    "background"                bg-sect}
+	{"Noise foreground"        fg-back
+	    "background"                bg-back}
+	{"Text foreground"        fg-text
+	    "background"                bg-text}
+	{"Highlighted text bg"        hi-text}
+	{"Event foreground"        fg-evnt
+	    "background"                bg-evnt}
+	{"NE pers"        netag-pers
+	    "NE org"                netag-org}
+	{"NE gsp"        netag-gsp
+	    "NE loc"                netag-loc}
+	{"NE fac"        netag-fac
+	    "NE prod"                netag-prod}
+	{"NE time"        netag-time
+	    "NE amount"                netag-amount}
+	{"NE metonymy"        netag-meto
+	    "NE unknown"                netag-unk}
     } {
 	set g [frame $f.fr[incr i] -bd 1 -relief raised]
 	pack $g -side top -fill x -ipady 1m

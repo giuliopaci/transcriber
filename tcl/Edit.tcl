@@ -274,7 +274,7 @@ proc CreateTurnButton {turn} {
        -cursor top_left_arrow \
        -activeforeground $v(color,fg-turn) -fg $v(color,fg-turn) \
        -activebackground $v(color,bg-turn) -bg $v(color,bg-turn) \
-       -font $v(font,speaker)
+       -font $v(font,turn)
    return $button
 }
 

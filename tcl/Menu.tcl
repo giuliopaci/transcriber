@@ -355,10 +355,10 @@ proc InitMenus {} {
 	    {"Information"        cmd {set v(font,info)  [ChooseFont info] }}
 	    {"Lists"                cmd {set v(font,list)  [ChooseFont list] }}
 	    {"Messages"                cmd {set v(font,mesg)  [ChooseFont mesg] }}
-	    {"Named Entities"      cmd {set v(font,NEbutton) [ChooseFont NEbutton];UpdateNEFrame .edit.ne }}
+        {"Named Entities"      cmd {set v(font,namEnt) [ChooseFont namEnt];UpdateNEFrame .edit.ne }}
 	    {"Section"        cmd {set v(font,section)   [ChooseFont section]}}
 	    {"Segmentation"        cmd {set v(font,trans)   [ChooseFont trans]}}
-	    {"Speaker"             cmd {set v(font,speaker) [ChooseFont speaker]} }
+	    {"Speaker"             cmd {set v(font,turn) [ChooseFont turn]} }
 	    {"Text"                cmd {set v(font,text)    [ChooseFont text] }}
 	 }}
 	 {"Colors..."                cmd {ConfigureColors}}

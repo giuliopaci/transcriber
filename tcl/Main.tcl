@@ -138,8 +138,10 @@ proc Quit {} {
 #  font,info      font used for infos
 #  font,list      font used for fixed length lists
 #  font,mesg      font used for messages
+#  font,namEnt    font used for Named entities in text widget and buttons
 #  font,text      font used for text editor
 #  font,trans     font used for transcriptions in segments
+#  font,turn      font used for speaker buttons
 #  font,section   font used for the sections
 #  geom,$w        default geometry for window $w
 #  glossary       value/comment word pairs of user glossary
