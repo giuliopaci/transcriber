@@ -533,7 +533,6 @@ proc OpenSound {name {player 0}} {
       # Open audio file on server with format options
       eval $sound "sound -file [list $name] -channels $v(sig,channels) -frequency $v(sig,rate) -skiphead $v(sig,header) -guessproperties 1"
    }
-   set v(sig,open) "1"
    return $sound
 }
 

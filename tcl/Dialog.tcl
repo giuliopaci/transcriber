@@ -127,7 +127,7 @@ proc ListFrame {f list} {
     return $l
 }
 
-proc EntryFrame {w title varName {OKbutton no}} {
+proc EntryFrame {w title varName {width 20} {OKbutton no}} {
     
     # JOB: create an entryframe with an optional "OK" button associated
     #
@@ -144,12 +144,12 @@ proc EntryFrame {w title varName {OKbutton no}} {
     
     frame $w
     set l [label $w.lab -text "[Local $title]:"]
-    set e [entry $w.ent -text $varName]
+    set e [entry $w.ent -text $varName -width $width]
     $e select range 0 end
     $e icursor end
     $e xview end
     pack $l -side left -padx 3m -pady 2m
-    pack $e -expand true -fill x -side left -padx 3m -pady 2m
+    pack $e -expand true -fill x -side left -padx 3m -pady 2m 
     if {$OKbutton=="yes"} {
 	set b [button $w.but -text "Ok"]
 	pack $b -side left  

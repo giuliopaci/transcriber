@@ -189,7 +189,6 @@ proc Quit {} {
 #  sig,max :      = sig,min + sig,len
 #  sig,min :      beginning of signal (should be 0)
 #  sig,name :     file name of audio signal
-#  sig,open :          flag to see if an audio file has been opened
 #  sig,port :     socket port for audio file server
 #  sig,rate :     sound rate for raw audio files
 #  sig,remote :   access to files through audio file server or not
@@ -771,9 +770,6 @@ proc setdef {varName val} {
 proc StartWith {argv} {
     global v
 
-    # v(sig,open) set to "" if no opened signal
-    set v(sig,open) "0"
-    
     set sig ""
     set multiwav {}
     set video ""

@@ -216,7 +216,10 @@ proc InitMenus {} {
 	   {"Add audio file..." 	cmd {OpenAudioFile add}}
 	   {""}
 	 }}
-	 {"Save audio selection as..."          cmd {SaveAudioSegment as}}
+	 {"Save audio segment(s)"  cascade {
+		{"Selected..."     cmd   {SaveAudioSegment}}
+		{"Automatic..." cmd   {SaveAudioSegmentAuto}}
+	 }}
 	 {""}
 	 {"Open segmentation file..." 	cmd {OpenSegmt}}
 	 {""}

@@ -207,6 +207,8 @@ Arabic
 	{Nom du fichier son}
 {Auto-save interval (in minutes)}
 	{Délai avant enregistrement automatique (minutes)}
+{Automatic}
+	{Automatique}
 {Automatic import from selected file}
 	{Import automatique du fichier choisi}
 {Automatic selection playback}
@@ -351,6 +353,8 @@ Delete
 	{Supprimer la frontière}
 Description
 	Description
+{Destination directory}
+	     {Répertoire de destination }
 {Deselect all}
 	{}
 Destroy
@@ -407,6 +411,8 @@ English
 	anglais
 {Episode attributes}
 	{Paramètres de l'épisode}
+{Error, wave segment(s) not saved !!}
+	{Erreur, segments audio non sauvegardés}	
 {Event display...}
 	{Affichage des événements}
 {Event foreground}
@@ -691,6 +697,8 @@ néologisme
 	{}
 OK
 	{}
+{Ok, %s wave segment(s) saved !!}
+	{Ok, %s segments audio sauvegardés !!}
 {Open audio file...}
 	{Ouvrir un fichier son...}
 {Open remote audio file}
@@ -705,6 +713,8 @@ OK
 	{Ouvrir le fichier de transcription}
 {Open transcription or audio file}
 	{Ouvrir une transcription ou un signal}
+{Open video file...}
+      {Ouvrir un fichier vidéo...}
 Options
 	Options
 Organization
@@ -844,8 +854,10 @@ Save
 	Enregistrer
 {Save as...}
 	{Enregistrer sous...}
-{Save audio selection as...}
-	{Enregistrer la sélection audio sous...}
+{Save audio segment(s)}
+	{Enregistrer le(s) segment(s) audio}
+{Save audio segments options}
+      {Options d'enregistrements des segments audio}
 {Save configuration}
 	{Enregistrer la configuration}
 {Save configuration as...}
@@ -872,6 +884,8 @@ Segmentation
 	{}
 {Select all}
 	{}
+{Selected...}
+	{Sélectionné...}
 {Select your default browser}
 	{Choix du navigateur par défaut}
 Server

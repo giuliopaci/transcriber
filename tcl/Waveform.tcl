@@ -90,7 +90,11 @@ proc InitWavContextualMenu {f} {
 	{"Audio file"		cascade {
 	    {"Open audio file..." 	cmd {OpenAudioFile}}
 	    {"Add audio file..." 	cmd {OpenAudioFile add}}
-	 {""}
+	    {"Save audio segment(s)"   cascade {
+		{"Selected..."     cmd   {SaveAudioSegment}}
+		{"Automatic..." cmd   {SaveAudioSegmentAuto}}
+	    }}
+	    {""}
 	}}
 	{"Playback"		cascade {
 	    {"Play/Pause"		cmd {PlayOrPause}}
@@ -619,75 +623,161 @@ proc UnZoom {{win ""}} {
       config_entry "Signal" "Unzoom selection" -state disabled
    }
 }
-# Save Audio Segment [as] 
-# Select the name, format and directory of the file to saved 
-# returns empty string if save failed (or was canceled)
-proc SaveAudioSegment {{as ""} {format ""}} {
-   global v 
 
-   set tmp "yes"
-   snack::sound player
- 
-   if {$format == ""} {
-       set format ".wav"
-   }
-   if {$v(sel,begin) == $v(sel,end) } {
-      set tmp [tk_messageBox -icon warning -message [Local "No audio segment selected !"] \
-                                -title "Warning" -type ok]
-      return ""
-   } else {
-       player conf -file $v(sig,name)
-       if { $v(sig,open) == "0" } {
-           set v(sig,name) "empty" 
-           set tmp [tk_messageBox -icon question -message [Local "   No audio file opened !\nThis will create an empty\n audio file ! Really save ?"] \
-                                               -title "Warning" -type yesno]
-       }
-       if {$tmp == "yes"} {
-             set types {
-		    { "Wave file" {.wav}}
-		    { "AU file" {.au}}
-		    { "Sound file" {.snd}}
-		    { "SD file" {.sd}}
-		    { "SMP file" {.smp}}
-		    { "AIFF" {.aiff}}
-		    { "RAW file" {.raw}}
-		    { "All Files" {*}}
-	       }
-	       set base [file root [file tail $v(sig,name)]]
-	       set zone [concat [format "%6.2f" $v(sel,begin)]-[format "%-6.2f" $v(sel,end)]]
-	       set name [tk_getSaveFile -filetypes $types -defaultextension $format \
-					-initialfile "$base\_$zone$format" -initialdir $v(trans,path) \
-					-title "Save audio segment"]
-	       if {$name != "" && [file extension $name] == ""} {
-		   append name $format
-	       }
-	       if {$name == ""} {return}
-	} else {return}
-     }
-   if [catch {
-	 PauseAudio
-	 set wavename $v(sig,name)
-	 if {$wavename == ""} return
+proc SaveAudioSegment {{auto ""}} {
 
-	 # if possible, keep previously open sound file
-	 if {[player cget -file] != $wavename} {
-	     player conf -file $wavename -channels $v(sig,channels) -frequency $v(sig,rate) -skiphead $v(sig,header) -guessproperties 1
-	 }
-	 if { $v(sig,cmd) != "" } { 
-	     set rate [$v(sig,cmd) cget -frequency]
-	     player write $name -start [expr int($v(sel,begin)*$rate)] -end [expr int($v(sel,end)*$rate)]
-	 } else {
+    # JOB: save an audio selection
+    #
+    # IN: nothing
+    # OUT: nothing
+    # MODIFY: nothing
+    #
+    # Author: Sylvain Galliano
+    # Version: 1.2
+    # Date: November 26, 2004
+    # 
+    # Save Audio Segment in normal or automatic mode 
+    # Select the name, format and directory of the file to saved 
+    # returns empty string if save failed (or was canceled)
+
+    global v 
+    
+    snack::sound player
+    
+    if { $auto == "" && $v(sel,begin) == $v(sel,end) } {
+	tk_messageBox -icon warning -message [Local "No audio segment selected !"] -title "Warning" -type ok
+	return ""
+    } else {
+	if { $v(sig,cmd) == "" } {
+	    set v(sig,name) "empty" 
+	    set rep [tk_messageBox -icon question -message [Local "   No audio file opened !\nThis will create an empty\n audio file ! Really save ?"] \
+			 -title "Warning" -type yesno]
+	    if {$rep == "no"} {
+		return
+	    } else {
+		set format ".wav"
+	    }
+	} else {
+	    set format [file extension $v(sig,name)]
+	}
+	set types {
+	    { "Wave file" {.wav}}
+	    { "AU file" {.au}}
+	    { "Sound file" {.snd}}
+	    { "SD file" {.sd}}
+	    { "SMP file" {.smp}}
+	    { "AIFF" {.aiff}}
+	    { "RAW file" {.raw}}
+	    { "All Files" {*}}
+	}
+	set base [file root [file tail $v(sig,name)]]
+	if {$auto == ""} {
+	    set name [tk_getSaveFile -filetypes $types -initialfile "$base\_$zone$format" -initialdir $v(trans,path) -title "Save audio segment"]
+	    if {$name == ""} return
+	}
+	if [catch {
+	    player conf -file $v(sig,name)
+	    PauseAudio
+	    
+	    # if possible, keep previously open sound file
+	    player conf -file $v(sig,name) -channels $v(sig,channels) -frequency $v(sig,rate) -skiphead $v(sig,header) -guessproperties 1
+	    if { $v(sig,cmd) != "" } { 
+		set rate [$v(sig,cmd) cget -frequency]
+		if {$auto == "" } {
+		    set zone [concat [format "%6.2f" $v(sel,begin)]-[format "%-6.2f" $v(sel,end)]]
+		    player write $name -start [expr int($v(sel,begin)*$rate)] -end [expr int($v(sel,end)*$rate)]
+		} else {
+		    #Automatic mode
+		    set loop ""
+		    foreach segment {"Section" "Turn" "Sync"} {
+			if {$v($segment,loop)} {
+			    lappend loop $segment
+			}
+		    }
+		    if {$loop != ""} {
+			set tot 0
+			foreach segment $loop {
+			    set cpt 0
+			    set begin $v(sig,min)
+			    set end 0
+			    set max $v(sig,max)
+			    SetCursor $begin
+			    while {$begin < $max} {
+				set nb $v(segmt,curr)
+				set tag [GetSegmtId $nb]
+				if {$segment == "Section"} {
+				    set sec [[$tag getFather] getFather]
+				    set id [::section::long_name $sec]
+				}
+				if {$segment == "Turn"} {
+				    set tur [$tag getFather]
+				    set spk [$tur getAttr "speaker"]
+				    set spk [::speaker::name $spk]
+				    set id [string trim $spk "_"]
+				}
+				set alnum {[^[:alnum:]]+}
+				regsub -all $alnum $id "_" id
+				
+				TextNext$segment +1
+				set end [GetCursor]
+				if {$end == $begin || $end == 0} {
+				    set end $max
+				}
+				set zone [concat [format "%6.2f" $begin]-[format "%-6.2f" $end]]
+				set num [format "%03.0f" [incr cpt]]
+				set name [file join $v(saveaudioseg,dir) "$base\_$segment$num\_$id\_$zone$format"]
+				regsub -all "__" $name "_" name
+				player write $name -start [expr int($begin*$rate)] -end [expr int($end*$rate)]
+				set tot [incr tot]
+				set begin $end
+			    }
+			    set v($segment,loop) 0
+			}
+		    } 
+		}
+	    } else {
 		set time [expr int([format "%6.3f" [expr $v(sel,end) - $v(sel,begin)]]*16000)]
 		set f [snack::filter generator 0.0 0 0.0 sine $time] 
 		set s [snack::sound]
 		$s filter $f
 		$s write $name   
-	   }  
-   } res] {
-	 tk_messageBox -message [format [Local "%s not saved !!"] $name] -type ok -icon error
-	 return "" 
-      } else {
-              tk_messageBox -message [format [Local "%s saved !!"] $name] -type ok -icon info
-        }
-   return $name
+	    }  
+	} res] {
+	    tk_messageBox -message "[Local "Error, wave segment(s) not saved !!"] $res" -type ok -icon error
+	    return "" 
+	} else {
+	    if {$loop != "" } {
+		tk_messageBox -message [format [Local "Ok, %s wave segment(s) saved !!"] $tot] -type ok -icon info
+	    } else return
+	}
+    }
+}
+
+proc SaveAudioSegmentAuto {} {
+    # JOB: open a dialog box to define the option for saving automaticaly each kind of wave segment (turn, section, sync).
+    #      you have to choose the destination directory and the elemnt to save  
+    #
+    # IN: nothing
+    # OUT: nothing
+    # MODIFY: nothing
+    #
+    # Author: Sylvain Galliano
+    # Version: 1.0
+    # Date: November 29, 2004
+
+    global v
+
+    set w [CreateModal .save [Local "Save audio segments options"]]
+    set f [frame $w.top -relief raised -bd 1]
+    pack $f -side top -fill both
+    set i 0
+    foreach segment {"Section" "Turn" "Sync"} {
+	set b [checkbutton $f.rad[incr i] -var v($segment,loop) -text [Local $segment]]
+	grid $b -row 0 -column "$i"  -sticky w -padx 3m -pady 3m
+    }
+    EntryFrame $w.dir [Local "Destination directory"] v(saveaudioseg,dir) 50
+    set v(saveaudioseg,dir) [pwd]
+    if {[OkCancelModal $w $w {"OK" "Cancel"}] == "OK"} {
+	SaveAudioSegment auto
+    } else return
 }
