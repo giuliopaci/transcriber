@@ -280,6 +280,13 @@ proc SpellOneWrd {wrd} {
 # Date: february 11, 2005
 # Author: Mathieu MANTA
    global v
+   set ok 1
+   set count 0
+   set err 0
+   set v(spell,miss) {}
+
+   set i 0
+   set correct ""
 
    set wrd [string trim $wrd '-']
    if {$wrd == ""} {
@@ -297,16 +304,14 @@ proc SpellOneWrd {wrd} {
 	  incr v(spell,count)
    }
 
+   # No Aspell answer, because the string to check is not recognize as a word by Aspell 
+   if {[info exists lstLines]==0} {
+	return $ok
+   }
+
    set lstWrd [split $wrd "-"]
 
    # analyze aspell answer
-   set ok 1
-   set count 0
-   set err 0
-   set v(spell,miss) {}
-
-   set i 0
-   set correct ""
 
    while { $i < [llength $lstLines]} {
 	set ans [lindex $lstLines $i]
