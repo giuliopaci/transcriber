@@ -520,12 +520,11 @@ proc ConfigureGeneral {} {
     pack $i -fill both -expand true -side top
     label $i.lab -text [Local "Default browser:"]
     set v(browser,but) [button $i.v(browser,but) -text [Local $v(browser)] -default disabled ]
-    bind $i.v(browser,but) <Button-1>	{
-	set v(browser) [SelectBrowser]
-	$v(browser,but) configure -text $v(browser)
-    }
     pack $i.lab $i.v(browser,but) -side left -padx 3m -pady 3m -fill x -expand true
-   
+    bind $i.v(browser,but) <Button-1> { 
+	set name [SelectBrowser .col.fr0.fr]
+	$v(browser,but) configure -text $name
+    }
     set g [frame $f.fr1 -relief raised -bd 1 -width 25c]
     pack $g -fill both -expand true -side top
     EntryFrame $g.en1 "Auto-save interval (in minutes)" v(autosave,time)

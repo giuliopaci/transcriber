@@ -96,7 +96,8 @@ proc FindWinDefaultBrowser {} {
     return $BrowserPath
 }
 
-proc SelectBrowser {} {
+
+proc SelectBrowser {{parent "."}} {
     #
     # Job    Select default browser through selection box
     #
@@ -108,7 +109,9 @@ proc SelectBrowser {} {
     # July 27, 2004
     #
 
-    set name [tk_getOpenFile -title [Local "Select your default browser"]]
+    global v
+
+    set name [tk_getOpenFile -title [Local "Select your default browser"] -initialdir $v(trans,path) -parent $parent]
 
     return $name
 }
