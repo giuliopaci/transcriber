@@ -65,7 +65,9 @@ proc ViewHelp {{name "Index"}} {
    }
    # First try to launch Internet Explorer or Netscape first
    set url [file join $dir $arr($name)]
-   if {[catch {
+   if {$::tcl_platform(os) == "Darwin"} {
+     exec open $url
+   } elseif {[catch {
       exec iexplore $url &
    }] && [catch {
       exec netscape -remote "openFile ($url)"

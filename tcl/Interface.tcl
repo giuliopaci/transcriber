@@ -62,8 +62,8 @@ proc CreateWidgets {} {
    if {$v(geom,.) != ""} {
       wm geom . $v(geom,.)
    } else {
-     if {$::tcl_platform(platform) == "macintosh"} {
-       wm geometry . [expr [winfo screenwidth .]-20]x[expr [winfo screenheight .]-40]+5+20 
+     if {[info tclversion] >= 8.4 && [tk windowingsystem] == "aqua"} {
+       wm geometry . [winfo screenwidth .]x[expr [winfo screenheight .]-44]+0+22 
      } else {
        wm geometry . [winfo screenwidth .]x[winfo screenheight .]+0+0 
      }
@@ -77,14 +77,8 @@ proc CreateCommandFrame {f args} {
 
    # Commands frame
    frame $f -bd 1 -relief raised 
-   if {$::tcl_platform(platform) == "macintosh"} {
-     set v(tk,play) [button $f.play -command {PlayBut}]
-     set v(tk,stop) [button $f.pause -command {PauseBut}]
-     set v(play,state) 0
-   } else {
-     set v(tk,play) [button $f.play -command {PlayOrPause}]
-     set v(tk,stop) [button $f.pause -command {PlayOrPause} -state disabled]
-   }
+   set v(tk,play) [button $f.play -command {PlayOrPause}]
+   set v(tk,stop) [button $f.pause -command {PlayOrPause} -state disabled]
    button $f.previous -command {MoveNextSegmt -1}
    button $f.next -command {MoveNextSegmt +1}
    button $f.backward
@@ -213,10 +207,12 @@ proc CreateGainFrame {{f .gain}} {
       toplevel $f
       wm title $f [Local "Control panel"]
 
-      scale $f.s -label [Local "Volume"] \
-	  -orient horiz -length 200 -width 10 \
-	  -variable dial(volume) -command {snack::audio play_gain}
-      pack $f.s -expand true -fill x -padx 10 -pady 5
+     if {[info tclversion] < 8.4 || [tk windowingsystem] != "aqua"} {
+       scale $f.s -label [Local "Volume"] \
+	   -orient horiz -length 200 -width 10 \
+	   -variable dial(volume) -command {snack::audio play_gain}
+       pack $f.s -expand true -fill x -padx 10 -pady 5
+     }
 
       set v(tk,gain)  [scale $f.gain -label [Local "Vertical zoom (dB)"] \
 	       -orient horizontal -length 200 -width 10 -showvalue 1 \

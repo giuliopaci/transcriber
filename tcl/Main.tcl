@@ -236,6 +236,13 @@ proc InitDefaults {argv} {
    # Read values from default configuration file
    set v(file,default) [file join $v(path,etc) "default.txt"]
    LoadOptions $v(file,default) 1
+   # correct some default values for Mac OS X
+   if {[info tclversion] >= 8.4 && [tk windowingsystem] == "aqua"} {
+      set v(font,text)   {courier 14}
+      set v(color,hi-text) "white"
+      set v(color,bg-text) "#f0f0f0"
+      set v(color,bg-evnt) "#f0f0f0"
+   }
 
    # Override default values with user values
    # (default name for user configuration file can be 
@@ -261,11 +268,13 @@ proc InitDefaults {argv} {
 	     set v(file,user) [file join $env(HOME) $v(options,windows)]
 	   }
 	 }
-	 "macintosh" {
-	   set v(file,user) [file join $env(PREF_FOLDER) $v(options,macintosh)]
-	 }
 	 "unix" {
-	   set v(file,user) [file join $env(HOME) $v(options,unix)]
+	   if {$::tcl_platform(os) == "Darwin"} {
+	     set v(file,user) [file join $env(HOME) Library Preferences $v(options,macintosh)]
+	     file mkdir [file dir $v(file,user)]
+	   } else {
+	     set v(file,user) [file join $env(HOME) $v(options,unix)]
+	   }
 	 }
        }
      }
@@ -274,14 +283,16 @@ proc InitDefaults {argv} {
 
    # Init user name
    if {$v(scribe,name)=="(unknown)"} {
-      catch {
-	 if {$env(USER) != ""} {
-	    set v(scribe,name) $env(USER)
-	    regexp "Name: (\[^\n]*)" [exec finger $env(USER)] all Name
-	    if {$Name != ""} {
-	       set v(scribe,name) $Name
-	    }
-	 }
+      if {[info exists env(USER)] && $env(USER) != ""} {
+         set v(scribe,name) $env(USER)
+         catch {
+            regexp "Name: (\[^\n]*)" [exec finger $env(USER)] all Name
+            if {$Name != ""} {
+               set v(scribe,name) $Name
+            }
+         }
+      } elseif {[info exists ::tcl_platform(user)] && $::tcl_platform(user) != ""} {
+         set v(scribe,name) $::tcl_platform(user)
       }
    }
 
@@ -292,7 +303,7 @@ proc InitDefaults {argv} {
 
    # Shape settings: disabled for Windows by default
    if {$v(shape,wanted) == -1} {
-      if {$::tcl_platform(platform) == "windows" || $::tcl_platform(platform) == "macintosh"} {
+      if {$::tcl_platform(platform) == "windows"} {
 	 set v(shape,wanted) 0
 	 set v(shape,bg) 0
       } else {
@@ -302,21 +313,26 @@ proc InitDefaults {argv} {
 
    # If shape path is not defined by user, look for a writable path
    if {$v(path,shape)==""} {
-     set testpaths {}
-     if {[info exists env(TMP)]} {
-       lappend testpaths $env(TMP)
-     }
-     if {[info exists env(TEMP)]} {
-       lappend testpaths $env(TEMP)
-     }
-     if {$::tcl_platform(platform) == "unix"} {
-       lappend testpaths "/var/lib/transcriber" "/var/lib/trans" "/var/tmp/trans" "/tmp/trans" "/var/tmp"
-     }
-     lappend testpaths "/tmp" "/temp"
-     foreach path $testpaths {
-       if {[file isdir $path] && [file writable $path]} {
-	 set v(path,shape) $path
-	 break
+     if {$::tcl_platform(os) == "Darwin"} {
+	 set v(path,shape) $env(HOME)/Library/Caches/Transcriber
+	 file mkdir $v(path,shape)
+     } else {
+       set testpaths {}
+       if {[info exists env(TMP)]} {
+	 lappend testpaths $env(TMP)
+       }
+       if {[info exists env(TEMP)]} {
+	 lappend testpaths $env(TEMP)
+       }
+       if {$::tcl_platform(platform) == "unix"} {
+	 lappend testpaths "/var/lib/transcriber" "/var/lib/trans" "/var/tmp/trans" "/tmp/trans" "/var/tmp"
+       }
+       lappend testpaths "/tmp" "/temp"
+       foreach path $testpaths {
+	 if {[file isdir $path] && [file writable $path]} {
+	   set v(path,shape) $path
+	   break
+	 }
        }
      }
      # We could pop-up a dialog box to the user and inform of the choice
@@ -626,7 +642,7 @@ proc LoadModules {} {
       About Debug Dialog Edit Episode Events Interface Menu Play Segmt
       Signal Speaker Spelling Synchro Topic Trans Undo Waveform Xml MultiWav
    } {
-      if {$module == "Xml" && [namespace children :: xml] != ""} continue
+      if {$module == "Xml" && [info commands ::xml::init] != ""} continue
       uplevel \#0 [list source [file join $v(path,tcl) $module.tcl]]
    }
 
@@ -760,6 +776,9 @@ proc StartWith {argv} {
 	      # Increment "i" to avoid interpreting the configuration file as an argument  
 	      incr i
  	    }
+            "-psn*" { 
+	      # id sent by Mac OS X
+	    }
 	    "-*" {
 	       return -code error "unsupported command line option $val"
 	    }
@@ -796,7 +815,11 @@ proc StartWith {argv} {
 
    # Load trans and associated audio
    #set v(trans,path) [pwd]
-   set v(trans,path)   [file join $v(path,base) "demo"]
+   if {$::tcl_platform(os) == "Darwin"} {
+     set v(trans,path)   [file dir [file dir [file dir $v(path,base)]]]
+   } else {
+     set v(trans,path)   [file join $v(path,base) "demo"]
+   }
    if {$trans == "" || [catch {
       ReadTrans $trans $sig $multiwav
       SetCursor $pos

@@ -92,7 +92,7 @@ proc Signal {name {mode "reset"}} {
 	       ShapeAbort
 	       
 	       # launch sub-process
-	       set bg [open "| [info nameofexecutable] [file join $v(path,tcl) BgShape.tcl] $name $shapeName $v(sig,rate) $v(sig,channels) $v(sig,header)"]
+	      set bg [open [list "|" [info nameofexecutable] [file join $v(path,tcl) BgShape.tcl] $name $shapeName $v(sig,rate) $v(sig,channels) $v(sig,header)]]
 	       fileevent $bg readable [list ShapeDone $bg $sound $name $shapeName]
 	       set v(shape,bgchan) $bg
 	       
@@ -343,29 +343,22 @@ proc ConfigureAudioFile {} {
    set f .audioconf
    CreateModal $f "Audio file options"
 
-   # Configuration for remote access - currently hidden
-   set g [frame $f.rem -relief raised -bd 1]
+   # Configuration for playback
+   set g [frame $f.pla -relief raised -bd 1]
    pack $g -fill both -expand true -side top
-   checkbutton $g.chk -text "Remote file access" -variable v(sig,remote) -anchor w -padx 3m -command "FrameState $g.frem \$v(sig,remote)"
-   pack $g.chk -side top -fill x -expand true
-   set h [frame $g.frem]
-   EntryFrame $h.ser "Server" v(sig,server)
-   EntryFrame $h.por "Port" v(sig,port)
-   pack $h.ser $h.por -side left -expand true -fill x
-   pack $h -side top -fill x -expand true
-   FrameState $h $v(sig,remote)
-
-   # Configuration for remote playback
-   set g [frame $f.rpb -relief raised -bd 1]
-   pack $g -fill both -expand true -side top
-   checkbutton $g.chk -text "Remote playback" -variable v(playbackRemote) -anchor w -padx 3m -command "FrameState $g.frem \$v(playbackRemote)"
-   pack $g.chk -side top -fill x -expand true
-   set h [frame $g.frem]
-   EntryFrame $h.ser "Server" v(playbackServer)
-   EntryFrame $h.por "Port" v(playbackPort)
-   pack $h.ser $h.por -side left -expand true -fill x
-   pack $h -side top -fill x -expand true
-   FrameState $h $v(playbackRemote)
+#    MenuFrame $g.mode "Playback mode" v(playbackMode) {
+#       "Continuous playback"
+#       "Pause at segment boundaries"
+#       "Beep at segment boundaries"
+#       "Stop at next segment boundary"
+#       "Loop on segment or selection after pause"
+#    } {"continuous" "pause" "beep" "stop" "loop"}
+   EntryFrame $g.del "Pause duration (in seconds)" v(playbackPause); $g.del.ent conf -width 6; pack $g.del.ent -expand false
+   EntryFrame $g.bip "Beep sound file" v(playbackBeep)
+   button $g.bip.but -text [Local "Browse..."] -command {BrowseBeep}; pack $g.bip.but -side right -padx 1m -fill x -expand true
+   EntryFrame $g.before "Go back before playing (in seconds)" v(playbackBefore); $g.before.ent conf -width 6; pack $g.before.ent -expand false
+   checkbutton $g.en4 -text [Local "Automatic selection playback"] -variable v(play,auto) -anchor w -padx 3m -pady 2m
+   pack $g.en4 -side top -expand true -fill x
 
    # Configuration for raw sound files
    set g [frame $f.raw -relief raised -bd 1]
@@ -398,22 +391,29 @@ proc ConfigureAudioFile {} {
    }
    FrameState $h $v(shape,wanted)
 
-   # Configuration for playback
-   set g [frame $f.pla -relief raised -bd 1]
+   # Configuration for remote access
+   set g [frame $f.rem -relief raised -bd 1]
    pack $g -fill both -expand true -side top
-#    MenuFrame $g.mode "Playback mode" v(playbackMode) {
-#       "Continuous playback"
-#       "Pause at segment boundaries"
-#       "Beep at segment boundaries"
-#       "Stop at next segment boundary"
-#       "Loop on segment or selection after pause"
-#    } {"continuous" "pause" "beep" "stop" "loop"}
-   EntryFrame $g.del "Pause duration (in seconds)" v(playbackPause); $g.del.ent conf -width 6; pack $g.del.ent -expand false
-   EntryFrame $g.bip "Beep sound file" v(playbackBeep)
-   button $g.bip.but -text [Local "Browse..."] -command {BrowseBeep}; pack $g.bip.but -side right -padx 1m -fill x -expand true
-   EntryFrame $g.before "Go back before playing (in seconds)" v(playbackBefore); $g.before.ent conf -width 6; pack $g.before.ent -expand false
-   checkbutton $g.en4 -text [Local "Automatic selection playback"] -variable v(play,auto) -anchor w -padx 3m -pady 2m
-   pack $g.en4 -side top -expand true -fill x
+   checkbutton $g.chk -text "Remote file access" -variable v(sig,remote) -anchor w -padx 3m -command "FrameState $g.frem \$v(sig,remote)"
+   pack $g.chk -side top -fill x -expand true
+   set h [frame $g.frem]
+   EntryFrame $h.ser "Server" v(sig,server)
+   EntryFrame $h.por "Port" v(sig,port)
+   pack $h.ser $h.por -side left -expand true -fill x
+   pack $h -side top -fill x -expand true
+   FrameState $h $v(sig,remote)
+
+   # Configuration for remote playback
+   set g [frame $f.rpb -relief raised -bd 1]
+   pack $g -fill both -expand true -side top
+   checkbutton $g.chk -text "Remote playback" -variable v(playbackRemote) -anchor w -padx 3m -command "FrameState $g.frem \$v(playbackRemote)"
+   pack $g.chk -side top -fill x -expand true
+   set h [frame $g.frem]
+   EntryFrame $h.ser "Server" v(playbackServer)
+   EntryFrame $h.por "Port" v(playbackPort)
+   pack $h.ser $h.por -side left -expand true -fill x
+   pack $h -side top -fill x -expand true
+   FrameState $h $v(playbackRemote)
 
    set answer [OkCancelModal $f $f]
    if {$answer == "OK"} {

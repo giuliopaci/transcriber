@@ -28,7 +28,7 @@ proc PlayRange {{begin 0} {end 0} {script {}}} {
      }
    } elseif {[info commands player] == ""} {
      snack::sound player
-     if {$::tcl_platform(platform) != "macintosh" && [info commands snack::filter] != "" && ![info exists v(sig,filter)]} {
+     if {[info commands snack::filter] != "" && ![info exists v(sig,filter)]} {
        set v(sig,filter) [snack::filter map]
      }
    }
@@ -231,15 +231,14 @@ proc IsPlaying {{state {}}} {
    global v
 
    if {$state != ""} {
-      if {$::tcl_platform(platform) != "macintosh"} {
-	if {$state} {
-	  $v(tk,play) config -state disabled
-	  $v(tk,stop) config -state active
-	} else {
-	  $v(tk,play) config -state active
-	  $v(tk,stop) config -state disabled
-	}
+      if {$state} {
+	 $v(tk,play) config -state disabled
+	 $v(tk,stop) config -state normal
+      } else {
+         $v(tk,play) config -state normal
+	 $v(tk,stop) config -state disabled
       }
+      update
       set v(play,state) $state
    } else {
       if ![info exists v(play,state)] {

@@ -73,18 +73,32 @@ proc add_menu {m liste} {
 	       set Menu(menu,$name) $new_m
 	       lappend option -menu [add_menu $new_m $arg]
 	    }
+            -acc {
+               if {[info tclversion] < 8.4 || [tk windowingsystem] != "aqua"} {
+                  lappend option $cmd $arg
+               }
+           }
 	    -bind {
-	       lappend option -accelerator $arg
-	       if {![regsub -- {-([^-]*)$} $arg {-Key-\1} sequence]} {
-		  set sequence "Key-$arg"
-	       }
-	       foreach {short long} {
-		  "C(trl)?-" "Control-"
-		  "A-" "Alt-" 
-		  "S(hft)?-" "Shift-"
-	       } {
-		  regsub $short $sequence $long sequence
-	       }
+               if {![regsub -- {-([^-]*)$} $arg {-Key-\1} sequence]} {
+                  set sequence "Key-$arg"
+               }
+               if {[info tclversion] >= 8.4 && [tk windowingsystem] == "aqua"} {
+                  if {[regsub "C(trl)?-" $arg "Cmd-" arg] 
+                  || [regsub "A(lt)?-" $arg "Alt-" arg]
+                  || [regsub "S(hift)?-" $arg "Shift-" arg]} {
+                     lappend option -accelerator [string toupper $arg]
+                     set sequence ""
+                  }
+               } else {
+                  lappend option -accelerator $arg
+                  foreach {short long} {
+                     "C(trl)?-" "Control-"
+                     "A-" "Alt-" 
+                     "S(hft)?-" "Shift-"
+                  } {
+                     regsub $short $sequence $long sequence
+                  }
+               }
 	    }
 	    -* {
 	       lappend option $cmd $arg	       
@@ -340,13 +354,22 @@ proc InitMenus {} {
    config_menu "Segmentation" -postcommand UpdateSegmentationMenu
 
    if {$v(debug)} {
-      append_menu "Help" {
-	 {""}
-	 {"Debug"		cascade {
+      if {[info tclversion] >= 8.4 && [tk windowingsystem] == "aqua"} {
+	 append_menu "Help" {
+	    {""}
 	    {"Update"		cmd {LoadModules}}
-	    {"Refresh"		cmd {Refresh}}
-	    {"Expert mode"	cmd {CreateDebug}}
-	 }}
+            {"Refresh"		cmd {Refresh}}
+            {"Expert mode"	cmd {console show}}
+         }
+      } else {
+	 append_menu "Help" {
+	    {""}
+	    {"Debug"		cascade {
+	      {"Update"		cmd {LoadModules}}
+	      {"Refresh"	cmd {Refresh}}
+	      {"Expert mode"	cmd {CreateDebug}}
+	    }}
+	 }
       }
    }
    if {$v(chatMode)} {
@@ -419,8 +442,6 @@ proc UpdateEditMenu {} {
 
 proc UpdateSegmentationMenu {} {
    global v
-
-   if {$::tcl_platform(platform) == "macintosh"} return
 
    if {[GetSegmtNb seg0] > 0} {
       set state normal

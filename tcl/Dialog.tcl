@@ -57,6 +57,7 @@ proc WaitForModal {w e varName} {
    }
    set oldFocus [focus]
    grab $w
+   update
    focus $e
    tkwait variable $varName
    catch {focus $oldFocus}
@@ -104,7 +105,7 @@ proc EntryFrame {w title varName} {
    set e [entry $w.ent -text $varName]
    #$e insert insert $value
    $e select range 0 end
-   $e index end
+   $e icursor end
    $e xview end
    pack $l -side left -padx 3m -pady 2m
    pack $e -expand true -fill x -side left -padx 3m -pady 2m
@@ -232,14 +233,24 @@ proc ColorFrame {w title varName} {
    upvar $varName var
    frame $w
    set l [label $w.lab -width 20 -anchor e -text "[Local $title]:"]
-   set b [button $w.col -bg $var -activebackground $var -command [subst {
+   set b [ColoredButton $w.col [subst {
       ChooseColor $varName; 
       $w.col conf -bg $$varName -activebackground $$varName
-   }]]
+   }] -bg $var -activebackground $var -width 2]
    pack $l -side left -padx 3m
    pack $b -side right -padx 3m
    pack $w -side top -fill x -expand true
    return $b
+}
+
+proc ColoredButton {w cmd args} {
+  if {[info tclversion] >= 8.4 && [tk windowingsystem] == "aqua"} {
+    eval {label $w -relief raised} $args
+    bind $w <Button-1> $cmd
+    return $w  
+  } else {
+    eval {button $w -command $cmd} $args
+  }
 }
 
 ################################################################

@@ -175,8 +175,8 @@ proc CreateSectionButton {section} {
 
    set button $v(tk,edit).[namespace tail $section]
    set name [::section::long_name $section]
-   button $button -text $name -width [max 20 [string length $name]] \
-       -command "::section::edit $section" \
+   ColoredButton $button "::section::edit $section" \
+       -text $name -width [max 20 [string length $name]] \
        -cursor top_left_arrow \
        -activeforeground $v(color,fg-sect) -fg $v(color,fg-sect) \
        -activebackground $v(color,bg-sect) -bg $v(color,bg-sect)
@@ -204,8 +204,8 @@ proc CreateEpisodeButton {episode} {
 
    set button $v(tk,edit).[namespace tail $episode]
    set name "Edit File"
-   button $button -text $name -width [max 20 [string length $name]] \
-       -command "EditEpisode" \
+   ColoredButton $button "EditEpisode" \
+       -text $name -width [max 20 [string length $name]] \
        -cursor top_left_arrow \
        -activeforeground $v(color,fg-sect) -fg $v(color,fg-sect) \
        -activebackground $v(color,bg-sect) -bg $v(color,bg-sect)
@@ -235,8 +235,8 @@ proc CreateTurnButton {turn} {
 
    set button $v(tk,edit).[namespace tail $turn]
    set name [::turn::get_name $turn]
-   button $button -text $name -anchor w -padx 1m -pady 0 \
-       -command "::turn::edit $turn" \
+   ColoredButton $button "::turn::edit $turn" \
+       -text $name -anchor w -padx 1m -pady 0 \
        -cursor top_left_arrow \
        -activeforeground $v(color,fg-turn) -fg $v(color,fg-turn) \
        -activebackground $v(color,bg-turn) -bg $v(color,bg-turn)

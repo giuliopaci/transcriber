@@ -9,8 +9,7 @@
 proc SpellChecking {} {
    global v
 
-   if {$::tcl_platform(platform) == "windows" \
-	   || $::tcl_platform(platform) == "macintosh"} {
+   if {$::tcl_platform(platform) == "windows"} {
      tk_messageBox -type ok -icon error -message \
  	 [Local "Sorry, spell checker not available on this platform"]
    }
