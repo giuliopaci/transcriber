@@ -521,7 +521,6 @@ proc TextFilter {t option args} {
 	       if { [regexp {(^NE.*)tag} $colortag match color] } {
 		   set colortag ${color}text
 	       }
-	       puts $colortag
 	       if { $colortag != "" } {
 		   lappend args [list $data sync hilight $colortag]
 	       } else {
