@@ -1,4 +1,4 @@
-# Localization for Transcriber saved on Fri Oct 17 17:37:24 CEST 2003 with encoding iso8859-1
+# Localization for Transcriber saved on Fri Oct 17 19:03:27 CEST 2003 with encoding iso8859-1
 
 array set local_fr {
 {}
@@ -210,7 +210,7 @@ Arabic
 Axis
 	Axes
 Background
-	{}
+	{Bruit de fond}
 background
 	{}
 {Background attributes}
@@ -234,7 +234,7 @@ Bindings
 Bindings...
 	{Raccourcis clavier...}
 Both
-	{}
+	{Gauche et droite}
 Browse...
 	Parcourir...
 Bulgarian
@@ -254,7 +254,7 @@ Channels
 Chinese
 	chinois
 {Choose beep file}
-	{}
+	{Choisir un fichier 'bip'}
 {Choose first speaker}
 	{Choisir le 1er locuteur}
 {Choose font}
@@ -380,7 +380,7 @@ Edit
 {Edit turn attributes...}
 	{Paramètres du tour...}
 Encoding
-	{}
+	Encodage
 {End of event}
 	{Fin d'événement}
 {End of line}
@@ -560,7 +560,7 @@ Latin3
 Latin4
 	{}
 Left
-	{}
+	Gauche
 Lexical
 	Lexical
 Lexical...
@@ -777,7 +777,7 @@ Restart
 Revert
 	{Revenir au fichier}
 Right
-	{}
+	Droite
 {rire en fond}
 	{}
 Romanian
@@ -855,7 +855,7 @@ Speakers
 stereo
 	{}
 {Stereo channel}
-	{}
+	{Restitution stéréo}
 {Stop at next segment boundary}
 	{Stop à la prochaine frontière}
 {Stop before next segment boundary}
@@ -871,7 +871,7 @@ Synchro
 Text
 	Texte
 {Text editor}
-	{}
+	{Editeur de texte}
 {Text foreground}
 	{}
 top
@@ -903,7 +903,7 @@ Turkish
 Turn
 	Tour
 Turns
-	{}
+	{Tours de parole}
 Type
 	Catégorie
 Undo

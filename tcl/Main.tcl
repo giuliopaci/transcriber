@@ -32,7 +32,7 @@ exec wish "$0" ${1:+"$@"}
 proc Main {argv} {
    global v
 
-   wm title . "Transcriber 1.4.6"
+   wm title . "Transcriber 1.4.6+"
    wm protocol . WM_DELETE_WINDOW { Quit }
 
    InitDefaults $argv
@@ -525,7 +525,8 @@ proc ChangedLocal {} {
    global v
 
    # try to read language-specific localization file if necessary
-   if {![array exists local_$v(lang)]} {
+   upvar \#0 local_$v(lang) local
+   if {![array exists local]} {
      set fileName [format $v(file,local) $v(lang)]
      if {$fileName != $v(file,local) && [file readable $fileName]} {
        LoadLocal $fileName
