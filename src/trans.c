@@ -15,6 +15,7 @@
 #if defined(__WIN32__)
 #  define WIN32_LEAN_AND_MEAN
 #  include <windows.h>
+#  define EXTERN __declspec(dllexport)
 #  undef WIN32_LEAN_AND_MEAN
 #  define EXPORT(a,b) __declspec(dllexport) a b
 BOOL APIENTRY
