@@ -236,7 +236,7 @@ proc InitMenus {} {
 	     {"Find speaker"		cmd {::speaker::find}}	
 	     {"Import from file..." 	cmd {::speaker::import}}
 	     {"Remove unused speakers" 		cmd {::speaker::purge}}
-	     {"Update db" 		cmd {::speaker::Maj_bdg}}
+	     {"Update global speakers database" 		cmd {::speaker::Maj_bdg}}
 	     {""}
 	     {"Automatic import from selected file"	check v(importSpeakers)}
 	 }}
@@ -250,11 +250,12 @@ proc InitMenus {} {
 	 {""}
 	 {"Insert event..."		cascade {
 	    {"Isolated noise"	cmd {CreateEvent "b" "noise" "instantaneous" 1}  -bind "Ctrl-d"}
-	    {"Overlapping noise"	cmd {CreateEvent "b" "noise" "previous" 1}}
-	    {"Pronounce"		cmd {CreateEvent "" "pronounce" "previous" 1} -bind "Alt-equal"}
-	    {"Language"			cmd {CreateEvent "en" "language" "previous" 1}}
-	    {"Lexical"			cmd {CreateEvent "" "lexical" "previous" 1}}
-	    {"Comment"			cmd {CreateEvent "" "comment"}}
+	    {"Overlapping noise"	cmd {CreateAutoEvent "b" "noise" "previous" 1}}
+	    {"Pronounce"		cmd {CreateAutoEvent "" "pronounce" "previous" 1} -bind "Alt-equal"}
+	    {"Language"			cmd {CreateAutoEvent "en" "language" "previous" 1}}
+	    {"Lexical"			cmd {CreateAutoEvent "" "lexical" "previous" 1}}
+	    {"Comment"			cmd {CreateAutoEvent "" "comment"}}
+	    {"Named Entities"                 cmd {CreateAutoEvent "" "entities"} -bind "Ctrl-e"} 
 	 }}
       }}
       {"Signal" -underline 0	cascade {
@@ -320,7 +321,7 @@ proc InitMenus {} {
 	 {"Insert background"	cmd {CreateBackground}}
 	 {""}
 	 {"Create turn..."	cmd {ChangeSegType Turn} -bind "Ctrl-t"}
-	 {"Create section..."	cmd {ChangeSegType Section} -bind "Ctrl-e"}
+	 {"Create section..."	cmd {ChangeSegType Section} -bind "Ctrl-r"}
 	 {"Edit turn attributes..."	cmd {::turn::edit} -bind "Ctrl-Alt-t"}	
 	 {"Edit section attributes..."	cmd {::section::edit}}	
 	 {""}
@@ -336,11 +337,15 @@ proc InitMenus {} {
 	    {"Edit pronounce list..."	cmd {ConfEventName "pronounce" "Pronounce"}}
 	    {"Edit lexical list..."	cmd {ConfEventName "lexical" "Lexical"}}
 	    {"Edit language list..."	cmd {ConfEventName "language" "Language"}}
+	    {"Edit named entities list..."	cmd {ConfEventName "entities" "Named Entities"}} 
 	 }}
 	 {"Display" -underline 0	cascade {
-	    {"Text editor"	check v(view,.edit) -command {SwitchTextFrame}}
-	    {"Command buttons"	check v(view,.cmd) -command {SwitchFrame .cmd  -before .snd}}
-	    {"Second signal view"	check v(view,.snd2) -command {SwitchSoundFrame .snd2}}
+	    {"Text editor"	check v(view,.edit) -command {SwitchTextFrame} -bind "F2"}
+	    {"NE buttons"  check v(view,.edit.ne) -command {SwitchNEFrame .edit.ne} -bind "F3"}
+	    {"Command buttons"	check v(view,.cmd) -command {SwitchFrame .cmd  -after .edit} -bind "F4"}
+	    {"First signal view"	check v(view,.snd) -command {SwitchFrame .snd} -bind "F5"} 
+	    {"Second signal view"	check v(view,.snd2) -command {SwitchFrame .snd2} -bind "F6"}
+	    {"Messages"  check v(view,.msg) -command {SwitchFrame .msg -side bottom} -bind "F7"}
 	    {"Smart segmentation display"	check v(hideLevels) -command {UpdateSegmtView}}
 	    {"Colorize speaker segments"	check v(colorizeSpk) -command {ColorizeSpk}}
 	 }}
@@ -352,6 +357,7 @@ proc InitMenus {} {
 	    {"Messages"		cmd {set v(font,mesg)  [ChooseFont mesg] }}
 	    {"Lists"		cmd {set v(font,list)  [ChooseFont list] }}
 	    {"Axis"		cmd {set v(font,axis)  [ChooseFont axis] }}
+	    {"NE buttons"      cmd {set v(font,NEbutton) [ChooseFont NEbutton];UpdateNEFrame .edit.ne }} 
 	 }}
 	 {"Colors..."		cmd {ConfigureColors}}
 	 {"Bindings..."		cmd {ConfigureBindings}}
@@ -361,7 +367,7 @@ proc InitMenus {} {
  	 {"Save configuration as..."	cmd {SaveOptions as}}
       }}
       {"Help" -underline 0 cascade {
-	 {"About..."		cmd {ViewHelp "Index"}}
+	 {"About..."		cmd {ViewHelp "Index"} -bind "F1"}
 	 {""}
 	 {"Presentation"	cmd {ViewHelp "Presentation"}}
 	 {"Main features"	cmd {ViewHelp "Main features"}}
