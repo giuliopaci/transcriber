@@ -471,7 +471,7 @@ proc SaveTrans {{as ""} {format ""}} {
    global v
 
     if { [info exists ::xml::parser::modifdtd] && $::xml::parser::modifdtd == "1" } {
-	set rep [tk_messageBox -message [Local "This file is formated for older version of Transcriber (<1.5.0).\nExport to new format ?\n\n\"yes\" will export to new format and make your file only usable with Transcriber-1.5.0 or higher (recommended).\n\n\"no\" will keep the original format."] -type yesnocancel -icon question]
+	set rep [tk_messageBox -message [Local "This file is formated for older version of Transcriber (<1.4.7).\nExport to new format ?\n\n\"yes\" will export to new format and make your file only usable with Transcriber-1.4.7 or higher (recommended).\n\n\"no\" will keep the original format."] -type yesnocancel -icon question]
 	switch $rep {
 	    cancel { return }
 	    yes    {
@@ -541,7 +541,7 @@ proc SaveIfNeeded {} {
    global v
 
     if { [info exists ::xml::parser::modifdtd] && $::xml::parser::modifdtd == "1" } {
-	set rep [tk_messageBox -message [Local "This file is formated for older version of Transcriber (<1.5.0).\nExport to new format ?\n\n\"yes\" will export to new format and make your file only usable with Transcriber-1.5.0 or higher (recommended).\n\n\"no\" will keep the original format."] -type yesnocancel -icon question]
+	set rep [tk_messageBox -message [Local "This file is formated for older version of Transcriber (<1.4.7).\nExport to new format ?\n\n\"yes\" will export to new format and make your file only usable with Transcriber-1.4.7 or higher (recommended).\n\n\"no\" will keep the original format."] -type yesnocancel -icon question]
 	switch $rep {
 	    cancel { return -code error cancel }
 	    yes    {
