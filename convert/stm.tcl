@@ -223,7 +223,7 @@ namespace eval stm {
 			set spk2 [normalize_name [lindex $spk 1]]
 			ignoreSVL $t0 $t1 $spk1 $spk2
 		    } else {
-			ignore $to $t1
+			ignore $t0 $t1
 		    }
 		    continue
 		}
