@@ -39,6 +39,7 @@ extern Tk_CustomOption axisTagsOption;
 */
 
 int useOldObjAPI = 0;
+int littleEndian = 0;
 
 /* Called by "load trans" */
 EXPORT(int,Trans_Init) _ANSI_ARGS_(( Tcl_Interp *interp))
@@ -46,6 +47,10 @@ EXPORT(int,Trans_Init) _ANSI_ARGS_(( Tcl_Interp *interp))
    Tcl_CmdInfo infoPtr;
    char *version;
    int res;
+   union {
+     char c[sizeof(short)];
+     short s;
+   } order;
 
 #ifdef USE_TCL_STUBS
    if (Tcl_InitStubs(interp, "8", 0) == NULL) {
@@ -86,6 +91,12 @@ EXPORT(int,Trans_Init) _ANSI_ARGS_(( Tcl_Interp *interp))
 			(ClientData)Tk_MainWindow(interp),
 			(Tcl_CmdDeleteProc *)NULL);
   }
+
+   /* Determine computer byte order */
+   order.s = 1;
+   if (order.c[0] == 1) {
+     littleEndian = 1;
+   }
 
    return TCL_OK;
 }

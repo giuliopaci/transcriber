@@ -16,16 +16,7 @@
 #include <tk.h>
 
 extern int useOldObjAPI;
-
-#if defined Linux || defined WIN || defined _LITTLE_ENDIAN
-#  define LE
-#endif
-
-#ifdef LE
-static char *byteOrder="littleEndian";
-#else
-static char *byteOrder="bigEndian";
-#endif
+extern int littleEndian;
 
 #define BE_OK(x) {int res = (x); if (res != TCL_OK) return res;}
 
@@ -361,7 +352,7 @@ static int ReadSignal( Wavfm *w, long pos, long width)
    if (w->signal == NULL || strlen(w->signal)==0) return -1;
 
    sprintf(cmd, "datasamples -start %ld -end %ld -byteorder %s\n",
-	   pos, pos+width-1, byteOrder);
+	   pos, pos+width-1, (littleEndian ? "littleEndian" : "bigEndian"));
    if (SendCmd( w, cmd) != TCL_OK) return -1;
    
    if (w->sampObj != NULL) {
@@ -445,7 +436,8 @@ static int ReadShape( Wavfm *w, int width, double begin, double length)
 
    sprintf(cmd, "shape -width %d -start %ld -end %ld -byteorder %s",
 	   width, (long) floor(w->rate*begin),
-	   (long) ceil(w->rate*(begin+length))-1, byteOrder);
+	   (long) ceil(w->rate*(begin+length))-1,
+	   (littleEndian ? "littleEndian" : "bigEndian"));
    if (w->shapename != NULL && strlen(w->shapename) > 0) {
       strcat(cmd, " -shape ");
       strcat(cmd, w->shapename);
