@@ -1,316 +1,653 @@
-<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
-<html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="en-gb">
 <head>
-   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-   <meta name="GENERATOR" content="Mozilla/4.61 [en] (X11; I; Linux 2.2.12-32smp i686) [Netscape]">
-   <meta name="Author" content="C. Barras">
-   <title>Transcriber's Installation</title>
+  <meta content="text/html; charset=ISO-8859-1"
+ http-equiv="content-type">
+  <title>Installation of Transcriber 1.4.7</title>
+  <meta content="Mathieu MANTA - DGA" name="author">
+  <meta
+ content="Installation of Transcriber 1.4.7 from sources and binaries on Windows, Linux and Mac OS"
+ name="description">
 </head>
-<body text="#000000" bgcolor="#FFFFFF" link="#0000EF" vlink="#51188E" alink="#FF0000">
-
-<h3>
-<a href="inst_142.html">Binary installation of version 1.4.2 for Windows
-NT</a></h3>
-
-
-<h3>
-Binary installation for Unix</h3>
-
+<body>
+<div style="text-align: center;"><big><big><big
+ style="font-weight: bold;"><big>Installation
+of Transcriber 1.4.7</big></big></big></big><br>
+</div>
+<big><big><big style="font-weight: bold;"><br>
+Installation
+from sources</big><big><br>
+</big></big></big>
 <ul>
-<li>
-Make sure you have an installed version of Tcl/Tk 8.0 or higher and get
-the binary archive for your system (e.g. Linux, Solaris...) matching your
-version of Tcl/Tk (8.0 ... 8.3).</li>
-
-<li>
-Switch to the place where you want to install the tool, e.g.:</li>
-
+  <li><big><big><big>&nbsp; <small><a
+ href="#Linux_installation_from_sources">Linux
+installation from sources</a></small></big></big></big></li>
+</ul>
 <ul>
-<pre>$ cd /usr/local</pre>
+  <li><big><big><big><small>&nbsp;&nbsp; <a
+ href="#Windows_installation_from_sources">Windows
+installation from sources</a></small></big></big></big></li>
 </ul>
-If you choose to install into a non-standard directory, make sure to set
-the environnement variables of your system (e.g., <tt>PATH</tt> and
-<tt>LD_LIBRARY_PATH</tt>)
-to the right values.
-<li>
-Extract the files from the archive:</li>
-
 <ul>
-<pre>$ gunzip -c Transcriber-1.4.4-Linux.tar.gz | tar xf -</pre>
+  <li><big><big><big><small>&nbsp;&nbsp; <a
+ href="#Mac_OS_installation_from_sources">Mac
+OS installation from sources</a></small></big></big></big></li>
 </ul>
-
-<li>
-Launch the tool:</li>
-
+<big><big><big><small><br>
+</small></big><big style="font-weight: bold;">Binary
+installation<br>
+</big></big></big>
 <ul>
-<pre>$ trans</pre>
+  <li><big><big><big style="font-weight: bold;">&nbsp;&nbsp; </big><big><small><a
+ href="#Linux_binary_installation">Linux
+binary installation</a></small></big></big></big></li>
 </ul>
-You will be asked to open a transcription or a sound signal to start a
-new transcription.
-<li>
-Look in the Help directory for some hints about Transcriber's use or view
-it directly in your HTML browser (start with <tt>lib/transcriber1.4/doc/Index.html</tt>)</li>
+<ul>
+  <li><big><big><big><small>&nbsp;&nbsp;&nbsp; <a
+ href="#Windows_binary_installation">Windows
+binary installation</a></small></big></big></big></li>
 </ul>
-
-<h3>
-Installation from the sources</h3>
-Transcriber relies on several softwares or libraries that you need to install
-first : Tcl/Tk 8.0 - 8.3, Snack 2.0, tcLex 1.2 and optionaly NIST/Sphere
-2.6 . Step 1-4 are for these modules, step 5-6 are for the content of Transcriber
-distribution.
+<ul>
+  <li><big><big><big><small>&nbsp;&nbsp;&nbsp; <a
+ href="#Mac_OS_binary_installation">Mac
+OS binary installation</a></small></big></big></big></li>
+</ul>
+<br>
+<hr style="width: 100%; height: 2px;"><big><big
+ style="font-weight: bold;"><a name="Linux_installation_from_sources"></a>Linux
+installation from sources<br>
+</big></big><br>
+<p style="margin-bottom: 0.5cm;" align="justify"><big><i>Transcriber</i>
+relies on several softwares or libraries that you
+need to install
+first : Tcl/Tk, Snack, tcLex and optionally NIST/Sphere. The complete
+procedure is explained in the following steps:</big></p>
+<ul>
+  <li>
+    <p style="margin-bottom: 0.5cm;" align="justify">If
+Tcl/Tk version 8.0 or higher is not
+already installed on your system, get it on Tcl developper Xchange
+website : </p>
+  </li>
+</ul>
 <ol>
-<li>
-If Tcl/Tk version 8.0 or higher is not already installed on your system,
-get it on Scriptic's server :</li>
-
-<ol>
-<pre><a href="http://dev.scriptics.com/software/tcltk/choose.html">http://dev.scriptics.com/software/tcltk/choose.html</a></pre>
+  <ol>
+    <pre style="margin-bottom: 0.5cm; text-align: justify;"><a
+ href="http://www.tcl.tk/software/tcltk/choose.html">http://www.tcl.tk/software/tcltk/choose.html</a></pre>
+  </ol>
+  <p align="justify">or
+one of its mirrors and unpack them: </p>
+  <ol>
+    <pre style="margin-bottom: 0.5cm; text-align: justify;">$ g<span
+ style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">unzip -c tcl.tar.gz | tar xf -</span></pre>
+  </ol>
+  <p align="justify"><span
+ style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">Choose
+an installation directory (e.g. </span><tt><span
+ style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">&lt;
+size="2"&gt;/usr/local</span></tt><span
+ style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">)
+and follow instructions found in </span><tt><span
+ style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;"><font
+ size="2">tcl/README</font></span></tt><span
+ style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">
+and </span><tt><span
+ style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;"><font
+ size="2">tk/README</font></span></tt><span
+ style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">
+(configure with </span><tt><span
+ style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;"><font
+ size="2">--enable-shared</font></span></tt><span
+ style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">
+option). For Tcl under Unix, it will be something like: </span> </p>
+  <ol>
+    <pre style="text-align: justify;"><span
+ style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">$ cd tcl/unix</span><br><span
+ style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">$ ./configure --enable-gcc --enable-shared --prefix=/usr/local</span><br><span
+ style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">$ make</span><br><span
+ style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">$ make install</span></pre>
+  </ol>
+  <p style="margin-bottom: 0cm;" align="justify"><span
+ style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">Do
+the same for Tk. If you choose to install into a different</span>
+directory, make sure to set the environnement variables of your system
+(e.g., <tt><font size="2">PATH</font></tt>
+and <tt><font size="2">LD_LIBRARY_PATH</font></tt>)
+to the right values.</p>
 </ol>
-or one of its mirrors and unpack them:
+<ul>
+  <li>
+    <p style="margin-bottom: 0.5cm;" align="justify">This
+step is needed only if you plan to use Sphere sound file format with
+Snack. Get NIST/Sphere archive: </p>
+  </li>
+</ul>
 <ol>
-<pre>$ gunzip -c tcl8.3.2.tar.gz | tar xf -</pre>
+  <ol>
+    <pre style="margin-bottom: 0.5cm; text-align: justify;"><a
+ href="ftp://jaguar.ncsl.nist.gov/pub/sphere_2.6a.tar.Z">ftp://jaguar.ncsl.nist.gov/pub/sphere_2.6a.tar.Z</a></pre>
+  </ol>
+  <p align="justify">Unpack
+it in a sibling directory of this distribution </p>
+  <ol>
+    <pre style="margin-bottom: 0.5cm; text-align: justify;">$ zcat sphere_2.6a.tar.Z | tar xf -</pre>
+  </ol>
+  <p align="justify">Then
+install it: </p>
+  <ol>
+    <pre style="margin-bottom: 0.5cm; text-align: justify;">$ cd nist; sh src/scripts/install.sh</pre>
+  </ol>
+  <p style="margin-bottom: 0cm;" align="justify">You
+will be asked the target platform. For Linux, choose 10 (i.e. custom)
+and change following values (the other ones should be OK): </p>
+  <ol>
+    <li>
+      <p style="margin-bottom: 0cm;" align="justify">What
+is/are the Compiler Flags: -O -Wall -fPIC </p>
+    </li>
+    <li>
+      <p style="margin-bottom: 0cm;" align="justify">What
+is/are the Architecture: INTEL </p>
+    </li>
+  </ol>
+  <p style="margin-bottom: 0cm;" align="justify">NB - <span
+ style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">For
+Linux Distributions older than Redhat 5.x and Debian 2.x, you need to
+comment the following line inside the file </span><tt><span
+ style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;"><font
+ size="2">nist/src/lib/sp/exit.c</font> </span></tt><span
+ style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">:
+  </span><tt><span
+ style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;"><font
+ size="2">extern char
+*sys_errlist[];</font> </span></tt><span
+ style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">(thanks
+to Dafydd Gibbon for this information) For the courageous ones, a patch
+is given in the <i>Transcriber</i>
+source distribution in </span><tt><span
+ style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;"><font
+ size="2">src/patch-sphere</font></span></tt><span
+ style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">
+for a dynamic compilation of Sphere libs under Linux. </span> </p>
 </ol>
-Choose an installation directory (e.g. <tt>/usr/local</tt>) and follow
-instructions found in <tt>tcl8.3.2/README</tt> and <tt>tk8.3.2/README</tt>
-(configure with <tt>--enable-shared</tt> option). For Tcl 8.3.2 under Unix,
-it will be something like:
+<ul>
+  <li>
+    <p style="margin-bottom: 0.5cm;" align="justify"><span
+ style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">Get
+the last Snack library. Depending on whether you want to compile it
+yourself or not, download source or binary library release at :</span></p>
+  </li>
+</ul>
 <ol>
-<pre>$ cd tcl8.3.2/unix
-$ ./configure --enable-gcc --enable-shared --prefix=/usr/local
-$ make
-$ make install</pre>
+  <ol>
+    <pre style="margin-bottom: 0.5cm; text-align: justify;"><a
+ href="http://www.speech.kth.se/snack/"><span
+ style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">http://www.speech.kth.se/snack/</span></a></pre>
+  </ol>
+  <p align="justify"><span
+ style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">If
+you want to compile it yourself, then extract it: </span> </p>
+  <ol>
+    <pre style="margin-bottom: 0.5cm; text-align: justify;"><span
+ style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">$ gunzip -c snack.tar.gz | tar xf -</span></pre>
+  </ol>
+  <p align="justify"><span
+ style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">Then
+follow the instructions in README and install Snack, e.g. with: </span>
+  </p>
+  <ol>
+    <pre style="text-align: justify;"><span
+ style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">$ cd snack/unix</span><br><span
+ style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">$ ./configure --prefix=/usr/local</span><br><span
+ style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">$ make</span><br>$ make install</pre>
+  </ol>
+  <p style="margin-bottom: 0cm;" align="justify">NB: </p>
+  <ol>
+    <li>
+      <p style="margin-bottom: 0cm;" align="justify">If '<tt><font
+ size="2">./configure</font></tt>'
+fails, you have probably Tcl/Tk installed in a non standard directory;
+give it with <tt><font size="2">--with-tcl</font> </tt>and <tt><font
+ size="2">--with-tk</font> </tt>options. </p>
+    </li>
+    <li>
+      <p style="margin-bottom: 0cm;" align="justify">for use
+with Tcl/Tk version 8.0, add the option <tt><font size="2">--disable-stubs</font></tt>
+      </p>
+    </li>
+    <li>
+      <p style="margin-bottom: 0cm;" align="justify">Be sure
+to get the latest release </p>
+    </li>
+    <li>
+      <p style="margin-bottom: 0cm;" align="justify">In
+order to use Sphere format, configure with <tt><font size="2">--with-nist=...</font></tt>
+      </p>
+    </li>
+    <li>
+      <p style="margin-bottom: 0cm;" align="justify">Test
+Snack demos! </p>
+    </li>
+  </ol>
 </ol>
-Do the same for Tk. If you choose to install into a different directory,
-make sure to set the environnement variables of your system (e.g., <tt>PATH</tt>
-and <tt>LD_LIBRARY_PATH</tt>) to the right values.
-<li>
-This step is needed only if you plan to use Sphere sound file format with
-Snack. Get NIST/Sphere archive:</li>
-
 <ul>
-<pre><a href="ftp://jaguar.ncsl.nist.gov/pub/sphere_2.6a.tar.Z">ftp://jaguar.ncsl.nist.gov/pub/sphere_2.6a.tar.Z</a></pre>
+  <li>
+    <p style="margin-bottom: 0.5cm;" align="justify">Get
+tcLex 1.2 module: </p>
+  </li>
 </ul>
-Unpack it in a sibling directory of this distribution
-<ul>
-<pre>$ zcat sphere_2.6a.tar.Z | tar xf -</pre>
-</ul>
-Then install it:
-<ul>
-<pre>$ cd nist; sh src/scripts/install.sh</pre>
-</ul>
-You will be asked the target platform. For Linux, choose 10 (i.e. custom)
-and change following values (the other ones should be OK):
-<ul>
-<li>
-What is/are the Compiler Flags: -O -Wall -fPIC</li>
-
-<li>
-What is/are the Architecture: INTEL</li>
-</ul>
-NB - For recent Linux Distributions (i.e. Redhat 5.x or Debian 2.x) you
-need to comment the following line inside the file <tt>nist/src/lib/sp/exit.c
-</tt>:
-<tt>extern
-char *sys_errlist[]; </tt>(thanks to Dafydd Gibbon for this information)
-For the courageous ones, a patch is given in the Transcriber source distribution
-in <tt>src/patch-sphere</tt> for a dynamic compilation of Sphere libs under
-Linux.
-<li>
-Get Snack 2.0 module:</li>
-
 <ol>
-<pre><a href="http://www.speech.kth.se/snack/">http://www.speech.kth.se/snack/</a></pre>
+  <ol>
+    <pre style="margin-bottom: 0.5cm; text-align: justify;"><a
+ href="http://www.multimania.com/fbonnet/Tcl/tcLex/">http://www.multimania.com/fbonnet/Tcl/tcLex/</a></pre>
+  </ol>
+  <p align="justify">extract
+it: </p>
+  <ol>
+    <pre style="margin-bottom: 0.5cm; text-align: justify;">$ gunzip -c tcLex1.2a1.tar.gz | tar xf -</pre>
+  </ol>
+  <p align="justify">Then
+follow the instructions in README.txt and install tcLex, e.g. with: </p>
+  <ol>
+    <pre style="text-align: justify;">$ cd tcLex1.2a1/src<br>$ chmod a+x configure install-sh<br>$ ./configure --prefix=/usr/local<br>$ make<br>$ make install</pre>
+  </ol>
+  <p style="margin-bottom: 0cm;" align="justify">NB -
+You need to have the complete sources of Tcl for building this
+extension, since it relies on specific header files not installed by
+standard Tcl installation. </p>
 </ol>
-extract it:
 <ul>
-<pre>$ gunzip -c snack2.0.1.tar.gz | tar xf -</pre>
+  <li>
+    <p style="margin-bottom: 0.5cm;" align="justify"><span
+ style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;"></span>Extract
+the source archive of Transcriber, compile and install it:</p>
+    <ol>
+      <ul>
+        <pre>$ gunzip -c Transcriber-1.4.4.tar.gz | tar xf -<br>$ cd Transcriber-1.4.4/src<br>$ ./configure --with-snack=... --with-tcl=... --with-tk=... --prefix=...<br>$ make<br>$ make install</pre>
+      </ul>
+    </ol>
+  </li>
 </ul>
-Then follow the instructions in README and install Snack, e.g. with:
-<ul>
-<pre>$ cd snack2.0.1/unix&nbsp;
-$ ./configure --prefix=/usr/local&nbsp;
-$ make&nbsp;
-$ make install</pre>
-</ul>
-NB:
-<ul>
-<li>
-If '<tt>./configure</tt>' fails, you have probably Tcl/Tk installed in
-a non standard directory; give it with <tt>--with-tcl </tt>and <tt>--with-tk
-</tt>options.</li>
-
-<li>
-for use with Tcl/Tk version 8.0, add the option <tt>--disable-stubs</tt></li>
-
-<li>
-Be sure to get the latest release</li>
-
-<li>
-In order to use Sphere format, configure with <tt>--with-nist=...</tt></li>
-
-<li>
-Test Snack demos!</li>
-</ul>
-
-<li>
-Get tcLex 1.2 module:</li>
-
-<ol>
-<pre><a href="http://www.multimania.com/fbonnet/Tcl/tcLex/">http://www.multimania.com/fbonnet/Tcl/tcLex/</a></pre>
-</ol>
-extract it:
-<ul>
-<pre>$ gunzip -c tcLex1.2a1.tar.gz | tar xf -</pre>
-</ul>
-Then follow the instructions in README.txt and install tcLex, e.g. with:
-<ul>
-<pre>$ cd tcLex1.2a1/src&nbsp;
-$ chmod a+x configure install-sh
-$ ./configure --prefix=/usr/local&nbsp;
-$ make&nbsp;
-$ make install</pre>
-</ul>
-NB - You need to have the complete sources of Tcl for building this extension,
-since it relies on specific header files not installed by standard Tcl
-installation.
-<li>
-Extract the source archive of Transcriber, compile and install it:</li>
-
-<ul>
-<pre>$ gunzip -c Transcriber-1.4.4.tar.gz | tar xf -
-$ cd Transcriber-1.4.4/src
-$ ./configure --with-snack=... --with-tcl=... --with-tk=... --prefix=...
-$ make
-$ make install</pre>
-</ul>
-
-<li>
-As options to the <tt>./configure </tt>command, you have to give the directory
-where Snack archive was extracted (<tt>--with-snack=...</tt>), the directories
+<div style="margin-left: 40px;">As options to the <tt>./configure </tt>command,
+you have to give the directory
+where Snack archive was extracted (<tt>--with-snack=...</tt>), the
+directories
 where Tcl and Tk were installed (<tt>--with-tcl=...--with-tk=...</tt>),
 and the directory where you will install Transcriber (<tt>--prefix=...</tt>).
-For use with Tcl/Tk version 8.0, add the option <tt>--disable-stubs.</tt></li>
-
-<br>&nbsp;
-<p>&nbsp;
-<p>NB - If you change the directory structure after installation, you have
-to edit 'trans' launcher script and give the right absolute path: TRANSPATH=...
-(the lib path where transcriber1.4 sub-dir is to be found)
-<li>
-Test it !</li>
-
+For use with Tcl/Tk version 8.0, add the option <tt>--disable-stubs.</tt></div>
 <ul>
-<pre>$ trans</pre>
 </ul>
-You will be asked to open a sound signal or a transcription; some are found
-in the '<tt>demo</tt>' sub-directory</ol>
-
-<h3>
-
-<hr WIDTH="100%">Distribution structure:</h3>
-
 <ul>
-<li>
-Structure of the source distribution :</li>
-
+  <li>
+    <p style="margin-bottom: 0.5cm;" align="justify">Test it
+! </p>
+  </li>
+</ul>
+<ol>
+  <ol>
+    <pre style="margin-bottom: 0.5cm; text-align: justify;">$ trans</pre>
+  </ol>
+  <p align="justify">You
+will be asked to open a sound signal or a transcription; some are found
+in the '<tt><font size="2">demo</font></tt>'
+sub-directory</p>
+</ol>
+<hr style="width: 100%; height: 2px;">
+<ol>
+</ol>
+<p style="margin-bottom: 0cm;"><big><big style="font-weight: bold;"><a
+ name="Windows_installation_from_sources"></a>Windows
+installation from sources</big></big></p>
+<p style="margin-bottom: 0.5cm;" align="justify"> The
+installation in a
+Windows environment looks like the Linux one because it also uses the
+tools <font size="2"><font face="Bitstream Vera Sans">configure</font></font>
+and <font size="2"><font face="Bitstream Vera Sans">make</font></font>.
+It consists in:</p>
 <ul>
-<li>
-Transcriber-1.4.4/</li>
-
+  <ul>
+    <li>
+      <p style="margin-bottom: 0.5cm;" align="justify">installing
+the tools, MinGW and MinSYS, to enable to compile using <font size="2"><font
+ face="Bitstream Vera Sans">make</font></font>
+and <font size="2"><font face="Bitstream Vera Sans">configure </font></font>on
+Windows.</p>
+    </li>
+    <li>
+      <p style="margin-bottom: 0.5cm;" align="justify">installing
+the libraries TcLex and Snack, used by <i>Transcriber</i></p>
+    </li>
+    <li>
+      <p style="margin-bottom: 0.5cm;" align="justify">using a
+kit (TclKit) that embeds Tcl and Tk to source <i>Transcriber</i></p>
+    </li>
+  </ul>
+</ul>
+<p style="margin-bottom: 0.5cm;" align="justify">Hereunder,
+the
+different steps are detailed:</p>
 <ul>
-<li>
-README</li>
-
-<li>
-COPYING</li>
-
-<li>
-contrib/ . . . external archives</li>
-
+  <li>
+    <p style="margin-bottom: 0.5cm;" align="justify">Download <i>Transcriber</i>
+source package for Windows at<span
+ style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">
+    </span><a
+ href="http://sourceforge.net/project/showfiles.php?group_id=40021&amp;package_id=51790"><span
+ style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">http://sourceforge.net/project/showfiles.php?group_id=40021&amp;package_id=51790</span></a><span
+ style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">
+and extract it in </span><a href="file:///c:/TransSource"><span
+ style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;"><span
+ style="font-style: normal;"><font size="2"><font
+ face="Bitstream Vera Sans">c:\TransSource</font></font></span></span></a></p>
+  </li>
+  <li>
+    <p style="margin-bottom: 0.5cm;" align="justify">Download
+the MinGW binary at <a href="http://www.mingw.org/">http://www.mingw.org/
+    </a> and install it in<font size="2"><font
+ face="Bitstream Vera Sans"> </font></font><a href="file:///c:/MinGW"><span
+ style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;"><span
+ style="text-decoration: none;"><font size="2"><font
+ face="Bitstream Vera Sans"><font color="#000000">c:\MinGW</font></font></font></span></span></a>
+(not in <a href="file:///c:/Program"><span
+ style="text-decoration: none;"><font color="#000000">c:<font size="2"><font
+ face="Bitstream Vera Sans">\Program</font></font></font></span></a><span
+ style="text-decoration: none;"><font size="2"><font
+ face="Bitstream Vera Sans"><font color="#000000"> Files </font></font></font></span>because
+it does not handle paths with white spaces). MinGW ("Minimalistic GNU
+for Windows") refers to a set of runtime headers, used in building a
+compiler system based on the GNU GCC and binutils projects. It compiles
+and links code to be run on Win32 platforms, providing C, C++ and
+Fortran compilers plus other related tools.</p>
+  </li>
+  <li>
+    <p style="margin-bottom: 0.5cm;" align="justify">Download
+the MinSYS binary at <a href="http://www.mingw.org/">http://www.mingw.org/</a>
+install it in <a href="file:///c:/MSYS"><span
+ style="text-decoration: none;"><font size="2"><font
+ face="Bitstream Vera Sans"><font color="#000000">c:\MSYS</font></font></font></span></a><span
+ style="text-decoration: none;"><font size="2"><font
+ face="Bitstream Vera Sans"><font color="#000000">.</font></font></font></span>
+MinSYS or Minimal SYStem is a POSIX and Bourne shell environment use
+with MinGW. It provides a hand picked set of tools to allow a typical
+configuration script with Bourne syntax to execute. This allows most of
+the GNU packages to create a Makefile just from executing the typical
+configure script which can then be used to build the package using the
+native MinGW version of GCC.</p>
+  </li>
+  <li>
+    <p style="margin-bottom: 0.5cm;" align="justify">Download
+Tcl/Tk binary library at <a href="http://www.mingw.org/">http://www.mingw.org/
+    </a> and install it in <a href="file:///c:/MinGW"><span
+ style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;"><span
+ style=""><span style="text-decoration: none;"><font size="2"><font
+ face="Bitstream Vera Sans"><font color="#000000">c:\MinGW</font></font></font></span></span></span></a><span
+ style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;"><span
+ style=""><span style="text-decoration: none;"><font size="2"><font
+ face="Bitstream Vera Sans"><font color="#000000"> </font></font></font></span></span></span>.
+Those libraries are used during the linkage step of the <i>Transcriber</i>
+compilation.</p>
+  </li>
+  <li>
+    <p style="margin-bottom: 0.5cm;" align="justify">Launch
+MinGW (by cliquing on its icon) and move to <font size="2"><font
+ face="Bitstream Vera Sans">c:\TransSource\src</font></font>
+directory:</p>
+  </li>
+</ul>
+<ol>
+  <ol>
+    <ol>
+      <p style="margin-bottom: 0.5cm;" align="justify"><font
+ face="Bitstream Vera Sans"><font size="2">cd
+c:\TransSource\src</font></font></p>
+      <p style="margin-bottom: 0.5cm;" align="justify">Launch
+the compilation/installation precising Tcl and Tk library paths and <i>Transcriber</i>
+installation directory</p>
+      <p style="margin-bottom: 0.5cm;" align="justify"><font size="2"><font
+ face="Bitstream Vera Sans">./configure
+--with-tcl=/mingw/lib --with-tk=/mingw/lib/ --prefix=</font></font><a
+ href="file:///c:/TransBin"><font size="2"><font
+ face="Bitstream Vera Sans">c:\TransBin</font></font></a></p>
+      <p style="margin-bottom: 0.5cm;" align="justify"><font
+ face="Bitstream Vera Sans"><font size="2">make</font></font></p>
+      <p style="margin-bottom: 0.5cm;" align="justify"><font
+ face="Bitstream Vera Sans"><font size="2">make install</font></font></p>
+    </ol>
+  </ol>
+</ol>
 <ul>
-<li>
-html_library-0.3/</li>
+  <li>
+    <p style="margin-bottom: 0.5cm;" align="justify"> <span
+ style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">Download
+TclLex windows binary library at <a
+ href="http://membres.lycos.fr/fbonnet/Tcl/tcLex/">http://membres.lycos.fr/fbonnet/Tcl/tcLex/</a>
+and extract it in <font size="2"><font face="Bitstream Vera Sans">c:\TransBin\lib\TcLex12a1</font></font></span></p>
+  </li>
+  <li>
+    <p style="margin-bottom: 0.5cm;" align="justify"> <font
+ face="Bitstream Vera Sans"><font size="2"><span
+ style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;"><font
+ size="3"><font face="Nimbus Roman No9 L">Download
+the last Snack binary release for windows with Tcl/<span
+ style="text-decoration: none;">Tk</span>
+at <u style="color: rgb(0, 0, 238);">http://www.speech.kth.se/snack/download.html</u><span
+ style="color: rgb(0, 0, 238);">
+    </span>. Extract it and copy the content of</font></font>
+Snack\bin\windows (ie all .dll, .lib and snack.tcl and pkgIndex.tcl) to
+c:\TransBin\lib\Snack</span></font></font></p>
+  </li>
+  <li>
+    <p style="margin-bottom: 0.5cm;" align="justify">Download
+Tclkit for Windows at <a href="http://www.equi4.com/tclkit.html">http://www.equi4.com/tclkit.html</a>
+and copy it in <font size="2"><font face="Bitstream Vera Sans">c:\TransBin</font></font>.
+This tool embeds in a single executable file all what you need to
+source Tcl an Tk script files. To source <i>Transcriber</i>,
+you just have to launch Tclkit and type :</p>
+  </li>
 </ul>
-
-<li>
-src/ . . . sources for new Tcl commands and Tk widgets</li>
-
-<li>
-tcl/ . . . Tcl scripts.</li>
-
-<li>
-<tt>convert/... </tt>Tcl script modules for format conversion</li>
-
-<li>
-img/ . . . bitmap images</li>
-
-<li>
-doc/ . . . help files</li>
-
-<li>
-etc/ . . . default files</li>
-
-<li>
-demo/ . . . for sound and transcription files</li>
-</ul>
-</ul>
-
-<li>
-Structure of a Unix binary distribution (as a result of a standard installation):</li>
-
+<ol>
+  <ol>
+    <ol start="0">
+      <p style="margin-bottom: 0.5cm;" align="justify"> <font
+ face="Bitstream Vera Sans"><font size="2"><span
+ style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">source
+c:\TransBin\lib\Transcriber1.4\tcl\Main.tcl</span></font></font></p>
+      <p style="margin-bottom: 0.5cm;" align="justify"> <font
+ face="Nimbus Roman No9 L"><font size="3"><span
+ style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">Note,
+that if you prefer to use Active Tcl (<a
+ href="http://www.activestate.com/">http://www.activestate.com/</a>),
+in that case you don't have to install Snack because it is included in
+it. And if you want to launch <i>Transcriber</i>,
+you just have to launch Wish and then type:</span></font></font></p>
+      <p style="margin-bottom: 0.5cm;" align="justify"> <font
+ face="Bitstream Vera Sans"><font size="2"><span
+ style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">source
+c:\TransBin\lib\Transcriber1.4\tcl\Main.tcl</span></font></font></p>
+      <p style="margin-bottom: 0.5cm; text-decoration: none;"
+ align="justify"> <font color="#000000"><span
+ style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">The
+Tclkit solution is preferred to Active Tcl because it enables to create
+a single setup package for <i>Transcriber</i>
+which includes: the <i>Transcriber</i>
+binary and script files, the Snack library, the TcLex library, Tcl and
+Tk. And nothing else is needed to run <i>Transcriber</i>.</span></font></p>
+    </ol>
+  </ol>
+</ol>
+<hr style="width: 100%; height: 2px;">
+<big style="font-weight: bold;"><big><a
+ name="Mac_OS_installation_from_sources"></a>Mac
+OS installation from sources<br>
+<br>
+</big></big>
+<p style="text-decoration: none;"><font color="#000000"><font
+ face="Nimbus Roman No9 L"><font size="3"><span
+ style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">The
+installation procedure described here, just concerns the Mac OS X
+10.3 version, usually called
+&laquo;&nbsp;panther&nbsp;&raquo;.</span></font></font></font></p>
 <ul>
-<li>
-lib/ =></li>
-
+  <li style="background-color: rgb(255, 255, 255);">
+    <p style="margin-bottom: 0.5cm; text-decoration: none;"
+ align="justify"><font color="#000000"><font face="Nimbus Roman No9 L"><font
+ size="3"><span
+ style="background-image: none; background-repeat: repeat; background-attachment: scroll; background-position: 0% 50%;"><span
+ style="background-image: none; background-repeat: repeat; background-attachment: scroll; background-position: 0% 50%;">Download
+Transcriber 1.4.7 for Mac OS on SourceForge website at <a
+ href="http://sourceforge.net/project/showfiles.php?group_id=40021"><span
+ style="color: rgb(0, 0, 238);">http://sourceforge.net/project/showfiles.php?group_id=40021</span></a></span><a
+ style="color: rgb(0, 0, 238);"
+ href="http://sourceforge.net/project/showfiles.php?group_id=40021&amp;package_id=51790&amp;release_id=197307"><span
+ style="background-image: none; background-repeat: repeat; background-attachment: scroll; background-position: 0% 50%;"><font
+ size="3"><font face="Nimbus Roman No9 L"><br>
+    </font></font></span></a></span></font></font></font></p>
+  </li>
+  <li>
+    <p style="margin-bottom: 0.5cm; text-decoration: none;"
+ align="justify"> <font color="#000000"><font face="Nimbus Roman No9 L"><font
+ size="3"><span
+ style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">Decompress
+it</span></font></font></font></p>
+  </li>
+  <li>
+    <p style="margin-bottom: 0.5cm; text-decoration: none;"
+ align="justify"> <font color="#000000"><font face="Nimbus Roman No9 L"><font
+ size="3"><span
+ style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">Install
+MacOS development kit (including gcc)</span></font></font></font></p>
+  </li>
+  <li style="background-color: rgb(255, 255, 255);">
+    <p style="margin-bottom: 0.5cm; text-decoration: none;"
+ align="justify"> <font color="#000000"><font face="Nimbus Roman No9 L"><font
+ size="3"><span
+ style="background-image: none; background-repeat: repeat; background-attachment: scroll; background-position: 0% 50%;"><span
+ style="background-image: none; background-repeat: repeat; background-attachment: scroll; background-position: 0% 50%;">Install
+Tcl/Tk 8.4.5 at<span style="color: rgb(0, 0, 238);"> </span></span><a
+ style="color: rgb(0, 0, 238);"
+ href="http://prdownloads.sourceforge.net/tcl/TclTkAquaBI-8.4.5.0.dmg?download"><span
+ style="background-image: none; background-repeat: repeat; background-attachment: scroll; background-position: 0% 50%;"><font
+ size="3"><font face="Nimbus Roman No9 L">http://prdownloads.sourceforge.net/tcl/TclTkAquaBI-8.4.5.0.dmg?download</font></font></span></a><span
+ style="background-image: none; background-repeat: repeat; background-attachment: scroll; background-position: 0% 50%;"><font
+ size="3"><font face="Nimbus Roman No9 L"><font color="#000000"><span
+ style="color: rgb(0, 0, 238);"> </span>which
+contain pre-compiled versions of Snack and tcLex libraries.</font></font></font></span></span></font></font></font></p>
+  </li>
+  <li style="background-color: rgb(255, 255, 255);">
+    <p style="margin-bottom: 0.5cm; text-decoration: none;"
+ align="justify"> <font color="#000000"><font face="Nimbus Roman No9 L"><font
+ size="3"><span
+ style="background-image: none; background-repeat: repeat; background-attachment: scroll; background-position: 0% 50%;">Compile
+libtrans library:</span></font></font></font></p>
+  </li>
+</ul>
+<ol>
+  <ol>
+    <p style="margin-bottom: 0.5cm; text-decoration: none;"
+ align="justify"> <font color="#000000"><font face="Nimbus Roman No9 L"><font
+ size="3"><span
+ style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">-
+paths and compilation flags of Makefile should be modified, depending
+on your configuration (the one that has been used to create the binary
+version is present in the 'snapshot' version of <i>Transcriber</i>
+on SourceForge in the file src/Makefile-MacOSX)</span></font></font></font></p>
+    <p style="margin-bottom: 0.5cm; text-decoration: none;"
+ align="justify"> <font color="#000000"><font face="Nimbus Roman No9 L"><font
+ size="3"><span
+ style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">-
+then '<i>make</i>'</span></font></font></font></p>
+  </ol>
+</ol>
+<br>
+<hr style="width: 100%; height: 2px;"><big><big
+ style="font-weight: bold;"><a name="Linux_binary_installation"></a>Linux
+binary installation</big></big><br>
 <ul>
-<li>
-html_library-0.3/</li>
-
-<li>
-snack2.0/</li>
-
-<li>
-tcLex1.2/</li>
-
-<li>
-transcriber1.4/ =></li>
-
+  <li>
+    <p style="margin-bottom: 0cm;" align="justify">Download
+the last Linux binary distribution at <a
+ href="http://sourceforge.net/project/showfiles.php?group_id=40021">http://sourceforge.net/project/showfiles.php?group_id=40021</a></p>
+  </li>
+  <li>
+    <p style="margin-bottom: 0cm;" align="justify">Make
+sure you have an installed version of Tcl/Tk 8.0 or higher and get the
+binary archive for your system (e.g. Linux, Solaris...) matching your
+version of Tcl/Tk. </p>
+  </li>
+  <li>
+    <p align="justify">Switch
+to the place where you want to install the tool, e.g.: </p>
+    <ul>
+      <pre style="margin-bottom: 0.5cm; text-align: justify;">$ cd /usr/local</pre>
+    </ul>
+    <p style="margin-bottom: 0cm;" align="justify">If you
+choose to install into a non-standard directory, make sure to set the
+environnement variables of your system (e.g., <tt><font size="2">PATH</font></tt>
+and <tt><font size="2">LD_LIBRARY_PATH</font></tt>)
+to the right values. </p>
+  </li>
+  <li>
+    <p align="justify">Extract
+the files from the archive: </p>
+    <ul>
+      <pre style="margin-bottom: 0.5cm; text-align: justify;">$ gunzip -c Transcriber-1.4.7.tar.gz | tar xf -</pre>
+    </ul>
+  </li>
+  <li>
+    <p align="justify">Launch
+the tool: </p>
+    <ul>
+      <pre style="margin-bottom: 0.5cm; text-align: justify;">$ trans</pre>
+    </ul>
+    <p style="margin-bottom: 0cm;" align="justify">You
+will be asked to open a transcription or a sound signal to start a new
+transcription. </p>
+  </li>
+</ul>
+<br>
+<hr style="width: 100%; height: 2px;"><big style="font-weight: bold;"><big><a
+ name="Windows_binary_installation"></a>Windows
+binary installation<br>
+</big></big>
 <ul>
-<li>
-libtrans.so</li>
-
-<li>
-pkgIndex.tcl</li>
-
-<li>
-tcl/</li>
-
-<li>
-img/</li>
-
-<li>
-etc/</li>
-
-<li>
-doc/</li>
+  <li>
+    <p>Download the last Windows binary
+distribution at</p>
+    <p style="margin-bottom: 0cm;"><a
+ href="http://sourceforge.net/project/showfiles.php?group_id=40021"><span
+ style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">http://sourceforge.net/project/showfiles.php?group_id=40021</span></a></p>
+  </li>
+  <li>
+    <p>Double-click on it and
+follow the installation guide.</p>
+  </li>
 </ul>
-</ul>
-
-<li>
-bin/trans</li>
-</ul>
-</ul>
-
-<h3>
-
-<hr WIDTH="100%"><a NAME="problems"></a>Possible problems</h3>
-
+<br>
+<hr style="width: 100%; height: 2px;"><big><big
+ style="font-weight: bold;"><a name="Mac_OS_binary_installation"></a>Mac
+OS binary installation</big></big><br>
 <ul>
-<li>
-Playback can fail if there is a mismatch between signal format and soundcard
-capabilities (e.g., 16 bits signal on audio cards which only support 8kHz
-8 bits mu-law).</li>
+  <li> Installation guide for Mac OS
+X 10.3:</li>
+  <li>
+    <p>Download the last Mac OS binary
+distribution (*.dmg) at</p>
+  </li>
 </ul>
-
+<p><font size="3"><font face="Nimbus Roman No9 L"><font color="#000000"><span
+ style="color: rgb(0, 0, 238);">&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; </span></font></font><a
+ style="color: rgb(0, 0, 238);"
+ href="http://sourceforge.net/project/showfiles.php?group_id=40021"><font
+ size="3"><font face="Nimbus Roman No9 L">http://sourceforge.net/project/showfiles.php?group_id=40021</font></font></a></font></p>
+<ul>
+  <li><font color="#000000"><font face="Nimbus Roman No9 L"><font
+ size="3">Decompress it
+using 'Disk utility' (done automatically by double-clicking on the .dmg
+file) and drag-and-dropping the <i>Transcriber</i>
+application in the Application folder.</font></font></font></li>
+</ul>
+<br>
+<br>
 </body>
 </html>
