@@ -5,7 +5,7 @@ exec wish "$0" ${1:+"$@"}
 # RCS: @(#) $Id$
 
 # TRANSCRIBER - a free tool for segmenting, labeling and transcribing speech
-# Copyright (C) 1998-2000, DGA
+# Copyright (C) 1998-2004, DGA
 
 # WWW:          http://www.etca.fr/CTA/gip/Projets/Transcriber/Index.html
 # Mailing list: transcriber@etca.fr
