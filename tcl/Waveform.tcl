@@ -215,7 +215,7 @@ proc ScrollReso {wavfm cmd {val 0} {unit ""}} {
       set v($wavfm,size) 1e-5
    }
    # Min value for zoom if no shape is available
-   if {$v(shape,cmd) == "" && $v($wavfm,size) > $v(shape,min)} {
+   if {$v(sig,cmd) != "" && $v(shape,cmd) == "" && $v($wavfm,size) > $v(shape,min)} {
       DisplayMessage "Lower resolution not allowed without signal shape"
       set v($wavfm,size) $v(shape,min)
    }
