@@ -2,21 +2,23 @@
 
 TRANS_LIB = @TRANS_LIB@
 TRANS_LIB_DIR = @TRANS_LIB@/@TRANS_DIR@
+
 TRANS_BIN = @TRANS_BIN@
 
 #----------------------------------------------------------------
-
-CC        = @CC@
-
-INCLUDES  = @XINCLUDES@ -I@TCL_SRC_DIR@/generic -I@TK_SRC_DIR@/generic -I@TCL_PREFIX@/include -I@TK_PREFIX@/include
+OS 	= @OS@
+CC      = @CC@
+#INCLUDES  = @XINCLUDES@ -I@TCL_SRC_DIR@/generic -I@TK_SRC_DIR@/generic -I@TCL_PREFIX@/include -I@TK_PREFIX@/include
+INCLUDES = @INCLUDES@
 
 CFLAGS    = -O @CFLAGS@ ${INCLUDES} @TCLAPI@
 #CFLAGS    = -O -Wall @CFLAGS@ @AFLAG@ ${INCLUDES}
 
-LIBS      = -lc @TK_LIBS@ @TCL_LIB_SPEC@ @TK_LIB_SPEC@
+#LIBS      = -lc @TK_LIBS@ @TCL_LIB_SPEC@ @TK_LIB_SPEC@
+LIBS      = @LIBS@
 
 SHLIB_LD     = @SHLIB_LD@
-SHLIB_SUFFIX = @SHLIB_SUFFIX@
+SHLIB_SUFFIX = @LIB_SUFFIX@
 
 all: libtrans${SHLIB_SUFFIX}
 
@@ -28,10 +30,12 @@ libtrans${SHLIB_SUFFIX}: ${OBJS}
 
 install:
 	@if [ ! -d ${TRANS_LIB} ] ; then \
+            echo Creating ${TRANS_LIB} directory ; \
 	    mkdir ${TRANS_LIB}  ; \
-	fi;
-	@if [ ! -d ${TRANS_BIN} ] ; then \
-	    mkdir ${TRANS_BIN}  ; \
+	fi; 
+	if [ ! -d ${TRANS_BIN} ] && [ ${OS} = UnixLike ] ; then \
+            echo Creating ${TRANS_BIN} directory ; \
+	    mkdir ${TRANS_BIN} ; \
 	fi;
 	@if [ ! -d ${TRANS_LIB_DIR} ] ; then \
 	    mkdir ${TRANS_LIB_DIR} ${TRANS_LIB_DIR}/tcl ${TRANS_LIB_DIR}/convert; \
@@ -44,8 +48,11 @@ install:
 	cp -f ../convert/*.tcl ../convert/README ${TRANS_LIB_DIR}/convert
 	cp -rf ../img ../doc ../etc ../demo ../COPYING ../README ${TRANS_LIB_DIR}/
 	cp -rf ../contrib/html_library-0.3 ${TRANS_LIB}
-	cp -f trans ${TRANS_BIN}/trans
-	chmod ugo+x ${TRANS_BIN}/trans
+	
+	@if [ ${OS} = UnixLike ] ; then \
+		cp -f trans ${TRANS_BIN}/trans; \
+		chmod ugo+x ${TRANS_BIN}/trans; \
+	fi;
 
 distrib-bin:
 	make install
@@ -55,4 +62,8 @@ clean:
 	rm -f *.o libtrans${SHLIB_SUFFIX} pkgIndex.tcl
 
 distclean: clean
-	rm -f Makefile trans config.status config.cache config.log
+	@if [ ${OS} = Windows ] ; then \
+		rm -f Makefile config.status config.cache config.log; \
+	else \
+		rm -f trans Makefile config.status config.cache config.log; \
+	fi;
