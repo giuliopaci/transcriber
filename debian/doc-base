@@ -1,0 +1,10 @@
+Document: transcriber
+Title: Manual of Transcriber 
+Author: Claude Barras
+Abstract: This is the on-line manual of Transcriber, an audio transcription tool
+Section: Apps/Sound
+
+Format: HTML
+Index: /usr/share/doc/transcriber/html/Index.html
+Files: /usr/share/doc/transcriber/html/en/*.html /usr/share/doc/transcriber/html/fr/*.html
+

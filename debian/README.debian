@@ -1,0 +1,27 @@
+transcriber for DEBIAN
+----------------------
+
+Comments regarding the Package.
+
+I used deb-make for the first time.  There might be stale file hanging
+around.  It is still difficult to use my own name (in PGP signing and
+such) _and_ be root for all the necessary chowns.  
+
+The NIST Sphere libries are traditionally difficult to compile on
+non-NIST computers.  I hacked the install script (that does
+everything, configuring, compiling, installing) to accept parameters
+for Linux, and changed it to compile only the library, as necessary
+for Transcriber. 
+
+The idea of NIST headers is still the best I've seen. 
+
+I had to install the Debian tcl8.0-dev and tk8.0-dev packages in order
+to compile Snack 1.2.  
+
+I had to remove explicit -L/usr/lib in the Makefile of libtrans.so,
+because otherwise, weirdly, some routines from libutil.a became
+undefined.  I guess either the linker is wrong or the link statement
+is in fact illegal.  (libutil.a is linked into libtrans.so, but
+components of libutil.a are not compiled -fPIC).  
+
+David van Leeuwen <vleeuwen@debian.org>, Mon, 16 Nov 1998 14:24:46 +0100

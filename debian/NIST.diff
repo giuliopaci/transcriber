@@ -1,0 +1,42 @@
+diff -ur contrib/nist/src/lib/sp/exit.c /usr/src/Trans-1.2/contrib/nist/src/lib/sp/exit.c
+--- contrib/nist/src/lib/sp/exit.c	Thu Jun  6 22:09:46 1996
++++ /usr/src/Trans-1.2/contrib/nist/src/lib/sp/exit.c	Mon Nov 16 15:27:27 1998
+@@ -33,7 +33,9 @@
+ extern int errno;
+ #endif
+ 
++#ifndef __USE_BSD
+ extern char *sys_errlist[];
++#endif
+ extern char *argv0;
+ extern char *filenameo;
+ extern FILE *fileo;
+diff -ur contrib/nist/src/scripts/install.sh /usr/src/Trans-1.2/contrib/nist/src/scripts/install.sh
+--- contrib/nist/src/scripts/install.sh	Mon Aug 26 21:32:00 1996
++++ /usr/src/Trans-1.2/contrib/nist/src/scripts/install.sh	Mon Nov 16 15:11:25 1998
+@@ -10,6 +10,7 @@
+ #   1.02  removed the shell functions for get_field and get_field_ids
+ #   1.03  Added new system definitions
+ #   1.04  Corrected the Custom Variable
++# DvL Made chages to allow for Linux and only do libraries
+ 
+ #### Define the echo command
+ if test "`echo -n foobar | egrep -e -n`" = "" ; then
+@@ -59,8 +60,9 @@
+ 7:HP Unix (with gcc):gcc -ansi::cp:ar -rs:ar -ru:HP
+ 8:HP Unix (with cc):cc -Aa::cp:ar -rs:ar -ru:HP
+ 9:IBM AIX:cc:-g:cp:ranlib:ar ru:AIX
+-10:Custom:cc:-g:install -s -m 755:ranlib:ar ru:SUN' | tr '\012' ','`
+-Custom=10
++10:Linux i386:gcc::cp:ranlib:ar -ru:LINUX
++11:Custom:cc:-g:install -s -m 755:ranlib:ar ru:SUN' | tr '\012' ','`
++Custom=11
+ 
+ #get_field(){
+ #    # $1 the definition string
+@@ -194,4 +196,4 @@
+ sh src/scripts/gen_make.sh `pwd`/src/scripts
+ 
+ echo "Creating executables . . . "
+-make install
++(cd src/lib; make install)

@@ -1,0 +1,284 @@
+transcriber (1.5.1-2) unstable; urgency=low
+
+  * Added explicit --x-includes /usr/X11R6/include --x-libraries
+    /usr/X11R6/lib in configure call, to facilitate poor arm and sparc
+    architectures, who can't seem to find X11/Xlib.h, despite libx11-dev
+    build-depends package.  Maybe this will help to get the package into
+    testing...
+
+ -- David A. van Leeuwen <vleeuwen@debian.org>  Sun, 20 Mar 2005 11:20:30 +0100
+
+transcriber (1.5.1-1) unstable; urgency=low
+
+  * Added Build-depends to libx11-dev, hopefully now (closes: #295314)
+
+ -- David A. van Leeuwen <vleeuwen@debian.org>  Tue, 15 Feb 2005 15:39:49 +0100
+
+transcriber (1.5.1-0) unstable; urgency=low
+
+  * New upstream release
+  * use transcriber.docs file
+  * use dh_installman rather than dh_installmanpages
+  * remove html_library sources and copyrights
+  * use version number 1.5 in /usr/lib/transcriber1.5; this is a very
+    tcl/tk-ish sty, it appears.  No version number is compatible with any 
+    other...
+  * make link from /usr/lib/transcriber1.5/etc to /etc/transcriber, rather
+    than change the script sources. 
+  * Use CVS as source; we are developer so maybe we can get this in the 
+    upstream source. 
+
+ -- David A. van Leeuwen <vleeuwen@debian.org>  Fri, 11 Feb 2005 22:47:35 +0100
+
+transcriber (1.4.6-4) unstable; urgency=low
+
+  * Removed world-writeable /var/lib/transcriber (closes: #257112)
+  * Accordingly, removed cron.daily entry
+  * removed dh_testversion (lintian)
+  * removed *.debhelper files
+  * referenced /usr/share/common-licenses/GPL (lintian)
+  * removed . in package synopsis (lintian)
+  * fixed random executable bits in /usr/lib/transcriber/convert (lintian)
+  * removed extra license file (lintian)
+  * appended more files in conffiles (lintian)
+  * renamed man section TRANS to NAME (lintian)
+  * added patch for vorbis ogg support, upstream may follow (closes:
+    #237988) 
+
+ -- David A. van Leeuwen <vleeuwen@debian.org>  Sun, 29 Aug 2004 23:55:02 +0200
+
+transcriber (1.4.6-3) unstable; urgency=low
+
+  * Removed build-depends on tk8.0-dev.  No so long ago it was essential
+    to get it compiled on some architectures.  See the comment at
+    1.4.5-2.  Sorry, lads.  
+    (closes: #248248)
+
+ -- David A. van Leeuwen <vleeuwen@debian.org>  Wed, 12 May 2004 21:25:26 +0200
+
+transcriber (1.4.6-2) unstable; urgency=low
+
+  * reverted dependencies on tclsh and wish to tcl8.4 and tk8.4.  Sorry,
+    but I can't seem to be able to make tcsl/tk version independent
+    code. (closes: #241261)
+
+ -- David A. van Leeuwen <vleeuwen@debian.org>  Tue,  4 May 2004 23:06:23 +0200
+
+transcriber (1.4.6-1) unstable; urgency=low
+
+  * Updated control long text description. (Closes: #214235)
+  * New upstream release. (Closes: Bug#216173)
+
+ -- David A. van Leeuwen <vleeuwen@debian.org>  Wed, 22 Oct 2003 16:35:47 +0200
+
+transcriber (1.4.5-2) unstable; urgency=low
+
+  * Added tk8.0-dev in build-depends, bacause non-i386 seem to need it. 
+    I can't check this.  tk8.3-dev should provide the tcl/tk includes. 
+    But the configure script obviously doesn't include the include
+    directories on non-i386 archs.  (closes: #207560, #205305, #210515)
+
+ -- David A. van Leeuwen <vleeuwen@debian.org>  Tue, 16 Sep 2003 23:09:55 +0200
+
+transcriber (1.4.5-1) unstable; urgency=low
+
+  * New upstream release (sourceforge).
+  * changed maintainers email address more consistently, expect spam to go
+    there, too. 
+  * removed dependency on obsolete tcl/tk 8.2 (closes: #183797)
+
+ -- David A. van Leeuwen <vleeuwen@debian.org>  Tue, 22 Apr 2003 12:58:59 +0200
+
+transcriber (1.4.4-2) unstable; urgency=low
+
+  * Changed dependencies on virtual packages tclsh and wish, in order not
+    to be do fussy about the actual tcl/tk version (closes: Bug#144512)
+  
+  * remove explicit version number of wish in tcl/Main.tcl and src/trans
+
+  * update title bar to reflect real source version (1.4.4), and add
+    packaging info. 
+  
+ -- David van Leeuwen <vleeuwen@debian.org>  Mon,  6 May 2002 09:46:48 +0200
+
+transcriber (1.4.4-1) unstable; urgency=low
+
+  * New upstream release
+  
+  * First fakeroot build
+
+ -- David van Leeuwen <vleeuwen@debian.org>  Thu, 18 Apr 2002 10:03:59 +0200
+
+transcriber (1.4.3-4) unstable; urgency=low
+
+  * put double quotes around menu item values.
+
+ -- David A. van Leeuwen <vleeuwen@debian.org>  Fri, 15 Mar 2002 10:59:45 +0100
+
+transcriber (1.4.3-3) frozen unstable; urgency=low
+
+  * changed priority from optional to extra
+  
+  * adapted conffiles according to reality (closes: Bug#132820). 
+  
+ -- David A. van Leeuwen <david@tm.tno.nl>  Mon, 11 Feb 2002 10:37:33 +0100
+
+transcriber (1.4.3-2) unstable; urgency=low
+
+  * Added debhelper in build-depends.
+  
+  * Rename --with-t{cl,k} make directives to /usr/lib/t{cl,k}8.2 
+    (closes: Bug#114719)
+
+  * Strip libtrans.so in `install' (lintian E). 
+  
+  * added /etc/cron.daily/transcriber to conffiles (lintian E). 
+  
+  * added dh_installmanpages (lintian E.)
+  
+ -- David A. van Leeuwen <david@tm.tno.nl>  Mon,  8 Oct 2001 13:11:27 +0200
+
+transcriber (1.4.3-1) unstable testing; urgency=low
+
+  * Compiled against libsnack2 (instead of previously `snack'---wrong name?)
+
+  * People from Transcriber have been waiting for new compile for Debian 
+    a long time now. 
+
+ -- David A. van Leeuwen <david@tm.tno.nl>  Mon, 20 Aug 2001 15:23:32 +0200
+
+transcriber (1.4.3-0) unstable testing; urgency=low
+
+  * New upstream version
+
+ -- David A. van Leeuwen <david@tm.tno.nl>  Fri, 15 Jun 2001 13:58:39 +0200
+
+transcriber (1.4.2-6) unstable testing; urgency=low
+
+  * remove erroneous dh_testroot from build target (closes: Bug#92564,
+    closes: Bug#92797)
+  
+  * use dh_installexamples, dh_link
+  
+  * change usr/man to usr/share/man in `dirs'
+  
+ -- David A. van Leeuwen <david@tm.tno.nl>  Thu,  5 Apr 2001 12:39:58 +0200
+
+transcriber (1.4.2-5) unstable testing; urgency=low
+
+  * Added Build-depends: tcl8.0-dev, tk8.0-dev, snack-dev, tclex; (closes: 
+    Bug#91910)
+  
+  * Migrating to debhelper; removing debmake dependency
+  
+  * Added doc-base file and prerm postinst scripts
+
+ -- David A. van Leeuwen <david@tm.tno.nl>  Thu, 29 Mar 2001 11:21:12 +0200
+
+transcriber (1.4.2-4) unstable testing; urgency=low
+
+  * Added Buid-depends: debmake to control file, but now in the source 
+    section; (closes: Bug#90721)
+
+ -- David A. van Leeuwen <david@tm.tno.nl>  Mon, 26 Mar 2001 12:10:20 +0200
+
+transcriber (1.4.2-3) unstable testing; urgency=low
+
+  * Added Buid-depends: debstd to control file; (closes: Bug#90721)
+    maybe I should revert to another debhelper package the dh_ tools?
+
+ -- David A. van Leeuwen <david@tm.tno.nl>  Fri, 23 Mar 2001 10:58:32 +0100
+
+transcriber (1.4.2-2) unstable testing; urgency=low
+
+  * Added Build-Depends: tcl8.0-dev to control file; (closes: Bug#85247)
+  
+  * Updated Standards-Version to 3.5.2.0; (what i believe is the most recent
+    that it complies with)
+
+ -- David A. van Leeuwen <david@tm.tno.nl>  Mon, 12 Mar 2001 11:48:12 +0100
+
+transcriber (1.4.2-1) unstable; urgency=low
+
+  * New upstream version.
+  * Do `make distclean' instead of `make clean' in debian/rules, for a 
+    better way of dealing with config.cache
+  * Move /usr/doc to /usr/share/doc.
+  * Included `convert' subdir in lib.
+  * removed `-m' from debmake, installs manpage now.
+
+ -- David A. van Leeuwen <david@tm.tno.nl>  Thu,  2 Mar 2000 09:46:33 +0100
+
+transcriber (1.4-4) unstable; urgency=low
+
+  * Updated description field in control, according to the whishes of
+    Enrico Zini <zinie@cs.unibo.it>. 
+
+ -- David A. van Leeuwen <david@tm.tno.nl>  Thu,  6 Jan 2000 08:56:29 +0100
+
+transcriber (1.4-3) unstable; urgency=low
+
+  * Updated /etc/cron/daily/transcriber, now correct search path
+    /var/lib/transcriber. 
+
+ -- David A. van Leeuwen <david@tm.tno.nl>  Fri, 10 Dec 1999 14:16:00 +0100
+
+transcriber (1.4-2) unstable; urgency=low
+
+  * Remove config.cache in debian/rules clean.  Suggested in bug
+    report#50434.  
+
+ -- David A. van Leeuwen <david@tm.tno.nl>  Mon, 22 Nov 1999 14:22:49 +0100
+
+transcriber (1.4-1) unstable; urgency=low
+
+  * New upstream version
+
+ -- David A. van Leeuwen <david@tm.tno.nl>  Mon, 11 Oct 1999 09:59:53 +0200
+
+transcriber (1.3b7-1) unstable; urgency=low
+
+  * removed snack from contrib; made it an independent package
+  
+  * made tclex (new for 1.3) independent package
+
+ -- David A. van Leeuwen <david@tm.tno.nl>  Fri, 24 Sep 1999 17:17:33 +0200
+
+transcriber (1.2-4) unstable; urgency=low
+
+  * added -fPIC to sox and NIST Makefiles (Lintian E)
+  
+  * made symlink absolute instead of relative (Lintian E)
+
+ -- David A. van Leeuwen <david@tm.tno.nl>  Tue, 16 Feb 1999 12:11:57 +0100
+
+transcriber (1.2-3) unstable; urgency=low
+
+  * Changed /var/tmp/trans to /var/lib/trans
+  
+  * Made that dir og+w
+  
+  * Updated the manual page.
+  
+  * Added crontab to remove unused shape files from /var/lib/trans
+
+ -- David A. van Leeuwen <david@tm.tno.nl>  Fri, 20 Nov 1998 13:59:04 +0100
+
+transcriber (1.2-2) unstable; urgency=low
+
+  * New directory structure
+  
+  * Doc files also in the package (were missing)
+
+ -- David A. van Leeuwen <david@tm.tno.nl>  Thu, 19 Nov 1998 17:06:33 +0100
+
+transcriber (1.2-1) unstable; urgency=low
+
+  * Initial Release.
+
+ -- David A. van Leeuwen <david@tm.tno.nl>  Mon, 16 Nov 1998 14:24:46 +0100
+
+Local variables:
+debian-changelog-mailing-address: "vleeuwen@debian.org"
+add-log-full-name: "David A. van Leeuwen"
+End

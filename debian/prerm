@@ -1,0 +1,11 @@
+#!/bin/sh
+# Automatically added by dh_installdocs
+if [ \( "$1" = "upgrade" -o "$1" = "remove" \) -a -L /usr/doc/transcriber ]; then
+	rm -f /usr/doc/transcriber
+fi
+# End automatically added section
+# Automatically added by dh_installdocs
+if command -v install-docs >/dev/null 2>&1; then
+	install-docs -r transcriber
+fi
+# End automatically added section

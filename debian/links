@@ -1,0 +1,3 @@
+usr/share/doc/transcriber/html usr/lib/transcriber/doc
+var/lib/transcriber usr/lib/transcriber/sounds
+etc/transcriber usr/lib/transcriber/etc

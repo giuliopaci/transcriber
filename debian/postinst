@@ -1,0 +1,10 @@
+#!/bin/sh
+# Automatically added by dh_installdocs
+if command -v install-docs >/dev/null 2>&1; then
+	install-docs -i /usr/share/doc-base/transcriber
+fi
+# End automatically added section
+# Remove old cron.daily entry
+if [ -f /etc/cron.daily/transcriber ]; then
+    rm -f /etc/cron.daily/transcriber
+fi

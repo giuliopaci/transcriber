@@ -1,0 +1,54 @@
+.TH TRANS 1 May-2004 CNRS/LIMSI-DGA/DCE/CTA/GIP transciber man page
+.\" NAME should be all caps, SECTION should be 1-8, maybe w/ subsection
+.\" other parms are allowed: see man(7), man(1)
+.SH NAME
+trans \- tool to transcribe speech using text (transcriber)
+.SH SYNOPSIS
+.B trans
+.I "[tk-options] [-- transcriber-option] [waveform-file] [transcription-file]"
+.br
+.SH "DESCRIPTION"
+This manual page documents briefly the
+.BR trans
+commands
+This manual page was written for the Debian GNU/Linux distribution
+because the original program does not have a manual page.
+.PP
+.B transcriber
+is a graphical tool that allows to segment a long speech files easily, and 
+to transcribe the litterally spoken text, and indicate speaker turns and 
+topics. 
+.SH OPTIONS
+The programs follows some of the Tcl/tk command line syntax, with `--'
+separating the tool options from the options for transcriber (which are 
+unknown). 
+A summary of options are included below.
+For a better description, see the on-line help.
+.SH TCL/TK OPTIONS
+.TP
+.B \-colormap
+Colormap for main window
+.TP
+.B -display
+Display to use
+.TP
+.B \-geometry
+Initial geometry for window
+.SH TRANSCRIBER OPTIONS
+There are no known options specific to transcriber.  Two file can be given on the command line, 
+.TP
+.B [waveform-file]
+The startup audio file to use.  If this is a directory, this is
+interpreted as the default directory to look for audio files. 
+.TP
+.B [transcription-file]
+The startup transcription file to use. 
+
+.SH "SEE ALSO"
+.IR "sox"
+.SH AUTHOR
+Transcriber has been written by Claud Barras (barras@etca.fr). 
+
+This manual page was written by David van Leeuwen <vleeuwen@debian.org>,
+for the Debian GNU/Linux system (but may be used by others).
+

@@ -1,0 +1,2 @@
+?package(transcriber):needs="X11" section="Apps/Sound"\
+  title="transcriber" command="/usr/bin/trans"
