@@ -492,18 +492,94 @@ namespace eval stm {
     }
   }
 
-  # import only transcription from .stm - no use of spk/conditions
-   proc readSegmt {content} {
-     set segmt {}
+  # import transcription from .stm as labels
+   proc readSegmtSet {content} {
+     global v
+     if {[info exists v(sig,name)]} {
+       set sid [file tail [file root $v(sig,name)]]
+     } else {
+       set sid ""
+     }
+     array set segmt {}
      foreach line [split $content "\n"] {
-       if {[string match ";;*" $line]} continue
-       if {[regexp "(\[^ \t]+)\[ \t]+(\[^ \t]+)\[ \t]+(\[^ \t]+)\[ \t]+(\[0-9.eE+-]+)\[ \t]+(\[0-9.eE+-]+)(\[ \t]+<\[^ \t]+>)?\[ \t]*(\[^\x01-\x1f]*)" $line all id chn spk begin end cnd text]} {
+       if {$line == "" || [string match ";;*" $line]} continue
+       if {[scan $line "%s%s%s%f%f%\[^\n\]" id ch spk begin end remain] == 6} {
+	 # filter on signal id if available, else choose first id met
+	 if {$sid == ""} {
+	   set sid $id
+	 } elseif {$id != $sid} {
+	   continue
+	 }
+	 regexp "(\[ \t]+<(\[^ \t>]+)>)?\[ \t]*(.*)" $remain all cnd cond text
 	 set text [string trim $text]
-	 lappend segmt [list $begin $end $text]
+	 set cond [split [string tolower $cond] ","]
+
+	 if {[string tolower $text] != "ignore_time_segment_in_scoring" && $text != ""} {
+	   lappend segmt($ch) [list $begin $end $text]
+	   if {[string tolower $spk] != "inter_segment_gap"} {
+	     lappend speaker($ch) [list $begin $end $spk [ColorMap $spk]]
+	   }
+	 }
+
+	 if {[lsearch $cond "male"] >= 0} {
+	   lappend gender($ch) [list $begin $end "Male" "#00aaff"]
+	 } elseif {[lsearch $cond "female"] >= 0} {
+	   lappend gender($ch) [list $begin $end "Female" "#f67000"]
+	 }
+
+	 # extract f-cond - narrow bandwidth, noise or music infos
+	 # mutually exclusives (so fx considered simply as noise)
+	 set fcond [lindex $cond [lsearch -glob $cond f?]]
+	 if {$fcond == "f2"} {
+	   lappend bandwidth($ch) [list $begin $end "Narrow" "#808080"]
+	 } elseif {$fcond != "" && $fcond != "fx"} {
+	   lappend bandwidth($ch) [list $begin $end "Wide" "#e0e0e0"]
+	 }
+	 if {$fcond == "f3"} {
+	   lappend background($ch) [list $begin $end "Music" "#e0e0e0"]
+	 } elseif {$fcond == "f4" || $fcond == "fx"} {
+	   lappend background($ch) [list $begin $end "Noise" "#808080"]
+	 }
        } else {
-	 puts "Warning - wrong format for line '$line'"
+	 puts "Warning - wrong .stm format for line '$line'"
        }
      }
-     return $segmt
+     set result {}
+     foreach ch [lsort [array names segmt]] {
+       lappend result [list $segmt($ch) "$sid CTM (channel $ch)"]
+       foreach var {speaker gender bandwidth background} {
+	 if {[info exists ${var}($ch)]} {
+	   lappend result [list [unify [set ${var}($ch)]] "$sid STM $var (channel $ch)"]
+	 }
+       }
+     }
+     return $result
    }
+
+  # fold adjacent sorted segments with similar label(s) into a single one
+  proc unify {list1 {delta 0.1} {lastfield "end"}} {
+    set list2 {}
+    foreach seg1 $list1 {
+      foreach {s2 e2} $seg1 break
+      set l2 [lrange $seg1 2 $lastfield]
+      if {[info exists e1]} {
+	if {abs($s2-$e1) > $delta || $l2 != $l1} {
+	  set seg2 [list $s1 $e1]
+	  eval lappend seg2 $l1
+	  lappend list2 $seg2
+	  set s1 $s2
+	}
+      } else {
+	set s1 $s2
+      }
+      set e1 $e2
+      set l1 $l2
+    }
+    if {[info exists e1]} {
+      set seg2 [list $s1 $e1]
+      eval lappend seg2 $l1
+      lappend list2 $seg2
+    }
+    return $list2
+  }
 }
