@@ -17,12 +17,15 @@ proc CreateTextFrame {f {top 0}} {
       toplevel $f
    } else {
       frame $f -bd 2 -relief raised
-      pack $f -expand true -fill both -side top
-      if {[catch {
-	 pack $f -before .cmd
-      }]} {catch {
-	 pack $f -before .snd
-      }}
+      setdef v(view,$f) 1
+      if {$v(view,$f)} {
+	pack $f -expand true -fill both -side top
+	if {[catch {
+	  pack $f -before .cmd
+	}]} {catch {
+	  pack $f -before .snd
+	}}
+      }
    }
    set v(tk,edit) [text $f.txt -wrap word  -width 80 -height 8 \
 	       -fg $v(color,fg-text) -bg $v(color,bg-text) \

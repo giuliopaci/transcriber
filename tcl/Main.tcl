@@ -789,6 +789,11 @@ proc StartWith {argv} {
 	    "-noshape" {
 	       set v(shape,wanted) 0
 	    }
+	    "-notext" {
+	       if {$v(view,.edit)} {
+		 SwitchTextFrame
+	       }
+	    }
 	    "-debug" {set v(debug) 1}
 	    "-demo" {set v(demo) 1}
 	    "-patch" {
