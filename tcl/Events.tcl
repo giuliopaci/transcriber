@@ -682,17 +682,86 @@ proc ConfEventName {type title} {
    }
 }
 
-# Insert any other tag in text editor
+################################################################
+
+# Generic management of extensions to standard DTD
+
+# Return string for element
+proc StringOfOther {elem} {
+  global v
+
+  set type [$elem getType]
+  if {[info commands ::tag::${type}::toString] != {}} {
+    return [::tag::${type}::toString $elem]
+  } else {
+    return [$elem dump]
+  }
+}
+
+# Insert tag in text editor
 proc InsertOther {elem {other_tags ""}} {
    global v
    set t $v(tk,edit)-bis
 
-   set txt [$elem dump]
-   $t insert "insert" $txt [concat "cursor" "sync" "event" $elem $other_tags]
+   set txt [StringOfOther $elem]
+   set type [$elem getType]
+   $t insert "insert" $txt [concat "cursor" "sync" $type $elem $other_tags]
+   if {[info commands ::tag::${type}::insert] != {}} {
+     ::tag::${type}::insert $elem
+   }
    # inhibit next "mark set insert"
-   $t tag bind "$elem" <Button-1> break
+   $t tag bind "$elem" <Button-1> [subst {EditOther $elem; break}]
 }
 
+proc SuppressOther {tag} {
+   global v
+
+   # do some cleaning associated to tag
+   set type [$tag getType]
+   if {[info commands ::tag::${type}::suppress] != {}} {
+     ::tag::${type}::suppress $tag
+   }
+   # Really suppress the tag
+   set bp [SyncBefore $tag]
+   JoinData $tag
+   # Update text on segmentation
+   SetSegmtField seg0 [SearchSegmtId seg0 $bp] -text [TextFromSync $bp]
+   DoModif "TAG"
+}
+
+proc EditOther {tag} {
+   global v
+
+   set type [$tag getType]
+   if {[info commands ::tag::${type}::edit] != {}} {
+     tkTextSetCursor $v(tk,edit) "$tag.last"
+     # Inhibit next cursor move due to multiple bindings
+     set v(tk,dontmove) 1
+
+     return [::tag::${type}::edit $tag]
+   } else {
+     return $tag
+   }
+}
+
+# Insert new tag with default values (may be followed by edition)
+proc CreateOther {type values} {
+   global v
+   set t $v(tk,edit)-bis
+
+   if {![info exist v(segmt,curr)]} return
+   set nb $v(segmt,curr)
+   set bp [GetSegmtId $nb]
+
+   set data [SplitData]
+   set tag [::xml::element $type $default -before $data]
+   InsertOther $tag "hilight"
+   $t tag add $data "insert-1c"
+   # Update text on segmentation
+   SetSegmtField seg0 [SearchSegmtId seg0 $bp] -text [TextFromSync $bp]
+   DoModif "TAG"
+   return $tag
+}
 
 ################################################################
 # added by Zhibiao

@@ -856,6 +856,7 @@ proc DisplayTrans {} {
 	       }
 	       default {
 		 InsertOther $chn
+		 append txt [StringOfOther $chn]
 	       }
 	       }
 	    }
@@ -941,6 +942,9 @@ proc TextFromSync {bp} {
 	       }
 	       "Event" - "Comment" {
 		  append txt [StringOfEvent $tag]
+	       }
+	       default {
+		 append txt [StringOfOther $tag]
 	       }
 	    }
 	 }
