@@ -511,7 +511,7 @@ proc ConfigureGeneral {} {
     set i [frame $g.fr]
     pack $i -fill both -expand true -side top
     label $i.lab -text [Local "Default browser:"]
-    set v(browser,but) [button $i.v(browser,but) -text [Local $v(browser)] -default disable  ]
+    set v(browser,but) [button $i.v(browser,but) -text [Local $v(browser)] -default disabled ]
     bind $i.v(browser,but) <Button-1>	{
     set v(browser) [SelectBrowser]
     $v(browser,but) configure -text $v(browser)
