@@ -170,9 +170,17 @@ namespace eval ::xml::parser {
       if {$conf(-keepdtd)} {
 	 set dtdname [::xml::dtd::name]
 	 if {[file tail $dtdname] != [file tail $syst]} {
-	    parse_error "External DTD '$syst' doesn't match requested '$dtdname'"
+	    if {$conf(-keepdtd) == 2} {
+	      parse_error "External DTD '$syst' doesn't match requested '$dtdname'"
+	    } else {
+	      if {$conf(-debug)} {
+		puts "switching DTD to $syst"
+	      }
+	      set dtdname $syst
+	    }
+	 } else {
+	    set dtdname ""
 	 }
-	 set dtdname ""
       } else {
 	 set dtdname $syst
       }
@@ -213,11 +221,15 @@ namespace eval ::xml::parser {
 
       # Read and parse external DTD if needed
       if {$dtdname != ""} {
-	 if {[catch {
-	    eval read_file [list $dtdname] [array get conf] -type dtd
-	 } msg]} {
-	    parse_error $msg $::errorInfo
-	 }
+	if {$conf(-keepdtd)} {
+	  ::xml::dtd::init
+	  ::xml::dtd::active $conf(-valid)
+	}
+	if {[catch {
+	  eval read_file [list $dtdname] [array get conf] -type dtd
+	} msg]} {
+	  parse_error $msg $::errorInfo
+	}
       }
    }
 

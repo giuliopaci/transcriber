@@ -10,10 +10,20 @@ namespace eval trs {
    variable msg "Native XML format"
    variable ext ".trs .xml"
 
+   proc guess {name} {
+     # any XML file with 'Trans' root tag is supposed to be a .trs file
+     set f [open $name]; set magic [read $f 128]; close $f
+     if {[string match "<?xml*" $magic] && [string match "*<!DOCTYPE Trans *" $magic]} {
+       return 1
+     } else {
+       return 0
+     }
+   }
+
    proc import {name} {
       global v
       
-      # Newly created transcription must follow the DTD
+      # Read transcription should follow the original DTD
       ::xml::dtd::xml_read $v(file,dtd)
       set v(trans,root) [::xml::parser::read_file $name -keepdtd 1]
       ::speaker::register
@@ -120,11 +130,13 @@ proc LookForLabelFormat {name} {
    return $format
 }
 
-# Open a new independant segmentation file
-proc OpenSegmt {{name ""}} {
+# Open one or severel new independant segmentation files
+proc OpenSegmt {args} {
    global v
 
-   if {$name == ""} {
+   if {$args != ""} {
+     set names $args
+   } else {
      set types [subst {
        {"Label file"   {$v(ext,lbl)}}
        {"All files"   {*}}
@@ -136,11 +148,16 @@ proc OpenSegmt {{name ""}} {
      } else {
        set path $v(trans,path)
      }
-     set name [tk_getOpenFile -filetypes $types -initialdir $path \
-		   -title [Local "Open segmentation file"]]
+     if {[info tclversion] >= 8.4} {
+       set names [tk_getOpenFile -filetypes $types -initialdir $path \
+		     -multiple -title [Local "Open segmentation file"]]
+     } else {
+       set names [list [tk_getOpenFile -filetypes $types -initialdir $path \
+			   -title [Local "Open segmentation file"]]]
+     }
    }
-   if {$name != ""} {
-      if {![file readable $name]} return
+   foreach name $names {
+      if {![file readable $name]} continue
       # Look for a segmentation format matching the file
       set format [LookForLabelFormat $name]
       if {$format == ""} {
@@ -795,6 +812,9 @@ proc DisplayTrans {} {
 		     append txt "\f"
 		  }
 		  InsertWho $chn
+	       }
+	       default {
+		 InsertOther $chn
 	       }
 	       }
 	    }
