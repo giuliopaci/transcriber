@@ -232,6 +232,7 @@ proc InitMenus {} {
 	    {"Continuous playback"	radio {v(playbackMode) "continuous"}}
 	    {"Pause at segment boundaries"	radio {v(playbackMode) "pause"}}
 	    {"Beep at segment boundaries"	radio {v(playbackMode) "beep"}}
+	    {"Stop before next segment boundary" radio {v(playbackMode) "next"}}
 	    {"Stop at next segment boundary"	radio {v(playbackMode) "stop"}}
 	    {"Loop on segment or selection after a pause" radio {v(playbackMode) "loop"}}
 	 }}

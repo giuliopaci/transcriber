@@ -179,6 +179,13 @@ proc Play {} {
 	 } elseif {$mode=="stop"} {
 	    set end $endSeg
 	    set script $scriptStop
+	 } elseif {$mode=="next"} {
+ 	    set end [expr $endSeg-0.001]
+	    while {$end <= $pos + 0.1 && $n < [GetSegmtNb seg0]} {
+	      set end [expr [GetSegmtField seg0 $n -end]-0.001]
+	      incr n
+	    }
+	    set script "SetCursor $end"
 	 }
       }
    }
