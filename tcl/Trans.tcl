@@ -150,7 +150,7 @@ proc OpenSegmt {args} {
      }
      if {[info tclversion] >= 8.4} {
        set names [tk_getOpenFile -filetypes $types -initialdir $path \
-		     -multiple -title [Local "Open segmentation file"]]
+		     -multiple 1 -title [Local "Open segmentation file"]]
      } else {
        set names [list [tk_getOpenFile -filetypes $types -initialdir $path \
 			   -title [Local "Open segmentation file"]]]
