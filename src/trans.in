@@ -7,7 +7,7 @@ TCLLIBPATH=$TRANSPATH; export TCLLIBPATH
 # Choose batch (foreground) or interactive (background) mode
 bg=1
 for i do
- if [ $i = "-export" -o $i = "-convertto" -o $i = "-help" -o $i = "-h" -o $i = "-version" ]; then
+ if [ $i = "-export" -o $i = "-convertto" -o $i = "-help" -o $i = "-h" -o $i = "-version" -o $i = "-v" ]; then
    bg=0
  fi
 done

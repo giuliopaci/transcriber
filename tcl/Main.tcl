@@ -919,6 +919,7 @@ proc StartWith {argv} {
 	    }
 	    "-v" - "-version" {
 	      puts stderr "Transcriber version $::version"
+	      exit
 	    }
 	    "-h" - "-help" {
 	      puts stderr {
@@ -940,7 +941,7 @@ with command line options:
     -set option value       Override an option of the configuation file
     -sig2                   Enable display of second signal view
     -socket                 Enable external scripting through sockets
-    -version                Display version, then exit
+    -v/-version             Display version, then exit
 
    filename(s) may be either a transcription, a signal file or both files.
    If several signal files are given, the multiwav mode is activated.
