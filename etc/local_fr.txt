@@ -173,12 +173,16 @@ Ceci génèrera un fichier
 	{}
 About...
 	{A propos de...}
+{Add}
+	{Ajouter}
 {Add audio file...}
 	{Ajouter un fichier son...}
 {Add to dictionnary}
 	{Ajoute au dictionnaire}
 {Adjust playback speed (%)}
 	{}
+{Amount}
+	{Montant}
 {An automatically saved version was found. Rescue from it?}
 	{Une sauvegarde automatique a été retrouvée. Voulez-vous la récupérer?}
 {Apply to next word}
@@ -289,6 +293,8 @@ Comment
 	Commentaire
 {Compute low-resolution shape for long sound files}
 	{Calcule une image basse résolution des longs signaux}
+{Computing signal shape. Please wait...}
+	   {Calcul de l'enveloppe en cours. Patientez...}
 {Configure colors}
 	{Configurer les couleurs}
 {Configure event display}
@@ -309,6 +315,8 @@ Copy
 	{Créer un tour...}
 {Current segment}
 	{Segment courant}
+{Currently computing global shape for signal}
+	   {Calcul en cours de l'enveloppe globale du signal}
 Cursor
 	Curseur
 {Cursor position}
@@ -328,13 +336,13 @@ Danish
 Debug
 	Deboguage
 {Default browser:}
-	{Navigateur par défaut:}
+	{Navigateur par défaut :}
 {Debug menu}
 	{Menu de déboguage}
 {Default scribe's name}
 	{Nom du transcripteur}
 {Default settings for raw sound files:}
-	{Paramètres pour les fichiers sans entête:}
+	{Paramètres pour les fichiers sans entête :}
 {Default text cursor position}
 	{Position du curseur par défaut}
 Delete
@@ -357,6 +365,8 @@ Display
 	{Calcul de l'enveloppe en tâche de fond}
 down
 	diminue
+{Duration:}
+	{Durée :}
 Dutch
 	hollandais
 Edit
@@ -371,6 +381,8 @@ Edit
 	{Modifier la liste des langues...}
 {Edit lexical list...}
 	{Modifier la liste lexicale...}
+{Edit named entities list...}
+	{Modifier la liste des entités nommées}
 {Edit noise list...}
 	{Modifier la liste des bruits...}
 {Edit pronounce list...}
@@ -429,6 +441,8 @@ Export
 	{Exporter au format texte...}
 Extent
 	Etendue
+{Facilities}
+	{Constructions humaines}
 Fidelity
 	Fidélité
 File
@@ -451,6 +465,8 @@ Finnish
 	finlandais
 {First segment}
 	{Premier segment}
+{First signal view}
+	{Première vue du signal}
 Fonts
 	Polices
 Forward
@@ -591,6 +607,8 @@ Lists
 	{Traduction en français}
 Localize...
 	Traduction...
+Location
+	Localisation
 {Log trace in file}
 	{Enregistre l'activité dans}
 {Loop on segment or selection after a pause}
@@ -623,6 +641,18 @@ mono
 	Déplacement...
 Name
 	Nom
+{Named Entities}
+	{Entités nommées}
+{nb. of sections:}
+	{nb. de sections :}
+{nb. of syncs:}
+	{nb. de segments :}
+{nb. of turns:}
+	{nb. de tours :}
+{nb. of words:}
+	{nb. de mots :}
+{NE buttons}
+	{Boutons d'entités nommées}
 New
 	Nouveau
 {New language}
@@ -677,8 +707,12 @@ OK
 	{Ouvrir une transcription ou un signal}
 Options
 	Options
+Organization
+	Organisation
 {orthographe incertaine}
 	{}
+Other
+	Autre
 other
 	autre
 {Overlapping noise}
@@ -695,6 +729,8 @@ Paste
 	{Durée de pause entre segments}
 Persian
 	perse
+Person
+	Personne
 {Play around cursor}
 	{Joue autour du curseur}
 {Play next segment}
@@ -733,6 +769,8 @@ Previous
 	{Tour précédent}
 {Principal language}
 	{Langue principale}
+Product
+	Objet
 Program
 	Programme
 Prononciation
@@ -834,8 +872,14 @@ Segmentation
 	{}
 {Select all}
 	{}
+{Select your default browser}
+	{Choix du navigateur par défaut}
 Server
 	Serveur
+{Shape: no}
+	{Enveloppe : non}
+{Shape: yes}
+	{Enveloppe : oui}
 {sigle lu}
 	{}
 {sigle épelé}
@@ -844,6 +888,12 @@ Signal
 	Signal
 {Signal name}
 	{Nom du signal}
+{Signal shape is now available!}
+	{Enveloppe du signal disponible!}
+{Signal shape not available, sorry...}
+	{Enveloppe du signal non disponible, désolé...}
+{Signal view}
+	{Vue du signal}
 {Simplified Chinese (GB)}
 	{}
 {Smart segmentation display}
@@ -884,6 +934,8 @@ stereo
 	{Stoppe avant le prochain segment}
 {Store signal shapes in}
 	{Enregistre les enveloppes des signaux dans}
+{Suppress}
+	{Supprimer}
 Swedish
 	suédois
 Synchro
@@ -896,6 +948,12 @@ Text
 	{Editeur de texte}
 {Text foreground}
 	{}
+{The text "%s" will be automaticaly tagged - Continue ?}
+	{Le texte "%s" sera automatiquement étiqueté - Continuer ?}
+{The text "%s" tagged with "%s" will be automaticaly untagged - Continue ?}
+	{Le texte "%s" étiquetté avec "%s" sera automatiquement désétiqueté - Continuer ?}
+Time
+	Temps
 top
 	{}
 Topic
@@ -932,6 +990,8 @@ Undo
 	Annuler
 {Unicode (UTF-8)}
 	{}
+{Unknown}
+	{Incertain}
 {Unknown format}
 	{Format inconnu}
 {unsupported output format %s}
@@ -966,15 +1026,21 @@ Revenir à la version enregistrée?}
 	{}
 {Western (Latin1)}
 	{}
+{with %d speakers}
+	{avec %d locuteurs}
+{with %d topics}
+	{avec %d thèmes}
 Word
 	Mot
 {You have selected several lines. Confirm their deletion ?}
 	{Vous avez sélectionné plusieurs lignes. Confirmez-vous leur suppression ?}
 {Zoom selection}
 	{Zoom de la sélection}
-{Update db}
-	{Mise à jour base de donnée}
-{External Speakers Database :}
-	{BD Locuteurs Externes :}
+{Update global speakers database}
+	{Mise à jour de la base de donnée des locuteurs globaux}
+{Global speakers database}
+	{Base de locuteurs globaux}
+{Global speakers database:}
+	{Base de locuteurs globaux :}
 }
 
