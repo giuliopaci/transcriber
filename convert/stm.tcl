@@ -441,6 +441,9 @@ namespace eval stm {
 	set cnd [split [string tolower [string trim $cnd " \t<>"]] ","]
 	set cond [lindex $cnd 1]
 	if {$begin-$prev < 0.2} {set begin $prev}
+	# synchro times starting with "+" are floating
+	if {[string index $begin 0] == "+"} {set begin " [string range $begin 1 end]"}
+	if {[string index $end 0] == "+"} {set end "  [string range $end 1 end]"}
 	if {$text == "ignore_time_segment_in_scoring"} {
 	  set speaker ""
 	  set text "\[nontrans]"
@@ -472,7 +475,10 @@ namespace eval stm {
 	    }
 	    $tur setAttr "speaker" [::speaker::create $name "" $gender $dialect "" $scope]
 	  }
+	} elseif {$begin > $prev} {
+	  set sync [::xml::element "Sync" "time $prev" -in $tur]
 	}
+
 	# turn conditions
 	if {$cond == "f1"} {
 	  $tur setAttr "mode" "spontaneous"
