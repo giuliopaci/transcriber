@@ -178,6 +178,7 @@ proc CreateBackground {} {
    # Update text on segmentation
    SetSegmtField seg0 [SearchSegmtId seg0 $bp] -text [TextFromSync $bp]
    DoModif "BACKGROUND"
+   UpdateSegmtView modified
 }
 
 proc InsertImage {tag img} {

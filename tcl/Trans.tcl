@@ -202,19 +202,6 @@ proc ReadTrans {name {soundFile ""} {multiwav {}}} {
       ${format}::import $name
    } elseif {[info command ${format}::readSegmt] != ""} {
       SegmtToTrans [${format}::readSegmt [ReadFile $name]]
-      # Hide unused levels
-      if {$v(hideLevels)} {
-	foreach lvl {seg1 seg2 bg} {
-	  foreach s [array names v view,*.$lvl] {
-	    set v($s) 0
-	  }
-	}
-	catch {
-	  foreach w $v(wavfm,list) {
-	    SwitchSegmtView $w
-	  }
-	}
-      }
    } else {
       error "Can't import from [set ${format}::msg]"
    }
@@ -816,6 +803,8 @@ proc DisplayTrans {} {
 
    # Create widgets if necessary
    CreateAllSegmentWidgets
+   # Only display requested ones
+   UpdateSegmtView
 
    HomeEditor
    DisplayMessage ""

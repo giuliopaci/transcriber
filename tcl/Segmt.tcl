@@ -51,13 +51,36 @@ proc SwitchSegmtView {wavfm} {
    global v
 
    foreach f $v($wavfm,seglist) {
-      if {$v(view,$f)} {
-	 #pack $f -fill x -padx 10 -after $wavfm
-	 pack $f -fill x -padx 10 -before [winfo parent $wavfm].a
-      } else {
-	 pack forget $f
-      }
+     if {$v(view,$f)} {
+       #pack $f -fill x -padx 10 -after $wavfm
+       pack $f -fill x -padx 10 -before [winfo parent $wavfm].a
+     } elseif {[winfo ismapped $f]} {
+       pack forget $f
+     }
    }
+}
+
+proc UpdateSegmtView {{mode initial}} {
+  global v
+
+  if {$v(hideLevels)} {
+    foreach lvl {seg1 seg2 bg} {
+      foreach s [array names v view,*.$lvl] {
+	if {[llength $v(list,$lvl)] > 1} {
+	  if {$mode == "initial" || [llength $v(list,$lvl)] == 2} {
+	    set v($s) 1
+	  }
+	} elseif {$mode == "initial"} {
+	  set v($s) 0
+	}
+      }
+    }
+    catch {
+      foreach w $v(wavfm,list) {
+	SwitchSegmtView $w
+      }
+    }
+  }
 }
 
 proc CreateAllSegmentWidgets {} {
@@ -993,6 +1016,7 @@ proc ChangeSegType {category {nb {}}} {
       }
    }
    DoModif "TYPE"
+   UpdateSegmtView modified
 }
 
 ################################################################
