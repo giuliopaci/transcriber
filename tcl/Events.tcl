@@ -269,10 +269,10 @@ proc ChooseBackground {state destroy} {
 #    FrameState $w.pos $state
 #    if {$state} {
 #       if {$v(bgPos,chosen) == "Current"} {
-# 	 # Current could be misleading, so switch back to Begin
-# 	 set v(bgPos,chosen) "Begin"
+#          # Current could be misleading, so switch back to Begin
+#          set v(bgPos,chosen) "Begin"
 #       } else {
-# 	 FrameState $w.pos.right.rad1 0
+#          FrameState $w.pos.right.rad1 0
 #       } 
 #    }
    
@@ -396,26 +396,26 @@ proc CreateAutoEvent {txt {type "noise"} {extent "instantaneous"} {interactif 0}
 		set what [[TagName $pos] getType]
 		if { $what == "\#PCDATA" } {
 		    switch $v(autoNE) {
-			Add {
-			    if { [ColorTag $pos] == "" } {
-				CreateEvent $txt $type $extent $interactif
-				incr nbocc
-			    }
-			}
-			Suppress {
-			    set prevtagname [TagName "sel.first - 2c"]
-			    set nexttagname [TagName "sel.last + 1c"]
-			    if {  [$prevtagname getType]=="Event" && [$nexttagname getType]=="Event" } {
-				set prevtagdesc [$prevtagname getAttr "desc"]
-				set nexttagdesc [$nexttagname getAttr "desc"]
-				set col [ColorTag $prevtagname.first]
-				regexp {(.*)tag} [ColorTag $prevtagname.first] match prevtagcolor
-				if { $prevtagdesc==$txt && $nexttagdesc==$txt && $prevtagcolor=="$colortag"} {
-				    SuppressEvent $prevtagname
-				    incr nbocc
-				}
-			    }
-			}
+		        Add {
+		            if { [ColorTag $pos] == "" } {
+		                CreateEvent $txt $type $extent $interactif
+		                incr nbocc
+		            }
+		        }
+		        Suppress {
+		            set prevtagname [TagName "sel.first - 2c"]
+		            set nexttagname [TagName "sel.last + 1c"]
+		            if {  [$prevtagname getType]=="Event" && [$nexttagname getType]=="Event" } {
+		                set prevtagdesc [$prevtagname getAttr "desc"]
+		                set nexttagdesc [$nexttagname getAttr "desc"]
+		                set col [ColorTag $prevtagname.first]
+		                regexp {(.*)tag} [ColorTag $prevtagname.first] match prevtagcolor
+		                if { $prevtagdesc==$txt && $nexttagdesc==$txt && $prevtagcolor=="$colortag"} {
+		                    SuppressEvent $prevtagname
+		                    incr nbocc
+		                }
+		            }
+		        }
 		    }
 		}
 	    }
@@ -521,17 +521,17 @@ proc InsertEvent {elem {other_tags ""}} {
 	    foreach part {"tag" "text"} {
 		if { $v(checkNEcolor,$part) == 1 } {
 		    if { ![regexp {/} $desc] } {
-			$t tag conf NE$macro$part -foreground  $v(color,netag-$macro)
+		        $t tag conf NE$macro$part -foreground  $v(color,netag-$macro)
 		    } else {
-			set macro "meto"
-			$t tag conf NE$macro$part -foreground  $v(color,netag-meto)
+		        set macro "meto"
+		        $t tag conf NE$macro$part -foreground  $v(color,netag-meto)
 		    }
 		} else {
 		    if { ![regexp {/} $desc] } {
-			$t tag conf NE$macro$part -foreground  black
+		        $t tag conf NE$macro$part -foreground  black
 		    } else {
-			set macro "meto"
-			$t tag conf NEmeto$part -foreground  black
+		        set macro "meto"
+		        $t tag conf NEmeto$part -foreground  black
 		    }
 		}
 	    }
@@ -593,7 +593,7 @@ proc SearchSymEvent {elem} {
 	    if { $check == "" } {
 		set symtag $taglast
 	    }
-	}  	  
+	}            
     }
 
     return $symtag
@@ -635,7 +635,7 @@ proc EditEvent {tag {mode "Edit"} {sel ""}} {
     
     set f [frame $w.desc -relief raised -bd 1]
     pack $f -side top -expand true -fill both
-    set e [EntryFrame $f.ent "Description" v(desc,chosen)]
+    set e [EntryFrame $f.ent "Description" [Local v(desc,chosen)]]
     $e conf -width 10
     
     if {$sel != ""} {
@@ -670,19 +670,19 @@ proc EditEvent {tag {mode "Edit"} {sel ""}} {
 		if { $v(type,chosen) == "entities" } {
 		    set symtag [SearchSymEvent $tag]
 		    if { $symtag != "" } {
-			catch { [unset v(tk,dontmove)] }
-			tkTextSetCursor $v(tk,edit) $symtag.first 
-			if { $v(extn,chosen) == "begin" } {
-			    regexp {(^NE.*)tag} [ColorTag "$tag.last"] match color
-			    $t tag remove ${color}text $tag.last $symtag.first
-			    CreateAutoEvent $v(desc,chosen) $v(type,chosen) end
-			} else {
-			    regexp {(^NE.*)tag} [ColorTag "$tag.first - 1c"] match color
-			    $t tag remove ${color}text $symtag.last $tag.first
-			    CreateAutoEvent $v(desc,chosen) $v(type,chosen) begin
-			}
-			tkTextSetCursor $v(tk,edit) $tag.first
-			set v(tk,dontmove) 1
+		        catch { [unset v(tk,dontmove)] }
+		        tkTextSetCursor $v(tk,edit) $symtag.first 
+		        if { $v(extn,chosen) == "begin" } {
+		            regexp {(^NE.*)tag} [ColorTag "$tag.last"] match color
+		            $t tag remove ${color}text $tag.last $symtag.first
+		            CreateAutoEvent $v(desc,chosen) $v(type,chosen) end
+		        } else {
+		            regexp {(^NE.*)tag} [ColorTag "$tag.first - 1c"] match color
+		            $t tag remove ${color}text $symtag.last $tag.first
+		            CreateAutoEvent $v(desc,chosen) $v(type,chosen) begin
+		        }
+		        tkTextSetCursor $v(tk,edit) $tag.first
+		        set v(tk,dontmove) 1
 		    }
 		}
 	    }
@@ -874,7 +874,7 @@ proc SetMenuEvent {e array_name} {
       if {$name == ""} {
 	 set name $i
       }
-      $e.men.menu add radiobutton -label [Local $name] -variable v(desc,chosen) -value $i
+      $e.men.menu add radiobutton -label [Local $name] -variable v(desc,chosen) -value [Local $i]
    }
    pack $e.men -side right
    UpdateMenuEvent $e $array_name
@@ -922,14 +922,14 @@ proc StringOfEvent {elem} {
 
       # For backward compability only: [noise-] ... [-noise] 
 #       if {$extn == "instantaneous" 
-# 	  && [regexp "^(-)?(.*\[^-])(-)?$" $desc all start desc end]} {
-# 	 if {$start != ""} {
-# 	    set extn "end"
-# 	 } elseif {$end != ""} {
-# 	    set extn "begin"
-# 	 }
-# 	 $elem setAttr "desc" $desc
-# 	 $elem setAttr "extent" $extn
+#           && [regexp "^(-)?(.*\[^-])(-)?$" $desc all start desc end]} {
+#          if {$start != ""} {
+#             set extn "end"
+#          } elseif {$end != ""} {
+#             set extn "begin"
+#          }
+#          $elem setAttr "desc" $desc
+#          $elem setAttr "extent" $extn
 #       }
 
       set type [$elem getAttr "type"]
@@ -986,11 +986,11 @@ proc ConfigureEvents {} {
       $e conf -width 10
       pack $e -expand 0 -side right
 #       if {$var != "comment"} {
-# 	 button $h.$var.edt -text "Edit list" -command "ConfEventName $var $title"
-# 	 pack forget $e
-# 	 pack $h.$var.edt $e -expand 0 -side right -pady 2m -padx 3m
+#          button $h.$var.edt -text "Edit list" -command "ConfEventName $var $title"
+#          pack forget $e
+#          pack $h.$var.edt $e -expand 0 -side right -pady 2m -padx 3m
 #       } else {
-# 	 pack $e -expand 0 -side right
+#          pack $e -expand 0 -side right
 #       }
    }
 
