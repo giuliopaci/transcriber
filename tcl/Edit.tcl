@@ -33,7 +33,12 @@ proc CreateTextFrame {f {top 0}} {
 
    # Filter actions to text widget
    rename $v(tk,edit) $v(tk,edit)-bis
-   proc $v(tk,edit) {args} "eval TextFilter $v(tk,edit)-bis \$args"
+   if {[concat \xe0] == "\xe0"}  {
+     proc $v(tk,edit) {args} "eval TextFilter $v(tk,edit)-bis \$args"
+   } else {
+     # turn around Tcl8.3.2 bug (SourceForge bug ID 227512)
+     proc $v(tk,edit) {args} "set args \[linsert \$args 0 TextFilter $v(tk,edit)-bis]; eval \$args"
+   }
 
    # Bindings for widget: tabs and insert are propagated
    bind $v(tk,edit) <Enter> {focus %W}
@@ -418,7 +423,12 @@ proc TextFilter {t option args} {
 	 if {$data != ""} {
 	    # Insert with the tag of current breakpoint
 	    lappend args [list $data sync hilight]
-	    eval $t "insert" $args
+	    # turn around Tcl8.3.2 bug (SourceForge bug ID 227512)
+	    if {[concat \xe0] == "\xe0"}  {
+	      eval $t "insert" $args
+	    } else {
+	      set args [linsert $args 0 $t insert]; eval $args
+	    }
 	    if {$v(chatMode)} {
 	      CheckTerminator $t
 	    }
