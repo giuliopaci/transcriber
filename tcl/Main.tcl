@@ -661,6 +661,9 @@ proc LoadModules {} {
        # in Snack 1.7, snackSphere package was renamed snacksphere
        package require snacksphere
      }
+     catch {
+       package require snackogg
+     }
      package require trans 1.5
    }
 
