@@ -1,7 +1,61 @@
-# Localization for Transcriber saved on Wed Feb 28 20:43:22 Støední Evropa (bìnı èas) 2001 with encoding cp1250
+# Localization for Transcriber saved on Wed Jan 19 23:31:26 StÅ™ednÃ­ Evropa (bÄ›Å¾nÃ½ Äas) 2005 with encoding utf-8
 
 array set local_cs {
 {}
+	{}
+%act:
+	{}
+%add:
+	{}
+%alt:
+	{}
+%cod:
+	{}
+%coh:
+	{}
+%com:
+	{}
+%def:
+	{}
+%eng:
+	{}
+%err:
+	{}
+%exp:
+	{}
+%fac:
+	{}
+%flo:
+	{}
+%gls:
+	{}
+%gpx:
+	{}
+%int:
+	{}
+%lan:
+	{}
+%mod:
+	{}
+%mor:
+	{}
+%mov:
+	{}
+%par:
+	{}
+%pho:
+	{}
+%sit:
+	{}
+%snd:
+	{}
+%spa:
+	{}
+%syn:
+	{}
+%tim:
+	{}
+*
 	{}
 0
 	{}
@@ -39,581 +93,43 @@ array set local_cs {
 	{}
 {30 sec}
 	{30 sek.}
-About...
-	{O programu...}
-{Adjust playback speed (%)}
-	{Pøizpùsobit rychlost pøehrávání (%)}
-{Apply to next word}
-	{Tıká se dalšího slova}
-{Apply to previous word}
-	{Tıká se pøedchozího slova}
-{Apply to selection}
-	{Tıká se vıbìru}
-Arabic
-	Arabsky
-{Arabic (ISO-8859-6)}
-	{Arabsky (ISO-8859-6)}
-{Ask user to save configuration before leaving}
-	{Uloit konfiguraci pøed ukonèením na vyádání}
-{Audio file}
-	{Zvukovı soubor}
-{Audio file options}
-	{Nastavení zvukového souboru}
-{Audio file...}
-	{Zvukovı soubor... (zlobí!)}
-{Audio filename}
-	{Jméno zvukového souboru}
-{Auto-save interval (in minutes)}
-	{Interval automatického ukládání (v minutách)}
-{Automatic space insertion}
-	{Automatické vkládání mezer}
-Axis
-	Osa
-background
-	Pozadí
-{Background attributes}
-	{Vlastnosti pozadí}
-{Backup extension}
-	{Pøípona jména záloních souborù}
-Backward
-	Zpìt
-{Backward search}
-	{Hledat zpátky}
-{Beep at segment boundaries}
-	{Zvukovı signál mezi segmenty}
-bg
-	Pozadí
-Bindings
-	{Klávesové zkratky}
-Bindings...
-	{Klávesové zkratky}
-Bulgarian
-	Bulharsky
-Cancel
-	Storno
-{Case sensitive}
-	{Rozlišovat velká písmena}
-{Central european (Latin2)}
-	{Støedoevropskı (Latin2)}
-Channel
-	Kanál
-Channels
-	Kanály
-{Check spelling of capitalized words}
-	{Kontrola pravopisu ve slovech psanıch kapitálkami}
-Chinese
-	Èínsky
-{Choose first speaker}
-	{Zvolit prvního mluvèího}
-{Choose font}
-	{Zvolit písmo}
-{Choose second speaker}
-	{Zvolit druhého mluvèího}
-{Cleaning up memory...}
-	{Uvolnìní pamìti...}
-Close
-	Zavøít
-Code
-	Kód
-Colors...
-	Barvy...
-{Command buttons}
-	{Pøíkazová tlaèítka}
-Comment
-	Komentáø
-{Compute low-resolution shape for long sound files}
-	{Spoèítej "low-resolution shape" pro dlouhé zvukové soubory}
-{Configure colors}
-	{Nastavit barvy}
-{Configure events}
-	{Nastavení událostí}
-{Continuous playback}
-	{Pøehrávat od zaèátku do konce}
-{Control panel}
-	{Kontrolní panel}
-Copy
-	Kopírovat
-{Create section...}
-	{Definovat novou pasá...}
-{Create speaker}
-	{Definovat nového mluvèího}
-{Create turn...}
-	{Definovat novı obrat...}
-{Current segment}
-	{Aktuální segment}
-Cursor
-	Kurzor
-Cut
-	Vyjmout
-{Cyrillic (ISO-8859-5)}
-	{Cyrilika (ISO-8859-5)}
-{Cyrillic (KOI8-R)}
-	{Cyrilika (KOI8-R)}
-Czech
-	Èesky
-{Czech for Windows (CP1250)}
-	{Èesky pro Windows (CP1250)}
-Danish
-	Dánsky
-{Debug menu}
-	{Menu pro odstraòování chyb}
-{Default scribe's name}
-	{Jméno pøepisovaèe (základní)}
-{Default settings for raw sound files:}
-	{Základní nastavení pro nezpracované zvukové soubory}
-{Default text cursor position}
-	{Pøednastavená pozice kursoru v textu}
-Delete
-	Vymazat
-{Delete breakpoint}
-	{Vymazat záloku}
-Description
-	Popis
-Destroy
-	Zrušit
-Dialect
-	Náøeèí
-Display
-	Zobrazení
-{Displaying transcription...}
-	{Zobrazení transkripce...}
-down
-	Dolù
-Dutch
-	Holandsky
-dıchání
+@Activities
 	{}
-Edit
-	Úpravy
-{Edit episode attributes...}
-	{Zmìnit vlastnosti pøepisu...}
-{Edit event}
-	{Upravit událost}
-{Edit language list...}
-	{Úpravy seznamu jazykù...}
-{Edit lexical list...}
-	{Úpravy seznamu lexikálních událostí...}
-{Edit noise list...}
-	{Úpravy seznamu ruchù...}
-{Edit pronounce list...}
-	{Úpravy seznamu vıslovností...}
-{Edit section attributes}
-	{Zmìnit vlastnosti pasáe}
-{Edit section attributes...}
-	{Zmìnit vlastnosti pasáe...}
-{Edit translation}
-	{Úpravy lokalizace}
-{Edit turn attributes}
-	{Zmìnit vlastnosti obratu}
-{Edit turn attributes...}
-	{Zmìnit vlastnosti obratu...}
-Encoding
-	Kódování
-{End of event}
-	{Konec události}
-{End of line}
-	{Konec øádku}
-English
-	Anglicky
-{Episode attributes}
-	{Vlastnosti pøepisu}
-{Event foreground}
-	{Popøedí události}
-Events
-	Události
-{Events display...}
-	{Zobrazení událostí...}
-{Expand waveform}
-	{Vìtší grafické zobrazení zvuku}
-Export
-	Exportovat
-{Export to Childes format...}
-	{Export do formátu Childes...}
-{Export to LDC .typ format...}
-	{Export do formátu LDC.typ...}
-{Export to STM format...}
-	{Export do formátu STM...}
-Extent
-	Rozsah
-Fidelity
-	Kvalita
-File
-	Soubor
-filler
-	Argumentace
-Find
-	Najít
-{Find and replace}
-	{Najít a nahradit}
-{Find next}
-	{Najít další}
-{Find speaker}
-	{Najít mluvèího}
-{Find topic}
-	{Najít téma}
-Find/Replace
-	Najít/nahradit
-Finnish
-	Finsky
-{First segment}
-	{První segment}
-Fonts
-	Písma
-Forward
-	Dopøedu
-French
-	Francouzsky
-{General options}
-	{Základní konfigurace}
-General...
-	Obecné...
-German
-	Nìmecky
-{global name}
-	{Globální jméno}
-Glossary
-	Slovníèek
-{Go to...}
-	{Pøejdi na...}
-Greek
-	Øecky
-{Greek (ISO-8859-7)}
-	{Øecky (ISO-8859-7)}
-{Header size}
-	{Velikost hlavièky}
-Hebrew
-	Hebrejsky
-{Hebrew (ISO-8859-8)}
-	{Hebrejsky (ISO-8859-8)}
-Help
-	Nápovìda
-{Highlighted text bg}
-	{Pozadí zvıraz. textu}
-Hindi
-	Hindsky
-{hovor v pozadí}
+@Bck
 	{}
-Hungarian
-	Maïarsky
-{Import from file...}
-	{Import ze souboru...}
-{Import speakers from file}
-	{Importovat mluvèí ze souboru}
-{Import topics from file}
-	{Importovat témata ze souboru}
-indicatif
+@Begin
 	{}
-Information
-	Informace
-Informations
-	Informace
-Insert
-	Vloit
-{Insert background}
-	{Vloit pozadí}
-{Insert breakpoint}
-	{Vloit záloku}
-{Insert event}
-	{Vloit událost}
-{Insert event...}
-	{Vloit událost...}
-{Instantaneous event}
-	{Okamitá událost}
-{Isolated noise}
-	{Jednotlivı ruch}
-Italian
-	Italsky
-Japanese
-	Japonsky
-{Japanese (EUC-JP)}
-	{Japonsky (EUC-JP)}
-{Japanese (ISO-2022-JP)}
-	{Japonsky (ISO-2022-JP)}
-{Japanese (Shift_JIS)}
-	{Japonsky (Shift_JIS)}
-Keystrokes
-	Klávesy
-Korean
-	Korejsky
-{Korean (EUK-KR)}
-	{Korejsky (EUK-KR)}
-{Korean (ISO-2022-KR)}
-	{Korejsky (ISO-2022-KR)}
-Language
-	Jazyk
-lapsus
+@Bg
 	{}
-{Last modification date}
-	{Datum posledních úprav}
-{Last segment}
-	{Poslední segment}
-Latin
-	Latin
-Latin3
+@Comment
 	{}
-Latin4
+@Eg
 	{}
-Lexical
-	{Lexikální událost}
-Lists
-	Seznamy
-{Localization file}
-	{Lokalizaèní soubor}
-{Log trace in file}
-	{Zapisovat do log souboru}
-{Loop on segment or selection after a pause}
-	{Pøehrávat segment nebo vıbìr stále dokola}
-{Main features}
-	{Hlavní funkce}
-Messages
-	Zprávy
-Mode
-	Modus
-Modify
-	Upravit
-{Modify speaker}
-	{Upravit mluvèího}
-{Modify topic}
-	{Upravit téma}
-{mot inconnu}
+@End
 	{}
-{Move breakpoint}
-	{Posuò záloku}
-{Move to...}
-	{Pøejít na...}
-music
-	Hudba
-neologismus
+@g
 	{}
-nesrozumitelnì
+@Location
 	{}
-{neurèitá vıslovnost}
+@NewEpisode
 	{}
-New
-	Novı
-{New language}
-	{Novı jazyk}
-{New topic}
-	{Nové téma}
-{New trans}
-	{Novı transkript}
-Next
-	Další
-{Next section}
-	{Další pasá}
-{Next synchro}
-	{Další segment}
-{Next turn}
-	{Další obrat}
-{neznámé slovo}
+@RoomLayout
 	{}
-nezøetelnì
+@situation
 	{}
-{no topic}
-	{ádné téma}
-Noise
-	Ruch
-{Noise foreground}
-	{Popøedí ruchu}
-nontrans
-	Vyprávìní
-Norwegian
-	Norsky
-nádech
+@TapeLocation
 	{}
-néologisme
+@TimeDuration
 	{}
-OK
+@TimeStart
 	{}
-{Open audio file...}
-	{Otevøít zvukovı soubor...}
-{Open trans...}
-	{Otevøít transkript}
-{Open transcription file}
-	{Otevøít soubor pøepisu}
-Options
-	Nastavení
-{orthographe incertaine}
+{[b] bruit indÃ©terminÃ©}
 	{}
-other
-	Jiné
-{Overlapping noise}
-	{Pøekrıvající se ruchy}
-{Overlapping speech}
-	{Pøekrıvající se øeè}
-Paste
-	Vloit
-{Pause at segment boundaries}
-	{Krátké zastávku mezi segmenty}
-Persian
-	Persky
-{Play around cursor}
-	{Pøehrát bezprostøední okolí kursoru}
-{Play segment}
-	{Pøehrát segment}
-Play/Pause
-	Hrát/Pauza
-Playback
-	Pøehrát
-{Playback mode}
-	{Zpùsob pøehrávání}
-Polish
-	Polsky
-Port
-	{}
-Portuguese
-	Portugalsky
-Position
-	Pozice
-{Position (in seconds)}
-	{Pozice (v sekundách)}
-Presentation
-	Prezentace
-Previous
-	Pøedchozí
-{Previous section}
-	{Pøedchozí pasá}
-{Previous synchro}
-	{Pøedchozí segment}
-{Previous turn}
-	{Pøedchozí obrat}
-{Principal language}
-	{Hlavní jazyk}
-Program
-	Projekt
-Pronounce
-	Vıslovnost
-{pøeryv øeèi}
-	{}
-pøeøeknutí
-	{}
-Quit
-	Konec
-Rate
-	Rozsah
-{Reading transcription file...}
-	{Naèítám soubor transkripce...}
-{Recording date}
-	{Datum nahrávky}
-{Reduce waveform}
-	{Menší grafické zobrazení zvuku}
-{Reference manual}
-	{Referenèní pøíruèka}
-{Remove unused speakers}
-	{Odstranit nevyuité mluvèí}
-{Remove unused topics}
-	{Odstranit nevyuitá témata}
-Replace
-	Nahradit
-{Replace all}
-	{Nahradit vše}
-{Replacement string}
-	{Nahradit øetìzcem}
-{Replay segment}
-	{Pøehraj segment}
-report
-	Popis
-Resolution
-	Rozlišení
-{Resolution bar}
-	{Posuvník pro nastavení rozlišení}
-Revert
-	{Zpìt k poslednì uloené verzi práce}
-{rire en fond}
-	{}
-Romanian
-	Rumunsky
-Russian
-	Rusky
-Save
-	Uloit
-{Save as...}
-	{Uloit jako...}
-{Save configuration}
-	{Uloit nastavení}
-{Sections foreground}
-	{Popøedí pasáí}
-seg0
-	{}
-seg1
-	{}
-seg2
-	{}
-Segmentation
-	Segmentace
-{Segments foreground}
-	{Popøedí segmentù}
-Server
-	{}
-{sigle lu}
-	{}
-{sigle épelé}
-	{}
-Signal
-	Signál
-{Simplified Chinese (GB)}
-	{Èínsky (zjednodušená - GB)}
-{smích v pozadí}
-	{}
-{Sorry, couldn't launch spell checker}
-	{Bohuel nelze naèíst soubor kontroly pravopisu}
-{Sort by...}
-	{Tøídit podle...}
-Spanish
-	Špalnìlsky
-{Speaker foreground}
-	{Popøedí mluvèích}
-{Spell checking}
-	{Kontrola pravopisu (CZ nefunguje)}
-{spelling checked}
-	{Pravopis zkontrolován}
-{Start of event}
-	{Zaèátek události}
-{Start of line}
-	{Zaèátek øádky}
-{Stop at next segment boundary}
-	{Zastavit na zaèátku dalšího segmentu}
-Swedish
-	Švédsky
-Text
-	{}
-{Text foreground}
-	{Popøedí textu}
-{Traditional Chinese (Big5)}
-	{Èínsky (tradièní Big5)}
-{Transcriber's name}
-	{Jméno pøepisovatele}
-{Transcription %s saved.}
-	{Transkripce uloena}
-{Transcription has been modified - Save before closing?}
-	{Pøepis se zmìnil - uloit pøed ukonèením?}
-Undo
-	Zpìt
-{Unicode (UTF-8)}
-	{}
-{Unzoom selection}
-	{Volba mìøítka (zmenšit)}
-{Use regular expression}
-	{Uít standardní vıraz}
-{User guide}
-	{Uivatelská pøíruèka}
-Value
-	Hodnota
-{Vertical zoom (dB)}
-	{Vertikální mìøítko (dB)}
-{Waveform bg}
-	{Pozadí wavefrom}
-{Western (Latin1)}
-	{Západní (Latin1)}
-Zadrhnutí
-	{}
-{Zoom selection}
-	{Vıbìr mìøítka (zvìtšit)}
 {[bb] bruit de bouche}
 	{}
 {[bg] bruit de gorge}
 	{}
-{[ch] voix chuchotée}
+{[ch] voix chuchotÃ©e}
 	{}
 {[conv] conversations de fond}
 	{}
@@ -625,6 +141,12 @@ Zadrhnutí
 	{}
 {[n] reniflement}
 	{}
+{[nontrans] segment}
+	{}
+{[p] pauza}
+	{}
+{[pap] froissement de papiers}
+	{}
 {[pf] soufle}
 	{}
 {[pi] inintelligible}
@@ -635,81 +157,1003 @@ Zadrhnutí
 	{}
 {[rire] rires du locuteur}
 	{}
+{[shh] souffle Ã©lectrique}
+	{}
 {[sif] sifflement du locuteur}
 	{}
-{[tx] toux, râclement,éternuement}
+{[tx] toux, rÃ¢clement,Ã©ternuement}
 	{}
-{[z] zadrhnutí}
+{[z] zadrhnutÃ­}
 	{}
+About...
+	{O programu...}
+Add
+	PÅ™idat
+{Add audio file...}
+	{PÅ™idat zvukovÃ½ soubor}
+{Adjust playback speed (%)}
+	{PÅ™izpÅ¯sobit rychlost pÅ™ehrÃ¡vÃ¡nÃ­ (%)}
+Amount
+	MnoÅ¾stvÃ­
+amount
+	mnoÅ¾stvÃ­
+amount.cur
+	{}
+amount.phy
+	{}
+amount.phy.age
+	{}
+amount.phy.dur
+	{}
+amount.phy.len
+	{}
+amount.phy.spd
+	{}
+amount.phy.temp
+	{}
+amount.phy.wei
+	{}
+applaude
+	{}
+applaudissements
+	{}
+{Apply to next word}
+	{TÃ½kÃ¡ se dalÅ¡Ã­ho slova}
+{Apply to previous word}
+	{TÃ½kÃ¡ se pÅ™edchozÃ­ho slova}
+{Apply to selection}
+	{TÃ½kÃ¡ se vÃ½bÄ›ru}
+ar
+	{}
+Arabic
+	Arabsky
+{Arabic (ISO-8859-6)}
+	{Arabsky (ISO-8859-6)}
+{Ask user to save configuration before leaving}
+	{UloÅ¾it nastavenÃ­ pÅ™ed ukonÄenÃ­m na vyÅ¾Ã¡dÃ¡nÃ­}
+{Audio file}
+	{ZvukovÃ½ soubor}
+{Audio file options}
+	{NastavenÃ­ zvukovÃ½ch souborÅ¯}
+{Audio file...}
+	{ZvukovÃ½ soubor...}
+{Audio filename}
+	{JmÃ©no zvukovÃ©ho souboru}
+{Auto-save interval (in minutes)}
+	{Interval automatickÃ©ho uklÃ¡dÃ¡nÃ­ (v minutÃ¡ch)}
+Automatic
+	Automaticky
+{Automatic import from selected file}
+	{AutomatickÃ½ import ze zvolenÃ©ho souboru}
+{Automatic selection playback}
+	{Automaticky pÅ™ehrÃ¡t vÃ½bÄ›r}
+{Automatic space insertion}
+	{Automaticky vklÃ¡dat mezery}
+Automatic...
+	Automaticky...
+Axis
+	Osa
+b
+	{}
+background
+	PozadÃ­
+{Background attributes}
+	{Vlastnosti pozadÃ­}
+{Backup extension}
+	{PÅ™Ã­pona jmÃ©na zÃ¡loÅ¾nÃ­ch souborÅ¯}
+Backward
+	ZpÄ›t
+{Backward search}
+	{Hledat zpÃ¡tky}
+bb
+	{}
+{Beep at segment boundaries}
+	{ZvukovÃ½ signÃ¡l mezi segmenty}
+{Beep sound file}
+	{Soubor zvukovÃ©ho signÃ¡lu}
+bg
+	PozadÃ­
+Bindings
+	{KlÃ¡vesovÃ© zkratky}
+Bindings...
+	{KlÃ¡vesovÃ© zkratky...}
+Both
+	ObojÃ­
+Browse...
+	ProchÃ¡zet...
+Bulgarian
+	Bulharsky
+{C:\Program Files\Maxthon\Maxthon.exe}
+	{}
+Cancel
+	Storno
+{Case sensitive}
+	{RozliÅ¡ovat velkÃ¡ pÃ­smena}
+{Central european (Latin2)}
+	{StÅ™edoevropskÃ½ (Latin2)}
+ch
+	{}
+Channel
+	KanÃ¡l
+Channels
+	KanÃ¡ly
+{Check spelling of capitalized words}
+	{Kontrola pravopisu ve slovech psanÃ½ch kapitÃ¡lkami}
+Chinese
+	ÄŒÃ­nsky
+{Choose first speaker}
+	{Zvolit prvnÃ­ho mluvÄÃ­ho}
+{Choose font}
+	{Zvolit pÃ­smo}
+{Choose second speaker}
+	{Zvolit druhÃ©ho mluvÄÃ­ho}
+{Cleaning up memory...}
+	{UvolnÄ›nÃ­ pamÄ›ti...}
+Close
+	ZavÅ™Ã­t
+Code
+	KÃ³d
+{Colorize speaker segments}
+	{Obarvit segmenty mluvÄÃ­ho}
+Colors...
+	Barvy...
+{Command buttons}
+	{PÅ™Ã­kazovÃ¡ tlaÄÃ­tka}
+Comment
+	KomentÃ¡Å™
+{Compute low-resolution shape for long sound files}
+	{SpoÄÃ­tej "low-resolution shape" pro dlouhÃ© zvukovÃ© soubory}
+{Configure colors}
+	{Nastavit barvy}
+{Configure events}
+	{NastavenÃ­ udÃ¡lostÃ­}
+{Continuous playback}
+	{PÅ™ehrÃ¡vat od zaÄÃ¡tku do konce}
+{Control panel}
+	{KontrolnÃ­ panel}
+conv
+	{}
+Copy
+	KopÃ­rovat
+{Create section...}
+	{Definovat novou pasÃ¡Å¾...}
+{Create speaker}
+	{Definovat novÃ©ho mluvÄÃ­ho}
+{Create turn...}
+	{Definovat novÃ½ obrat...}
+cs
+	{}
+{Current segment}
+	{AktuÃ¡lnÃ­ segment}
+Cursor
+	Kurzor
+Cut
+	Vyjmout
+{Cyrillic (ISO-8859-5)}
+	{Cyrilika (ISO-8859-5)}
+{Cyrillic (KOI8-R)}
+	{Cyrilika (KOI8-R)}
+Czech
+	ÄŒesky
+{Czech for Windows (CP1250)}
+	{ÄŒesky pro Windows (CP1250)}
+{CÃ­lovÃ½ adresÃ¡Å™}
+	{}
+da
+	{}
+Danish
+	DÃ¡nsky
+de
+	{}
+{Debug menu}
+	{Menu pro odstraÅˆovÃ¡nÃ­ chyb}
+{Default browser:}
+	{PÅ™ednastavenÃ½ prohlÃ­Å¾eÄ:}
+{Default scribe's name}
+	{JmÃ©no pÅ™episovaÄe (zÃ¡kladnÃ­)}
+{Default settings for raw sound files:}
+	{ZÃ¡kladnÃ­ nastavenÃ­ pro nezpracovanÃ© zvukovÃ© soubory}
+{Default text cursor position}
+	{PÅ™ednastavenÃ¡ pozice kursoru v textu}
+Delete
+	Vymazat
+{Delete breakpoint}
+	{Vymazat zÃ¡loÅ¾ku}
+Description
+	Popis
+{Destination directory}
+	{CÃ­lovÃ½ adresÃ¡Å™}
+Destroy
+	ZruÅ¡it
+Dialect
+	NÃ¡Å™eÄÃ­
+Display
+	ZobrazenÃ­
+{Displaying transcription...}
+	{ZobrazenÃ­ transkripce...}
+{Do shape computation in background}
+	{PoÄÃ­tat tvar na pozadÃ­}
+down
+	DolÅ¯
+Dutch
+	Holandsky
+dÃ½chÃ¡nÃ­
+	{}
+e
+	{}
+Edit
+	Upravit
+{Edit episode attributes...}
+	{Upravit vlastnosti pÅ™episu...}
+{Edit event}
+	{Upravit udÃ¡lost}
+{Edit language list...}
+	{Upravit seznam jazykÅ¯...}
+{Edit lexical list...}
+	{Upravit seznam lexikÃ¡lnÃ­ch udÃ¡lostÃ­...}
+{Edit named entities list...}
+	{Upravit seznam vlastnÃ­ch prvkÅ¯ (VP)}
+{Edit noise list...}
+	{Upravit seznam ruchÅ¯...}
+{Edit pronounce list...}
+	{Upravit seznam vÃ½slovnostÃ­...}
+{Edit section attributes}
+	{Upravit vlastnosti pasÃ¡Å¾e}
+{Edit section attributes...}
+	{Upravit vlastnosti pasÃ¡Å¾e...}
+{Edit translation}
+	{Upravit lokalizaci}
+{Edit turn attributes}
+	{Upravit vlastnosti obratu}
+{Edit turn attributes...}
+	{Upravit vlastnosti obratu...}
+el
+	{}
+en
+	{}
+Encoding
+	KÃ³dovÃ¡nÃ­
+{End of event}
+	{Konec udÃ¡losti}
+{End of line}
+	{Konec Å™Ã¡dku}
+English
+	Anglicky
+{Episode attributes}
+	{Vlastnosti pÅ™episu}
+es
+	{}
+{Event foreground}
+	{PopÅ™edÃ­ udÃ¡losti}
+Events
+	UdÃ¡losti
+{Events display...}
+	{ZobrazenÃ­ udÃ¡lostÃ­...}
+{Expand waveform}
+	{VÄ›tÅ¡Ã­ grafickÃ© zobrazenÃ­ zvuku}
+Export
+	Exportovat
+{Export to Childes format...}
+	{Export do formÃ¡tu Childes...}
+{Export to HTML format...}
+	{Export do formÃ¡tu HTML}
+{Export to LDC .typ format...}
+	{Export do formÃ¡tu LDC.typ...}
+{Export to LIMSI label...}
+	{Export do LIMSI...}
+{Export to STM format...}
+	{Export do formÃ¡tu STM...}
+{Export to Text...}
+	{Export do textu...}
+Extent
+	Rozsah
+{External Speakers Database :}
+	{ExternÃ­ databÃ¡ze mluvÄÃ­ch:}
+fa
+	{}
+fac
+	{}
+Facilities
+	ZaÅ™Ã­zenÃ­
+fi
+	{}
+Fidelity
+	Kvalita
+File
+	Soubor
+filler
+	Argumentace
+Find
+	NajÃ­t
+{Find and replace}
+	{NajÃ­t a nahradit}
+{Find next}
+	{NajÃ­t dalÅ¡Ã­}
+{Find speaker}
+	{NajÃ­t mluvÄÃ­ho}
+{Find topic}
+	{NajÃ­t tÃ©ma}
+Find/Replace
+	NajÃ­t/nahradit
+Finnish
+	Finsky
+{First segment}
+	{PrvnÃ­ segment}
+{First signal view}
+	{NÃ¡hled prvnÃ­ho okna zvukovÃ©ho signÃ¡lu}
+Fonts
+	PÃ­sma
+Forward
+	DopÅ™edu
+fr
+	{}
+French
+	Francouzsky
+{General options}
+	{ZÃ¡kladnÃ­ konfigurace}
+General...
+	ObecnÃ©...
+Geo-Soc-Pol
+	{}
+German
+	NÄ›mecky
+{global name}
+	{GlobÃ¡lnÃ­ jmÃ©no}
+{Global speakers database}
+	{GlobÃ¡lnÃ­ databÃ¡ze mluvÄÃ­ch}
+Glossary
+	SlovnÃ­Äek
+{Go back before playing (in seconds)}
+	{Mezera pÅ™ed pÅ™ehrÃ¡vanÃ½m Ãºsekem (v sekundÃ¡ch)}
+{Go to...}
+	{PÅ™ejdi na...}
+Greek
+	Å˜ecky
+{Greek (ISO-8859-7)}
+	{Å˜ecky (ISO-8859-7)}
+gsp
+	{}
+gsp.loc
+	{}
+gsp.org
+	{}
+gsp.pers
+	{}
+he
+	{}
+{Header size}
+	{Velikost hlaviÄky}
+Hebrew
+	Hebrejsky
+{Hebrew (ISO-8859-8)}
+	{Hebrejsky (ISO-8859-8)}
+Help
+	NÃ¡povÄ›da
+hi
+	{}
+{Highlighted text bg}
+	{PozadÃ­ zvÃ½raz. textu}
+Hindi
+	Hindsky
+{hovor v pozadÃ­}
+	{}
+hu
+	{}
+Hungarian
+	MaÄarsky
+i
+	{}
+{Import from file...}
+	{Import ze souboru...}
+{Import speakers from file}
+	{Importovat mluvÄÃ­ ze souboru}
+{Import topics from file}
+	{Importovat tÃ©mata ze souboru}
+indicatif
+	{}
+Information
+	Informace
+Informations
+	Informace
+Insert
+	VloÅ¾it
+{Insert background}
+	{VloÅ¾it pozadÃ­}
+{Insert breakpoint}
+	{VloÅ¾it zÃ¡loÅ¾ku}
+{Insert event}
+	{VloÅ¾it udÃ¡lost}
+{Insert event...}
+	{VloÅ¾it udÃ¡lost...}
+{Instantaneous event}
+	{OkamÅ¾itÃ¡ udÃ¡lost}
+{Isolated noise}
+	{JednotlivÃ½ ruch}
+it
+	{}
+Italian
+	Italsky
+ja
+	{}
+Japanese
+	Japonsky
+{Japanese (EUC-JP)}
+	{Japonsky (EUC-JP)}
+{Japanese (ISO-2022-JP)}
+	{Japonsky (ISO-2022-JP)}
+{Japanese (Shift_JIS)}
+	{Japonsky (Shift_JIS)}
 jingle
+	dÅ¾ingle
+Keystrokes
+	KlÃ¡vesy
+ko
 	{}
-{mal prononcé}
+Korean
+	Korejsky
+{Korean (EUC-KR)}
+	{Korejsky (EUC-KR)}
+{Korean (EUK-KR)}
+	{Korejsky (EUK-KR)}
+{Korean (ISO-2022-KR)}
+	{Korejsky (ISO-2022-KR)}
+la
+	{}
+Language
+	Jazyk
+lapsus
+	{}
+{Last modification date}
+	{Datum poslednÃ­ch Ãºprav}
+{Last segment}
+	{PoslednÃ­ segment}
+Latin
+	Latin
+Latin3
+	{}
+Latin4
+	{}
+Left
+	LevÃ½
+Lexical
+	{LexikÃ¡lnÃ­ udÃ¡lost}
+Lists
+	Seznamy
+{Load configuration file...}
+	{NaÄti konfiguraÄnÃ­ soubor...}
+loc
+	{}
+loc.addr
+	{}
+loc.addr.elec
+	{}
+loc.addr.post
+	{}
+loc.addr.tel
+	{}
+loc.geo
+	{}
+loc.geo.line
+	{}
+{Localization file}
+	{LokalizaÄnÃ­ soubor}
+{Localization in Czech}
+	{Lokalizace do ÄeÅ¡tiny}
+Location
+	UmÃ­stÄ›nÃ­
+{Log trace in file}
+	{Zapisovat do log souboru}
+{Loop on segment or selection after a pause}
+	{PÅ™ehrÃ¡vat segment nebo vÃ½bÄ›r stÃ¡le dokola}
+lu
+	{}
+{Main features}
+	{HlavnÃ­ funkce}
+{mal prononcÃ©}
+	{Å¡patnÄ› vysloveno}
+Message
+	ZprÃ¡va
+Messages
+	ZprÃ¡vy
+mic
+	{}
+Mode
+	Modus
+{Modifications saved in the file %s}
+	{Ãšpravy uloÅ¾eny v souboru  %s}
+Modify
+	Upravit
+{Modify speaker}
+	{Upravit mluvÄÃ­ho}
+{Modify topic}
+	{Upravit tÃ©ma}
+{mot inconnu}
+	{neznÃ¡mÃ© slovo}
+{Move breakpoint}
+	{PosuÅˆ zÃ¡loÅ¾ku}
+{Move to...}
+	{PÅ™ejÃ­t na...}
+music
+	Hudba
+musique
+	{}
+n
 	{}
 Name
-	Jméno
+	JmÃ©no
+{Named Entities}
+	{VlastnÃ­ prvky (VP)}
+{nb. of sections:}
+	{}
+{nb. of syncs:}
+	{}
+{nb. of turns:}
+	{}
+{nb. of words:}
+	{}
+{NE amount}
+	{VP mnoÅ¾stvÃ­}
+{NE buttons}
+	{TlaÄÃ­tka vlastnÃ­ch prvkÅ¯ (VP)}
+{NE fac}
+	{}
+{NE gsp}
+	{}
+{NE loc}
+	{}
+{NE metonymy}
+	{}
+{NE org}
+	{}
+{NE pers}
+	{}
+{NE prod}
+	{}
+{NE time}
+	{}
+{NE unknown}
+	{}
+neologismus
+	{}
+nesrozumitelnÄ›
+	{}
+{neurÄitÃ¡ vÃ½slovnost}
+	{}
+New
+	NovÃ½
+{New language}
+	{NovÃ½ jazyk}
+{New topic}
+	{NovÃ© tÃ©ma}
+{New trans}
+	{NovÃ½ transkript}
+Next
+	DalÅ¡Ã­
+{Next section}
+	{DalÅ¡Ã­ pasÃ¡Å¾}
+{Next synchro}
+	{DalÅ¡Ã­ segment}
+{Next turn}
+	{DalÅ¡Ã­ obrat}
+{neznÃ¡mÃ© slovo}
+	{}
+nezÅ™etelnÄ›
+	{}
+nl
+	{}
+no
+	{}
+{No audio segment selected !}
+	{Nevybrali jste Å¾Ã¡dnÃ½ zvukovÃ½ segment!}
 {no speaker}
-	{ádnı mluvèí}
+	{Å½Ã¡dnÃ½ mluvÄÃ­}
+{no topic}
+	{Å¹Ã¡dnÃ© tÃ©ma}
+Noise
+	Ruch
+{Noise foreground}
+	{PopÅ™edÃ­ ruchu}
+nontrans
+	VyprÃ¡vÄ›nÃ­
+Norwegian
+	Norsky
+nÃ¡dech
+	{}
+nÃ©ologisme
+	neologismus
+OK
+	{}
+{Open audio file...}
+	{OtevÅ™Ã­t zvukovÃ½ soubor...}
+{Open segmentation file}
+	{OtevÅ™Ã­t soubor segmentacÃ­}
+{Open segmentation file...}
+	{OtevÅ™Ã­t soubor segmentacÃ­}
+{Open trans...}
+	{OtevÅ™Ã­t transkript}
+{Open transcription file}
+	{OtevÅ™Ã­t soubor pÅ™episu}
+{Open video file...}
+	{OtevÅ™Ã­t soubor videa...}
+Options
+	NastavenÃ­
+org
+	{}
+org.com
+	{}
+org.edu
+	{}
+org.edu/gsp.pers
+	{}
+org.non-profit
+	{}
+org.pol
+	{}
+Organization
+	Organizace
+{orthographe incertaine}
+	{}
+other
+	JinÃ©
+{Overlapping noise}
+	{PÅ™ekrÃ½vajÃ­cÃ­ se ruchy}
+{Overlapping speech}
+	{PÅ™ekrÃ½vajÃ­cÃ­ se Å™eÄ}
+pap
+	{}
+Paste
+	VloÅ¾it
+{Pause at segment boundaries}
+	{KrÃ¡tkÃ© zastÃ¡vky mezi segmenty}
+{Pause duration (in seconds)}
+	{TrvÃ¡nÃ­ pauzy (ve vteÅ™inÃ¡ch)}
+pauza
+	{}
+pers
+	{}
+pers.anim
+	{}
+pers.hum
+	{}
+pers.imag
+	{}
+Persian
+	Persky
+Person
+	Osoba
+pf
+	{}
+pi
+	{}
+pif
+	{}
+pl
+	{}
+{Play around cursor}
+	{PÅ™ehrÃ¡t bezprostÅ™ednÃ­ okolÃ­ kursoru}
+{Play next segment}
+	{PÅ™ehrÃ¡t dalÅ¡Ã­ segment}
+{Play segment}
+	{PÅ™ehrÃ¡t segment}
+Play/Pause
+	HrÃ¡t/Pauza
+Playback
+	PÅ™ehrÃ¡t
+{Playback mode}
+	{ZpÅ¯sob pÅ™ehrÃ¡vÃ¡nÃ­}
+{Please, check your Aspell spellchecker installation.}
+	{Zkontrolujte, prosÃ­m, svou instalaci jazykovÃ©ho slovnÃ­ku Aspell}
+Polish
+	Polsky
+Port
+	{}
+Portuguese
+	Portugalsky
+Position
+	Pozice
+{Position (in seconds)}
+	{Pozice (v sekundÃ¡ch)}
+Presentation
+	Prezentace
+Previous
+	PÅ™edchozÃ­
+{Previous section}
+	{PÅ™edchozÃ­ pasÃ¡Å¾}
+{Previous synchro}
+	{PÅ™edchozÃ­ segment}
+{Previous turn}
+	{PÅ™edchozÃ­ obrat}
+{Principal language}
+	{HlavnÃ­ jazyk}
+prod
+	{}
+prod.art
+	{}
+prod.award
+	{}
+prod.award/pers.hum
+	{}
+prod.printing
+	{}
+prod.vehicule
+	{}
+Product
+	Produkt
+Program
+	Projekt
+Pronounce
+	VÃ½slovnost
+pt
+	{}
+{pÅ™eryv Å™eÄi}
+	{}
+pÅ™eÅ™eknutÃ­
+	{}
+Quit
+	Konec
+r
+	{}
+Rate
+	Rozsah
+{Reading transcription file...}
+	{NaÄÃ­tÃ¡m soubor transkripce...}
+{Recently used speakers}
+	{Naposledy pouÅ¾Ã­vanÃ½ mluvÄÃ­}
+{Recording date}
+	{Datum nahrÃ¡vky}
+{Reduce waveform}
+	{MenÅ¡Ã­ grafickÃ© zobrazenÃ­ zvuku}
+{Reference manual}
+	{ReferenÄnÃ­ pÅ™Ã­ruÄka}
+{Remove unused speakers}
+	{Odstranit nevyuÅ¾itÃ© mluvÄÃ­}
+{Remove unused topics}
+	{Odstranit nevyuÅ¾itÃ¡ tÃ©mata}
+Replace
+	Nahradit
+{Replace all}
+	{Nahradit vÅ¡e}
+{Replacement string}
+	{Nahradit Å™etÄ›zcem}
+{Replay segment}
+	{PÅ™ehrÃ¡t segment}
+report
+	Popis
+Resolution
+	RozliÅ¡enÃ­
+{Resolution bar}
+	{PosuvnÃ­k pro nastavenÃ­ rozliÅ¡enÃ­}
+Revert
+	{ZpÄ›t k poslednÄ› uloÅ¾enÃ© verzi prÃ¡ce}
+Right
+	PravÃ½
+rire
+	{}
+{rire en fond}
+	{}
+ro
+	{}
+Romanian
+	Rumunsky
+ru
+	{}
 {rupture de syntaxe}
 	{}
+Russian
+	Rusky
+Save
+	UloÅ¾it
+{Save as...}
+	{UloÅ¾it jako...}
+{Save audio segment(s)}
+	{UloÅ¾it audio segment(y)}
+{Save audio segments options}
+	{Volby pro uloÅ¾enÃ­ audio segmentÅ¯}
+{Save configuration}
+	{UloÅ¾it nastavenÃ­}
+{Save configuration as...}
+	{UloÅ¾it nastavenÃ­ jako...}
 {Second signal view}
-	{Náhled dalšího okna zvukového signálu}
+	{NÃ¡hled dalÅ¡Ã­ho okna zvukovÃ©ho signÃ¡lu}
+Section
+	PasÃ¡Å¾
+{Sections foreground}
+	{PopÅ™edÃ­ pasÃ¡Å¾Ã­}
+seg0
+	{}
+seg1
+	{}
+seg2
+	{}
+Segmentation
+	Segmentace
+{Segments foreground}
+	{PopÅ™edÃ­ segmentÅ¯}
 selected
-	Vıbìr
+	VÃ½bÄ›r
+Selected...
+	VybrÃ¡no...
+Server
+	{}
 shh
 	{}
-smích
+sif
 	{}
+{sigle lu}
+	{}
+{sigle Ã©pelÃ©}
+	{}
+Signal
+	SignÃ¡l
+{Simplified Chinese (GB)}
+	{ÄŒÃ­nsky (zjednoduÅ¡enÃ¡ - GB)}
+sl
+	{}
+Slavonic
+	{}
+{Smart segmentation display}
+	{Zobrazit segmentaci chytÅ™e}
+smÃ­ch
+	{}
+{smÃ­ch v pozadÃ­}
+	{}
+{Sorry, couldn't launch spell checker}
+	{BohuÅ¾el nelze naÄÃ­st soubor kontroly pravopisu}
+{Sort by...}
+	{TÅ™Ã­dit podle...}
+Spanish
+	Å palnÄ›lsky
+{Speaker foreground}
+	{PopÅ™edÃ­ mluvÄÃ­ch}
 Speakers
-	Mluvèí
+	MluvÄÃ­
 speech
 	Mluva
+{Spell checking}
+	{Kontrola pravopisu (CZ nefunguje)}
+{spelling checked}
+	{Pravopis zkontrolovÃ¡n}
+{Start of event}
+	{ZaÄÃ¡tek udÃ¡losti}
+{Start of line}
+	{ZaÄÃ¡tek Å™Ã¡dky}
+{Stereo channel}
+	{Stereo kanÃ¡l}
+{Stop at next segment boundary}
+	{Zastavit na zaÄÃ¡tku dalÅ¡Ã­ho segmentu}
+{Stop before next segment boundary}
+	{Zastavit pÅ™ed zaÄÃ¡tkem dalÅ¡Ã­ho segmentu}
 {Store signal shapes in}
-	{Uloit tvary signálu}
+	{UloÅ¾it tvary signÃ¡lu}
+Suppress
+	PotlaÄit
+sv
+	{}
+Swedish
+	Å vÃ©dsky
+Sync
+	{}
+{Synchronized audio files}
+	{SynchronizovanÃ© zvukovÃ© soubory}
+Text
+	{}
+{Text editor}
+	{TextovÃ½ editor}
+{Text foreground}
+	{PopÅ™edÃ­ textu}
 ticho
 	{}
+Time
+	ÄŒas
+time
+	{}
+time.date
+	{}
+time.date.abs
+	{}
+time.date.rel
+	{}
+time.hour
+	{}
+{To keep your modifications, please provide a valid localization file name, come back to this edition window and click OK. Save also the configuration for reusing this file automatically in a next session.}
+	{Chcete-li zachovat Ãºpravy, vepiÅ¡te do pÅ™Ã­sluÅ¡nÃ©ho polÃ­Äka jmÃ©no lokalizaÄnÃ­ho souboru, vraÅ¥te se sem a potvrÄte OK. Aby se tento lokalizaÄnÃ­ soubor automaticky pÅ™Ã­Å¡tÄ› naÄetl, uloÅ¾te takÃ© NastavenÃ­.}
 top
 	{}
 Topic
-	Téma
+	TÃ©ma
 Topics
-	Témata
+	TÃ©mata
 {toux en fond}
 	{}
+tr
+	{}
+{Traditional Chinese (Big5)}
+	{ÄŒÃ­nsky (tradiÄnÃ­ Big5)}
+{Transcriber's name}
+	{JmÃ©no pÅ™episovatele}
+{Transcription %s saved.}
+	{Transkripce %s uloÅ¾ena}
+{Transcription has been modified - Save before closing?}
+	{PÅ™epis se zmÄ›nil - uloÅ¾it pÅ™ed ukonÄenÃ­m?}
+Translation
+	PÅ™eklad
 Turkish
 	Turecky
 {Turkish (Latin5)}
 	{Turecky (Latin5)}
+Turn
+	Obrat
+tx
+	{}
 Type
 	Typ
+Undo
+	ZpÄ›t
+{Unicode (UTF-8)}
+	{}
+unk
+	{}
+Unknown
+	NeznÃ¡mÃ½
+{Unzoom selection}
+	{Volba mÄ›Å™Ã­tka (zmenÅ¡it)}
 up
 	Nahoru
+Update
+	Aktualizovat
+{Use color for NE buton}
+	{Zvolit barvu pro tlaÄÃ­tko VP}
+{Use color for NE tag}
+	{Zvolit barvu pro VP cedulku}
+{Use color for NE text}
+	{Zvolit barvu pro text VP}
+{Use regular expression}
+	{UÅ¾Ã­t standardnÃ­ vÃ½raz}
+{User guide}
+	{UÅ¾ivatelskÃ¡ pÅ™Ã­ruÄka}
+v(desc,chosen)
+	{}
+Value
+	Hodnota
 Version
 	Verze
+{Vertical zoom (dB)}
+	{VertikÃ¡lnÃ­ mÄ›Å™Ã­tko (dB)}
 {View all}
-	{Zobrazit všechno}
+	{Zobrazit vÅ¡echno}
+{Volby pro uloÅ¾enÃ­ audio segmentÅ¯}
+	{}
 Volume
 	Hlasitost
-{[b] bruit indéterminé}
+vÃ½dech
 	{}
-{[p] pauza}
+{Waveform bg}
+	{PozadÃ­ wavefrom}
+{Western (Latin1)}
+	{ZÃ¡padnÃ­ (Latin1)}
+{Western (MacRoman)}
+	{ZÃ¡padnÃ­ (MacRoman)}
+{with %d speakers}
+	{s %d mluvÄÃ­mi}
+{with %d topics}
+	{s %d tÃ©maty}
+ZadrhnutÃ­
 	{}
-{[pap] froissement de papiers}
+zadrhnutÃ­
 	{}
-{[shh] souffle électrique}
+zakaÅ¡lÃ¡nÃ­
 	{}
-pauza
+zh
 	{}
-vıdech
+{Zoom selection}
+	{VÃ½bÄ›r mÄ›Å™Ã­tka (zvÄ›tÅ¡it)}
+Ã©pelÃ©
 	{}
-zadrhnutí
+Å¡eptem
 	{}
-zakašlání
+{Å¡patnÃ¡ vÃ½slovnost}
 	{}
-šeptem
-	{}
-{špatná vıslovnost}
-	{}
-{šustìní papírù}
+{Å¡ustÄ›nÃ­ papÃ­rÅ¯}
 	{}
 }
 
@@ -718,7 +1162,7 @@ array set local_fr {
 {}
 	{}
 {%s word(s) checked}
-	{%s mot(s) vérifié(s)}
+	{%s mot(s) vÃ©rifiÃ©(s)}
 0
 	{}
 1
@@ -755,6 +1199,44 @@ array set local_fr {
 	{}
 {30 sec}
 	{}
+{[b] bruit indÃ©terminÃ©}
+	{}
+{[bb] bruit de bouche}
+	{}
+{[bg] bruit de gorge}
+	{}
+{[ch] voix chuchotÃ©e}
+	{}
+{[conv] conversations de fond}
+	{}
+{[e] expiration}
+	{}
+{[i] inspiration}
+	{}
+{[mic] bruits micro}
+	{}
+{[n] reniflement}
+	{}
+{[pap] froissement de papiers}
+	{}
+{[pf] soufle}
+	{}
+{[pi] inintelligible}
+	{}
+{[pif] inintelligible/faible}
+	{}
+{[r] respiration}
+	{}
+{[rire] rires du locuteur}
+	{}
+{[rire] voix avec rire}
+	{}
+{[shh] souffle Ã©lectrique}
+	{}
+{[sif] sifflement du locuteur}
+	{}
+{[tx] toux, rÃ¢clement,Ã©ternuement}
+	{}
 About...
 	{A propos de...}
 {Add to dictionnary}
@@ -762,13 +1244,13 @@ About...
 {Adjust playback speed (%)}
 	{}
 {An automatically saved version was found. Rescue from it?}
-	{Une sauvegarde automatique a été retrouvée. Voulez-vous la récupérer?}
+	{Une sauvegarde automatique a Ã©tÃ© retrouvÃ©e. Voulez-vous la rÃ©cupÃ©rer?}
 {Apply to next word}
-	{Appliqué au mot suivant}
+	{AppliquÃ© au mot suivant}
 {Apply to previous word}
-	{Appliqué au mot précédent}
+	{AppliquÃ© au mot prÃ©cÃ©dent}
 {Apply to selection}
-	{Appliqué ? la sélection}
+	{AppliquÃ© ? la sÃ©lection}
 Arabic
 	arabe
 {Ask user to save configuration before leaving}
@@ -782,9 +1264,9 @@ Arabic
 {Audio filename}
 	{Nom du fichier son}
 {Auto-save interval (in minutes)}
-	{Délai avant enregistrement automatique (minutes)}
+	{DÃ©lai avant enregistrement automatique (minutes)}
 {Automatic selection playback}
-	{Rejoue automatiquement la sélection}
+	{Rejoue automatiquement la sÃ©lection}
 {Automatic space insertion}
 	{Insertion automatique des espaces}
 Axis
@@ -798,13 +1280,15 @@ background
 Backward
 	Arri?re
 {Backward and play}
-	{Arri?re puis démarre}
+	{Arri?re puis dÃ©marre}
 {Backward search}
 	{Recherche arri?re}
 {Beep at segment boundaries}
 	{Bip aux fronti?res des segments}
 {Beep sound file}
 	{Fichier son pour le bip}
+bg
+	{}
 Bindings
 	{Raccourcis clavier}
 Bindings...
@@ -822,7 +1306,7 @@ Channel
 Channels
 	{Nombre de canaux}
 {Check spelling of capitalized words}
-	{Vérifie l'orthographe des mots capitalisés}
+	{VÃ©rifie l'orthographe des mots capitalisÃ©s}
 Chinese
 	chinois
 {Choose beep file}
@@ -842,7 +1326,7 @@ Chinese
 {Choose topic...}
 	{Choisissez un sujet...}
 {Cleaning up memory...}
-	{Nettoyage de la mémoire...}
+	{Nettoyage de la mÃ©moire...}
 {Clock clicks per second}
 	{Clics d'horloge par seconde}
 Close
@@ -856,25 +1340,25 @@ Colors...
 Comment
 	Commentaire
 {Compute low-resolution shape for long sound files}
-	{Calcule une image basse résolution des longs signaux}
+	{Calcule une image basse rÃ©solution des longs signaux}
 {Configure colors}
 	{Configurer les couleurs}
 {Configure event display}
-	{Configure l'affichage des événements}
+	{Configure l'affichage des Ã©vÃ©nements}
 {Configure events}
-	{Configure les événements}
+	{Configure les Ã©vÃ©nements}
 {Continuous playback}
 	{Lecture en continu}
 {Control panel}
-	{Panneau de contrôle}
+	{Panneau de contrÃ´le}
 Copy
 	Copier
 {Create section...}
-	{Créer une section...}
+	{CrÃ©er une section...}
 {Create speaker}
-	{Créer un locuteur}
+	{CrÃ©er un locuteur}
 {Create turn...}
-	{Créer un tour...}
+	{CrÃ©er un tour...}
 {Current segment}
 	{Segment courant}
 Cursor
@@ -890,13 +1374,13 @@ Danish
 Debug
 	Deboguage
 {Debug menu}
-	{Menu de déboguage}
+	{Menu de dÃ©boguage}
 {Default scribe's name}
 	{Nom du transcripteur}
 {Default settings for raw sound files:}
 	{Param?tres pour les fichiers sans ent?te:}
 {Default text cursor position}
-	{Position du curseur par défaut}
+	{Position du curseur par dÃ©faut}
 Delete
 	Supprimer
 {Delete breakpoint}
@@ -904,7 +1388,7 @@ Delete
 Description
 	Description
 Destroy
-	Détruire
+	DÃ©truire
 Dialect
 	Accent
 Display
@@ -912,7 +1396,7 @@ Display
 {Displaying transcription...}
 	{Affichage de la transcription...}
 {Do shape computation in background}
-	{Calcul de l'enveloppe en tâche de fond}
+	{Calcul de l'enveloppe en tÃ¢che de fond}
 down
 	diminue
 Dutch
@@ -922,9 +1406,9 @@ Edit
 {Edit comment}
 	{Modifier un commentaire}
 {Edit episode attributes...}
-	{Param?tres de l'épisode...}
+	{Param?tres de l'Ã©pisode...}
 {Edit event}
-	{Modifier un événement}
+	{Modifier un Ã©vÃ©nement}
 {Edit language list...}
 	{Modifier la liste des langues...}
 {Edit lexical list...}
@@ -944,21 +1428,21 @@ Edit
 {Edit turn attributes...}
 	{Param?tres du tour...}
 {End of event}
-	{Fin d'événement}
+	{Fin d'Ã©vÃ©nement}
 {End of line}
 	{Fin de ligne}
 English
 	anglais
 {Episode attributes}
-	{Param?tres de l'épisode}
+	{Param?tres de l'Ã©pisode}
 {Event display...}
-	{Affichage des événements}
+	{Affichage des Ã©vÃ©nements}
 {Event foreground}
 	{}
 Events
-	Evénements
+	EvÃ©nements
 {Events display...}
-	{Affichage des événements...}
+	{Affichage des Ã©vÃ©nements...}
 {Expand waveform}
 	{Agrandir le signal}
 {Expert mode}
@@ -978,7 +1462,7 @@ Export
 Extent
 	Etendue
 Fidelity
-	Fidélité
+	FidÃ©litÃ©
 File
 	Fichier
 filler
@@ -1004,13 +1488,15 @@ Fonts
 Forward
 	Avant
 French
-	français
+	franÃ§ais
 {General options}
-	{Options générales}
+	{Options gÃ©nÃ©rales}
 General...
-	Général...
+	GÃ©nÃ©ral...
 German
 	allemand
+{global name}
+	{nom global}
 Glossary
 	Glossaire
 {Go back before playing (in seconds)}
@@ -1022,7 +1508,7 @@ Greek
 {Header size}
 	{Taille de l'ent?te}
 Hebrew
-	hébreu
+	hÃ©breu
 Help
 	Aide
 {Highlighted text bg}
@@ -1050,27 +1536,27 @@ Information
 Informations
 	Informations
 Insert
-	Insérer
+	InsÃ©rer
 {Insert background}
-	{Insérer un bruit de fond}
+	{InsÃ©rer un bruit de fond}
 {Insert breakpoint}
-	{Insérer une fronti?re}
+	{InsÃ©rer une fronti?re}
 {Insert comment}
-	{Insérer un commentaire}
+	{InsÃ©rer un commentaire}
 {Insert event}
-	{Insérer une balise}
+	{InsÃ©rer une balise}
 {Insert event...}
-	{Insérer une balise...}
+	{InsÃ©rer une balise...}
 Insert...
-	Insérer...
+	InsÃ©rer...
 {Instantaneous event}
-	{Evénement instantané}
+	{EvÃ©nement instantanÃ©}
 {Instantaneous noise}
-	{Bruit instantané}
+	{Bruit instantanÃ©}
 Interface
 	Interface
 {Isolated noise}
-	{Bruit isolé}
+	{Bruit isolÃ©}
 Italian
 	italien
 Japanese
@@ -1080,7 +1566,7 @@ jingle
 Keystrokes
 	Touches
 Korean
-	coréen
+	corÃ©en
 Language
 	Langue
 Language...
@@ -1102,15 +1588,17 @@ Lists
 {Localization file}
 	{Fichier de traduction}
 {Localization in French}
-	{Traduction en français}
+	{Traduction en franÃ§ais}
 Localize...
 	Traduction...
 {Log trace in file}
-	{Enregistre l'activité dans}
+	{Enregistre l'activitÃ© dans}
 {Loop on segment or selection after a pause}
-	{Boucle sur segment ou sélection apr?s pause}
+	{Boucle sur segment ou sÃ©lection apr?s pause}
 {Main features}
-	Fonctionnalités
+	FonctionnalitÃ©s
+{mal prononcÃ©}
+	{}
 Message
 	Message
 Messages
@@ -1123,12 +1611,14 @@ Modify
 	{Editer le locuteur}
 {Modify topic}
 	{Editer le sujet}
+mono
+	{}
 {mot inconnu}
 	{}
 {Move breakpoint}
-	{Déplacer une fronti?re}
+	{DÃ©placer une fronti?re}
 {Move to...}
-	Déplacement...
+	DÃ©placement...
 Name
 	Nom
 New
@@ -1160,10 +1650,10 @@ Noises...
 nontrans
 	{}
 Norwegian
-	norvégien
+	norvÃ©gien
 {not saved (unsupported output format)}
-	{non sauvé (format non supporté)}
-néologisme
+	{non sauvÃ© (format non supportÃ©)}
+nÃ©ologisme
 	{}
 OK
 	{}
@@ -1186,17 +1676,17 @@ Options
 other
 	autre
 {Overlapping noise}
-	{Bruit superposé}
+	{Bruit superposÃ©}
 {Overlapping speech}
-	{Parole superposée}
+	{Parole superposÃ©e}
 Paste
 	Coller
 {Pause at segment boundaries}
 	{Pause aux fronti?res des segments}
 {Pause duration (in seconds)}
-	{Durée de pause (en secondes)}
+	{DurÃ©e de pause (en secondes)}
 {Pause duration between segments}
-	{Durée de pause entre segments}
+	{DurÃ©e de pause entre segments}
 Persian
 	perse
 {Play around cursor}
@@ -1224,15 +1714,15 @@ Position
 {Position (in seconds)}
 	{Position (en secondes)}
 Presentation
-	Présentation
+	PrÃ©sentation
 Previous
-	Précédent
+	PrÃ©cÃ©dent
 {Previous section}
-	{Section précédente}
+	{Section prÃ©cÃ©dente}
 {Previous synchro}
-	{Synchro précédente}
+	{Synchro prÃ©cÃ©dente}
 {Previous turn}
-	{Tour précédent}
+	{Tour prÃ©cÃ©dent}
 {Principal language}
 	{Langue principale}
 Program
@@ -1248,49 +1738,53 @@ quad
 Quit
 	Quitter
 Rate
-	Fréquence
+	FrÃ©quence
 {Reading transcription file...}
 	{Lecture du fichier de transcription...}
 Recalibrate
 	Recalibration
 {Recent topics}
-	{Sujets récents}
+	{Sujets rÃ©cents}
 {Recently used speakers}
-	{Locuteurs récents}
+	{Locuteurs rÃ©cents}
 {Recording date}
 	{Date d'enregistrement}
 {Reduce waveform}
-	{Réduire l'enveloppe}
+	{RÃ©duire l'enveloppe}
 {Reference manual}
-	{Manuel de référence}
+	{Manuel de rÃ©fÃ©rence}
 Refresh
 	{}
 {Refresh list}
 	{}
 {Remove unused speakers}
-	{Supprime les locuteurs inutilisés}
+	{Supprime les locuteurs inutilisÃ©s}
 {Remove unused topics}
-	{Supprime les sujets inutilisés}
+	{Supprime les sujets inutilisÃ©s}
 Replace
 	Remplacer
 {Replace all}
 	{Tout remplacer}
 {Replacement string}
-	{Chaîne de remplacement}
+	{ChaÃ®ne de remplacement}
 {Replay segment}
 	{Rejoue le segment}
 report
 	{}
 Resolution
-	Résolution
+	RÃ©solution
 {Resolution bar}
-	{Barre de résolution}
+	{Barre de rÃ©solution}
 Restart
-	Redémarre
+	RedÃ©marre
 Revert
 	{Revenir au fichier}
+{rire en fond}
+	{}
 Romanian
 	roumain
+{rupture de syntaxe}
+	{}
 Russian
 	russe
 Save
@@ -1321,14 +1815,14 @@ Server
 	Serveur
 {sigle lu}
 	{}
-{sigle épelé}
+{sigle Ã©pelÃ©}
 	{}
 Signal
 	Signal
 {Signal name}
 	{Nom du signal}
 {Sorry, couldn't find %s dictionary}
-	{Désolé, le dictionnaire %s est introuvable}
+	{DÃ©solÃ©, le dictionnaire %s est introuvable}
 {Sort by...}
 	{Trier par...}
 Spanish
@@ -1344,17 +1838,19 @@ Speakers
 {Spell checking}
 	{Correction orthographique}
 {spelling checked}
-	{orthographe vérifiée}
+	{orthographe vÃ©rifiÃ©e}
 {Start of event}
-	{Début d'événement}
+	{DÃ©but d'Ã©vÃ©nement}
 {Start of line}
-	{Début de ligne}
+	{DÃ©but de ligne}
+stereo
+	{}
 {Stop at next segment boundary}
 	{Stop ? la prochaine fronti?re}
 {Store signal shapes in}
 	{Enregistre les enveloppes des signaux dans}
 Swedish
-	suédois
+	suÃ©dois
 Synchro
 	Synchro
 Text
@@ -1369,28 +1865,34 @@ Topics
 	Sujets
 {Topics menu}
 	{Liste des sujets}
+{toux en fond}
+	{}
 {Transcriber's name}
 	{Nom du transcripteur}
 {Transcription %s saved.}
-	{Enregistrement de %s effectuée.}
+	{Enregistrement de %s effectuÃ©e.}
 {Transcription has been modified - Save before closing?}
-	{La transcription a été modifiée - Enregistrer avant fermeture ?}
+	{La transcription a Ã©tÃ© modifiÃ©e - Enregistrer avant fermeture ?}
 Translation
 	Traduction
 Turkish
 	turc
 Turn
 	Tour
+Type
+	CatÃ©gorie
 Undo
 	Annuler
 {Unknown format}
 	{Format inconnu}
 {Unzoom selection}
 	{Supprime le zoom}
+up
+	augmente
 Update
 	{}
 {Use regular expression}
-	{Utilise une expression réguli?re}
+	{Utilise une expression rÃ©guli?re}
 {User guide}
 	{Guide utilisateur}
 Value
@@ -1404,74 +1906,20 @@ Version
 Volume
 	Volume
 {Warning !
+
 All changes will be lost.
+
 Really revert from file ?}
 	{Attention!
+
 Toutes les modifications seront perdues.
-Revenir ? la version enregistrée?}
+
+Revenir ? la version enregistrÃ©e?}
 {Waveform bg}
 	{}
 Word
 	Mot
 {Zoom selection}
-	{Zoom de la sélection}
-{[b] bruit indéterminé}
-	{}
-{[bb] bruit de bouche}
-	{}
-{[bg] bruit de gorge}
-	{}
-{[ch] voix chuchotée}
-	{}
-{[conv] conversations de fond}
-	{}
-{[e] expiration}
-	{}
-{[i] inspiration}
-	{}
-{[mic] bruits micro}
-	{}
-{[n] reniflement}
-	{}
-{[pap] froissement de papiers}
-	{}
-{[pf] soufle}
-	{}
-{[pi] inintelligible}
-	{}
-{[pif] inintelligible/faible}
-	{}
-{[r] respiration}
-	{}
-{[rire] rires du locuteur}
-	{}
-{[rire] voix avec rire}
-	{}
-{[shh] souffle électrique}
-	{}
-{[sif] sifflement du locuteur}
-	{}
-{[tx] toux, râclement,éternuement}
-	{}
-bg
-	{}
-{global name}
-	{nom global}
-{mal prononcé}
-	{}
-mono
-	{}
-{rire en fond}
-	{}
-{rupture de syntaxe}
-	{}
-stereo
-	{}
-{toux en fond}
-	{}
-Type
-	Catégorie
-up
-	augmente
+	{Zoom de la sÃ©lection}
 }
 
