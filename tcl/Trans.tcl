@@ -360,10 +360,16 @@ proc OpenTransFile {} {
 proc OpenTransOrSoundFile {} {
    global v
 
+   set upperSndExt [string toupper $v(ext,snd)]
+   set allSndExt [concat $v(ext,snd) $upperSndExt]
+
+   set upperTrsExt [concat [string toupper $v(ext,trs)] [string toupper $v(ext,lbl)]]
+   set allTrsExt [concat $v(ext,trs) $v(ext,lbl) $upperTrsExt]
+   
    set types [subst {
       {"All files"   {*}}
-      {"Transcription"   {$v(ext,trs) $v(ext,lbl)}}
-      {"Audio files" {$v(ext,snd)}}
+      {"Transcription"   {$allTrsExt}}
+      {"Audio files" {$allSndExt}}
    }]
    set name [tk_getOpenFile -filetypes $types -initialdir $v(trans,path) \
 		 -title [Local "Open transcription or audio file"]]
