@@ -1,0 +1,820 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="GENERATOR" content="Mozilla/4.77 [de] (X11; U; Linux 2.4.4-4GB i686) [Netscape]">
+   <meta name="Author" content="Claude Barras, DGA, 1999">
+   <meta name="Description" content="Reference Manual for Transcriber software (French version)">
+   <title>Transcriber's Interface</title>
+</head>
+<body text="#000000" bgcolor="#FFFFFF" link="#0000EF" vlink="#51188E" alink="#FF0000">
+
+<h3>
+Fenster</h3>
+
+<h4>
+<a NAME="r66"></a>Men&uuml;leiste</h4>
+
+<center><img SRC="../img/inter_menu.gif" height=36 width=497></center>
+
+<h4>
+<a NAME="r67"></a>Transkription</h4>
+Im oberen Bereich der Schnittstelle (d. h. des Bildschirms) kann die orthografische
+Transkription des Signals in einem Texteditor eingetippt werden:
+<ul>
+<li>
+f&uuml;r jeden neuen Abschnitt (Wechsel des Themas, der Sendung ...) steht
+eine Schaltfl&auml;che in der Zeilenmitte zur Verf&uuml;gung (Standardfarbe:
+orange);</li>
+
+<li>
+f&uuml;r jeden Sprecherwechsel (neuer Sprecher oder kein Sprecher) steht
+eine Schaltfl&auml;che am linken Zeilenrand zur Verf&uuml;gung (Standardfarbe:
+blau);</li>
+
+<li>
+f&uuml;r jedes Segment in der orthografischen Transkription erscheint am
+linken Zeilenrand ein kleiner Kreis (Standardfarbe: gr&uuml;n).</li>
+</ul>
+Jede Segmentierung beginnt zum Zeitpunkt t = 0; die ersten drei Zeilen
+der Transkription umfassen zumindest einen Abschnitt, eine Sprechersequenz
+und ein Segment. Die Zeile, in den welcher der Cursor steht, wird hervorgehoben.
+Am rechten Rand befindet sich eine (vertikale) Bildlaufleiste.
+<center>
+<p><img SRC="../img/inter1.gif" height=197 width=428></center>
+
+<h4>
+<a NAME="r68"></a>Schaltfl&auml;chenleiste</h4>
+Im mittleren Bildschirmbereich liegt eine Schaltfl&auml;chenleiste (die
+ausgeblendet werden kann) mit Shortcuts f&uuml;r die Signalwiedergabe bzw.
+f&uuml;r die Anzeige von Informationen; dort werden die aktuellen Dateinamen
+angezeigt.
+<center>
+<p><img SRC="../img/inter3.gif" height=28 width=435></center>
+
+<p>Available commands:
+<ul><img SRC="../img/previous.bmp" height=16 width=16> : Zur&uuml;ck zum Segmentanfang
+oder zum vorherigen Segment
+<br><img SRC="../img/backward.bmp" height=16 width=16>: Schnellr&uuml;cklauf (in
+Schritten von 0,5 s)
+<br><img SRC="../img/pause.bmp" height=16 width=16> : Pause
+<br><img SRC="../img/play.bmp" height=16 width=16> : Play (Wiedergabe)
+<br><img SRC="../img/forward.bmp" height=16 width=16>: Schnellvorlauf (in Schritten
+von 0,5 s)
+<br><img SRC="../img/next.bmp" height=16 width=16>: Gehe zum n&auml;chsten Segment
+<br><img SRC="../img/info.bmp" height=16 width=16>: Fenster mit Informationen
+&uuml;ber Signal und Transkription anzeigen</ul>
+
+<h4>
+<a NAME="r69"></a>Signal und Segmentierung</h4>
+Signal und Segmentierung erscheinen in der unteren Bildschirmh&auml;lfte.
+Hier steht auch eine (horizontale) Bildlaufleiste f&uuml;r die Wahl des
+darzustellenden Signalteils zur Verf&uuml;gung; mit Hilfe einer (&uuml;ber
+ein Kontextmen&uuml; ausblendbaren) kleineren Bildlaufleiste wird die Aufl&ouml;sung
+eingestellt. Unter dem Signal werden die Segmentierungen (orthografische,
+in Sprechersequenzen, in Abschnitten, in Hintergrundbedingungen) angezeigt
+und mit dem Signal synchronisiert. Das aktuelle Segment in der orthografischen
+Transkription wird optisch hervorgehoben. Eine zweite Darstellung des Signals
+mit ge&auml;nderter Aufl&ouml;sung ist m&ouml;glich. Die aktuelle Cursorposition
+im Signal wird durch einen vertikalen roten Balken dargestellt. Beide Cursor
+(der im Texteditor und der im Signal) laufen synchron, so dass das aktuelle
+Segment im Text stets dem aktuellen Segment unter dem Signal entspricht.
+Sobald sich ein Cursor in ein anderes Segment bewegt, geht der zweite Cursor
+mit und erscheint im selben Segment.
+<center>
+<p><img SRC="../img/inter2.gif" height=183 width=430></center>
+
+<p>F&uuml;r das Signal stehen die folgenden mausgesteuerten Funktionen
+zur Verf&uuml;gung:
+<ul>
+<li>
+Klick auf Maustaste 1: Cursor wird auf die betreffende Position gesetzt;</li>
+
+<li>
+Klick auf Maustaste 1 und ziehen: Signalausschnitt wird gew&auml;hlt;</li>
+
+<li>
+Klick auf Maustaste 2 (bzw. Shift-Taste dr&uuml;cken und Klick auf Maustaste
+1): Auswahl wird erweitert;</li>
+
+<li>
+Klick auf Maustaste 3: ein Kontextmen&uuml; wird angezeigt.</li>
+</ul>
+F&uuml;r die Segmentierungszeilen stehen die folgenden mausgesteuerten
+Funktionen zur Verf&uuml;gung:
+<ul>
+<li>
+Klick auf Maustaste 1: Signal wird im Bereich des Segments gew&auml;hlt;</li>
+
+<li>
+Klick auf Maustaste 1 und ziehen: Signal wird &uuml;ber mehrere Segmente
+hinweg gew&auml;hlt;</li>
+
+<li>
+Shift-Taste dr&uuml;cken und Klick auf Maustaste 1: Auswahl wird erweitert;</li>
+
+<li>
+Klick auf Maustaste 2 und ziehen (bzw. Taste Strg dr&uuml;cken und Klick
+auf Maustaste 1 und ziehen): die Grenze zwischen zwei Segmenten wird verschoben;</li>
+
+<li>
+Klick auf Maustaste 3: ein Kontextmen&uuml; wird angezeigt.</li>
+</ul>
+
+<h3>
+Transkriptionsdatei</h3>
+
+<h4>
+<a NAME="r1"></a>Erzeugen einer neuen Transkription</h4>
+
+<center><img SRC="../img/inter_init.gif" height=359 width=414></center>
+
+<p>Men&uuml; [File]/[New trans] w&auml;hlen. Ein Dialogfenster fragt nach
+der zu transkribierenden Audiodatei. Diese Eingabe kann sp&auml;ter ge&auml;ndert
+werden.
+<h4>
+<a NAME="r2"></a>Lesen einer Transkription</h4>
+&Uuml;ber [File]/[Open trans ...] k&ouml;nnen vom Transcriber erzeugte
+Transkriptionsdateien, Transkriptionsdateien im .typ-Format oder Segmentierungsdateien
+in einigen Standardformaten (xwaves, OGI ...) gelesen werden. Bei letzteren
+erfolgt die Formatidentifizierung anhand des Dateinamensuffixes. Das kann
+falsch sein. In diesem Fall wird die der Transkription zugeordnete Signaldatei
+gesucht. Wird sie nicht automatisch gefunden, wird der Nutzer aufgefordert,
+sie zu suchen.
+<h4>
+<a NAME="r3"></a>Speichern der Transkription</h4>
+
+<center><img SRC="../img/inter_savetrans.gif" height=169 width=390></center>
+
+<p>Die Transkription kann &uuml;ber das Men&uuml; [File]/[Save] gespeichert
+werden, wenn seit ihrer Erzeugung oder der letzten Speicherung &Auml;nderungen
+durchgef&uuml;hrt wurden. Beim ersten Mal wird der Transkriptionsdateiname
+defaultm&auml;&szlig;ig auf den Signaldateinamen mit .trs-Erweiterung gesetzt.
+Sp&auml;ter kann er &uuml;ber [File]/[Save as ...] unter einem anderen
+Namen gespeichert werden.
+<h4>
+<a NAME="r4"></a>Exportieren in ein anderes Format</h4>
+Die Transkription kann &uuml;ber das Men&uuml; [File]/[Export] in nicht
+native Transkriptionsformate (.typ oder .stm) geschrieben werden, die aber
+unvollst&auml;ndig sind.
+<h4>
+<a NAME="r5"></a>R&uuml;ckkehr zur vorherigen Version</h4>
+Der Befehl [File]/[Revert] macht alle &Auml;nderungen im Speicher r&uuml;ckg&auml;ngig
+und l&auml;dt die zuletzt auf der Festplatte gespeicherte Version.
+<h4>
+<a NAME="r6"></a>Automatische Sicherung</h4>
+
+<center><img SRC="../img/inter_delay.gif" height=29 width=450></center>
+
+<p>Eine automatische Sicherung (automatic backup) erfolgt innerhalb einer
+bestimmten Zeit nach Durchf&uuml;hrung einer &Auml;nderung (falls die Transkription
+nicht zwischenzeitlich abgespeichert wurde). Die entsprechende Datei wird
+im selben Verzeichnis wie die Transkription gespeichert und erh&auml;lt
+denselben Namen, jedoch eingerahmt durch das Zeichen # (z. B. /data
+<br>/transcription/#radio.trs#). Diese Datei wird gel&ouml;scht, sobald
+die Transkription das n&auml;chste Mal routinem&auml;&szlig;ig abgespeichert
+wird. Das Zeitintervall wird im Fenster [Options]/[General ...] angezeigt.
+Ist das Zeitintervall 0, erfolgt keine automatische Sicherung.
+<h4>
+<a NAME="r7"></a>Sicherungsdatei (Backup File)</h4>
+
+<center><img SRC="../img/inter_backup.gif" height=28 width=450></center>
+
+<p>Wenn eine zuvor bereits vorhandene Transkription auf der Festplatte
+gelesen, dann ge&auml;ndert und wieder abgespeichert wird, wird die vorhandene
+Version in einer Datei mit demselben Namen wie die Transkription beibehalten,
+gefolgt von einer vom Nutzer in das Fenster [Options]/[General ...] eingegebene
+Zeichenkette (z. B. /data/transcription
+<br>/radio.trs~). Ist das Feld leer, wird die vorherige Datei nicht beibehalten.
+<h4>
+<a NAME="r7bis"></a>Dateicodierung</h4>
+Beim Transcriber 1.4.1 unter Tcl/Tk 8.1.1 oder h&ouml;her kann die Codierung
+f&uuml;r die Dateiein- und
+<br>-ausgabe im Men&uuml; [Options]/[General ...] gew&auml;hlt werden.
+Die Standardcodierung ist ISO-8859-1 (Latin 1), kann aber in andere g&auml;ngige
+Codierungen (ISO-8859-*, EUC-JP ...), einschlie&szlig;lich Unicode (UTF-8),
+ge&auml;ndert werden. Beim Lesen handelt es sich bei der verwendeten Codierung
+um die im Dateikopf (file header) definierte (bei Transkriptionen, die
+mit fr&uuml;heren Transcriber-Versionen ohne diese Informationen erzeugt
+wurden, findet die aktuelle Codierung Anwendung).
+<h3>
+Signaldatei</h3>
+
+<h4>
+<a NAME="r8"></a>&Ouml;ffnen einer Signaldatei</h4>
+
+<center><img SRC="../img/inter_opensnd.gif" height=194 width=464></center>
+
+<p>Die Signaldatei wird nach Erzeugen einer neuen Transkription gew&auml;hlt
+oder durch &Auml;ndern des mit der Transkription verkn&uuml;pften Signals
+&uuml;ber das Men&uuml; [File]/[Open audio file ...].
+<h4>
+<a NAME="r9"></a>Audiodateiformat</h4>
+Die meisten Standard-Audiodateien werden aufgrund der Snack-Programmbibliothek
+automatisch erkannt: WAV, AU, SND, AIFF, SMP und Sphere, wenn das Format
+mit Snack installiert wurde. Der Zugriff auf das MP3-Format kann aufgrund
+der Komprimierung langsam sein. Das Format vorsatzloser (headerless) Audiodateien
+(8- oder 16-Bit Abtastl&auml;nge, Bytefolge ...) wird automatisch erkannt.
+Das gilt nicht f&uuml;r die Abtastfrequenz und die Kanalz&auml;hlung, die
+vom Nutzer in das Fenster [Options]/[Audio file ...] eingegeben werden.
+<center>
+<p><img SRC="../img/inter_confsnd.gif" height=179 width=416></center>
+
+<h4>
+<a NAME="r10"></a>Signalform</h4>
+Um die Signalanzeige bei niedrigeren Aufl&ouml;sungen zu beschleunigen
+(Anzeige von Intervallen l&auml;nger als 30 s), wird eine geringaufl&ouml;sende
+Form des gesamten Signals berechnet, wenn das Signal l&auml;nger als 30
+s ist. Die Signalformberechnung erfolgt im Hintergrund, wenn das Signal
+zum ersten Mal angezeigt wird, und wird f&uuml;r die sp&auml;tere Verwendung
+in einem spezifischen Verzeichnis abgelegt. Die laufende Berechnung kann
+gestoppt oder die Funktion in [Options]/[Audio file ...] deaktiviert werden.
+Der Hintergrundberechnungsmodus l&auml;sst sich ebenfalls deaktivieren.
+Das Verzeichnis zum Speichern von Signalformen ist ebenfalls unter [Options]/[Audio
+file ...] zu finden. Es kann von Vorteil sein, ein allen Transcriber-Nutzern
+gemeinsames Verzeichnis zu verwenden, aber dann m&uuml;ssen alle Nutzer
+darauf Schreibzugriff haben, um neue Signalformen erzeugen zu k&ouml;nnen.
+<h4>
+<a NAME="r11"></a>&Ouml;ffnen einer externen Datei</h4>
+Die Client-Server-Architektur f&uuml;r Audioanzeige und -wiedergabe kann
+durch Konfigurieren des Skripts tcl/SoundServer.tcl und seines anschlie&szlig;enden
+Starts auf dem Host aktiviert werden. Die Nutzerwahl des externen Servers
+und Ports erfolgt in [Options]/[Audio file ...].
+<h3>
+Handhabung des Signals</h3>
+W&auml;hrend der Transkription m&uuml;ssen kurze Signalabschnitte mehrmals
+geh&ouml;rt werden. In der Befehlsschaltfl&auml;chenleiste stehen ebenso
+wie im Men&uuml; [Signal] Befehle zur Verf&uuml;gung, wie sie in &auml;hnlicher
+Form von der Bedienung eines Tonbandger&auml;ts her bekannt sind, aber
+Tasten-Shortcuts sind wahrscheinlich bei intensivem Gebrauch am praktischsten.
+<h4>
+<a NAME="r12"></a>Positionieren des Cursors</h4>
+Der Cursor kann per Mausklick auf die gew&uuml;nschte Position im Signal
+gesetzt werden. Ein genauer Wert kann im Men&uuml; [Signal]/[Go to ...]/[Position]
+oder durch Klicken auf die Informationszeile unter dem Signal angegeben
+werden.
+<center>
+<p><img SRC="../img/inter_cursor.gif" height=91 width=269></center>
+
+<h4>
+<a NAME="r13"></a>Ausw&auml;hlen eines Signalausschnitts</h4>
+Ein Signalausschnitt kann durch Klick auf die linke Maustaste, Ziehen und
+Loslassen gew&auml;hlt werden, und mit Hilfe der mittleren Maustaste (bzw.
+durch Dr&uuml;cken der Shift-Taste und Klick auf die linke Maustaste) erweitert
+werden. Die Cursorposition und die Zeitgrenzen f&uuml;r die Wahl des Signalausschnitts
+werden unter dem Signal angegeben. Ist die Option Automatic selection playback
+im Men&uuml; [Options]/[General ...] aktiviert, startet die Wiedergabe
+des gew&auml;hlten Segments, sobald die Maustaste losgelassen wird.
+<center>
+<p><img SRC="../img/inter_select.gif" height=120 width=440></center>
+
+<h4>
+<a NAME="r14"></a>Signalwiedergabe</h4>
+Mit den Schaltfl&auml;chen Play&nbsp;<img SRC="../img/play.bmp" height=16 width=16>und
+Pause&nbsp;<img SRC="../img/pause.bmp" height=16 width=16>, dem Befehl [Signal]/[Play/Pause]
+oder dem entsprechenden Shortcut Tab kann die Wiedergabe an der Cursorposition
+gestartet oder gestoppt werden. Ist eine Auswahl aktiviert, wird nur dieser
+Teil wiedergegeben.
+<h4>
+<a NAME="r15"></a>Segmentwiedergabe</h4>
+&Uuml;ber den Befehl [Signal]/[Play segment] oder seine Shortcuts (Shift-Tab
+oder Alt-Tab) wird die Wiedergabe des aktuellen Segments von Anfang bis
+Ende gestartet.
+<h4>
+<a NAME="r16"></a>Schnellvorlauf</h4>
+Mit den Schaltfl&auml;chen Schnellvorlauf&nbsp;<img SRC="../img/forward.bmp" height=16 width=16>
+und Schnellr&uuml;cklauf&nbsp;<img SRC="../img/backward.bmp" height=16 width=16>
+(Men&uuml; [Signal]/[Go to ...]/[Forward] bzw. [Backward]) wird der Signalcursor
+um eine halbe Sekunde nach vorne bzw. nach hinten verschoben. Bleibt die
+Maustaste auf der Befehlsschaltfl&auml;che gedr&uuml;ckt, kommt es zu einer
+fortlaufenden Verschiebung in Schritten von 0,5 s. Das funktioniert auch
+bei der Wiedergabe, doch wirkt der Klang dann abgehackt.
+<h4>
+<a NAME="r17"></a>Gehe zum n&auml;chsten Segment</h4>
+Die Schaltfl&auml;chen Vorheriges Segment&nbsp;<img SRC="../img/previous.bmp" height=16 width=16>
+und N&auml;chstes Segment&nbsp;<img SRC="../img/next.bmp" height=16 width=16>
+(Men&uuml; [Signal]/[Go to ...]/[Previous] bzw. [Next]) bewegen den Cursor
+an den Anfang des vorherigen bzw. des n&auml;chsten Segments in der orthografischen
+Segmentierung (auch w&auml;hrend der Wiedergabe, die auf die neue Position
+springt).
+<h4>
+<a NAME="r18"></a>Zweite Signalansicht</h4>
+
+<center><img SRC="../img/inter_second.gif" height=296 width=441></center>
+
+<p>Das Men&uuml; [Options]/[Display]/[Second signal view] erm&ouml;glicht
+eine zweite Ansicht des Signals, die mit einer anderen Aufl&ouml;sung dargestellt
+werden kann. F&uuml;r eine korrekte Anzeige ist u. U. eine Gr&ouml;&szlig;enanpassung
+des Fensters erforderlich.
+<h4>
+<a NAME="r19a"></a>&Auml;ndern der Lautst&auml;rke</h4>
+Die Lautst&auml;rke (von 0 bis 100) ist im Fenster [Signal]/[Control panel]
+einstellbar.
+<center>
+<p><img SRC="../img/inter_control.gif" height=167 width=218></center>
+
+<h4>
+<a NAME="r19"></a>Vertikaler Zoom</h4>
+Bei Signalen mit geringer Dynamik kann mit einem Schieber im Fenster [Signal]/[Control
+panel] die vertikale Amplitude des Signals ver&auml;ndert werden. Die Lautst&auml;rke
+bleibt hiervon unber&uuml;hrt.
+<h3>
+Editieren</h3>
+
+<h4>
+<a NAME="r21"></a>Cut/Copy/Paste (Ausschneiden/Kopieren/Einf&uuml;gen)</h4>
+Die Standard-Editierbefehle (Men&uuml; [Edit]/[Copy], [Cut] oder [Paste]
+und die Standard-Shortcuts Control-x/c/v) k&ouml;nnen verwendet werden,
+um Teile der Transkription zu bearbeiten, einschlie&szlig;lich Ereignisse,
+jedoch nicht die Schaltfl&auml;chen f&uuml;r Abschnitt, Sprechersequenz
+oder Hintergrund.
+<h4>
+<a NAME="r22"></a>Undo (R&uuml;ckg&auml;ngig machen)</h4>
+Der Befehl R&uuml;ckg&auml;ngig machen (Men&uuml; [Edit]/[Undo] bzw. der
+Standard-Shortcut Control-z) ist nur eingeschr&auml;nkt verf&uuml;gbar
+und stellt lediglich den vorherigen Zustand der orthografischen Transkription
+des aktuellen Segments wieder her. Eine ganze Reihe von Aktionen l&auml;sst
+sich nicht r&uuml;ckg&auml;ngig machen; deshalb ist h&auml;ufiges Speichern
+zu empfehlen.
+<h4>
+<a NAME="r23"></a>Find/Replace (Suchen/Ersetzen)</h4>
+
+<center><img SRC="../img/inter_find.gif" height=175 width=304></center>
+
+<p>Der Befehl [Edit]/[Find/Replace] (Shortcut Control-f) hat verschiedene
+Optionen: case sensitive (Unterscheidung Gro&szlig;-/Kleinbuchstaben),
+backward search (R&uuml;ckw&auml;rtssuche), use regular expression (g&auml;ngigen
+Ausdruck verwenden). Es kann eine Ersatzzeichenfolge vorgegeben werden.
+<h4>
+<a NAME="r24"></a>Glossary (Glossar)</h4>
+Der Befehl [Edit]/[Glossary] bzw. sein Shortcut Control-k hat zwei Modi:
+Erstellen eines neuen Eintrags im Glossar oder Einf&uuml;gen eines vorhandenen
+Eintrags in den Editor an der aktuellen Position. Die &Auml;nderung vorhandener
+Eintr&auml;ge ist in beiden Modi m&ouml;glich. Ist ein Teil des Textes
+ausgew&auml;hlt, wenn der Befehl aufgerufen wird, wird das Erstellen eines
+neuen Eintrags aus dieser Auswahl vorgeschlagen. Es kann ein Kommentar
+hinzugef&uuml;gt werden. Auf OK klicken, um den neuen Eintrag zu registrieren.
+Wurde kein Text ausgew&auml;hlt, kann durch Anklicken ein Eintrag in der
+Liste ausgew&auml;hlt werden. Dann auf Insert klicken, und der Eintrag
+wird an der aktuellen Position eingef&uuml;gt. Derzeit wird das Glossar
+in der Konfigurationsdatei gef&uuml;hrt, in einer sp&auml;teren Version
+aber wahrscheinlich in einer getrennten Datei untergebracht.
+<h4>
+<a NAME="r25"></a>Automatische Leerzeichensteuerung</h4>
+
+<center><img SRC="../img/inter_space.gif" height=35 width=442></center>
+
+<p>Die automatische Leerzeichensteuerung erfolgt im Men&uuml; [Options]/[General
+...]. Ist sie aktiviert, wird am Zeilenende, nach Erzeugung eines neuen
+Haltepunkts und vor den Satzzeichen . , ; : (Punkt, Komma, Strichpunkt,
+Doppelpunkt) ein Leerzeichen eingef&uuml;gt.
+<h3>
+Episode</h3>
+
+<h4>
+<a NAME="r70"></a>Editieren von globalen Parametern</h4>
+
+<center><img SRC="../img/inter_epi.gif" height=221 width=362></center>
+
+<p>Einige globale Informationen &uuml;ber die Transkription k&ouml;nnen
+in [File]/[Edit episode attributes ...] angegeben werden:
+<ul>
+<li>
+Dateiname des zu transkribierenden Audiosignals (ohne Pfad oder Erweiterung),
+wodurch das Signal automatisch gefunden werden kann, wenn es nicht denselben
+Namen wie die Transkription tr&auml;gt;</li>
+
+<li>
+Name des Transkribierers (Bedieners), der bei der Erzeugung einer neuen
+Transkription als Standardname (default name) genommen wird;</li>
+
+<li>
+Version der Transkription, die automatisch inkrementiert wird und nicht
+editiert werden kann;</li>
+
+<li>
+letztes &Auml;nderungsdatum, das automatisch aktualisiert wird und nicht
+editierbar ist;</li>
+
+<li>
+Programm (Sendung, Sender ...);</li>
+
+<li>
+Aufzeichnungsdatum, falls bekannt;</li>
+
+<li>
+vorherrschende Sprache der Transkription.</li>
+</ul>
+
+<h3>
+Segmentieren</h3>
+
+<h4>
+<a NAME="r26"></a>Einf&uuml;gen eines Haltepunkts</h4>
+&Uuml;ber den Befehl [Segmentation]/[Insert breakpoint] bzw. seinen Shortcut
+Return wird an der aktuellen Cursorposition im Text und im Signal ein neuer
+Haltepunkt erzeugt. Grenzpositionen werden auf die n&auml;chste Millisekunde
+gerundet, so dass jeder neue Haltepunkt mindestens 1 ms Abstand zu bereits
+vorhandenen Haltepunkten einh&auml;lt. In der Transkription erscheint eine
+neue Zeile, und das Segment wird an der Cursorposition geteilt. Dieser
+Vorgang kann w&auml;hrend der Wiedergabe erfolgen.
+<center>
+<p><img SRC="../img/inter_seg0.gif" height=240 width=242 align=CENTER> =>&nbsp;<img SRC="../img/inter_seg1.gif" height=240 width=241 align=CENTER></center>
+
+<h4>
+<a NAME="r27"></a>Entfernen eines Haltepunkts</h4>
+Der Befehl [Segmentation]/[Delete breakpoint] bzw. sein Shortcut Shift-Backspace
+entfernt den Haltepunkt am Beginn des aktuellen Segments und &uuml;bernimmt
+dessen Inhalt in das vorherige Segment. Hat dieser Haltepunkt gleichzeitig
+den Beginn einer neuen Sprechersequenz oder eines neuen Abschnitts markiert,
+werden diese ebenfalls entfernt.
+<h4>
+<a NAME="r28"></a>Verschieben der Grenze zwischen zwei Segmenten</h4>
+Durch Klicken auf eine Grenze zwischen zwei Segmenten mit der mittleren
+Maustaste (bzw. mit der linken Maustaste bei gedr&uuml;ckter Taste Control
+oder Strg) und Ziehen mit der Maus k&ouml;nnen die Grenze sowie die in
+anderen Segmentierungen synchronisierten Grenzen verschoben werden.
+<h4>
+<a NAME="r29"></a>W&auml;hlen des Signals f&uuml;r ein oder mehrere Segmente</h4>
+Durch Anklicken eines Segments unter dem Signal mit der linken Maustaste
+wird das Signal &uuml;ber den Umfang des gesamten Segments gew&auml;hlt,
+und der Signalcursor bewegt sich zum Anfang des Segments. Die Wahl kann
+durch Dr&uuml;cken der Shift-Taste und Anklicken mit der linken Maustaste
+erweitert werden.
+<h4>
+<a NAME="r30"></a>Ausblenden/Anzeigen einer Segmentierung</h4>
+Nach Dr&uuml;cken der rechten Maustaste erscheint ein Kontextmen&uuml;
+mit Befehlen f&uuml;r Signalwiedergabe, Aufl&ouml;sung und Anzeigen bzw.
+Ausblenden jeder Segmentierung.
+<h3>
+Sprechersequenzen und Sprecher</h3>
+
+<h4>
+<a NAME="r31"></a>Erzeugen einer neuen Sprechersequenz</h4>
+
+<center><img SRC="../img/inter_turn.gif" height=292 width=451></center>
+
+<p>Mit Hilfe des Befehls [Segmentation]/[Create turn ...] oder seines Shortcuts
+Control-t wird am Beginn des aktuellen Segments eine neue Sprechersequenz
+erzeugt. Eine Sprechersequenz wird durch ihre(n) Sprecher und weitere optionale
+Parameter beschrieben:
+<ul>
+<li>
+Sprechweise (spontan oder geplant),</li>
+
+<li>
+Aufzeichnungsqualit&auml;t (gut, mittel, schlecht),</li>
+
+<li>
+Bandbreite des Signals (Telefongespr&auml;ch oder Studioaufzeichnung).</li>
+</ul>
+Die erste Zeile im Fenster ist f&uuml;r sich &uuml;berlappende Sprache
+bestimmt (siehe nachfolgenden Abschnitt). Der mittlere Teil betrifft Erzeugung,
+Auswahl oder Modifizierung von Sprechern. Durch Klicken auf die Schaltfl&auml;che
+Create Speaker oder direkte Eingabe eines neuen Namens wird ein neuer Sprecher
+erzeugt. Des Weiteren k&ouml;nnen sein Typ, sein Dialekt usw. beschrieben
+werden. Eine sortierte Liste mit bereits definierten Sprechern erscheint
+rechts, mit einer Auswahl der zuletzt verwendeten Sprecher. Durch Anklicken
+eines Namens wird dieser Sprecher als Sprecher f&uuml;r die neue Sequenz
+gew&auml;hlt. Die Rechtschreibung seines Namens und andere Merkmale k&ouml;nnen
+nach Anklicken der Schaltfl&auml;che Modify Speaker und anschlie&szlig;endes
+Validieren &uuml;ber die Schaltfl&auml;che OK ge&auml;ndert werden. Die
+&Auml;nderungen beziehen sich auf die gesamte Transkription. Das Feld no
+speaker kann f&uuml;r Signalsegmente ohne Sprache gew&auml;hlt werden.
+<h4>
+<a NAME="r32"></a>Overlapping speech</h4>
+
+<center><img SRC="../img/inter_over1.gif" height=107 width=490></center>
+
+<p>Bei der Erzeugung bzw. &Auml;nderung von Sprechersequenzparametern kann
+overlapping speech aktiviert werden. Ein zweiter Sprecher kann auf dieselbe
+Weise wie der erste gew&auml;hlt werden. Im Texteditor enth&auml;lt jedes
+Segment zwei Zeilen, die mit 1 bzw. 2 beginnen. Die orthografische Segmentierung
+unter dem Signal wird f&uuml;r jeden Sprecher horizontal geteilt. Die R&uuml;ckkehr
+zu sich nicht &uuml;berlappender Sprache erfolgt durch Deaktivieren der
+Schaltfl&auml;che overlapping speech im Feld der Sprechersequenzparameter.
+Nur der erste Sprecher wird beibehalten, und die Transkriptionen beider
+werden in einem einzigen Text zusammengef&uuml;hrt.
+<center>
+<p><img SRC="../img/inter_over.gif" height=151 width=405></center>
+
+<h4>
+<a NAME="r33"></a>Editieren oder Unterdr&uuml;cken einer Sprechersequenz</h4>
+
+<center><img SRC="../img/inter_desturn.gif" height=62 width=416></center>
+
+<p>Der Befehl [Segmentation]/[Edit turn attributes...] erm&ouml;glicht
+das Editieren und L&ouml;schen der Sprechersequenz, die das aktuelle Segment
+enth&auml;lt (auch wenn das aktuelle Segment nicht das erste Segment der
+Sprechersequenz ist). Alternativ dazu kann im Editorfenster die Schaltfl&auml;che
+f&uuml;r die Sprechersequenz angeklickt werden. Alle w&auml;hrend der Erzeugung
+vorgegebenen Parameter k&ouml;nnen ge&auml;ndert werden. Eine Schaltfl&auml;che
+erm&ouml;glicht das L&ouml;schen der Sprechersequenz.
+<h4>
+<a NAME="r34"></a>Suchen von Sequenzen eines Sprechers</h4>
+
+<center><img SRC="../img/inter_findspk.gif" height=202 width=210></center>
+
+<p>Der Befehl [Edit]/[Speakers]/[Find speaker] zeigt die Liste der Sprecher
+in der Transkription an. Nach Anklicken des Namens wird unter der Liste
+angezeigt, wie oft dieser Sprecher in der Transkription aufgetreten ist.
+Die Schaltfl&auml;che Next ruft die n&auml;chste Sequenz des Sprechers
+auf.
+<h4>
+<a NAME="r35"></a>Importieren von Sprechern aus einer anderen Datei</h4>
+
+<center><img SRC="../img/inter_impspk.gif" height=202 width=365></center>
+
+<p>Der Befehl [Edit]/[Speakers]/[Import from file ...] fragt nach einer
+Transkriptionsdatei und zeigt innerhalb dieser Datei die Sprecherliste
+an, die noch nicht in der aktuellen Transkription vorhanden ist. Der Nutzer
+kann durch Anklicken der betreffenden Namen Sprecher w&auml;hlen/abw&auml;hlen
+oder einen Sprecher w&auml;hlen, dessen Feld Global name aktiviert ist.
+<h4>
+<a NAME="r36"></a>Unterdr&uuml;cken nicht verwendeter Sprecher</h4>
+Mit dem Befehl [Edit]/[Speakers]/[Remove unused speakers] werden alle Sprecher
+unterdr&uuml;ckt, die in keiner Sprechersequenz erscheinen.
+<h3>
+Abschnitte und Themen</h3>
+
+<h4>
+<a NAME="r37"></a>Erzeugen eines neuen Abschnitts</h4>
+
+<center><img SRC="../img/inter_sect.gif" height=245 width=277></center>
+
+<p>&Uuml;ber den Befehl [Segmentation]/[Create section ...] oder seinen
+Shortcut Control-e wird am Beginn des aktuellen Segments ein neuer Abschnitt
+erzeugt. Die Art des Abschnitts ("report", "filler" oder "nontrans") und
+das Thema k&ouml;nnen im Dialogfenster gew&auml;hlt werden. Eine Liste
+bereits definierter Themen wird rechts, k&uuml;rzlich verwendete Themen
+werden links angezeigt. Auf Schaltfl&auml;che New topic klicken oder Text
+zum Definieren eines neuen Themas direkt eintippen. Wird ein schon vorhandenes
+Thema gew&auml;hlt, kann auf die Schaltfl&auml;che Modify topic geklickt
+und das Thema editiert werden. Anschlie&szlig;end auf Schaltfl&auml;che
+OK klicken. Es kann auch no topic gew&auml;hlt oder der Eintrag im Feld
+Topic gel&ouml;scht werden. Am Beginn des Abschnitts wird automatisch eine
+neue Sprechersequenz erzeugt. Der aktuelle Sprecher wird als Default-Einstellung
+vorgeschlagen.
+<h4>
+<a NAME="r38"></a>Editieren oder Unterdr&uuml;cken eines Abschnitts</h4>
+Der Befehl [Segmentation]/[Edit section attributes...] erm&ouml;glicht
+das Editieren und Unterdr&uuml;cken des Abschnitts, der das aktuelle Segment
+enth&auml;lt. Es kann auch im Texteditor auf die Schaltfl&auml;che f&uuml;r
+den gew&auml;hlten Abschnitt geklickt werden. Alle Abschnittsparameter
+lassen sich &auml;ndern, und &uuml;ber eine Schaltfl&auml;che kann der
+Abschnitt gel&ouml;scht werden.
+<h4>
+<a NAME="r39"></a>Suchen von Abschnitten zu einem Thema</h4>
+
+<center><img SRC="../img/inter_findtop.gif" height=166 width=194></center>
+
+<p>&Uuml;ber den Befehl [Edit]/[Topics]/[Find topic] wird eine Liste bereits
+definierter Themen angezeigt. Nach Anklicken eines Themas wird die zugeh&ouml;rige
+Anzahl unter der Liste angezeigt. Die Schaltfl&auml;che Next ruft den n&auml;chsten
+Abschnitt zu dem Thema auf.
+<h4>
+<a NAME="r40"></a>Importieren von Themen aus einer anderen Datei</h4>
+
+<center><img SRC="../img/inter_imptop.gif" height=174 width=208></center>
+
+<p>Der Befehl [Edit]/[Topics]/[Import from file ...] fragt nach einer Transkriptionsdatei
+und zeigt eine Liste neuer Themen an. Der Nutzer kann durch Anklicken des
+betreffenden Namens Themen w&auml;hlen/abw&auml;hlen.
+<h4>
+<a NAME="r41"></a>Unterdr&uuml;cken nicht verwendeter Themen</h4>
+Der Befehl [Edit]/[Topics]/[Remove unused topics] l&ouml;scht nicht verwendete
+Themen aus der Liste.
+<h3>
+Hintergrundger&auml;usch</h3>
+Die Segmentierung in akustische Bedingungen ber&uuml;cksichtigt dauerhafte
+&Auml;nderungen im Hindergrundger&auml;usch. Die Marken stehen f&uuml;r
+eine &Auml;nderung des Hintergrundzustands. Ihr Wert ersetzt jeweils den
+vorherigen. Jede Transkription beginnt mit einer leeren Hintergrundbedingung
+bei t = 0.
+<h4>
+<a NAME="r42"></a>Erzeugen einer Hintergrundmarke</h4>
+
+<center><img SRC="../img/inter_creatbg.gif" height=139 width=170></center>
+
+<p>Der Befehl [Segmentation]/[Insert background] erzeugt an der aktuellen
+Cursorposition im Signal eine Hintergrundmarke. Es ist nicht zul&auml;ssig,
+zwei Marken im selben Zeitindex zu erzeugen. Befindet sich der Cursor im
+Signal am Beginn des Segments, wird die Hintergrundmarke stets mit dem
+Segmentanfang synchronisiert und das Hintergrund-Icon erscheint am Zeilenanfang.
+Der Hintergrundtyp (Sprache, Musik, elektronisches Rauschen usw.) wird
+gew&auml;hlt. Der Wert wird defaultm&auml;&szlig;ig auf den vorherigen
+gesetzt. Ein Musik-Icon erscheint im Texteditor an der aktuellen Cursorposition.
+Die Hintergrundsegmentierung unter dem Signal ist auf ger&auml;uschbehafteten
+Signalanteilen farbig (Standardfarbe: grau).
+<center>
+<p><img SRC="../img/inter_dispbg.gif" height=229 width=417></center>
+
+<h4>
+<a NAME="r43"></a>Anzeigen der Ver&auml;nderung bzw. des Endes eines Hintergrundger&auml;usches</h4>
+An der dem Ende eines Hintergrundger&auml;uschs entsprechenden Position
+ist eine neue Hintergrundmarke zu erzeugen, wobei alle Ger&auml;uschtypen
+leer bleiben. Zum Ver&auml;ndern eines Ger&auml;uschzustandes nicht das
+Ende des vorherigen Ger&auml;uschs markieren, sondern nur das neue, das
+das vorherige ersetzt.
+<h4>
+<a NAME="r44"></a>Editieren oder Unterdr&uuml;cken einer Hintergrundger&auml;uschmarke</h4>
+Hintergrundger&auml;uschmarken k&ouml;nnen durch Anklicken des Musik-Icons
+im Editor editiert oder unterdr&uuml;ckt werden. Wird die Marke gel&ouml;scht,
+werden die in der vorherigen Hintergrundmarke definierten Bedingungen zu
+den aktuellen Hintergrundbedingungen.
+<h3>
+Ereignisse und Kommentare</h3>
+
+<h4>
+<a NAME="r45"></a>Einf&uuml;gen eines Ereignisses</h4>
+
+<center><img SRC="../img/inter_event.gif" height=209 width=394></center>
+
+<p>&Uuml;ber den Befehl [Edit]/[Insert event] oder seinen Shortcut Control-d
+wird ein Fenster ge&ouml;ffnet, in dem sich folgende Definitionen vornehmen
+lassen:
+<ul>
+<li>
+Ereignistyp: Ger&auml;usch, Kommentar, Aussprachekennzeichnung, lexikalische
+Kennzeichnung, Sprachwechsel;</li>
+
+<li>
+Beschreibung des Ereignisses. Eine Liste mit vordefinierten Werten ist
+im rechts davon liegenden Feld verf&uuml;gbar;</li>
+
+<li>
+Zeitliches Ausma&szlig; des Ereignisses (au&szlig;er f&uuml;r Kommentare);
+ein Ereignis kann als Augenblickserscheinung auftreten oder sich &uuml;ber
+einen l&auml;ngeren Zeitraum erstrecken. In letzterem Fall m&uuml;ssen
+Anfang und Ende von Ereignissen angegeben werden. Eine Marke kann sich
+auch auf das vorherige oder das folgende Wort beziehen.</li>
+</ul>
+
+<h4>
+<a NAME="r46"></a>Einf&uuml;gen des Beginns und Endes eines Ereignisses</h4>
+Wird vor dem Einf&uuml;gen eines Ereignisses ein Textteil gew&auml;hlt,
+werden Marken f&uuml;r Beginn und Ende des Ereignisses gleichzeitig eingef&uuml;gt.
+<h4>
+<a NAME="r47"></a>Einf&uuml;gen eines Kommentars</h4>
+Der Befehl [Edit]/[Insert comment] f&uuml;gt ein Kommentarereignis ein.
+Kommentare haben kein zeitliches Ausma&szlig;.
+<h4>
+<a NAME="r48"></a>Editieren oder Unterdr&uuml;cken eines Ereignisses</h4>
+Im Texteditor das Ereignis anklicken und es editieren oder l&ouml;schen.
+Ereignisse k&ouml;nnen im Texteditor auch wie ein einzelnes Zeichen gel&ouml;scht
+werden.
+<h4>
+<a NAME="r49"></a>Kopieren/Einf&uuml;gen eines Ereignisses</h4>
+Innerhalb des Transcribers k&ouml;nnen Ereignisse kopiert/eingef&uuml;gt
+werden (copy/paste). Werden sie in andere Anwendungen eingef&uuml;gt, erscheinen
+die Ereignismarken als XML-Tags.
+<h4>
+<a NAME="r50"></a>Erzeugen eines Tasten-Shortcuts f&uuml;r ein Ereignis</h4>
+Siehe Abschnitt Tasten-Shortcuts.
+<h4>
+<a NAME="r51"></a>Editieren der Ereignisliste</h4>
+
+<center><img SRC="../img/inter_editevent.gif" height=243 width=259></center>
+
+<p>Die Ger&auml;uschliste, Aussprachekennzeichnungen, lexikalische Kennzeichnungen
+oder die Sprachenliste lassen sich &uuml;ber [Options]/[Events]/[Edit *
+list ...] editieren. Der Wert erscheint im Editor und in der Segmentierung,
+die Beschreibung im Men&uuml; mit der Liste der vordefinierten Ereignisse.
+Eine Leerezeile dient im Men&uuml; als Trennzeichen. Aus Gr&uuml;nden der
+Einheitlichkeit sollten f&uuml;r die Sprachenliste die Codes gem&auml;&szlig;
+ISO 639 verwendet werden.
+<h4>
+<a NAME="r52"></a>Konfigurieren der Ereignisanzeige</h4>
+Schriftarten und Farben f&uuml;r die Ereignisanzeige k&ouml;nnen &uuml;ber
+die Men&uuml;s [Options]/[Fonts]/[Events] und [Options]/[Colors ...] ge&auml;ndert
+werden; die Formatzeichenfolge f&uuml;r Kommentare und Ereignisse sowie
+f&uuml;r das zeitliche Ausma&szlig; der Ereignisse wird im Fenster [Options]/[Events]/[Events
+display ...] gew&auml;hlt.
+<center>
+<p><img SRC="../img/inter_confevent.gif" height=195 width=427></center>
+
+<h3>
+Tasten-Shortcuts</h3>
+&Uuml;ber das Men&uuml; [Options]/[Bindings ...] wird ein Fenster f&uuml;r
+das Editieren, Unterdr&uuml;cken oder Erzeugen von Zuweisungen (bindings)
+aufgerufen.
+<h4>
+<a NAME="r53"></a>Definieren eines Shortcuts</h4>
+Im Men&uuml; [Options]/[Bindings ...] New anklicken, um einen neuen Shortcut
+zu erzeugen. Dann im ersten Feld die Tastenkombination und im zweiten die
+Ersatzzeichenfolge eingeben. Auf OK (Editionsende) oder Modify (vor anderen
+Editionen) klicken. Die Tastenkombination kann direkt mit Control, Shift,
+Alt ... eingegeben werden, wenn sich der Cursor im Feld Keystrokes befindet.
+Vorsicht: Es k&ouml;nnen vordefinierte Men&uuml;-Shortcuts aufgehoben werden!
+<h4>
+<a NAME="r54"></a>Shortcut f&uuml;r einen aktuell verwendeten Ausdruck</h4>
+Den aktuell verwendeten Ausdruck mit der Maus im Texteditor w&auml;hlen,
+dann Men&uuml; [Options]/[Bindings] w&auml;hlen, die gew&uuml;nschten Keystrokes
+(Tastenanschl&auml;ge) angeben und auf OK klicken. Der Shortcut kann auch
+aus den ersten Buchstaben des Ausdrucks bestehen, z. B. "gor" f&uuml;r
+"Gorbatschow". Diese Shortcuts haben nichts mit dem Glossar zu tun.
+<h4>
+<a NAME="r55"></a>Shortcut f&uuml;r ein Ereignis</h4>
+Ereignisse (Ger&auml;usch, Kommentar usw.) k&ouml;nnen mit einem Shortcut
+generiert werden. Im Texteditor ein Ereignis des gew&uuml;nschten Typs
+erzeugen, es selektieren und den vorherigen Anweisungen folgen. Der selektierte
+Text kann eine beliebige Kombination aus regul&auml;rem Text und einem
+oder mehreren Ereignissen sein.
+<h3>
+Optionen und Schnittstellenkonfiguration</h3>
+
+<h4>
+<a NAME="r56"></a>Transcriber-Name (Name der die Transkription durchf&uuml;hrenden
+Person)</h4>
+
+<center><img SRC="../img/inter_name.gif" height=29 width=449></center>
+
+<p>Der defaultm&auml;&szlig;ige Transcriber-Name steht im Men&uuml; [Options]/[General
+...]. Er wird f&uuml;r die Initialisierung der Episode-Parameter bei Erzeugen
+einer neuen Transkription verwendet.
+<h4>
+<a NAME="r57"></a>&Uuml;berwachung des Arbeitsfortgangs</h4>
+
+<center><img SRC="../img/inter_log.gif" height=29 width=450></center>
+
+<p>Ein Dateiname f&uuml;r die &Uuml;berwachung des Arbeitsfortgangs bei
+Nutzung des Transcribers kann in Men&uuml; [Options]/[General ...] vorgegeben
+werden. Defaultm&auml;&szlig;ig ist das Feld leer und die Funktion deaktiviert.
+Ist sie aktiviert, wird die Arbeitsdauer (ohne Pausen) hochgez&auml;hlt,
+solange Arbeit geleistet wird (Zahl der neuen Abschnitte, Sprechersequenzen,
+W&ouml;rter ...). Sie wird im Fenster [File]/[Information] angezeigt und
+am Ende der Sitzung in der Protokolldatei gespeichert. Derzeit erfolgt
+keine automatische Nutzung dieser Datei durch die Software.
+<h4>
+<a NAME="r58"></a>Edition von Farben</h4>
+
+<center><img SRC="../img/inter_color.gif" height=355 width=286></center>
+
+<p>Die meisten Farben k&ouml;nnen &uuml;ber das Men&uuml; [Options]/[Colors
+...] ge&auml;ndert werden.
+<br>&nbsp;
+<h4>
+<a NAME="r59"></a>Edition von Schriftarten</h4>
+
+<center><img SRC="../img/inter_font.gif" height=204 width=226></center>
+
+<p>Die f&uuml;r die Textanzeige verwendeten Schriftarten werden &uuml;ber
+das Men&uuml; [Options]/[Fonts] ge&auml;ndert.
+<br>&nbsp;
+<h4>
+<a NAME="r60"></a>Lokalisieren der Schnittstelle (Wahl der Dialogsprache)</h4>
+
+<center><img SRC="../img/inter_conflocal.gif" height=89 width=499></center>
+
+<p>Die Sprache f&uuml;r die Schnittstelle wird im Men&uuml; [Options]/[General
+...] gew&auml;hlt. Sie ist defaultm&auml;&szlig;ig auf Englisch gesetzt,
+aber auch in Franz&ouml;sisch verf&uuml;gbar. Die Lokalisierung in einer
+neuen Sprache ist m&ouml;glich. Steht keine Lokalisierung zur Verf&uuml;gung,
+wird die urspr&uuml;ngliche englischsprachige Meldung beibehalten. Sobald
+nicht lokalisierte Meldungen angezeigt werden, werden sie der Liste der
+zu lokalisierenden Meldungen hinzugef&uuml;gt. Um eine Lokalisierung aufrechtzuerhalten,
+im Men&uuml; [Options]/[General ...] einen Localization file-Namen eingeben
+und [Options]/[Save configuration] w&auml;hlen.
+<center>
+<p><img SRC="../img/inter_editlocal.gif" height=233 width=315></center>
+
+<h4>
+<a NAME="r61"></a>Anzeigen/Ausblenden der mittleren Schaltfl&auml;chenleiste</h4>
+Die mittlere Schaltfl&auml;chenleiste wird &uuml;ber das Men&uuml; [Options]/[Display]/[Command
+buttons] ein- und ausgeblendet.
+<h4>
+<a NAME="r62"></a>Speichern der Optionen</h4>
+Ge&auml;nderte Optionen, Fensterpositionen, Tasten-Shortcuts, Glossarinhalt
+und aktuell editierte Dateinamen werden mit dem Befehl [Options]/[Save
+configuration] in einer Konfigurationsdatei (defaultm&auml;&szlig;ig ~/.transcriber)
+gespeichert; diese Datei wird beim Einschalten gelesen, und aktuell editierte
+Dateien werden zu Beginn der n&auml;chsten Sitzung automatisch wieder ge&ouml;ffnet.
+<h3>
+Sonstige Merkmale</h3>
+
+<h4>
+<a NAME="r65"></a>Informationen &uuml;ber das Signal und die Transkription</h4>
+&Uuml;ber die Schaltfl&auml;che&nbsp;<img SRC="../img/info.bmp" height=16 width=16>
+bzw. den Befehl [File]/[Informations] wird ein Fenster mit Informationen
+&uuml;ber den Signaldateinamen, die Dauer, die Wortz&auml;hlung usw. ge&ouml;ffnet.
+Schaltfl&auml;che update anklicken, um die Informationen zu aktualisieren.
+<br>&nbsp;
+<center>
+<h4>
+<img SRC="../img/inter_info.gif" height=190 width=424></h4></center>
+
+<h4>
+<a NAME="r63"></a>Verlassen des Transcribers</h4>
+Dies erfolgt &uuml;ber das Men&uuml; [File]/[Quit] bzw. mit Shortcut Control-q;
+sofern zutreffend, wird das Speichern von &Auml;nderungen in der Transkription
+vorgeschlagen. Ist die entsprechende Option aktiviert, wird auch das Speichern
+der Konfiguration vorgeschlagen.
+<center>
+<p><img SRC="../img/inter_saveconf.gif" height=93 width=256></center>
+
+<h4>
+<a NAME="r64"></a>Hilfe</h4>
+Online-Hilfe ist &uuml;ber das Men&uuml; [Help] verf&uuml;gbar. Die Hilfedateien
+k&ouml;nnen auch mit jedem HTML-Browser mit Frames eingesehen werden.
+</body>
+</html>

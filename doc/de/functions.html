@@ -1,0 +1,182 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="GENERATOR" content="Mozilla/4.77 [de] (X11; U; Linux 2.4.4-4GB i686) [Netscape]">
+   <title>Fonctionnalit&eacute;s de Transcriber</title>
+</head>
+<body text="#000000" bgcolor="#FFFFFF" link="#0000EF" vlink="#51188E" alink="#FF0000">
+
+<h2>
+Hauptmerkmale</h2>
+
+<h4>
+Transkriptionen</h4>
+
+<ul>
+<li>
+Handhabung mehrerer Segmentierungsschichten: Grundsegmentierung im Hinblick
+auf die orthografische Transkription (z. B. bei jedem Satz oder bei jeder
+Atempause), Segmentierung bei Sprecherwechsel (turns) und Segmentierung
+nach Abschnitten (neues Thema); diese drei Schichten sind hierarchisch
+eingebettet. Eine vierte Segmentierung im Hinblick auf die Hintergrundakustik
+steht ebenfalls zur Verf&uuml;gung:</li>
+
+<li>
+Anzeige von Segmentierungen unter dem Signal und im Texteditor; die Anzeige
+jeder Segmentierung unter dem Signal kann mit einem Kontextmen&uuml; ein-
+und ausgeschaltet werden;</li>
+
+<li>
+st&auml;ndige Synchronisation der Cursor im Texteditor-Fenster und im Signalfenster:
+sobald sich der Cursor in einem Fenster bewegt, geht er auch im anderen
+Fenster mit und erscheint im selben Segment;</li>
+
+<li>
+einfaches Durchf&uuml;hren der Grundsegmentierung durch aufeinanderfolgendes
+Einf&uuml;gen von Grenzen an der aktuellen Cursorposition, auch w&auml;hrend
+der Wiedergabe (Playback);</li>
+
+<li>
+Verschieben von Segmentgrenzen mit der Maus;</li>
+
+<li>
+Setzen von &Auml;nderungsmarken in der Hintergrundakustik (Musik, Sprache,
+Sonstiges) an der aktuellen Cursorposition im Signal;</li>
+
+<li>
+Kennzeichnen von Grenzen, z. B. bei Sprecherwechsel oder bei einem neuen
+Abschnitt;</li>
+
+<li>
+Editieren von Sprechersequenzen, Abschnitten oder akustischen Hintergrundbedingungen
+mit einem Mausklick auf die entsprechende Schaltfl&auml;che im Editor,
+einschlie&szlig;lich m&ouml;glicher L&ouml;schung;</li>
+
+<li>
+F&uuml;hren einer Sprecherliste mit einer genauen Beschreibung jedes Sprechers
+(Name, Typ, Akzent ...), weitere &Auml;nderungen ihrer Eigenschaften, Suche
+nach Sequenzen mit einem bestimmten Sprecher, Importieren von Sprechern
+aus einer anderen Transkription;</li>
+
+<li>
+F&uuml;hren einer Themenliste nach den gleichen Aspekten, Finden von Abschnitten
+&uuml;ber ein Thema, Importieren von Themen aus einer anderen Datei;</li>
+
+<li>
+spezifisches Handhaben von sich &uuml;berlappender Sprache mit Marken f&uuml;r
+jeden Sprecher im Texteditor;</li>
+
+<li>
+Einf&uuml;gen von vordefinierten Ereignissen (Ger&auml;usch, Aussprachekennzeichnung,
+lexikalische Kennzeichnung, &Auml;nderung der Landessprache), die spontan
+sein oder am Anfang bzw. Ende des Ereignisses auftreten k&ouml;nnen; nutzerdefinierte
+Anzeige von Ereignissen (Schriftart, Farbe, Format); Editieren oder Entfernen
+mit einem einzigen Klick auf das Ereignis im Text;</li>
+
+<li>
+Standard-Texteditionsfunktionen: Ausschneiden/Kopieren/Einf&uuml;gen, Suchen/Ersetzen,
+(in sehr eingeschr&auml;nktem Ma&szlig;e) R&uuml;ckg&auml;ngig machen;</li>
+
+<li>
+Glossar vordefinierter W&ouml;rter oder Ausdr&uuml;cke;</li>
+
+<li>
+Transkriptionen im XML-Format f&uuml;r leichtere automatische Verarbeitung
+und Austausch; Syntaxpr&uuml;fung von Dateien anhand ihrer Dokumenttyp-Definition
+(DTD);</li>
+
+<li>
+nutzergew&auml;hlte Codierung f&uuml;r Transkriptionsein- und -ausgaben;
+die meisten derzeitigen Codierungen (ISO-8859-*, EUC-JP ...) und Unicode
+(UTF-8) k&ouml;nnen verwendet werden;</li>
+
+<li>
+beim &Ouml;ffnen einer Datei automatische Suche der zugeh&ouml;rigen Audiodatei;
+wird keine gefunden, wird der Nutzer aufgefordert, diese anzugeben;</li>
+
+<li>
+Importieren von .typ-Transkriptionen im .typ-Format und verschiedenem Labelling
+(xwaves, OGI ...); Exportieren nach .typ und .stm;</li>
+
+<li>
+regelm&auml;&szlig;ig erfolgendes automatisches Sichern;</li>
+
+<li>
+Speichern der vorherigen Version in einer Sicherungsdatei.</li>
+</ul>
+
+<h4>
+Audiosteuerung</h4>
+
+<ul>
+<li>
+Lesen der meisten Standard-Audioformate (dank der Snack-Programmbibliothek);</li>
+
+<li>
+Bearbeiten langer Audiodateien (von bis zu mehreren Stunden L&auml;nge);
+bei einer Dauer von mehr als 30 s wird im Hintergrund eine Signalansicht
+mit geringer Aufl&ouml;sung berechnet und f&uuml;r eine sp&auml;tere beschleunigte
+Darstellung gespeichert;</li>
+
+<li>
+direkter Zugriff auf jede beliebige Position im Signal; Wahl von Teilen
+des Signals;</li>
+
+<li>
+synchronisiert laufender Cursor w&auml;hrend der Wiedergabe (Playback);</li>
+
+<li>
+mehrere Wiedergabearten &uuml;ber Tastenkombinationen: play/pause, play
+the current segment, selection, around the cursor;</li>
+
+<li>
+interaktive &Auml;nderung der Aufl&ouml;sung ohne Unterbrechung der Wiedergabe;</li>
+
+<li>
+M&ouml;glichkeit der Anzeige von zwei Signalansichten mit unterschiedlicher
+Aufl&ouml;sung;</li>
+
+<li>
+vertikaler Zoom;</li>
+</ul>
+
+<h4>
+Sonstige Merkmale</h4>
+
+<ul>
+<li>
+Anzeige der Cursorposition (auch w&auml;hrend der Wiedergabe), der Auswahlbreite
+und sonstiger Meldungen unter dem Signal;</li>
+
+<li>
+&Uuml;berwachen des Arbeitsfortgangs w&auml;hrend der Sitzung;</li>
+
+<li>
+Informationsfenster &uuml;ber das Signal (Dateiname, Dauer, Format), &uuml;ber
+die Transkription (Anzahl der Segmente, der W&ouml;rter ...) und wahlweise
+&uuml;ber den Arbeitsanfall in der aktuellen Sitzung;</li>
+
+<li>
+Editieren der Liste der vordefinierten Ereignisse (Ger&auml;usch, Aussprache
+...);</li>
+
+<li>
+Editieren von Tasten-Shortcuts f&uuml;r das Einf&uuml;gen von Zeichen oder
+Zeichenfolgen (einschlie&szlig;lich Ereignisse);</li>
+
+<li>
+vom Nutzer editierbare Schriftarten und Farben;</li>
+
+<li>
+einfaches Lokalisieren in jeder Sprache (Englisch und Franz&ouml;sisch
+im Lieferumfang);</li>
+
+<li>
+<font size=+0>M&ouml;glichkeit der Sicherung des aktuellen Status in einer
+Konfigurationsdatei zur Nutzung in der n&auml;chsten Sitzung: &Ouml;ffnen
+von Dateien, Optionen und Fensterposition.</font></li>
+</ul>
+
+</body>
+</html>

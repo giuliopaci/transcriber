@@ -1,0 +1,877 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="GENERATOR" content="Mozilla/4.77 [de] (X11; U; Linux 2.4.4-4GB i686) [Netscape]">
+   <meta name="Author" content="C. Barras">
+   <title>Transcriber's History</title>
+</head>
+<body text="#000000" bgcolor="#FFFFFF" link="#0000EF" vlink="#51188E" alink="#FF0000">
+
+<h2>
+Chronologie der Transcriber-Versionen</h2>
+
+<hr WIDTH="100%">
+<br><b><font size=+0>Version 1.4.3</font></b>
+<p>Herausgegeben am 11 Oktober 2000
+<br>ben&ouml;tigt Tcl/Tk 8.0-8.3, Snack 1.7 ooder vorzugsweise&nbsp; 2.0.1,
+tcLex 1.2
+<p>Neue oder ge&auml;nderte Funktionen:
+<ul>
+<li>
+Wenn die Snack Version 2.0 installiert ist mit dem Transcriber, ist es
+m&ouml;glich nur den linken oder rechten Kanal einer Stereodatei abzuspielen
+durch Verwendung des neuen Men&uuml;punktes <tt>[Signal]/[Stereo channel].</tt>Es
+hat keine Auswirkung auf Mono-Audiodateien oder wenn die vorherige Snack
+Version 1.7 verwendet wird.</li>
+
+<li>
+Neues Konversionsfilter in das .html Format, welches den Ausdruck der Transkription
+&uuml;ber einen Browser erm&ouml;glicht.</li>
+
+<li>
+Neues Konversionsfilter in das .cha (Childes/CHAT) Format durchgef&uuml;hrt
+von&nbsp; Zhibiao Wu. Die Unterst&uuml;tzung f&uuml;r dieses Format ist
+noch experimentell. Wenn man eine ".cha-Datei liest, schaltet das Tool
+in einen CHAT-Mode mit neuen Attributen, die mit der Schnittstelle verf&uuml;gbar
+sind. Es schaltet zur&uuml;ck in den Ausgangszustand, wenn man eine neue
+Transkription erzeugen will oder eine Datei in einem nicht-CHAT-Format
+lesen will.</li>
+
+<li>
+Konvertierungsfilter in das .stm-Format wurde ge&auml;ndert; Import von
+.stm ist auf die Transkription begrenzt.</li>
+
+<li>
+Beim ersten Start pa&szlig;t sich das Fenster automatisch an die volle
+Bildschirmgr&ouml;&szlig;e an; sp&auml;tere Gr&ouml;&szlig;en&auml;nderungen
+werden besser verwaltet.</li>
+
+<li>
+leichte Korrektur der Signaldarstellung und der Cursor-Darstellung.</li>
+
+<li>
+('versteckt '-Attribute k&ouml;nnen durch Anlegen der Zeile 'hideLevels&nbsp;
+1' in der Konfigurationsdatei aktiviert werden ): wenn man eine Segmentierungsdatei
+liest (z.B. .lab Datei), versteckt man die Segmentierungsstufen 'section/turn/background'
+unter dem Signal immer, wenn sie leer sind; ihre Darstellung kann mit dem
+Kontextmen&uuml; (rechte Maustaste) auf dem Signal wieder eingeschaltet
+werden.</li>
+</ul>
+Implementierung bzw. Behebung von Fehlern:
+<ul>
+<li>
+Der Transcriber wurde f&uuml;r die Macintosh/G3 Plattform portiert(Danke
+an L. Spektor f&uuml;r die &Auml;nderungen). Ein neues Unterverzeichnis&nbsp;
+'src/mac'&nbsp; enth&auml;lt die Resourcen f&uuml;r die Snack Kompilation,
+tcLex und Transcriber auf dem Mac mit Code Warrior Pro 5.</li>
+
+<li>
+Die Automatische Erkennung von Audiodateien, die mit einer Transkription
+verbunden sind, arbeitet nun sowohl mit gro&szlig; geschriebenen Extensionen
+(.WAV), als auch mit klein geschriebenen (.wav)</li>
+
+<li>
+<tt>src/shape.c</tt> ist nun in&nbsp; Snack1.7&nbsp; integriert (Danke
+an K. Sj&ouml;lander) und wird nicht mehr mit dem Transcriber verteilt.
+Verschiedene Teile des Quellcodes (<tt>src/wavfm.c</tt>, <tt>tcl/Signal.tcl</tt>,
+<tt>tcl/Play.tcl</tt>,...)
+wurden entsprechend der Syntax des neuen Snack Befehls ge&auml;ndert. Daher
+arbeitet der Transcriber Version 1.4.3 nicht mehr mit Snack 1.6</li>
+
+<li>
+Das Format der Audiosignalform wurde ge&auml;ndert und hat nun das Suffix
+".shape". Fr&uuml;her berechnete Audiosignalformen mit der Extension ".shp"
+sind nun bedeutungslos und k&ouml;nnen entfernt werden.</li>
+
+<li>
+<tt>src/segmt.c</tt>:&nbsp; es wurde ein Fehler in "BorderTableFree" (Versuch
+einen leeren Pointer freizugeben, wenn ein falscher Segment Farbname gegeben
+war).</li>
+
+<li>
+<tt>src/wavfm.c</tt>: a double pixmap buffering is used for speeding up
+cursor-only changes (BTW, pixmaps are now freed at the end); a new widget
+sub-command 'cursor' has been created for that purpose and is used in tcl/Waveform.tcl:proc
+Cursor.</li>
+</ul>
+
+<ul>&nbsp;</ul>
+
+<hr WIDTH="100%">
+<h4>
+Version 1.4.2</h4>
+Herausgegeben am 6. Januar 2000
+<br>Tcl/Tk 8.0-8.2, Snack 1.6, tcLex 1.2 erforderlich
+<p>Neue bzw. ge&auml;nderte Funktionen:
+<ul>
+<li>
+Verschiebung der Grenzen mittels Shift-Button2 (oder Shift-Control-Button1)
+erfolgen - in diesem Fall werden andere Grenzen entsprechend mitverschoben.</li>
+
+<li>
+Mit Shift-Return kann innerhalb eines Segments eine Unterbrechung eingef&uuml;gt
+werden.</li>
+
+<li>
+Im Men&uuml; [Signal]/[Playback mode] k&ouml;nnen verschiedene Wiedergabearten
+gew&auml;hlt werden: continuous - fortlaufend, with pauses - mit Pausen,
+stop or beep at segment boundaries - Stopp oder Piepton an Segmentgrenzen
+bzw. Looping on segment or selection - Schleifenbetrieb auf Segment oder
+Auswahl. Der Modus gilt f&uuml;r alle folgenden Wiedergaben. Pausenl&auml;nge,
+Piepton-Datei sowie R&uuml;cksetzen vor Wiedergabe sind voreingestellt
+[Options]/[Audio file ...].</li>
+
+<li>
+Eine Voreinstellung der Position (default position) des Textcursors w&auml;hrend
+der automatischen Synchronisation mit dem Signal kann im Men&uuml; [Options]/[General
+...] zwischen Beginn und Ende der Zeile gew&auml;hlt werden (fr&uuml;her
+nur am Zeilenende).</li>
+</ul>
+Implementierungs&auml;nderungen bzw. Behebung von Fehlern:
+<ul>
+<li>
+Im Fenster ,Find and Replace' (Suchen/Ersetzen) verursachte die Schaltfl&auml;che
+,Replace all' (Alles ersetzen) manchmal eine Endlosschleife. Der Ersetzungsvorgang
+wird nun am Dokumentende gestoppt. Das Ersetzen von Text in Ereignisbeschreibungen
+hat nicht funktioniert und wird nun nicht mehr verwendet.</li>
+
+<li>
+Beim Widget (Dialogobjekt) segmt werden Segmente jetzt beim ersten Formularvorschubzeichen
+vertikal getrennt anstatt eine neue Zeile zu beginnen.</li>
+
+<li>
+Die Ausf&uuml;hrung hat nicht funktioniert, wenn der Installationspfadname
+Leerzeichen enthielt - Fehler wurde behoben.</li>
+
+<li>
+Bei der ersten Initialisierung &Ouml;ffnen eines Dialogfelds im Unterverzeichnis
+,demo' und nicht im aktuellen Verzeichnis.</li>
+
+<li>
+Beim Aufheben einer Schriftartauswahl und Sichern der Konfiguration (d.
+h. [Options]/[Fonts]/[...], dann Cancel, dann [Options] /[Save configuration])
+ging die aktuelle Schriftartbeschreibung verloren - Fehler wurde behoben.</li>
+
+<li>
+Cursorzeitanzeige immer auf drei Stellen genau.</li>
+
+<li>
+Eine Datums&auml;nderung bei aktivierter &Uuml;berwachungsfunktion (Monitoring)
+f&uuml;hrte zu einer Endlosschleife (z. B. bei betriebsfreien Zeiten w&auml;hrend
+der Nacht).</li>
+
+<li>
+Unter Windows wird die Nutzerkonfigurationsdatei jetzt in dem Verzeichnis
+$USERPROFILE gespeichert.</li>
+
+<li>
+Bei Erzeugung einer neuen Sprechersequenz ging die Kanaleinstellung verloren
+- Fehler wurde behoben.</li>
+
+<li>
+Die Codierungsliste befindet sich nun in der Datei etc/default.txt, um
+eine einfachere (manuelle) Konfiguration zu gew&auml;hrleisten.</li>
+
+<li>
+Der bei allen Codierungen verwendete Zeichensatz blieb bei der Version
+1.4.1 auf iso-latin1 beschr&auml;nkt; er umfasst nun den gesamten Unicode-Satz
+f&uuml;r Tcl/Tk 8.1 oder h&ouml;her. Allerdings ist es nicht m&ouml;glich,
+eine Schriftart f&uuml;r eine spezifische Codierung zu w&auml;hlen, und
+die Anzeige von Nicht-ASCII-Zeichen funktioniert nicht immer.</li>
+
+<li>
+src/shape.c entsprechend der API-&Auml;nderung in Snack 1.6.4 leicht modifiziert.</li>
+</ul>
+
+<h4>
+Version 1.4.1 (bietet Unicode-Unterst&uuml;tzung unter Tcl/Tk 8.1.1 oder
+h&ouml;her)</h4>
+Herausgegeben am 28 Oktober 1999
+<br>Tcl/Tk 8.0-8.2, Snack 1.6, tcLex 1.2erforderlich
+<p>kompiliert unter Linux/x86 (Debian 1.3/2.0), Linux/alpha, Solaris (SunOS
+5.5), SGI (IRIX 6.2).
+<p>Neue bzw. ge&auml;nderte Funktionen:
+<br>&nbsp;
+<ul>
+<li>
+Unicode-Unterst&uuml;tzung nur unter Tcl/Tk 8.1.1 oder h&ouml;her verf&uuml;gbar.
+Die zum Schreiben der Transkriptionen verwendete Codierung kann in [Options]/[General
+...] gew&auml;hlt werden. Die voreingestellte (default) Codierung ist ISO-Latin-1,
+kann aber in Unicode (UTF-8) oder andere gebr&auml;uchliche 8-Bit-Codierungen
+ge&auml;ndert werden. Dieselbe nutzerdefinierte Codierung wird zum Lesen
+von mit fr&uuml;heren Transcriber-Versionen ohne Codierungskopf erzeugte
+Transkriptionen verwendet. Unter Tcl/Tk 8.0 bleibt das Verhalten unver&auml;ndert,
+so dass das Lesen von Transkriptionen in Unicode nicht m&ouml;glich ist.</li>
+
+<li>
+Die Zuordnung aller Auftritte eines Sprechers zu einem anderen, bereits
+existierenden ist durch &Auml;ndern des alten in den neuen Namen m&ouml;glich.</li>
+</ul>
+Implementierungs&auml;nderungen bzw. Behebung von Fehlern:
+<ul>
+<li>
+Beim Transcriber 1.4 unter Tcl/Tk 8.1.1 oder h&ouml;her folgte auf die
+Anzeige von Nicht-ASCII-Zeichen in der Segmentierungsschicht unter dem
+Signal M&uuml;ll (garbage); dieser Fehler wurde behoben. Jedes Unicode-Zeichen
+m&uuml;sste nun korrekt angezeigt werden, vorausgesetzt, es steht in einer
+installierten Schriftart zur Verf&uuml;gung.</li>
+
+<li>
+Unter Windows wird der Aufruf von XDrawLines in segmt.c bei leerem Segment
+gesperrt.</li>
+
+<li>
+Die Transkriptionsein-/-ausgabe wurde modularisiert; Module k&ouml;nnen
+im Unterverzeichnis convert hinzugef&uuml;gt werden, um neue Ein- oder
+Ausgabeformate zu unterst&uuml;tzen (siehe Datei convert/README).</li>
+</ul>
+
+<h4>
+Version 1.4 (gr&ouml;&szlig;tenteils eine stabile Version von 1.3 beta)</h4>
+Herausgegeben am 27. September 1999
+<br>Tcl/Tk 8.0-8.2, Snack 1.6, tcLex 1.2 erforderlich
+<br>kompiliert unter Linux/x86 (Debian 1.3/2.0), Linux/alpha, Solaris (SunOS
+5.5), SGI (IRIX 6.2).
+<p>Neue bzw. ge&auml;nderte Funktionen:
+<ul>
+<li>
+Die Handhabung von Roh-Audiodateien wurde verbessert - im Fenster [Options]/[Audio
+file ...] kann eine standardm&auml;&szlig;ige (default) Kopfgr&ouml;&szlig;e
+angegeben werden. Ver&auml;nderungen der Voreinstellungen f&uuml;r Roh-Audiodateien
+lassen sich, falls erforderlich, unmittelbar auf die aktuelle Audiodatei
+anwenden.</li>
+
+<li>
+Die Hintergrundfarbe des gew&auml;hlten Signals kann vom Nutzer ge&auml;ndert
+werden. Das kann notwendig sein, wenn in der Farbtabelle nicht gen&uuml;gend
+Farben zur Verf&uuml;gung stehen.</li>
+
+<li>
+Das Unterverzeichnis ,demo' enth&auml;lt ein Beispiel f&uuml;r die Transkription
+eines Sprachdialogs.</li>
+
+<li>
+Die Hilfe-Funktion, sofern verf&uuml;gbar, wird &uuml;ber ,netscape' angezeigt.</li>
+
+<li>
+Den Befehlszeilenoptionen f&uuml;r ,trans' wurde eine Option patch directory_name
+hinzugef&uuml;gt. Auf diese Weise k&ouml;nnen beim Einschalten k&uuml;nftig
+einige Erweiterungen in das Tool geladen werden.</li>
+</ul>
+Implementierungs&auml;nderungen bzw. Behebung von Fehlern:
+<ul>
+<li>
+Keine Makefile-Funktion mehr im Wurzelverzeichnis; Kompilierung und Installation
+werden durchg&auml;ngig aus dem Unterverzeichnis ,src' durchgef&uuml;hrt.</li>
+
+<li>
+Die Dokumenttyp-Definition (DTD) wurde um das Feld "elapsed_time" (abgelaufene
+Zeit) im Trans-tag erweitert (soll die Transkriptions-Gesamtzeit &uuml;berwachen,
+wird aber derzeit nicht verwendet).</li>
+
+<li>
+Der Signalformberechnungmodus wird f&uuml;r Windows-Plattformen standardm&auml;&szlig;ig
+deaktiviert; die Hintergrundberechnung ist immer deaktiviert.</li>
+</ul>
+
+<h4>
+Version 1.3b7</h4>
+Herausgegeben am 6. Juli 1999
+<br>Tcl/Tk 8.0 oder 8.1, Snack 1.5p2 oder 1.6a2 (1.6b1 unter Linux&nbsp;
+nicht verwenden), tcLex 1.1.3 (zusammen mit Tcl/Tk 8.1 keine &auml;ltere
+Version verwenden) erforderlich
+<br>kompiliert unter Linux/x86 (Debian 1.3/2.0), Linux/alpha, Solaris (SunOS
+5.5), SGI (IRIX 6.2), Windows NT.
+<p>Neue bzw. ge&auml;nderte Funktionen:
+<ul>
+<li>
+Rechtschreibpr&uuml;fung (grafische Benutzeroberfl&auml;che f&uuml;r Verwendung
+des externen Programms ,ispell').</li>
+
+<li>
+Nach Lesen einer Transkription wird nach einer neueren automatisch gespeicherten
+Version gesucht und der Nutzer aufgefordert, die R&uuml;ckspeicherung von
+dieser Version durchzuf&uuml;hren (im Fall eines Absturzes w&auml;hrend
+der vorangegangenen Sitzung).</li>
+
+<li>
+Wiedergabe mit Pausen an den Segmentgrenzen (Men&uuml; [Signal]/[Play with
+pauses]).</li>
+
+<li>
+Umfangreiche Aktualisierung des franz&ouml;sischen Nutzerhandbuchs und
+der franz&ouml;sischen Systembeschreibung.</li>
+
+<li>
+Der abgesetzte (remote) Audiodateiserver funktioniert wieder (tcl/SoundServer.tcl
+muss auf dem Host gestartet werden).</li>
+
+<li>
+Men&uuml; f&uuml;r das Sortieren einer editierten Liste (Zuweisungen (bindings),
+Lokalisierungen usw.) in jedem Feld (Name, Wert ...).</li>
+
+<li>
+Geringe &Auml;nderungen im .stm-Format.</li>
+</ul>
+Implementierungs&auml;nderungen bzw. Behebung von Fehlern:
+<ul>
+<li>
+Taktkalibrierung nicht mehr erforderlich (stattdessen wird die seit Version
+1.5p2 verf&uuml;gbare native Snack-Funktion "audio elapsedTime" verwendet);
+Cursor- und R&uuml;ckrufsteuerung in tcl/Play.tcl aktualisiert.</li>
+
+<li>
+mp3-Audiodateien funktionieren mit den neuesten Snack-Versionen (1.6a2).</li>
+
+<li>
+Neuer Snack-Unterbefehl "order", der in Verbindung mit den Unterbefehlen
+"shape" und "get" f&uuml;r den Zugriff auf externe Audiodateien in heterogenen
+Netzen zu verwenden ist.</li>
+
+<li>
+Verwendung einer spezifischen Snack-API zur Unterst&uuml;tzung des Transcribers
+auf einer Windows-NT-Plattform.</li>
+
+<li>
+Aktualisiertes Hilfemen&uuml; zur Anzeige korrekter .html-Dateien.</li>
+</ul>
+
+<h4>
+Version 1.3b6</h4>
+Herausgegeben am 17. Mai 1999
+<br>Neue bzw. ge&auml;nderte Funktionen:
+<ul>
+<li>
+Vollst&auml;ndig &uuml;berarbeitetes franz&ouml;sisches Nutzerhandbuch
+und Systembeschreibung (HTML-Format).</li>
+
+<li>
+Aktuelle Cursorposition im Signal und vertikaler Zoom werden jetzt mit
+der Sitzungskonfiguration gespeichert.</li>
+
+<li>
+Als Nutzeroption wird vor Verlassen der Konfiguration deren Sicherung vorgeschlagen.</li>
+
+<li>
+Direkter Zugriff auf eine Cursorposition ist nun &uuml;ber das Men&uuml;
+[Signal]/[Go to ...] oder durch Anklicken der Nachricht unter dem Signal
+m&ouml;glich.</li>
+
+<li>
+Direkte Steuerung der Lautst&auml;rke im Men&uuml; [Signal]/[Control Panel];
+der vertikale Zoom wurde in dasselbe Fenster verlegt.</li>
+
+<li>
+Beim Einschalten werden Audiodateien automatisch entdeckt, auch wenn ihr
+Suffix unbekannt ist oder fehlt (in der Version 1.3b5 wurden sie mit der
+Nachricht "format unknown" zur&uuml;ckgewiesen; auch andere Suffixe werden
+nun erkannt (.aif, .aiff, .smp).</li>
+
+<li>
+Nutzer, die eine Maus mit zwei Tasten verwenden, k&ouml;nnen Segmentgrenzen
+durch Dr&uuml;cken der linken Maustaste (anstatt der mittleren) verschieben.</li>
+
+<li>
+&Auml;nderungsdatum und Version sind im "Episode"-Fenster nicht mehr editierbar.</li>
+
+<li>
+Die Sprachenliste wird jetzt in lexikografischer Reihenfolge angezeigt.</li>
+</ul>
+Implementierungs&auml;nderungen bzw. Behebung von Fehlern:
+<ul>
+<li>
+Fehlerbehebung aus Version 1.3b5, in der es bei der Protokollierung der
+Aktivit&auml;ten zu einer Endlosschleife kam , wenn w&auml;hrend der Sitzung
+ein Datumswechsel erfolgte.</li>
+
+<li>
+Fehlerbehebung bei der Aktualisierung der Farben f&uuml;r die Sprechersequenz-
+und Abschnittsschaltfl&auml;chen im Texteditor.</li>
+
+<li>
+Zeitdauer f&uuml;r Neukalibrierung auf 10 s ge&auml;ndert.</li>
+</ul>
+Noch zu beheben bzw. nicht implementiert:
+<ul>
+<li>
+Funktion "undo" (R&uuml;ckg&auml;ngig machen) nur in sehr eingeschr&auml;nktem
+Ma&szlig;e operabel.</li>
+
+<li>
+Noch keine Rechtschreibkorrektur, keine automatische Ausf&uuml;hrung usw.</li>
+
+<li>
+Kein Ausdrucken.</li>
+
+<li>
+mp3-Audiodateien funktionieren teilweise, lassen den Transcriber aber willk&uuml;rlich
+abst&uuml;rzen.</li>
+</ul>
+
+<h4>
+Version 1.3b5</h4>
+Herausgegeben am 23. M&auml;rz 1999
+<p>Neue bzw. ge&auml;nderte Funktionen:
+<ul>
+<li>
+Die &Uuml;berwachungsfunktion f&uuml;r die Transkriptionszeit wurde umgeschrieben
+und wird im "Informations"-Fenster angezeigt, wenn eine Sicherungsdatei
+angegeben wird.</li>
+
+<li>
+Nach dem Einschalten wird der Nutzer aufgefordert, eine Transkriptions-
+oder eine Audiodatei zu w&auml;hlen.</li>
+</ul>
+Implementierungs&auml;nderungen bzw. Behebung von Fehlern:
+<ul>
+<li>
+Fehler in Version 1.3b4 bei der Edition der Sprechersequenzattribute.</li>
+</ul>
+
+<h4>
+Version 1.3b4</h4>
+Herausgegeben am 16. M&auml;rz 1999
+<br>Neue bzw. ge&auml;nderte Funktionen:
+<ul>
+<li>
+Cut/Copy/Paste (Ausschneiden/Kopieren/Einf&uuml;gen) bei Mischung von Text
+und Ereignissen funktioniert wie erwartet.</li>
+
+<li>
+Die Zeichenfolge f&uuml;r das Ersetzen von Zuweisungen (bindings) kann
+Ereignisse einschlie&szlig;en (&uuml;ber Copy/Paste oder direkt bei der
+Auswahl); der Zuweisungsschl&uuml;ssel kann in der jetzigen Form im Editorfeld
+eingetippt werden.</li>
+
+<li>
+Automatisches Einf&uuml;gen von Leerzeichen nach Wahl des Nutzers.</li>
+
+<li>
+Speichern der Geometrie einiger Fenster.</li>
+
+<li>
+Ein Nutzerglossar steht zur Verf&uuml;gung.</li>
+
+<li>
+Ein importierter Sprecher kann gew&auml;hlt werden; Themen k&ouml;nnen
+auf diese Weise ebenfalls importiert werden. Nicht verwendete Themen und
+Sprecher k&ouml;nnen gel&ouml;scht werden. Alle diese Funktionen sind im
+Men&uuml; "Edit/Speakers" oder "Edit/Topics" enthalten.</li>
+</ul>
+Implementierungs&auml;nderungen bzw. Behebung von Fehlern:
+<ul>
+<li>
+Fehlerbehebung in shape.c f&uuml;r 8-Bit-wav-Audiodateien.</li>
+
+<li>
+Leichte &Auml;nderung des seit der Version 1.3b3 verwendeten Listeneditionsformats,
+um eine generelle n-Felder-Edition statt einer 2-Felder-Edition zu erm&ouml;glichen.</li>
+</ul>
+
+<h4>
+Version 1.3b3</h4>
+Herausgegeben am 7. M&auml;rz 1999
+<p>Neue bzw. modifizierte Funktionen:
+<ul>
+<li>
+Dokumenttyp-Definition (DTD): Erweiterung des Ereignis-tags um Attributtyp
+(noise/lexical/pronounce/language) und Umfang (begin/end/previous/next/instantaneous);
+zuvor definierte Ereignisse werden standardm&auml;&szlig;ig (default) auf
+"instantaneous noise" gesetzt.</li>
+
+<li>
+Upgrade der Ereignisedition auf dieses neue Format.</li>
+
+<li>
+Die Hintergrundsignalformberechnung steht als Nutzeroption wieder zur Verf&uuml;gung.</li>
+
+<li>
+Ereignisse werden in der Segmentierungsleiste angezeigt, was bei der Version
+1.3b2 nicht mehr der Fall war.</li>
+
+<li>
+Sich &uuml;berlappende Sprache wird nun innerhalb des Sprechersequenzfensters
+(turn window) bearbeitet.</li>
+
+<li>
+Sprechersequenzen und Abschnitte k&ouml;nnen innerhalb ihres Editionsfensters
+gel&ouml;scht werden.</li>
+
+<li>
+Das Informationsfenster macht jetzt auch Angaben &uuml;ber die Transkription.</li>
+
+<li>
+Signal- und Transkriptionsname werden, falls erforderlich, in der Schaltfl&auml;chenleiste
+angezeigt.</li>
+
+<li>
+Bessere Lokalisierung der Schnittstelle.</li>
+
+<li>
+Hinzuf&uuml;gung des Men&uuml;s "File/Export/..." f&uuml;r den expliziten
+Export in ein nicht natives Format; "File/Save" und "File/Save as ..."
+verwenden stets das native XML-Format.</li>
+
+<li>
+Die standardm&auml;&szlig;ige (default) Erweiterung von Transkriptionsdateien
+wurde in .trs ge&auml;ndert; .xml kann weiter verwendet werden.</li>
+
+<li>
+Nutzerkonfiguration der/des:</li>
+
+<ul>
+<li>
+Sprachenliste (in ISO639-Code),</li>
+
+<li>
+Ger&auml;uschereignisliste,</li>
+
+<li>
+Ausspracheereignisliste,</li>
+
+<li>
+Liste lexikalischer Ereignisse,</li>
+
+<li>
+Anzeigeformats der Ereignisse, ihrer Farbe,</li>
+
+<li>
+Zuweisungen (bindings),</li>
+
+<li>
+Lokalisierungszeichenfolgen in jeder Sprache.</li>
+</ul>
+</ul>
+Implementierungs&auml;nderungen bzw. Behebung von Fehlern:
+<ul>
+<li>
+&Uuml;bergang vollzogen auf Snack 1.5 (Endversion), tcLex1.1 (Endversion)
+und tcl 8.0.5 zu Entwicklungszwecken (m&uuml;sste noch mit den vorangegangenen
+8.0.x-Versionen arbeiten).</li>
+
+<li>
+C-Quellen: umgearbeitetes shape.c f&uuml;r die Nutzung der neuesten Snack-Funktion
+und Signalformanzeige f&uuml;r jede Art von Audiodatei, einschlie&szlig;lich
+komprimierter Dateien.</li>
+
+<li>
+Das Dateiformat .typ wurde korrigiert, um das aus Version 1.2 bekannte
+Verhalten wiederherzustellen.</li>
+
+<li>
+Die URL-Adresse des Transcribers wurde auf die in den Seiten "Herausgeber-
+und Mitarbeiterverzeichnis" und "Dokumentation" genannte neue Homepage
+aktualisiert.</li>
+
+<li>
+Keine Direktkorrektur (patch) der Bibliothek "tk_getSaveFile" f&uuml;r
+die Wahl des Speicherformats mehr.</li>
+</ul>
+
+<h4>
+Version 1.3b2</h4>
+(Nicht &ouml;ffentlich) herausgegeben am 12. Februar 1999
+<p>Neue bzw. ge&auml;nderte Funktionen:
+<ul>
+<li>
+Dokumenttyp-Definition (DTD):</li>
+
+<ul>
+<li>
+Hinzuf&uuml;gung von Attributen f&uuml;r die Kan&auml;le im Sprechersequenz-tag
+(= telephone/studio),</li>
+
+<li>
+Hinzuf&uuml;gung eines Attributs f&uuml;r den Anwendungsbereich im Sprecher-tag
+(= local/global)</li>
+</ul>
+
+<li>
+Hinzuf&uuml;gung des Men&uuml;s "File/Import speakers ...": Importieren
+aller Sprecher aus einer .xml-Datei.</li>
+
+<li>
+Automatisches Einf&uuml;gen von Leerzeichen vor Interpunktionen (Satzzeichen).</li>
+
+<li>
+Unterdr&uuml;ckung des Men&uuml;s "File/Close".</li>
+
+<li>
+Umschreiben auf .stm-Format f&uuml;r weitere Nutzung.</li>
+</ul>
+Implementierungs&auml;nderungen bzw. Behebung von Fehlern:
+<ul>
+<li>
+&Auml;nderungen bei XML-Parsing-Bibliotheken.</li>
+</ul>
+
+<h4>
+Version 1.3b1</h4>
+Herausgegeben am 21. Januar 1999 - Test unter Linux (Debian 1.3/2.0), Solaris
+(SunOS 5.5), SGI (IRIX 6.2).
+<p>Neue bzw. ge&auml;nderte Funktionen:
+<ul>
+<li>
+Ein neues XML-Format ersetzt das .typ-Format von LDC als natives Format
+f&uuml;r das Tool.</li>
+
+<li>
+Die G&uuml;ltigkeit der Transkription (d. h. die Syntax des Formats) wird
+bei der Dokumenttyp-Definition (DTD) gepr&uuml;ft.</li>
+
+<li>
+Allgemeine Informationen in Bezug auf den Transcriber-Namen, die Sendung
+oder die Signaldatei werden jetzt zusammen mit der Transkription festgehalten.</li>
+
+<li>
+Beim &Ouml;ffnen einer Transkription wird die zugeh&ouml;rige Audiodatei
+automatisch ge&ouml;ffnet.</li>
+
+<li>
+Hintergrundmusik oder -ger&auml;usch wird jetzt in einer separaten Transkriptionsschicht
+bearbeitet und angezeigt.</li>
+
+<li>
+Ereignisse Sprache oder Nicht-Sprache werden jetzt als XML-tags und nicht
+als normaler Text behandelt.</li>
+
+<li>
+Die Handhabung von sich &uuml;berlappender Sprache wurde &uuml;berarbeitet.</li>
+
+<li>
+Die Handhabung von Sprechern und Themen ist einfacher und leistungsf&auml;higer
+und erlaubt eine globale Suche und Edition von Sprechern oder Themen.</li>
+
+<li>
+Die automatische Signalformberechnung f&uuml;r gro&szlig;e Signale kann
+nach Wahl des Nutzers deaktiviert werden.</li>
+
+<li>
+Das Laden von Rohdateien stellt wiederum ein Problem dar, m&uuml;sste aber
+bei k&uuml;nftigen Updates des Snack-Moduls besser funktionieren als zuvor.</li>
+
+<li>
+Die Produktivit&auml;t (Arbeitsfortgang) des Transcribers kann nach Wahl
+des Nutzers in einer Datei protokolliert werden.</li>
+</ul>
+Implementierungs&auml;nderungen:
+<ul>
+<li>
+SoX-Bibliotheken werden nicht mehr verwendet; stattdessen wird auf alle
+Audiodateien &uuml;ber das Snack-Modul zugegriffen; die spezifischen Befehle
+"open_sound" und "play_sound" gibt es nicht mehr.</li>
+
+<li>
+Das tcLex-Modul von Fr&eacute;d&eacute;ric Bonnet (ein lexikalischer Analysator/Generator
+f&uuml;r Tcl) wird jetzt f&uuml;r die Implementierung eines objektorientierten
+Validierungs-XML-Parsers nur f&uuml;r tcl verwendet.</li>
+
+<li>
+Das Installationsverfahren und die globale Toolstruktur wurden dank n&uuml;tzlicher
+Hinweise von D. van Leeuven &uuml;berarbeitet.</li>
+</ul>
+
+<h4>
+Version 1.2</h4>
+Herausgegeben am 16. September 1998 - Test unter Linux (Debian 1.3 und
+Redhat 4.3), Solaris, SGI (IRIX 6.2).
+<p>Neue Funktionen:
+<ul>
+<li>
+Signal:</li>
+
+<ul>
+<li>
+Anzeige von Themen- und Sprechersegmentierung unter dem Signalverlauf zusammen
+mit der Textsegmentierung.</li>
+
+<li>
+M&ouml;glichkeit einer zweiten Signalansicht in einem anderen Ma&szlig;stab.</li>
+
+<li>
+M&ouml;glichkeit des &Ouml;ffnens von Roh-Audiodateien.</li>
+
+<li>
+Kontextmen&uuml;s zum Signalverlauf f&uuml;r direktes Einwirken auf das
+Signal und seine Anzeige.</li>
+</ul>
+
+<li>
+Transkription:</li>
+
+<ul>
+<li>
+Undo/Redo (R&uuml;ckg&auml;ngig machen/Wiederherstellen), beschr&auml;nkt
+auf die Verschiebung von Segmentierungsgrenzen und Text&auml;nderungen
+(R&uuml;ckg&auml;ngigmachen aller Text&auml;nderungen im aktuellen Segment,
+seit sich der Cursor in ihm befindet).</li>
+
+<li>
+Suchen und Ersetzen im Text.</li>
+
+<li>
+Automatisches Sichern in regelm&auml;&szlig;igen Abst&auml;nden.</li>
+
+<li>
+Neues XML-Format f&uuml;r Transkriptionsausgabe (Format wird wahrscheinlich
+bald ge&auml;ndert; siehe Er&ouml;rterung &uuml;ber Formate).</li>
+</ul>
+
+<li>
+Handhabung von sich &uuml;berlappender Sprache innerhalb eines Segments.</li>
+
+<li>
+Mehr konfigurierbare Optionen (Schriftarten, Farben, anzuzeigende Fenster).
+Die meisten Nutzeroptionen (einschlie&szlig;lich aktueller Audiodatei,
+Transkriptionsdatei und aktueller Aufl&ouml;sungsanzeige) werden auf Wunsch
+in der Nutzerkonfigurationsdatei "~/.transcriber" gespeichert.</li>
+
+<li>
+Lokalisierung der Men&uuml;s wahlweise in Englisch oder Franz&ouml;sisch;
+weitere Sprachen k&ouml;nnen problemlos hinzugef&uuml;gt werden.</li>
+
+<li>
+Hilfe-Funktion im HTML-Format.</li>
+</ul>
+Behebung von Fehlern:
+<ul>
+<li>
+Wurde die Datei als ".typ"-Datei gespeichert, gingen die Themen verloren.
+Das urspr&uuml;ngliche LDC-Format wurde geringf&uuml;gig modifiziert, um
+die Themen einzuschlie&szlig;en. Die Auszeichnung (markup) f&uuml;r sich
+&uuml;berlappende Sprache wird jetzt erkannt.</li>
+
+<li>
+Die defaultm&auml;&szlig;ige Konfigurationsdatei erhielt den Namen "~/.transcriber"
+(ohne ,s'); die Korrektur besteht in dieser &Auml;nderung.</li>
+
+<li>
+Die Shorcut-Tastenkombination &lt;Alt-Tab> f&uuml;r ,Signal/Replay Segment'
+wurde durch &lt;Shift-Tab>' ersetzt, da sie auf einigen Plattformen zu
+Problemen f&uuml;hren konnte.</li>
+
+<li>
+Die Men&uuml;s ,Segmentation/Move to .../First segment' und ,.../Last segment'
+werden jetzt ausgef&uuml;hrt.</li>
+
+<li>
+Viele weitere kleinere &Auml;nderungen.</li>
+</ul>
+Implementierungs&auml;nderungen:
+<ul>
+<li>
+Das interne Datenmanagement wurde vollst&auml;ndig umgeschrieben. Transkriptionen
+werden im Speicher als Baum abgelegt, der wie eine XML-Datei strukturiert
+ist; der Zugriff auf sie erfolgt &uuml;ber eine Reihe von Prozeduren in
+"tcl/Tags.tcl". Das Eingabedatei-Parsing wird erheblich vereinfacht (eine
+XML-konforme Bibliothek, welche die von Fr&eacute;d&eacute;ric Bonnet geschriebenen
+tcLex-Erweiterung f&uuml;r Tcl nutzt, ist in der Entwicklung).</li>
+
+<li>
+Auf Audiodateien wird &uuml;ber den neuen Tcl-Befehl "open_sound" zugegriffen,
+der SoX- und/oder Sphere-Bibliotheken aufruft und einen neuen Tcl-Befehl
+"sound-file" erzeugt - (noch) nicht kompatibel mit Snack-Befehlen "sound".
+Wiedergabe mit dem neuen Tcl-Befehl "play_sound", der Snack-Bibliotheken
+aufruft. Diese Funktionen sind im Unterverzeichnis "doc" dokumentiert.</li>
+
+<li>
+Audiosignalformen (mit einer Aufl&ouml;sung von 10 ms pro Pixel vorberechnet)
+werden nicht mehr im Hintergrund berechnet. Vielmehr wird die Schnittstelle
+unterbrochen, wenn w&auml;hrend der Signalformberechnung zum ersten Mal
+eine gro&szlig;e Audiodatei ge&ouml;ffnet ist; die Berechnung wird dann
+gespeichert, bis sie das n&auml;chste Mal gebraucht wird.</li>
+
+<li>
+Der abgesetzte (remote) Audiowiedergabe-Server steht nicht mehr zur Verf&uuml;gung;
+er erschien nicht unbedingt notwendig, und das Snack-Wiedergabe-Design
+ist robuster. Der abgesetzte Audiodateiserver befindet sich noch immer
+im Verteilungsverzeichnis, aber das Default-Verhalten besteht darin, Audiodateien
+lokal zu lesen, ohne den Audiodateiserver auf dem lokalen Host zu starten.
+Falls erforderlich, muss der Dateiserver vor dem Start konfiguriert werden,
+um Sicherungsl&uuml;cken zu vermeiden (z. B. durch Testen des Client-Port
+oder des Audiodateiverzeichnisses).</li>
+
+<li>
+Die neuen Tk-Widgets axis, wavfm und segmt wurden aktualisiert (aber sie
+sind noch nicht dokumentiert):</li>
+
+<ul>
+<li>
+Das Widget wavfm ruft jetzt einen Befehl "sound-file" auf, der mit dem
+Befehl "open_sound" f&uuml;r die Signalformberechnung erzeugt wurde, anstatt
+aus einem/in einen Kanal (pipe oder socket) zu lesen/schreiben. Die Widget-Optionen
+"-width" und "-height" wurden hinzugef&uuml;gt.</li>
+
+<li>
+Das Widget segmt unterst&uuml;tzt eine Stufe der indirekten Adressierung
+f&uuml;r Zeitindizes: die Zeiten f&uuml;r den Beginn und das Ende eines
+Segments k&ouml;nnen in einem Assoziativspeicher ein Index sein. Der Zeitspeicher
+und die Liste der Segmentvariablen werden automatisch verfolgt, und das
+Widget wird erneut angezeigt, wenn sie ge&auml;ndert werden. Einige weitere
+kleine Fehlerbehebungen.</li>
+
+<li>
+Die Widgets axis und segmt werden neu dargestellt, wenn benannte Schriftarten
+ge&auml;ndert werden (erm&ouml;glicht interaktive Schriftartenkonfiguration).</li>
+</ul>
+
+<li>
+Verteilungsstruktur:</li>
+
+<ul>
+<li>
+Das Hauptverteilungsverzeichnis hei&szlig;t jetzt Trans-x.y (wobei f&uuml;r
+x.y in dieser Version 1.2 steht). Zur Vereinfachung wurde das Unterverzeichnis
+"editor" unterdr&uuml;ckt, und sein Inhalt ("doc", "img", "src", "tcl")
+befindet sich auf der ersten Ebene. Das Unterverzeichnis "pkg" wurde in
+"lib" umbenannt. Die Unterverzeichnisse "bin" und "obj" werden nicht mehr
+verwendet.</li>
+
+<li>
+Alle C-Erweiterungen zu Tcl/Tk befinden sich in einem einzigen automatisch
+ladbaren Paket "libtrans.so"; es gibt keine im Hintergrund zu startenden
+bin&auml;ren ablauff&auml;higen Programme mehr.</li>
+
+<li>
+Eine korrigierte (patched) Version der letzten Verteilung von SoX (v-12.4)
+ist in der Verteilung im Unterverzeichnis "contrib" enthalten.</li>
+
+<li>
+html_library-0.3 von Stephen Uhler befindet sich im Unterverzeichnis "lib".</li>
+
+<li>
+Die offizielle Snack-Verteilung wird ohne jegliche &Auml;nderung verwendet.
+Die "abgespeckte" Version des Pakets ist im Unterverzeichnis "lib" installiert.</li>
+
+<li>
+F&uuml;r die Kompilierung von C-Quellen im "src"-Unterverzeichnis steht
+ein Konfigurationsverfahren zur Verf&uuml;gung.</li>
+</ul>
+</ul>
+
+<h4>
+Version 1.1</h4>
+Herausgegeben am 26. Juni 1998 - Test unter Linux (Debian), Solaris, SGI.
+<p>&Auml;nderungen:
+<ul>
+<li>
+F&uuml;r die Audiowiedergabe wird an Stelle der SoX-Bibliotheken das Modul
+SNACK 1.1 von K&aring;re Sj&ouml;lander verwendet. Diese L&ouml;sung ist
+stabiler und portabler, denn Snack l&auml;uft unter HP-UX, Sun Solaris,
+SGI IRIX, Linux und Windows 95/NT. Das Modul wird in einer verbesserten
+(patched) Version verwendet.</li>
+
+<li>
+Keine &Auml;nderungen der Nutzerschnittstelle. Das Installationsverfahren
+ist immer noch ziemlich primitiv.</li>
+</ul>
+
+<h4>
+Version 1.0</h4>
+Herausgegeben am 25. Mai 1998 - Entwicklung unter PC/Linux (Debian 1.3);
+Test unter Sun Solaris.
+<br>&nbsp;
+<br>&nbsp;
+</body>
+</html>

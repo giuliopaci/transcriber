@@ -1,0 +1,88 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="GENERATOR" content="Mozilla/4.77 [de] (X11; U; Linux 2.4.4-4GB i686) [Netscape]">
+   <meta name="Author" content="M. Liberman">
+   <title>Transcriber's Installation for Windows NT</title>
+</head>
+<body text="#000000" bgcolor="#FFFFFF" link="#0000EF" vlink="#51188E" alink="#FF0000">
+
+<h2>
+Installation der Version 1.3b7 f&uuml;r Windows NT</h2>
+Nachstehend die Schritte f&uuml;r das Herunterladen und Installieren der
+Windows-Version des Transcribers.
+<br>&nbsp;
+<h4>
+(1) Tcl/Tk 8.0.5 installieren.</h4>
+
+<p><br>Dazu auf die Website
+<p><tt><a href="http://www.scriptics.com/products/tcltk/8.0.html">http://www.scriptics.com/products/tcltk/8.0.html</a></tt>
+<p>gehen und die Zeile
+<ul>
+<li>
+Windows 95 and Windows NT-self-extracting installer (tcl805.exe)</li>
+</ul>
+anklicken.
+<p>(Diese Zeile befindet sich etwa am Ende des ersten Drittels der Seite
+unter der &Uuml;berschrift "Downloading Binary Releases for Windows and
+Macintosh").
+<p>Es ist wichtig, gerade diese Ausgabe der Software herunterzuladen -
+die j&uuml;ngste Version von Tcl/Tk ist zwar 8.2, aber die aktuelle bin&auml;re
+Transcriber-Ausgabe f&uuml;r Windows geht von der Version 8.0.5 aus.
+<p>Nachdem die Datei heruntergeladen ist, kann sie durch einfaches Anklicken
+auf die &uuml;bliche Art und Weise installiert werden.
+<p>Der standardm&auml;&szlig;ige Installationsort ist C:\Program Files\Tcl.
+Wie gew&ouml;hnlich kann zum Zeitpunkt der Installation ein nicht vorgegebener
+(non-default) Installationsort spezifiziert werden. Unabh&auml;ngig davon,
+wo die Datei tats&auml;chlich installiert wird, wird der Installationsort
+im Weiteren mit $TCL bezeichnet.
+<p>Der f&uuml;r eine vollst&auml;ndige Tcl/tk-Installation ben&ouml;tigte
+Speicherplatz betr&auml;gt etwa 5.5 MB. Durch Weglassen verschiedener Demo-
+und Hilfsdateien l&auml;sst sich der Speicherplatzbedarf verringern. Wahrscheinlich
+sieht die Installationssequenz eine Option f&uuml;r eine "benutzerspezifische
+Installation" vor.
+<br>&nbsp;
+<h4>
+(2) Transcriber-Zip-Archiv von der franz&ouml;sischen Website</h4>
+
+<pre><a href="http://www.etca.fr/CTA/gip/Projets/Transcriber/distrib/Transcriber-1.3b7-nt.zip">http://www.etca.fr/CTA/gip/Projets/Transcriber/distrib/Transcriber-1.3b7-nt.zip</a></pre>
+oder von der US-Website
+<p><a href="http://morph.ldc.upenn.edu/mirror/Transcriber/distrib/Transcriber-1.3b7-nt.zip">http://morph.ldc.upenn.edu/mirror/Transcriber/distrib/Transcriber-1.3b7-nt.zip</a>
+<p>herunterladen.
+<br>&nbsp;
+<h4>
+(3) Das Transcriber-Zip-Archiv in einen beliebigen Ordner entpacken,</h4>
+z. B. D:\Transcriber. Es ist egal, wo sich das Archiv befindet, solange
+der Ort in den n&auml;chsten gemerkt wird. Im Folgenden soll dieser Ordner
+mit $TRANS bezeichnet werden.
+<br>(Der vollst&auml;ndige Installationsumfang betr&auml;gt 2.5 MB. Ein
+nicht unbetr&auml;chtlicher Teil davon sind Audio-Samples und andere unwesentliche
+Dinge).
+<br>&nbsp;
+<h4>
+(4) In $TRANS\lib gibt es vier Ordner,</h4>
+n&auml;mlich "html_library-0.3", "snack1.6", "tcLex1.1", "trans1.0". Diese
+nach $TCL\lib. kopieren (oder verschieben).
+<br>&nbsp;
+<h4>
+(5) Das ablauff&auml;hige Transcriber-Programm ist $TRANS\tcl\main.tcl.</h4>
+Es kann durch Doppelklick auf die Datei an diesem Speicherplatz aufgerufen
+werden. Au&szlig;erdem l&auml;sst sich die Datei auf dem Desktop mit einem
+Shortcut belegen, oder sie kann auf die &uuml;bliche Art und Weise dem
+Startmen&uuml; hinzugef&uuml;gt werden. Das Kopieren der Datei an einen
+neuen Speicherplatz funktioniert NICHT.
+<br>&nbsp;
+<h4>
+(6) Eine Online-Systembeschreibung enth&auml;lt die franz&ouml;sische Website</h4>
+
+<pre><a href="http://www.etca.fr/CTA/gip/Projets/Transcriber/en/refFrame.html">http://www.etca.fr/CTA/gip/Projets/Transcriber/en/refFrame.html</a></pre>
+oder die US-Website
+<p><a href="http://morph.ldc.upenn.edu/mirror/Transcriber/en/refFrame.html">http://morph.ldc.upenn.edu/mirror/Transcriber/en/refFrame.html</a>
+<p>Das Programm arbeitet mit den Audiodateiformaten .wav, .au, .snd, .aiff,
+.smp und .sph. Es kann auch Dateien ohne Header (Rohdateien) verarbeiten.
+Es erkennt die Bytefolge, unterscheidet zwischen 8-Bit- und 16-Bit-Abtastung
+usw., und der Nutzer kann die Abtastrate und die Kanalnummer eingeben (derzeit
+werden nur Kanal 1, 2 und 4 unterst&uuml;tzt).
+</body>
+</html>
