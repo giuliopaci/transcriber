@@ -47,7 +47,6 @@ install:
 	cp -f ../tcl/*.tcl ${TRANS_LIB_DIR}/tcl
 	cp -f ../convert/*.tcl ../convert/README ${TRANS_LIB_DIR}/convert
 	cp -rf ../img ../doc ../etc ../demo ../COPYING ${TRANS_LIB_DIR}/
-	cp -rf ../contrib/html_library-0.3 ${TRANS_LIB}
 
 	@if [ ${OS} = UnixLike ] ; then \
 		cp -f trans ${TRANS_BIN}/trans; \
@@ -59,7 +58,7 @@ install:
 
 distrib-bin:
 	make install
-	cd ../..; tar cf - -C ${TRANS_LIB}/.. lib/@TRANS_DIR@ lib/html_library-0.3 lib/snack1.7 lib/tcLex1.2 bin/trans | gzip -c > Transcriber-bin.tar.gz
+	cd ../..; tar cf - -C ${TRANS_LIB}/.. lib/@TRANS_DIR@ lib/snack1.7 lib/tcLex1.2 bin/trans | gzip -c > Transcriber-bin.tar.gz
 
 clean:
 	rm -f *.o libtrans${SHLIB_SUFFIX} pkgIndex.tcl
