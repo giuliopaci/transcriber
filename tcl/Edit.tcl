@@ -11,114 +11,120 @@
 #  "$id" -> applied to button + chars belonging to a segment.
 
 proc CreateTextFrame {f {top 0}} {
-   global v
-
-   if {$top} {
-      toplevel $f
-   } else {
-      frame $f -bd 2 -relief raised
-      setdef v(view,$f) 1
-      if {$v(view,$f)} {
-	pack $f -expand true -fill both -side top
-	if {[catch {
-	  pack $f -before .cmd
-	}]} {catch {
-	  pack $f -before .snd
-	}}
-      }
-   }
-   set v(tk,edit) [text $f.txt -wrap word  -width 80 -height 8 \
-	       -fg $v(color,fg-text) -bg $v(color,bg-text) \
-		-font text -yscrollcommand [list $f.ysc set]]
-   scrollbar $f.ysc -orient vertical -command [list $f.txt yview]
-   pack $f.txt -side left -fill both -expand true
-   pack $f.ysc -side right -fill y
-
-   # Filter actions to text widget
-   rename $v(tk,edit) $v(tk,edit)-bis
-   if {[concat \xe0] == "\xe0"}  {
-     proc $v(tk,edit) {args} "eval TextFilter $v(tk,edit)-bis \$args"
-   } else {
-     # turn around Tcl8.3.2 bug (SourceForge bug ID 227512)
-     proc $v(tk,edit) {args} "set args \[linsert \$args 0 TextFilter $v(tk,edit)-bis]; eval \$args"
-   }
-
-   # Bindings for widget: tabs and insert are propagated
-   bind $v(tk,edit) <Enter> {focus %W}
-   bind Text <Key> { tkTextInsert %W %A; break }
-   # Suppress local control bindings to allow global menu accelerators
-   foreach k {
-      Tab Insert Return Pause Shift-BackSpace Shift-Tab ISO_Left_Tab
-      Alt-Up Alt-Down Alt-Left Alt-Right Alt-Tab Control-Tab Option-Key
-   } {
-      catch {bind Text <$k> { continue }}
-   }
-   foreach k {q w e r t y u i o p a s d f g h j k l z b n m} {
-      bind Text <Control-$k> { continue }
-   }
-   # ...except for ^X/^C/^V which are best handled in current text widget
-   bind Text <Control-x> { tk_textCut %W; break }
-   bind Text <Control-c> { tk_textCopy %W; break }
-   bind Text <Control-v> { tk_textPaste %W; break }
-
-   # Insert automatically spaces before "," or "." etc. but not inside "..."
-   foreach c {"," ";" "." ":"} {
-      bind $v(tk,edit) $c { SpaceMagic; tkTextInsert %W %A; break }
-   }
-   bind $v(tk,edit) ".." { tkTextInsert %W %A; break }
-
-   # Special chars can be generated with bindings
-   RegisterBindings $v(bindings)
-
-   bind $v(tk,edit) <Up>   {TextNextLine -1; break }
-   bind $v(tk,edit) <Down> {TextNextLine +1; break }
-   #bind $v(tk,edit) <Up>   { TextNextSync -1; break }
-   #bind $v(tk,edit) <Down> { TextNextSync +1; break }
-   bind $v(tk,edit) <Control-Up> {  TextNextTurn -1; break }
-   bind $v(tk,edit) <Control-Down> { TextNextTurn +1; break }
-   bind $v(tk,edit) <Prior> { TextNextSection -1; break }
-   bind $v(tk,edit) <Next> { TextNextSection +1; break }
-   #bind $v(tk,edit) <Key-less> { KbdPlayForward -1; break }
-   #bind $v(tk,edit) <Key-greater> { KbdPlayForward +1; break }
-   bind $v(tk,edit) <Shift-Return> { tkTextInsert %W "\n\t"; break }
-
-   # alt-backspace/delete: delete word before/after cursor respectively
-   bind $v(tk,edit) <Alt-Key-BackSpace> {%W mark set tmp "insert wordend"; tkTextSetCursor %W [tkTextPrevPos %W insert tcl_startOfPreviousWord]; %W delete insert tmp; break }
-   bind $v(tk,edit) <Alt-Key-Delete> {%W mark set tmp "insert wordstart"; tkTextSetCursor %W [tkTextNextWord %W insert]; %W delete tmp insert; break }
-
-   # Windows style - any but space, tab, or newline
-   catch {tcl_wordBreakAfter}; # force loading word.tcl
-   if {[info tclversion] >= 8.1} {
-     set ::tcl_wordchars "\\S"
-     set ::tcl_nonwordchars "\\s"
-   } else {
-     set ::tcl_wordchars "\[^ \t\n\]"
-     set ::tcl_nonwordchars "\[ \t\n\]"
-   }
+    global v
+    
+    if {$top} {
+	toplevel $f
+    } else {
+	frame $f -bd 2 -relief raised
+	setdef v(view,$f) 1
+	if {$v(view,$f)} {
+	    pack $f -expand true -fill both -side top
+	    if {[catch {
+		pack $f -before .cmd
+	    }]} {catch {
+		pack $f -before .snd
+	    }}
+	}
+    }
+    set v(tk,edit) [text $f.txt -wrap word  -width 80 -height 8 \
+			-fg $v(color,fg-text) -bg $v(color,bg-text) \
+			-font text -yscrollcommand [list $f.ysc set]]
+    scrollbar $f.ysc -orient vertical -command [list $f.txt yview]
+    pack $f.txt -side left -fill both -expand true
+    pack $f.ysc -side right -fill y
+    
+    # Filter actions to text widget
+    rename $v(tk,edit) $v(tk,edit)-bis
+    if {[concat \xe0] == "\xe0"}  {
+	proc $v(tk,edit) {args} "eval TextFilter $v(tk,edit)-bis \$args"
+    } else {
+	# turn around Tcl8.3.2 bug (SourceForge bug ID 227512)
+	proc $v(tk,edit) {args} "set args \[linsert \$args 0 TextFilter $v(tk,edit)-bis]; eval \$args"
+    }
+    
+    # Bindings for widget: tabs and insert are propagated
+    bind $v(tk,edit) <Enter> {focus %W}
+    bind Text <Key> { tkTextInsert %W %A; break }
+    # Suppress local control bindings to allow global menu accelerators
+    foreach k {
+	Tab Insert Return Pause Shift-BackSpace Shift-Tab ISO_Left_Tab
+	Alt-Up Alt-Down Alt-Left Alt-Right Alt-Tab Control-Tab
+    } {
+	catch {bind Text <$k> { continue }}
+    }
+    if {$::tcl_platform(os) == "Darwin"} {
+	catch {bind Text <Option-Key> { continue }}
+    }
+    foreach k {q w e r t y u i o p a s d f g h j k l z b n m} {
+	bind Text <Control-$k> { continue }
+    }
+    foreach k {F1 F2 F3 F4 F5 F6 F7 F8 F9 F10 F11 F12} {
+	bind Text <$k> { continue }
+    } 
+    # ...except for ^X/^C/^V which are best handled in current text widget
+    bind Text <Control-x> { tk_textCut %W; break }
+    bind Text <Control-c> { tk_textCopy %W; break }
+    bind Text <Control-v> { tk_textPaste %W; break }
+    
+    # Insert automatically spaces before "," or "." etc. but not inside "..."
+    foreach c {"," ";" "." ":"} {
+	bind $v(tk,edit) $c { SpaceMagic; tkTextInsert %W %A; break }
+    }
+    bind $v(tk,edit) ".." { tkTextInsert %W %A; break }
+    
+    # Special chars can be generated with bindings
+    RegisterBindings $v(bindings)
+    
+    bind $v(tk,edit) <Up>   {TextNextLine -1; break }
+    bind $v(tk,edit) <Down> {TextNextLine +1; break }
+    #bind $v(tk,edit) <Up>   { TextNextSync -1; break }
+    #bind $v(tk,edit) <Down> { TextNextSync +1; break }
+    bind $v(tk,edit) <Control-Up> {  TextNextTurn -1; break }
+    bind $v(tk,edit) <Control-Down> { TextNextTurn +1; break }
+    bind $v(tk,edit) <Prior> { TextNextSection -1; break }
+    bind $v(tk,edit) <Next> { TextNextSection +1; break }
+    #bind $v(tk,edit) <Key-less> { KbdPlayForward -1; break }
+    #bind $v(tk,edit) <Key-greater> { KbdPlayForward +1; break }
+    bind $v(tk,edit) <Shift-Return> { tkTextInsert %W "\n\t"; break }
+    
+    # alt-backspace/delete: delete word before/after cursor respectively
+    bind $v(tk,edit) <Alt-Key-BackSpace> {%W mark set tmp "insert wordend"; tkTextSetCursor %W [tkTextPrevPos %W insert tcl_startOfPreviousWord]; %W delete insert tmp; break }
+    bind $v(tk,edit) <Alt-Key-Delete> {%W mark set tmp "insert wordstart"; tkTextSetCursor %W [tkTextNextWord %W insert]; %W delete tmp insert; break }
+    
+    # Windows style - any but space, tab, or newline
+    catch {tcl_wordBreakAfter}; # force loading word.tcl
+    if {[info tclversion] >= 8.1} {
+	set ::tcl_wordchars "\\S"
+	set ::tcl_nonwordchars "\\s"
+    } else {
+	set ::tcl_wordchars "\[^ \t\n\]"
+	set ::tcl_nonwordchars "\[ \t\n\]"
+    }
 }
 
 # correct bug in tkTextPrevPos
 catch {tkTextPrevPos}; # force loading text.tcl
 proc [expr {([info tclversion] >= 8.4 && [info commands tk] != "") ? "::tk::TextPrevPos" : "tkTextPrevPos"}] {w start op} {
-  set text ""
-  set cur $start
-  while {[$w compare $cur > 0.0]} {
-    set text [$w get "$cur linestart - 1c" $cur]$text
-    set pos [$op $text end]
-    #puts "'$text' => $pos: [string range $text $pos end]"
-    if {$pos >= 0} {
-      ## Adjust for embedded windows and images
-      set dump [$w dump -image -window "$cur linestart" "$start - 1c"]
-      foreach {d1 d2 d3} $dump {
-	if {[$w compare $d2 <= "$cur linestart - 1c + $pos c"]} {
-	  incr pos
+    set text ""
+    set cur $start
+    while {[$w compare $cur > 0.0]} {
+	set text [$w get "$cur linestart - 1c" $cur]$text
+	set pos [$op $text end]
+	#puts "'$text' => $pos: [string range $text $pos end]"
+	if {$pos >= 0} {
+	    ## Adjust for embedded windows and images
+	    set dump [$w dump -image -window "$cur linestart" "$start - 1c"]
+	    foreach {d1 d2 d3} $dump {
+		if {[$w compare $d2 <= "$cur linestart - 1c + $pos c"]} {
+		    incr pos
+		}
+	    }
+	    return [$w index "$cur linestart - 1c + $pos c"]
 	}
-      }
-      return [$w index "$cur linestart - 1c + $pos c"]
+	set cur [$w index "$cur linestart - 1c"]
     }
-    set cur [$w index "$cur linestart - 1c"]
-  }
-  return 0.0
+    return 0.0
 }
 
 # called from: InitEditor; CloseTrans
@@ -446,92 +452,97 @@ proc TextFilter {t option args} {
 
    switch -glob -- $option {
       "del*"  {
-        # Display warning message in case of more than 1 line selected for deletion
-        
-        # Don't display warning if only 1 character is deleted
-        if {[llength $args] > 1} {
-            set BegSel  [$v(tk,edit) index [lindex $args 0]]
-            set EndSel  [$v(tk,edit) index [lindex $args 1]]
-            set lBegSel  [split $BegSel .]
-            set lEndSel  [split $EndSel .]
-            set FirstLine [lindex $lBegSel 0]
-            set LastLine  [lindex $lEndSel 0]
-            set nbSelectLines [expr {$LastLine - $FirstLine +1}]
-            if  { $nbSelectLines > 1  } {
-                set choice [tk_messageBox -type yesno -default no -message \
-                        [Local "You have selected several lines. Confirm their deletion ?"] \
-                        -icon question ]
-                
-                if { $choice == "no" } { return }
-            }
-        }
-        
-	 # End of delete range (eventually empty)
-	 set end [lindex $args 1]
-	 # Dump text widget between requested delete indices
-	 set lst [eval $t dump -text -image -window $args]
-	 # Process backwards to keep correct indices
-	 for {set i [expr [llength $lst]-3]} {$i>=0} {incr i -3} {
+	  # Display warning message in case of more than 1 line selected for deletion
+	  
+	  # Don't display warning if only 1 character is deleted
+	  if {[llength $args] > 1} {
+	      set BegSel  [$v(tk,edit) index [lindex $args 0]]
+	      set EndSel  [$v(tk,edit) index [lindex $args 1]]
+	      set lBegSel  [split $BegSel .]
+	      set lEndSel  [split $EndSel .]
+	      set FirstLine [lindex $lBegSel 0]
+	      set LastLine  [lindex $lEndSel 0]
+	      set nbSelectLines [expr {$LastLine - $FirstLine +1}]
+	      if  { $nbSelectLines > 1  } {
+		  set choice [tk_messageBox -type yesno -default no -message \
+				  [Local "You have selected several lines. Confirm their deletion ?"] \
+				  -icon question ]
+		  
+		  if { $choice == "no" } { return }
+	      }
+	  }
+	  
+	  # End of delete range (eventually empty)
+	  set end [lindex $args 1]
+	  # Dump text widget between requested delete indices
+	  set lst [eval $t dump -text -image -window $args]
+	  # Process backwards to keep correct indices
+	  for {set i [expr [llength $lst]-3]} {$i>=0} {incr i -3} {
 	    set key  [lindex $lst $i]
-	    set idx  [lindex $lst [expr $i+2]]
-	    if {$i == 0} {set idx [lindex $args 0]}
-	    if {$end != "" && [$t compare $idx >= $end]} continue
-	    # Verify that first character of block is not locked
-	    set tags [$t tag names $idx]
-	    if {[lsearch -exact $tags "locked"] < 0} {
-	       set elem [lindex $tags [lsearch -glob $tags "*element*"]]
-	       if {$elem != ""} {
-		  switch [$elem getType] {
+	      set idx  [lindex $lst [expr $i+2]]
+	      if {$i == 0} {set idx [lindex $args 0]}
+	      if {$end != "" && [$t compare $idx >= $end]} continue
+	      # Verify that first character of block is not locked
+	      set tags [$t tag names $idx]
+	      if {[lsearch -exact $tags "locked"] < 0} {
+		  set elem [lindex $tags [lsearch -glob $tags "*element*"]]
+		  if {$elem != ""} {
+		      switch [$elem getType] {
 		     "Background" {
-			#set idx [$t index $elem.first]
-			#SuppressBackground $elem
+			 #set idx [$t index $elem.first]
+			 #SuppressBackground $elem
 		     }
-		     "Event" - "Comment" {
-			set idx [$t index $elem.first]
-			SuppressEvent $elem
-		     }
-		  }
-	       } else {
-		  set data [GetDataFromPos "$idx+1c"]
-		  eval $t delete $idx $end
-		  # Update corresponding segment
-		  if {$data != ""} {
+			  "Event" - "Comment" {
+			      set idx [$t index $elem.first]
+			      SuppressEvent $elem
+			  }
+		      }
+		  } else {
+		      set data [GetDataFromPos "$idx+1c"]
+		      eval $t delete $idx $end
+		      # Update corresponding segment
+		      if {$data != ""} {
 		     # Display text on transcription and segmentation 
-		     ModifyText $data
+			  ModifyText $data
+		      }
 		  }
+	      }
+	      set end $idx
+	  }
+      }
+       "ins*"  {
+	   # Position of insertion
+	   set idx [lindex $args 0]
+	   # We can only insert right to a data tagged char
+	   set data [GetDataFromPos "$idx"]
+	   if {$data != ""} {
+	       # Insert with the tag of current breakpoint
+	       set colortag [ColorTagInsert]
+	       if { $colortag != "" } {
+		   lappend args [list $data sync hilight $colortag]
+	       } else {
+		   lappend args [list $data sync hilight]
 	       }
-	    }
-	    set end $idx
-	 }
-      }
-      "ins*"  {
-	 # Position of insertion
-	 set idx [lindex $args 0]
-	 # We can only insert right to a data tagged char
-	 set data [GetDataFromPos "$idx"]
-	 if {$data != ""} {
-	    # Insert with the tag of current breakpoint
-	    lappend args [list $data sync hilight]
-	    # turn around Tcl8.3.2 bug (SourceForge bug ID 227512)
+	       # turn around Tcl8.3.2 bug (SourceForge bug ID 227512)
 	    if {[concat \xe0] == "\xe0"}  {
-	      eval $t "insert" $args
+		eval $t "insert" $args
 	    } else {
-	      set args [linsert $args 0 $t insert]; eval $args
+		set args [linsert $args 0 $t insert]; eval $args
 	    }
-	    if {$v(chatMode)} {
-	      CheckTerminator $t
-	    }
-	    # Display text on transcription and segmentation 
+	       if {$v(chatMode)} {
+		   CheckTerminator $t
+	       }
+	       # Display text on transcription and segmentation 
 	    ModifyText $data
-	 }
-      }
-      "mark" {
-	 # Detect the case of insert point position "$t mark set insert ..."
-	 if {[string match "set insert *" $args]} {
-	    # Inhibit mark set from button press
+	   }
+       }
+       "mark" {
+	   # Detect the case of insert point position "$t mark set insert ..."
+	   if {[string match "set insert *" $args]} {
+	       # Inhibit mark set from button press
 	    if {[info exists v(tk,dontmove)]} {
-	       unset v(tk,dontmove)
-	       return
+		unset v(tk,dontmove)
+		return
 	    }
 	    # Requested insert position
 	    set idx [lindex $args 2]
@@ -541,35 +552,35 @@ proc TextFilter {t option args} {
 		 || [$t compare $idx < insert]
 		 || [string match "*lineend*" $idx])
 		&& ![string match "*linestart*" $idx]} {
-	       set dir "-1c"
+		set dir "-1c"
 	    } else {
-	       set dir "+1c"
+		set dir "+1c"
 	    }
 	    set idx [$t index $idx]
 	    while {[$t compare $idx < end]} { 
-	       # Search a pos where insertion is allowed
-	       set data [GetDataFromPos "$idx"]
-	       if {$data != ""} {
-		  # Move to new pos and view corresponding segment
-		  eval $t $option set insert $idx
-		  SynchroToText [SyncBefore $data]
+		# Search a pos where insertion is allowed
+		set data [GetDataFromPos "$idx"]
+		if {$data != ""} {
+		    # Move to new pos and view corresponding segment
+		    eval $t $option set insert $idx
+		    SynchroToText [SyncBefore $data]
 		  return
-	       }
-	       # If selection active, don't move cursor (blinking effect)
-	       if {[$t tag ranges sel] != ""} return
-	       # "Bounce" on first char and move left or right
-	       if {[$t compare $idx == 1.0]} {
+		}
+		# If selection active, don't move cursor (blinking effect)
+		if {[$t tag ranges sel] != ""} return
+		# "Bounce" on first char and move left or right
+		if {[$t compare $idx == 1.0]} {
 		  set dir "+1c"
-	       }
-	       set idx [$t index "$idx $dir"]
+		}
+		set idx [$t index "$idx $dir"]
 	    }
-	 } else {
+	} else {
 	    eval $t $option $args
-	 }
-      }
+	}
+       }
       default { 
-	 # Blindly propagate other commands to widget
-	 eval $t $option $args
+	  # Blindly propagate other commands to widget
+	  eval $t $option $args
       }
    }
 }
