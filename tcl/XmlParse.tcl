@@ -165,11 +165,12 @@ namespace eval ::xml::parser {
       } elseif {$syst != ""} {
 	  # if the dtd used in the trs file is under trans-14.dtd change it for compatibility with transcriber 1.5.0
 	  variable olddtd $syst
-	  regexp {trans\-([0-9]+).*} $syst all dtdnum
-	  if { $dtdnum < 14 } {
-	      regsub {[0-9]+} $syst {14} syst
-	      variable modifdtd 1
-	  }
+	  if {[regexp {trans\-([0-9]+).*} $syst all dtdnum] } {
+		  if { $dtdnum < 14 } {
+                  regsub {[0-9]+} $syst {14} syst
+	          variable modifdtd 1
+	          }
+          }
 	  set syst [file join [file dirname $conf(-filename)] $syst]
       }
       # If asked to keep current DTD, verify external DTD filename matches
@@ -803,6 +804,8 @@ namespace eval ::xml::parser {
       return [eval parse_doc [list $txt] $args -filename [list $name]]
    }
 
+
+   
    proc write_file {name root} {
       if {[$root class] != "element"} {
 	 set root [lindex [$root getChilds "element"] 0]
