@@ -282,7 +282,7 @@ proc ChooseBackground {state destroy} {
    foreach sound {"music" "speech" "shh" "other"} r {0 1 0 1} c {0 0 1 1} {
       set b [checkbutton $f.rad[incr i] -var v($sound,chosen) -text [Local $sound]]
       #pack $b -side top -anchor w -padx 10m -pady 1m
-      grid $b -row $r -col $c -sticky w -padx 3m -pady 3m
+      grid $b -row $r -column $c -sticky w -padx 3m -pady 3m
    }
 
    if {$destroy} {
