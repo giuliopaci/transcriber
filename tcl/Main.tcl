@@ -32,14 +32,18 @@ exec wish "$0" ${1:+"$@"}
 proc Main {argv} {
    global v
 
-   wm title . "Transcriber 1.4.6+"
-   wm protocol . WM_DELETE_WINDOW { Quit }
+   if {[info commands tk] != ""} {
+     wm title . "Transcriber 1.4.6+"
+     wm protocol . WM_DELETE_WINDOW { Quit }
+   }
 
    InitDefaults $argv
    LoadModules
    InitConvertors
-   BuildGUI
-   TraceInit
+   if {[info commands tk] != ""} {
+     BuildGUI
+     TraceInit
+   }
    StartWith $argv
 }
 
@@ -237,7 +241,7 @@ proc InitDefaults {argv} {
    set v(file,default) [file join $v(path,etc) "default.txt"]
    LoadOptions $v(file,default) 1
    # correct some default values for Mac OS X
-   if {[info tclversion] >= 8.4 && [tk windowingsystem] == "aqua"} {
+   if {[info tclversion] >= 8.4 && [info commands tk] != "" && [tk windowingsystem] == "aqua"} {
       set v(font,text)   {courier 14}
       set v(color,hi-text) "white"
       set v(color,bg-text) "#f0f0f0"
@@ -645,6 +649,7 @@ proc LoadModules {} {
    pwd; # for Linux Debian 2.0 (else there was an error later with 'pwd')
    lappend auto_path [file dir $v(path,base)]
    # use the whole snack package for Windows rather than sound package
+   if {[info commands tk] != ""} {
      # Snack 1.7 or 2.0 should both work
      set vsnack [package require snack]
      if {[package vcompare $vsnack 1.7] < 0} {
@@ -655,6 +660,7 @@ proc LoadModules {} {
        package require snacksphere
      }
      package require trans 1.5
+   }
 
    # Install html library
    if {[catch {
@@ -673,7 +679,7 @@ proc LoadModules {} {
    }
 
   # Take Tcl/Tk 8.4 text library name changes into account
-  if {[info tclversion] >= 8.4} {
+  if {[info tclversion] >= 8.4 && [info commands tk] != ""} {
     foreach cmd {
       tkButtonInvoke
       tkEntryInsert
@@ -850,8 +856,10 @@ proc StartWith {argv} {
 	      # convert a set of trs files to given format, if export filter available
 	      # syntax: trans -convertto {stm|html|...} *.trs
 	      # resulting files are stored in current directory
-	      wm withdraw .
- 	      update
+	      if {[info commands tk] != ""} {
+		wm withdraw .
+		update
+	      }
 	      set format [lindex $argv [incr i]]
 	      if {[info command convert::${format}::export] == ""} {
 		if {$format != ""} {
@@ -880,13 +888,20 @@ proc StartWith {argv} {
 		  trs::import $name
 		  set v(sig,min) 0
 		  set v(trans,format) trans
-		  NormalizeTrans
+		  if {[set msg [NormalizeTrans]] != ""} {
+		    puts -nonewline stderr $msg
+		  }
 		  convert::${format}::export [file tail [file root $name]]$ext
 		  incr nb
 		} err]} {
 		  puts stderr "error with $name: $err ($::errorInfo)"
 		}
-		CloseTrans -nosave
+		::xml::init
+		::speaker::init
+		::topic::init
+		set v(trans,root) ""
+		set v(trans,name) ""
+		#CloseTrans -nosave
 	      }
 	      puts stderr "$nb file(s) processed."
 	      exit

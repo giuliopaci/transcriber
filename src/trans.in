@@ -1,4 +1,18 @@
 #!/bin/sh
+# RCS: @(#) $Id$
+
 TRANSPATH=`dirname $0`/../lib
 TCLLIBPATH=$TRANSPATH; export TCLLIBPATH
-exec @TK_EXEC_PREFIX@/bin/wish@SUFFIX@ $TRANSPATH/@TRANS_DIR@/tcl/Main.tcl -- ${1:+"$@"} &
+
+# Choose batch (foreground) or interactive (background) mode
+bg=1
+for i do
+ if [ $i = "-export" -o $i = "-convertto" -o $i = "-help" -o $i = "-h" ]; then
+   bg=0
+ fi
+done
+if [ $bg = 1 ] ; then
+  exec @TK_EXEC_PREFIX@/bin/wish@SUFFIX@ $TRANSPATH/@TRANS_DIR@/tcl/Main.tcl -- ${1:+"$@"} &
+else
+  exec @TCL_EXEC_PREFIX@/bin/tclsh@SUFFIX@ $TRANSPATH/@TRANS_DIR@/tcl/Main.tcl -- ${1:+"$@"}
+fi
