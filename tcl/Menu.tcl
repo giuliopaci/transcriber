@@ -205,7 +205,13 @@ proc InitMenus {} {
 	 {"Edit episode attributes..."	cmd {EditEpisode}}	
 	 {""}
 	 {"Open audio file..." 	-bind "Ctrl-a"	cmd {OpenAudioFile}}
+	 {"Synchronized audio files"		cascade {
+	   {"Add audio file..." 	cmd {OpenAudioFile add}}
+	   {""}
+	 }}
 	 {"Save audio selection as..."          cmd {SaveAudioSegment as}}
+	 {""}
+	 {"Open segmentation file..." 	cmd {OpenSegmt}}
 	 {""}
 	 {"Quit"		-bind "Ctrl-q"	cmd {Quit}}
       }}
@@ -325,8 +331,6 @@ proc InitMenus {} {
 	    {"Second signal view"	check v(view,.snd2) -command {SwitchSoundFrame .snd2}}
 	    {"Smart segmentation display"	check v(hideLevels) -command {UpdateSegmtView}}
 	    {"Colorize speaker segments"	check v(colorizeSpk) -command {ColorizeSpk}}
-	    {""}
-	    {"Open segmentation file..." 	cmd {OpenSegmt}}
 	 }}
 	 {"Fonts"	cascade {
 	    {"Text"		cmd {set v(font,text)  [ChooseFont text] }}

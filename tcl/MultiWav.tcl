@@ -1,7 +1,7 @@
 # RCS: @(#) $Id$
 
 # multiwav extension - intended for meeting recordings management
-# derived from an original proposal by David Gelbart and Dan Ellis from ICSI
+# from an original proposal by David Gelbart and Dan Ellis from ICSI
 
 # management of contextual menu
 proc MW_AddMenuEntry {basename} {
@@ -11,6 +11,7 @@ proc MW_AddMenuEntry {basename} {
     set menu [$v($wavfm,menu) entrycget [Local "Audio file"] -menu]
     $menu add radio -label $basename -variable v(multiwav,file) -command MW_Switch
   }
+  eval_menu "Synchronized audio files" add radio -label $basename -variable v(multiwav,file) -command MW_Switch
 }
 
 proc MW_RemoveMenuEntry {{index "all"}} {
@@ -24,8 +25,15 @@ proc MW_RemoveMenuEntry {{index "all"}} {
     } else {
       $menu delete [expr 3+$index]
     }
-    $menu configure -tearoff 1 
+    #$menu configure -tearoff 1 
   }
+  if {$index == "all"} {
+    eval_menu "Synchronized audio files" delete 2 end
+    eval_menu "Synchronized audio files" add separator
+  } else {
+    eval_menu "Synchronized audio files" delete [expr 2+$index]
+  }
+  eval_menu "Synchronized audio files" configure -tearoff 1 
 }
 
 # reset to empty list
