@@ -590,6 +590,11 @@ proc TextNextSync {rel} {
    if {$id != ""} {
       set last [lindex [$t tag nextrange "sync" "$id.first"] 1]
       tkTextSetCursor $v(tk,edit) "$last lineend"
+      if {$v(preferedPos) == "begin"} {
+	tkTextSetCursor $v(tk,edit) "insert linestart"
+      } else {
+	tkTextSetCursor $v(tk,edit) "insert lineend"
+      }
       update idle
    }
 }
