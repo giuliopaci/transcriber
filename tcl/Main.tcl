@@ -29,7 +29,7 @@ exec wish "$0" ${1:+"$@"}
 
 ################################################################
 
-set version "1.4.6+ (2004-06-18)"
+set version "1.4.6+ (2003-11-13)"
 
 proc Main {argv} {
    global v
@@ -88,6 +88,8 @@ proc Quit {} {
 #  backup,ext:    extension for backup (default to ~)
 #  bgPos,chosen:  chosen position for background selection
 #  bindings:      pairs of key/inserted string
+#  browser :	     path to the default browser (needed to launch it)
+#  browser,but:   button tk widget to choose the default browser
 #  color,bg :     background color
 #  color,bg-back: background color for background noise
 #  color,bg-evnt: background color for events
@@ -661,15 +663,7 @@ proc LoadModules {} {
        # in Snack 1.7, snackSphere package was renamed snacksphere
        package require snacksphere
      }
-     catch {
-       package require snackogg
-     }
      package require trans 1.5
-   }
-
-   # Install QuickTime if available
-   catch {
-     package require QuickTimeTcl
    }
 
    # Install html library
@@ -697,7 +691,6 @@ proc LoadModules {} {
       tkTextNextWord
       tkTextPrevPos
       tkTextSetCursor
-      tkListboxUpDown
     } {
       if {![llength [info commands $cmd]]} {
 	tk::unsupported::ExposePrivateCommand $cmd
@@ -786,7 +779,6 @@ proc StartWith {argv} {
 
    set sig ""
    set multiwav {}
-   set video ""
    set trans ""
    set lbls {}
    set pos 0
@@ -862,17 +854,6 @@ proc StartWith {argv} {
 	    "-socket" {
 	      # launch socket facility for external scripting of Transcriber
 	      # (see tcl/Socket.tcl code for more details)
-	      # optional socket server and client ports
-	      set val [lindex $argv [expr $i+1]]
-	      if {[string index $val 0] != "-"} {
-		set v(socket,server) $val
-		incr i
-		set val [lindex $argv [expr $i+1]]
-		if {[string index $val 0] != "-"} {
-		  set v(socket,client) $val
-		  incr i
-		}
-	      }
 	      uplevel \#0 {source [file join $v(path,tcl) Socket.tcl]}
 	    }
 	    "-export" - "-convertto" {
@@ -884,13 +865,7 @@ proc StartWith {argv} {
 		update
 	      }
 	      set format [lindex $argv [incr i]]
-	      if {$format == "trs"} {
-		# re-exporting to .trs allows automatic normalization
-		set nsformat ::trs
-	      } else {
-		set nsformat ::convert::${format}
-	      }
-	      if {[info command ${nsformat}::export] == ""} {
+	      if {[info command convert::${format}::export] == ""} {
 		if {$format != ""} {
 		  puts stderr "Conversion to format $format unsupported."
 		}
@@ -903,7 +878,7 @@ proc StartWith {argv} {
 		exit
 	      }
 	      #CloseTrans -nosave 
-	      set ext [lindex [set ${nsformat}::ext] 0]
+	      set ext [lindex [set ::convert::${format}::ext] 0]
 	      puts stderr "Converting .trs files to $format format ($ext):"
 	      set nb 0
 	      while {[set name [lindex $argv [incr i]]] != ""} {
@@ -920,7 +895,7 @@ proc StartWith {argv} {
 		  if {[set msg [NormalizeTrans]] != ""} {
 		    puts -nonewline stderr $msg
 		  }
-		  ${nsformat}::export [file tail [file root $name]]$ext
+		  convert::${format}::export [file tail [file root $name]]$ext
 		  incr nb
 		} err]} {
 		  puts stderr "error with $name: $err ($::errorInfo)"
@@ -1025,14 +1000,11 @@ Further documentation available online (Help menu) or on the Web site:
       if {[file readable $v(trans,name)]} {
 	set trans $v(trans,name)
       }
-      if {[file readable $v(videoFile)]} {
-	set video $v(videoFile)
-      }
       set pos $v(curs,pos)
       set gain $v(sig,gain)
       set lbls $v(labelNames)
    }
-   set v(videoFile) ""
+
    EmptySignal
 
    # Load trans and associated audio
@@ -1046,11 +1018,6 @@ Further documentation available online (Help menu) or on the Web site:
       ReadTrans $trans $sig $multiwav
       SetCursor $pos
       NewGain $gain
-      if {$video != ""} {
-	  catch {
-	      OpenVideoFile $video
-	  }
-      }
    } error]} {
       if {$trans != ""} {
 	 #global errorInfo; puts $errorInfo
