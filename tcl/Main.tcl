@@ -365,9 +365,9 @@ proc LoadConfiguration {} {
   ChangedLocal
   set pos $v(curs,pos)
   set gain $v(sig,gain)
-  if {$v(trans,name) != ""} {
+  if {$v(trans,name) != "" && [file readable $v(trans,name)]} {
     ReadTrans $v(trans,name) $v(sig,name) $v(multiwav,path)
-  } elseif {$v(sig,name) != ""} {
+  } elseif {$v(sig,name) != "" && [file readable $v(sig,name)]} {
     NewTrans $v(sig,name) $v(multiwav,path)
   }
   SetCursor $pos
@@ -887,9 +887,13 @@ proc StartWith {argv} {
 
    # Default values if none was given on command line
    if {$sig=="" && $trans == ""} {
-      set sig $v(sig,name)
-      set multiwav $v(multiwav,path)
-      set trans $v(trans,name)
+      if {[file readable $v(sig,name)]} {
+	set sig $v(sig,name)
+	set multiwav $v(multiwav,path)
+      }
+      if {[file readable $v(trans,name)]} {
+	set trans $v(trans,name)
+      }
       set pos $v(curs,pos)
       set gain $v(sig,gain)
    }
