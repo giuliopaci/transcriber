@@ -100,7 +100,7 @@ Terminator handling:
 
 <!ELEMENT Event EMPTY>
 <!ATTLIST Event
-	type		(header|dependent|scope|noise|lexical|pronounce|language)	"noise"
+	type		(header|dependent|scope|noise|lexical|pronounce|language|entities)	"noise"
 	extent		(begin|end|previous|next|instantaneous)	"instantaneous"
 	desc		CDATA		#REQUIRED
 >
