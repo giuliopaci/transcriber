@@ -101,7 +101,11 @@ namespace eval stm {
 	
 	# export any 'event'?
 	setdef v(exportEvent) false
-	
+        # export 'nontrans' sections?
+        setdef v(exportNontrans) false
+        # export 'nontrans' sections?
+        setdef v(exportComment) false
+
 	# other export option
 	setdef v(stmopt) ""
 	
@@ -170,7 +174,7 @@ namespace eval stm {
 	set episode [$v(trans,root) getChilds "element" "Episode"]
 	foreach sec [$episode getChilds "element" "Section"] {
 	    # ignore "nontrans" sections
-	    if {[$sec getAttr "type"] == "nontrans"} {
+	    if {[$sec getAttr "type"] == "nontrans" && !$v(exportNontrans)} {
 		set t0 [format %.3f [$sec getAttr "startTime"]]
 		set t1 [format %.3f [$sec getAttr "endTime"]]
 		dump $t0
@@ -299,8 +303,9 @@ namespace eval stm {
 				#append txt " \[$nb] "
 			    }
 			    "Comment" {
-				#set desc [$chn getAttr "desc"]
-				#append txt "<comment>$desc</comment>"
+			        if {$v(exportComment)} {
+				  append txt " " [StringOfEvent $chn]
+			        }
 			    }
 			    "Event" {
 				set desc [$chn getAttr "desc"]
@@ -340,6 +345,11 @@ namespace eval stm {
 					}
 				    }
 				}
+			    }
+			    default {
+			        if {$v(exportEvent)} {
+			            append txt [StringOfOther $chn]
+			        }
 			    }
 			}
 		    }
