@@ -197,7 +197,8 @@ namespace eval cha {
 	  if {$numspk != 0 } {
 	      puts -nonewline $channel ", "
 	  } 
-	  set srole [$speaker getAttr "role"]
+	  set srole ""
+	  catch { set srole [$speaker getAttr "role"]}
 	  puts -nonewline $channel "$sid $sname $srole"
 	  incr numspk
       }
