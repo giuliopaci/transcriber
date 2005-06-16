@@ -105,6 +105,8 @@ namespace eval stm {
         setdef v(exportNontrans) false
         # export 'nontrans' sections?
         setdef v(exportComment) false
+        # export spk id (rather than names)
+        setdef v(exportSpkid) false
 
 	# other export option
 	setdef v(stmopt) ""
@@ -368,6 +370,10 @@ namespace eval stm {
 proc normalize_name {id} {
     variable base
     variable alnum
+    # keep (anonymous) spkid
+    if {$::v(exportSpkid)} {
+      return ${base}_$id
+    }
     # keep only alphanumeric chars in speaker name, replace other by _    
     set spk  [::speaker::name $id]
     set atts [::speaker::get_atts $id]
