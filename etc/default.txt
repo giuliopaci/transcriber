@@ -39,6 +39,8 @@ playbackPause    0.3
 playbackBeep	""
 # multiplying factor for frequency during playback - not yet supported
 playbackSpeed 1.0
+# interval between cursor events in ms (a too low value may overload display server)
+playbackCursorTempo 50
 
 # remote playback settings
 playbackRemote	0

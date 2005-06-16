@@ -110,8 +110,8 @@ proc CursorStart {pos max} {
    set v(curs,pos) $pos
    set v(curs,start) $pos
    set v(curs,max) $max
-   # Ask for cursor events every 20 ms
-   CursorEvent 20
+   # Ask for cursor events after short delay
+   CursorEvent $v(playbackCursorTempo)
    # Permit fast forward/backward
    catch {unset v(play,no-fast)}
 }

@@ -178,6 +178,7 @@ proc Quit {} {
 #  playbackPause  pause duration between segments
 #  playbackSegmt  set if playing a single segment
 #  playbackSpeed  speed playback factor (unsupported)
+#  playbackCursorTempo  interval for playback cursor refresh (in ms)
 #  preferedPos    cursor insertion pos in text editor (start/end of line)
 #  proc,id        id for numbering of socket connections to file server
 #  pronounce      list of pronounciation events with descriptions
