@@ -240,6 +240,7 @@ namespace eval ::convert::sclite {
 	set line [string trim $line]
 	if {$line != ""} {
 	  puts stderr "Sclite file warning: unparsed \"$line\""
+	  exit
 	}
 	if {$errors != {}} {
 	  if {$t3 <= $lastcor} {
