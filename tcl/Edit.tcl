@@ -194,6 +194,7 @@ proc InitEditor {} {
    $t tag conf "turn" -justify left
    $t tag conf "sync" -tabs "1c left" -lmargin2 1c -spacing3 5
    $t tag conf "event" -background $v(color,bg-evnt) -foreground $v(color,fg-evnt) -font event
+   $t tag conf "other" -background $v(color,bg-evnt) -foreground $v(color,fg-evnt) -font event
    $t tag bind "cursor" <Enter> [list $t config -cursor top_left_arrow]
    $t tag bind "cursor" <Leave> [list $t config -cursor xterm]
    $t tag conf "hilight" -background $v(color,hi-text)

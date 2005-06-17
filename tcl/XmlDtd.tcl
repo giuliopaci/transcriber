@@ -22,6 +22,7 @@ namespace eval ::xml::dtd {
    proc init {} {
       variable state 0
       variable name ""
+      variable exportname ""
       element::init
       attribute::init
       entity::init	    
@@ -38,13 +39,23 @@ namespace eval ::xml::dtd {
       return $state
    }
 
-   # set/return name of current active external DTD
+   # set/return filename of current active external DTD
    proc name {{new_name ""}} {
       variable name
+      variable exportname
       if {$new_name != ""} {
 	 set name $new_name
       }
       return $name
+   }
+
+   # set/return "official" DTD system name for XML export
+   proc exportname {{new_name ""}} {
+      variable exportname
+      if {$new_name != ""} {
+	 set exportname $new_name
+      }
+      return $exportname
    }
 
    # read new external DTD and switch to dynamic validating mode
@@ -52,6 +63,37 @@ namespace eval ::xml::dtd {
       init
       eval ::xml::parser::read_file [list $fileName] $args -type dtd
       active 1
+   }
+
+   # compare 2 DTD names with %s%d%s pattern (like trans-14.dtd) and return
+   #  -1 if dtd2 is older version than dtd1 (eg. trans-13.dtd)
+   #  0  if dtd2 matches dtd1  (eg. trans-14.dtd)
+   #  1  if dtd2 is newer or different than dtd1 (eg. trans-15.dtd, color.dtd...)
+   # optional arguments ver1 and ver2 return version numbers
+   proc compare_version {dtd1 dtd2 {ver1name ""} {ver2name ""}} {
+     if {$ver1name != ""} {
+       upvar $ver1name ver1
+     }
+     if {$ver2name != ""} {
+       upvar $ver2name ver2
+     }
+     set dtd1 [string tolower [file tail $dtd1]]
+     set dtd2 [string tolower [file tail $dtd2]]
+     set ver1 ""
+     set ver2 ""
+     if {[regexp {([^0-9]*)([0-9]+(.[0-9]+)?)(.*)} $dtd1 all dtd1nam dtd1nb dtd1opt dtd1ext]} {
+       set ver1 $dtd1nb
+       if {[regexp {([^0-9]*)([0-9]+(.[0-9]+)?)(.*)} $dtd2 all dtd2nam dtd2nb dtd2opt dtd2ext]
+	 && $dtd1nam == $dtd2nam && $dtd1ext == $dtd2ext} {
+	 set ver2 $dtd2nb
+	 return [expr $ver2==$ver1 ? 0 : $ver2<$ver1? -1 : 1]
+       }
+     }
+     if {$dtd1 == $dtd2} {
+       return 0
+     } else {
+       return 1
+     }
    }
 
    #=======================================================================

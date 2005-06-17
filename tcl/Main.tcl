@@ -29,7 +29,7 @@ exec wish "$0" ${1:+"$@"}
 
 ################################################################
 
-set version "1.5.1"
+set version "1.5.2"
 
 proc Main {argv} {
    global v
@@ -125,7 +125,8 @@ proc Quit {} {
 #  ext,snd        list of known extensions for sound files
 #  ext,trs        list of extensions for importable transcription files
 #  file,default   default configuration file
-#  file,dtd       DTD file for transcriptions in XML format
+#  file,dtd       Internal version of DTD file for transcriptions in XML format
+#  file,exportdtd DTD version for output transcriptions (backward compatibility with previous versions)
 #  file,local     user localization file
 #  file,user      user configuration file
 #  find,case      case sensitiveness for find ("-nocase" or "")
@@ -255,6 +256,8 @@ proc InitDefaults {argv} {
    set v(path,doc)   [file join $v(path,base) "doc"]
    set v(path,etc)   [file join $v(path,base) "etc"]
    set v(file,dtd)   [file join $v(path,etc)  "trans-14.dtd"]
+   # keep compatibility with previous version as long as possible
+   set v(file,exportdtd)   "trans-13.dtd"
 
    # Read values from default configuration file
    set v(file,default) [file join $v(path,etc) "default.txt"]
@@ -837,6 +840,10 @@ proc StartWith {argv} {
 		"-demo" {
 		    set v(demo) 1
 		}
+		"-dtd" {
+  		    set v(file,dtd) [lindex $argv [incr i]]
+		    set v(file,exportdtd) ""
+		}
 		"-noshape" {
 		    set v(shape,wanted) 0
 		}
@@ -1002,6 +1009,7 @@ with command line options:
 
     -cfg filename           Override default configuration file
     -debug                  Add debug options in the help menu
+    -dtd filename           Open DTD file instead of default (should match .trs)
     -h/-help                Display this message, then exit
     -lbl/-label filename    Display labels under the signal (may be repeated)
     -noshape                Disable signal shape mechanism

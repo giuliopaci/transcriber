@@ -494,6 +494,17 @@ proc CreateEvent {txt {type "noise"} {extent "instantaneous"} {interactif 0}} {
     if {$type == "comment"} {
 	set tag [::xml::element "Comment" [list "desc" $txt] -before $data]
     } else {
+        # if we include an entities Event, the current DTD is the standard one
+        # and the export DTD is still trans-13.dtd, then we switch to trans-14.dtd
+        if {$type == "entities"
+	    && [::xml::dtd::compare_version $v(file,dtd) [::xml::dtd::name]] == 0
+	    && [::xml::dtd::compare_version "trans-14.dtd" [::xml::dtd::exportname]] < 0} {
+	  set rep [tk_messageBox -message [Local "By including entities, this file will not be compatible with older version of Transcriber (<1.4.7).\nDo you want to proceed?"] -type okcancel -icon question]
+	  if {$rep == "cancel"} {
+	    error "Action cancelled by user"
+	  }
+	  ::xml::dtd::exportname "trans-14.dtd"
+        }
 	set atts [list "desc" $txt "type" $type "extent" $extent]
 	set tag [::xml::element "Event" $atts -before $data]
     }
@@ -1078,7 +1089,7 @@ proc InsertOther {elem {other_tags ""}} {
 
    set txt [StringOfOther $elem]
    set type [$elem getType]
-   $t insert "insert" $txt [concat "cursor" "sync" $type $elem $other_tags]
+   $t insert "insert" $txt [concat "cursor" "sync" $type "other" $elem $other_tags]
    if {[info commands ::tag::${type}::insert] != {}} {
      ::tag::${type}::insert $elem
    }

@@ -154,43 +154,47 @@ namespace eval ::xml::parser {
    lappend conds prolog-dtd dtd-decl dtd-int dtd-ext
 
    # start of DTD declaration
-   lappend rules {prolog-dtd} "<!DOCTYPE${S}($Name)($S$ExternalID)?${S?}" {all root has_ext bid publ syst} {
+   lappend rules {prolog-dtd} "<!DOCTYPE${S}($Name)($S$ExternalID)?${S?}" {all root has_ext bid publDTD systDTD} {
       if {$conf(-debug)} {
-	 puts "DTD root $root public $publ system $syst"
+	 puts "DTD root $root public $publDTD system $systDTD"
       }
       set rootType $root
-      set publ [normPubId [unquote $publ]]
-      set syst [unquote $syst]
-      if {$publ != ""} {
-      } elseif {$syst != ""} {
-	  # if the dtd used in the trs file is under trans-14.dtd change it for compatibility with transcriber 1.5.0
-	  variable olddtd $syst
-	  if {[regexp {trans\-([0-9]+).*} $syst all dtdnum] } {
-		  if { $dtdnum < 14 } {
-                  regsub {[0-9]+} $syst {14} syst
-	          variable modifdtd 1
-	          }
-          }
-	  set syst [file join [file dirname $conf(-filename)] $syst]
+      set publDTD [normPubId [unquote $publDTD]]
+      set systDTD [unquote $systDTD]
+      if {$publDTD != ""} {
+      } elseif {$systDTD != ""} {
+#	  # if the dtd used in the trs file is under trans-14.dtd change it for compatibility with transcriber 1.5.0
+#	  variable olddtd $syst
+#	  if {[regexp {trans\-([0-9]+).*} $syst all dtdnum] } {
+#		  if { $dtdnum < 14 } {
+#                  regsub {[0-9]+} $syst {14} syst
+#	          variable modifdtd 1
+#	          }
+#          }
+#	  set syst [file join [file dirname $conf(-filename)] $syst]
       }
       # If asked to keep current DTD, verify external DTD filename matches
       # the current one, else the given subset will be read
+      set readDTD 1
       if {$conf(-keepdtd)} {
+	 # get name and version of available DTD and check if it is compatible with the installed one
 	 set dtdname [::xml::dtd::name]
-	 if {$conf(-keepdtd) != 3 && [file tail $dtdname] != [file tail $syst]} {
+	 if {$conf(-keepdtd) == 3 || [::xml::dtd::compare_version $dtdname $systDTD v1 v2] <= 0} {
+	   # keep existing DTD but reuse system name for further export
+	   ::xml::dtd::exportname $systDTD
+	   set readDTD 0
+	   if {$conf(-debug) && $conf(-keepdtd) != 3} {
+	     puts "DTD version >= $v2 required, using $v1"
+	   }
+	 } else {
 	    if {$conf(-keepdtd) == 2} {
-	      parse_error "External DTD '$syst' doesn't match requested '$dtdname'"
+	      parse_error "External DTD '$systDTD' doesn't match requested '$dtdname'"
 	    } else {
 	      if {$conf(-debug)} {
-		puts "switching DTD to $syst"
+		puts "switching DTD to $systDTD"
 	      }
-	      set dtdname $syst
 	    }
-	 } else {
-	    set dtdname ""
 	 }
-      } else {
-	 set dtdname $syst
       }
 
       [lexer current] end
@@ -228,15 +232,25 @@ namespace eval ::xml::parser {
       [lexer current] begin prolog-end
 
       # Read and parse external DTD if needed
-      if {$dtdname != ""} {
-	if {$conf(-keepdtd)} {
-	  ::xml::dtd::init
-	  ::xml::dtd::active $conf(-valid)
+      if {$readDTD} {
+	# look into current dir, XML file dir and default DTD dir
+	foreach path [list "." [file dirname $conf(-filename)] [file dirname [::xml::dtd::name]]] {
+	  set dtdname [file join $path $systDTD]
+	  if {[file readable $dtdname]} break
+	  set dtdname ""
 	}
-	if {[catch {
-	  eval read_file [list $dtdname] [array get conf] -type dtd
-	} msg]} {
-	  parse_error $msg $::errorInfo
+	if {$dtdname == ""} {
+	  parse_error "External DTD '$systDTD' not found"
+	} else {
+	  if {$conf(-keepdtd)} {
+	    ::xml::dtd::init
+	    ::xml::dtd::active $conf(-valid)
+	  }
+	  if {[catch {
+	    eval read_file [list $dtdname] [array get conf] -type dtd
+	  } msg]} {
+	    parse_error $msg $::errorInfo
+	  }
 	}
       }
    }
@@ -710,6 +724,7 @@ namespace eval ::xml::parser {
 	 -type      "document"
 	 -debug     0
 	 -filename  ""
+	 -exportdtd ""
 	 -valid     1
 	 -keepdtd   0
 	 -alldoc    0
@@ -749,8 +764,12 @@ namespace eval ::xml::parser {
 	 }
 	 "dtd" {
 	    set initial "prolog-subset"
-
 	    ::xml::dtd::name $conf(-filename)
+	    if {$conf(-exportdtd) == ""} {
+	        ::xml::dtd::exportname [file tail $conf(-filename)]
+	    } else {
+	        ::xml::dtd::exportname $conf(-exportdtd)
+	    }
 	 }
 	 default {
 	    error "XML parser: unknown document type '$conf(-type)'"
@@ -769,9 +788,8 @@ namespace eval ::xml::parser {
       return $rootItem
    } $rules
       
-   #=======================================================================
-   # General parsing procedures
 
+   # wrapper for calling the XML lexer and raising an error if needed
    proc parse_doc {txt args} {
       variable rootItem
       
@@ -789,6 +807,22 @@ namespace eval ::xml::parser {
       return $rootItem
    }
 
+   #=======================================================================
+   # General parsing procedures
+
+   # read_file name_of_file [options]
+   #  -type      "document"
+   #  -debug     (default 0)
+   #  -valid     (default 1) 
+   #  -alldoc    (default 0)
+   #  -comment   (default 0)
+   #  -pitarget  ""
+   #  -cdata     (default 0)
+   #  -skipspace (default 1)
+   #  -keepdtd   0: read DTD from XML (default)
+   #             1: if system DTD matches existing one, keep it, else read new DTD
+   #             2: if existing DTD does not match the XML file, raise an error
+   #             3: always keep the existing DTD, whatever the content of the XML
    proc read_file {name args} {
       set f [open $name]
 
@@ -825,9 +859,9 @@ namespace eval ::xml::parser {
       }
       puts $f "<?xml version=\"1.0\"$encString?>"
 
-      set dtd [::xml::dtd::name]
+      set dtd [::xml::dtd::exportname]
       if {$dtd != ""} {
-	 puts $f "<!DOCTYPE [$root getType] SYSTEM \"[file tail $dtd]\">"
+	 puts $f "<!DOCTYPE [$root getType] SYSTEM \"$dtd\">"
       }
       puts $f [$root dump]
       close $f

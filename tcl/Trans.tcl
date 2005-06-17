@@ -24,7 +24,7 @@ namespace eval trs {
       global v
       
       # Read transcription should follow the original DTD
-      ::xml::dtd::xml_read $v(file,dtd)
+      ::xml::dtd::xml_read $v(file,dtd) -exportdtd $v(file,exportdtd)
       set v(trans,root) [::xml::parser::read_file $name -keepdtd 1]
       ::speaker::register
       ::topic::register
@@ -197,7 +197,7 @@ proc SegmtToTrans {segmt} {
    global v
 
    # Newly created transcription must follow the DTD
-   ::xml::dtd::xml_read $v(file,dtd)
+   ::xml::dtd::xml_read $v(file,dtd) -exportdtd $v(file,exportdtd)
 
    if {$v(sig,name) != ""} {
       set t0 $v(sig,min)
@@ -476,19 +476,19 @@ proc NewTrans {{soundFile ""} {multiwav {}}} {
 proc SaveTrans {{as ""} {format ""}} {
    global v
 
-    if { [info exists ::xml::parser::modifdtd] && $::xml::parser::modifdtd == "1" } {
-	set rep [tk_messageBox -message [Local "This file is formated for older version of Transcriber (<1.4.7).\nExport to new format ?\n\n\"yes\" will export to new format and make your file only usable with Transcriber-1.4.7 or higher (recommended).\n\n\"no\" will keep the original format."] -type yesnocancel -icon question]
-	switch $rep {
-	    cancel { return }
-	    yes    {
-		set ::xml::parser::modifdtd 0
-	    }
-	    no {
-		set ::xml::parser::modifdtd 0
-		set ::xml::dtd::name  [file join $v(path,etc)  "$::xml::parser::olddtd"]
-	    }
-	}
-    }
+#     if { [info exists ::xml::parser::modifdtd] && $::xml::parser::modifdtd == "1" } {
+# 	set rep [tk_messageBox -message [Local "This file is formated for older version of Transcriber (<1.4.7).\nExport to new format ?\n\n\"yes\" will export to new format and make your file only usable with Transcriber-1.4.7 or higher (recommended).\n\n\"no\" will keep the original format."] -type yesnocancel -icon question]
+# 	switch $rep {
+# 	    cancel { return }
+# 	    yes    {
+# 		set ::xml::parser::modifdtd 0
+# 	    }
+# 	    no {
+# 		set ::xml::parser::modifdtd 0
+# 		set ::xml::dtd::name  [file join $v(path,etc)  "$::xml::parser::olddtd"]
+# 	    }
+# 	}
+#     }
    if {[GetSegmtNb seg0] <= 0} return
    if {$format == ""} {
       set format "trs"
@@ -546,20 +546,20 @@ proc SaveTrans {{as ""} {format ""}} {
 proc SaveIfNeeded {} {
    global v
 
-    if { [info exists ::xml::parser::modifdtd] && $::xml::parser::modifdtd == "1" } {
-	set rep [tk_messageBox -message [Local "This file is formated for older version of Transcriber (<1.4.7).\nExport to new format ?\n\n\"yes\" will export to new format and make your file only usable with Transcriber-1.4.7 or higher (recommended).\n\n\"no\" will keep the original format."] -type yesnocancel -icon question]
-	switch $rep {
-	    cancel { return -code error cancel }
-	    yes    {
-		set ::xml::parser::modifdtd 0
-		if {[SaveTrans]==""} {return -code error cancel}
-	    }
-	    no {
-		set ::xml::parser::modifdtd 0
-		set ::xml::dtd::name  [file join $v(path,etc)  "$::xml::parser::olddtd"]
-	    }
-	}
-    }
+#     if { [info exists ::xml::parser::modifdtd] && $::xml::parser::modifdtd == "1" } {
+# 	set rep [tk_messageBox -message [Local "This file is formated for older version of Transcriber (<1.4.7).\nExport to new format ?\n\n\"yes\" will export to new format and make your file only usable with Transcriber-1.4.7 or higher (recommended).\n\n\"no\" will keep the original format."] -type yesnocancel -icon question]
+# 	switch $rep {
+# 	    cancel { return -code error cancel }
+# 	    yes    {
+# 		set ::xml::parser::modifdtd 0
+# 		if {[SaveTrans]==""} {return -code error cancel}
+# 	    }
+# 	    no {
+# 		set ::xml::parser::modifdtd 0
+# 		set ::xml::dtd::name  [file join $v(path,etc)  "$::xml::parser::olddtd"]
+# 	    }
+# 	}
+#     }
    if {[HasModifs]} {
       set answer [tk_messageBox -message [Local "Transcription has been modified - Save before closing?"] -type yesnocancel -icon question]
       switch $answer {
