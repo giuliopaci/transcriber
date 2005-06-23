@@ -258,6 +258,7 @@ proc LookForSignal {transName sigName {base1 {}} {mode "reset"}} {
    }
 
    # Basename can be in the root tag, or the same as the transcription
+   set names {}
    if {$base1 != ""} {
       lappend names $base1
    }
