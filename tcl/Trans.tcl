@@ -92,7 +92,7 @@ proc UpdateConvertorMenu {} {
    foreach format [namespace children convert] {
       upvar 0 ${format}::msg msg
       if {[info command ${format}::export] != ""} {
-	 if {[namespace tail $format] == "cha" && !$v(chatMode)} continue
+	 #if {[namespace tail $format] == "cha" && !$v(chatMode)} continue
 	 append_menu "Export" [subst {
 	    {"Export to $msg..."        cmd {SaveTrans as $format}}
 	 }]
