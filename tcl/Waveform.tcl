@@ -671,7 +671,8 @@ proc SaveAudioSegment {{auto ""}} {
 	    { "All Files" {*}}
 	}
 	set base [file root [file tail $v(sig,name)]]
-	if [catch {
+	# because the command body of the catch contains return commands, we need to examinate the returns code...
+	switch [catch {
 	    player conf -file $v(sig,name)
 	    PauseAudio
 	    
@@ -741,14 +742,15 @@ proc SaveAudioSegment {{auto ""}} {
 		$s write $name   
 	    }  
 	} res] {
-	    tk_messageBox -message "[Local "Error, wave segment(s) not saved !!"] $res" -type ok -icon error
-	    return "" 
-	} else {
-	    if {$auto != ""} {
-		tk_messageBox -message [format [Local "%s wave segment(s) saved !"] $tot] -type ok -icon info
-	    } else {
-		tk_messageBox -message [format [Local "%s saved !"] $name] -type ok -icon info
+	    0 {
+		if {$auto != ""} {
+		    tk_messageBox -message [format [Local "%s wave segment(s) saved !"] $tot] -type ok -icon info
+		} else {
+		    tk_messageBox -message [format [Local "%s saved !"] $name] -type ok -icon info
+		}
 	    }
+	    1 { tk_messageBox -message "[Local "Error, wave segment(s) not saved !!"] $res" -type ok -icon error; return "" ;} 
+	    2 { return ""; }
 	}
     }
 }
