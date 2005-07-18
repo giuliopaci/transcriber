@@ -51,10 +51,10 @@ Ceci génèrera un fichier
 	{}
 %pho:
 	{}
-{%s not saved !!}
-	{%s non sauvegardé !!}
-{%s saved !!}
-	{%s sauvegardé !!}
+{%s not saved !}
+	{%s non sauvegardé !}
+{%s saved !}
+	{%s sauvegardé !}
 {%s word(s) checked}
 	{%s mot(s) vérifié(s)}
 %sit:
@@ -697,8 +697,8 @@ néologisme
 	{}
 OK
 	{}
-{Ok, %s wave segment(s) saved !!}
-	{Ok, %s segments audio sauvegardés !!}
+{%s wave segment(s) saved !}
+	{%s segments audio sauvegardés !}
 {Open audio file...}
 	{Ouvrir un fichier son...}
 {Open remote audio file}
