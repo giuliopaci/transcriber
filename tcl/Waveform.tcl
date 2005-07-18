@@ -633,8 +633,8 @@ proc SaveAudioSegment {{auto ""}} {
     # MODIFY: nothing
     #
     # Author: Sylvain Galliano
-    # Version: 1.2
-    # Date: November 26, 2004
+    # Version: 1.3
+    # Date: July 18, 2005
     # 
     # Save Audio Segment in normal or automatic mode 
     # Select the name, format and directory of the file to saved 
@@ -671,10 +671,6 @@ proc SaveAudioSegment {{auto ""}} {
 	    { "All Files" {*}}
 	}
 	set base [file root [file tail $v(sig,name)]]
-	if {$auto == ""} {
-	    set name [tk_getSaveFile -filetypes $types -initialfile "$base\_$zone$format" -initialdir $v(trans,path) -title "Save audio segment"]
-	    if {$name == ""} return
-	}
 	if [catch {
 	    player conf -file $v(sig,name)
 	    PauseAudio
@@ -685,17 +681,19 @@ proc SaveAudioSegment {{auto ""}} {
 		set rate [$v(sig,cmd) cget -frequency]
 		if {$auto == "" } {
 		    set zone [concat [format "%6.2f" $v(sel,begin)]-[format "%-6.2f" $v(sel,end)]]
+		    set name [tk_getSaveFile -filetypes $types -initialfile "$base\_$zone$format" -initialdir $v(trans,path) -title "Save audio segment"]
+		    if {$name == ""} return
 		    player write $name -start [expr int($v(sel,begin)*$rate)] -end [expr int($v(sel,end)*$rate)]
 		} else {
 		    #Automatic mode
 		    set loop ""
+		    set tot 0
 		    foreach segment {"Section" "Turn" "Sync"} {
 			if {$v($segment,loop)} {
 			    lappend loop $segment
 			}
 		    }
 		    if {$loop != ""} {
-			set tot 0
 			foreach segment $loop {
 			    set cpt 0
 			    set begin $v(sig,min)
@@ -709,7 +707,7 @@ proc SaveAudioSegment {{auto ""}} {
 				    set sec [[$tag getFather] getFather]
 				    set id [::section::long_name $sec]
 				}
-				if {$segment == "Turn"} {
+				if {$segment == "Turn" || $segment == "Sync"} {
 				    set tur [$tag getFather]
 				    set spk [$tur getAttr "speaker"]
 				    set spk [::speaker::name $spk]
@@ -733,7 +731,7 @@ proc SaveAudioSegment {{auto ""}} {
 			    }
 			    set v($segment,loop) 0
 			}
-		    } 
+		    }
 		}
 	    } else {
 		set time [expr int([format "%6.3f" [expr $v(sel,end) - $v(sel,begin)]]*16000)]
@@ -746,16 +744,18 @@ proc SaveAudioSegment {{auto ""}} {
 	    tk_messageBox -message "[Local "Error, wave segment(s) not saved !!"] $res" -type ok -icon error
 	    return "" 
 	} else {
-	    if {$loop != "" } {
-		tk_messageBox -message [format [Local "Ok, %s wave segment(s) saved !!"] $tot] -type ok -icon info
-	    } else return
+	    if {$auto != ""} {
+		tk_messageBox -message [format [Local "%s wave segment(s) saved !"] $tot] -type ok -icon info
+	    } else {
+		tk_messageBox -message [format [Local "%s saved !"] $name] -type ok -icon info
+	    }
 	}
     }
 }
 
 proc SaveAudioSegmentAuto {} {
     # JOB: open a dialog box to define the option for saving automaticaly each kind of wave segment (turn, section, sync).
-    #      you have to choose the destination directory and the elemnt to save  
+    #      you have to choose the destination directory and the element to save  
     #
     # IN: nothing
     # OUT: nothing
