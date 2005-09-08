@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!DOCTYPE Trans SYSTEM "trans-14.dtd">
-<Trans version="1" version_date="981211" audio_filename="frint980428" scribe="YM" xml:lang="fr">
+<Trans version="2" version_date="050908" audio_filename="frint980428" scribe="YM" xml:lang="fr">
 <Topics>
 <Topic id="to1" desc="les titres"/>
 </Topics>
@@ -19,7 +19,7 @@
 </Turn>
 <Turn speaker="sp1" startTime="0.387" endTime="4.736">
 <Sync time="0.387"/>
- ah bon ?
+ ah bon ? 
 <Event desc="rire"/>
  non . blague , blague de Patricia . 
 <Sync time="3.008"/>
@@ -37,6 +37,8 @@
 <Sync time="4.736"/>
 <Background time="4.736" type="music" level="high"/>
 
+<Event desc="jingle" type="noise" extent="instantaneous"/>
+
 <Background time="9.609" type="other" level="off"/>
 </Turn>
 </Section>
@@ -47,19 +49,27 @@
 </Turn>
 </Section>
 <Section type="report" topic="to1" startTime="10.790" endTime="20.000">
-<Turn speaker="sp1" startTime="10.790" endTime="20.000">
+<Turn speaker="sp1" startTime="10.790" endTime="11.810">
 <Sync time="10.790"/>
 
 <Event desc="i"/>
  bonjour ! 
-<Sync time="11.781"/>
-<Background time="11.781" type="music" level="high"/>
+</Turn>
+<Turn startTime="11.810" endTime="12.237">
+<Sync time="11.810"/>
+<Background time="11.810" type="music" level="high"/>
 
+<Event desc="indicatif" type="noise" extent="instantaneous"/>
+
+</Turn>
+<Turn speaker="sp1" startTime="12.237" endTime="20.000">
 <Sync time="12.237"/>
- mardi 28 avril . 
-<Sync time="13.344"/>
+ mardi
+<Background time="12.663" type="other" level="off"/>
+28 avril . 
+<Sync time="13.644"/>
  la consultation nationale sur les programmes des lycées : 
-<Sync time="16.236"/>
+<Sync time="16.267"/>
 
 <Event desc="i"/>
  grand débat aujourd'hui et demain à Lyon
