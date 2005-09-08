@@ -1,19 +1,25 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!DOCTYPE Trans SYSTEM "trans-14.dtd">
-<Trans scribe="myl" audio_filename="know" version="1" version_date="990830">
+<Trans scribe="myl" audio_filename="know" version="2" version_date="050908">
 <Speakers>
 <Speaker id="spk1" name="speaker#1" check="no" dialect="native" accent="" scope="local"/>
 <Speaker id="spk2" name="speaker#2" check="no" dialect="native" accent="" scope="local"/>
 </Speakers>
 <Episode>
 <Section type="report" startTime="0" endTime="24.026">
-<Turn startTime="0" endTime="0.258" speaker="spk2">
+<Turn startTime="0" endTime="0.258">
 <Sync time="0"/>
-((Yeah)).
+
+<Event desc="b" type="noise" extent="instantaneous"/>
+
 </Turn>
 <Turn speaker="spk1" mode="spontaneous" startTime="0.258" endTime="2.41">
 <Sync time="0.258"/>
-{inhale} He's hilarious. {laugh}
+
+<Event desc="i" type="noise" extent="instantaneous"/>
+ He's hilarious. 
+<Event desc="laugh" type="noise" extent="instantaneous"/>
+
 </Turn>
 <Turn speaker="spk2" mode="spontaneous" startTime="2.41" endTime="3.055" channel="telephone">
 <Sync time="2.41"/>
@@ -22,43 +28,60 @@ He's great.
 <Turn speaker="spk1 spk2" mode="spontaneous" startTime="3.055" endTime="4.77">
 <Sync time="3.055"/>
 <Who nb="1"/>
-{inhale} He's really a trip.
+
+<Event desc="i" type="noise" extent="instantaneous"/>
+ He's really a trip.
 <Who nb="2"/>
 I know. But it really shows you,
 </Turn>
-<Turn speaker="spk2" mode="spontaneous" startTime="4.77" endTime="9.202">
+<Turn speaker="spk2" mode="spontaneous" startTime="4.77" endTime="8.833">
 <Sync time="4.77"/>
 I mean, you know, you really don't have to put up with the Anthony's of the world.
 </Turn>
-<Turn speaker="spk1" mode="spontaneous" startTime="9.202" endTime="12.806">
-<Sync time="9.202"/>
-((I-)) You know what, Ann, it's like, I mean, {exhale}
+<Turn mode="spontaneous" startTime="8.833" endTime="9.665">
+<Sync time="8.833"/>
+
+<Event desc="shh" type="noise" extent="instantaneous"/>
+
+</Turn>
+<Turn speaker="spk1" startTime="9.665" endTime="12.806">
+<Sync time="9.665"/>
+I You know what, Ann, it's like, I mean, 
+<Event desc="e" type="noise" extent="instantaneous"/>
+
 </Turn>
 <Turn speaker="spk1 spk2" mode="spontaneous" startTime="12.806" endTime="16.553">
 <Sync time="12.806"/>
 <Who nb="1"/>
-I just didn't know. You know, everyone tells you "you don't know, you don't know, you don't know."
+I just didn't know. You know, everyone tells you: " you don't know, you don't know, you don't know."
 <Who nb="2"/>
 I know.
 </Turn>
-<Turn speaker="spk1" mode="spontaneous" startTime="16.553" endTime="19.639">
+<Turn speaker="spk1" mode="spontaneous" startTime="16.553" endTime="19.716">
 <Sync time="16.553"/>
-And the thing is, you don't know, so you don't even know that you don't know. {laugh}
+And the thing is, you don't know, so you don't even know that you don't 
+<Event desc="laugh" type="noise" extent="begin"/>
+know
+<Event desc="laugh" type="noise" extent="end"/>
+.
 </Turn>
-<Turn speaker="spk1 spk2" mode="spontaneous" startTime="19.639" endTime="20.026">
-<Sync time="19.639"/>
-<Who nb="1"/>
-{inhale}
-<Who nb="2"/>
-{laugh}
+<Turn mode="spontaneous" startTime="19.716" endTime="20.026">
+<Sync time="19.716"/>
+
+<Event desc="laugh" type="noise" extent="instantaneous"/>
+
 </Turn>
 <Turn speaker="spk1" mode="spontaneous" startTime="20.026" endTime="22.624">
 <Sync time="20.026"/>
-You know what I mean? It's like- {exhale} I don't know. You know, I just-
+You know what I mean ? It's like a 
+<Event desc="i" type="noise" extent="instantaneous"/>
+ I don't know. You know, I just
 </Turn>
-<Turn speaker="spk2" mode="spontaneous" startTime="22.624" endTime="24.026">
+<Turn mode="spontaneous" startTime="22.624" endTime="24.026">
 <Sync time="22.624"/>
-{laugh}
+
+<Event desc="laugh" type="noise" extent="instantaneous"/>
+ 
 </Turn>
 </Section>
 </Episode>
