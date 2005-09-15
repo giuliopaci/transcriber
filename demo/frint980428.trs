@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!DOCTYPE Trans SYSTEM "trans-14.dtd">
-<Trans version="2" version_date="050908" audio_filename="frint980428" scribe="YM" xml:lang="fr">
+<Trans version="3" version_date="050915" audio_filename="frint980428" scribe="YM" xml:lang="fr">
 <Topics>
 <Topic id="to1" desc="les titres"/>
 </Topics>
@@ -9,17 +9,17 @@
 <Speaker id="sp2" name="Patricia Martin" type="female"/>
 </Speakers>
 <Episode program="France Inter" air_date="980428:0700">
-<Section type="filler" startTime="0.000" endTime="4.736">
+<Section type="filler" startTime="0.000" endTime="10.790">
 <Turn speaker="sp1 sp2" startTime="0.000" endTime="0.387">
 <Sync time="0.000"/>
 <Who nb="1"/>
- ouais .
+ouais .
 <Who nb="2"/>
- sûr ?
+sûr ?
 </Turn>
 <Turn speaker="sp1" startTime="0.387" endTime="4.736">
 <Sync time="0.387"/>
- ah bon ? 
+ah bon ? 
 <Event desc="rire"/>
  non . blague , blague de Patricia . 
 <Sync time="3.008"/>
@@ -31,8 +31,6 @@
 <Event desc="rire" type="noise" extent="end"/>
  . 
 </Turn>
-</Section>
-<Section type="nontrans" startTime="4.736" endTime="9.609">
 <Turn startTime="4.736" endTime="9.609">
 <Sync time="4.736"/>
 <Background time="4.736" type="music" level="high"/>
@@ -41,11 +39,9 @@
 
 <Background time="9.609" type="other" level="off"/>
 </Turn>
-</Section>
-<Section type="filler" startTime="9.609" endTime="10.790">
 <Turn speaker="sp2" startTime="9.609" endTime="10.790">
 <Sync time="9.609"/>
- le journal , Simon Tivolle : 
+le journal , Simon Tivolle : 
 </Turn>
 </Section>
 <Section type="report" topic="to1" startTime="10.790" endTime="20.000">
@@ -64,17 +60,17 @@
 </Turn>
 <Turn speaker="sp1" startTime="12.237" endTime="20.000">
 <Sync time="12.237"/>
- mardi
+mardi
 <Background time="12.663" type="other" level="off"/>
 28 avril . 
 <Sync time="13.644"/>
- la consultation nationale sur les programmes des lycées : 
+la consultation nationale sur les programmes des lycées : 
 <Sync time="16.267"/>
 
 <Event desc="i"/>
  grand débat aujourd'hui et demain à Lyon
 <Sync time="18.521"/>
- pour tirer les enseignements du 
+pour tirer les enseignements du 
 </Turn>
 </Section>
 </Episode>
