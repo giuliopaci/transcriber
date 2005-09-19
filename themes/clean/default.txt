@@ -1,0 +1,56 @@
+# Colors
+color,bg      "#f2e6c8"
+color,bg-sel  "#ffce50"
+color,fg-sync "black"
+color,bg-sync "#d8f8d8"
+color,hi-sync "#a9ff76"
+color,fg-turn "black"
+color,bg-turn "#b6b8ff"
+color,fg-sect "black"
+color,bg-sect "#ffa8d3"
+color,fg-back "black"
+color,bg-back "#d8d8d8"
+color,fg-text "black"
+color,bg-text "#ffffff"
+color,hi-text "#f0f0f0"
+color,fg-evnt "#404cff"
+color,bg-evnt "#ffffff"
+color,bg-explorer "white"
+colorizeSpk   0
+color,netag-pers blue
+color,netag-org red
+color,netag-gsp orange
+color,netag-loc "#0007ff3ff"
+color,netag-fac brown
+color,netag-prod salmon
+color,netag-time "#000f0ffff" 
+color,netag-amount purple
+color,netag-meto grey
+color,netag-unk grey
+color,netag-user grey
+checkNEcolor,tag  1
+checkNEcolor,text 1
+checkNEcolor,buton 1
+
+# Fonts
+font,menu {helvetica 10}
+font,text {fixed 15}
+font,info {helvetica 15}
+font,mesg {helvetica 9}
+font,trans {helvetica 13}
+font,namEnt {helvetica 9}
+font,turn {fixed 15}
+font,section {fixed 15}
+
+font,text    {courier 12}
+font,event   {courier 12 italic}
+font,axis    {courier 10}
+font,list    {courier 12 bold}
+font,info    {helvetica 10 bold}
+font,mesg    {helvetica 10}
+font,trans   {helvetica 10}
+font,namEnt		{arial 10}
+font,turn {courier 12}
+font,section {courier 12}
+font,explorer {helvetica 8}
+
