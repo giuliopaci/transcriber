@@ -8,7 +8,8 @@ proc MW_AddMenuEntry {basename} {
   global v
 
   foreach wavfm $v(wavfm,list) {
-    set menu [$v($wavfm,menu) entrycget [Local "Audio file"] -menu]
+      set sndframe $v(frame_name,[winfo parent [winfo parent $wavfm]])
+    set menu [$v(frame_menu,$sndframe) entrycget [Local "Audio file"] -menu]
     $menu add radio -label $basename -variable v(multiwav,file) -command MW_Switch
   }
   eval_menu "Synchronized audio files" add radio -label $basename -variable v(multiwav,file) -command MW_Switch
@@ -18,7 +19,8 @@ proc MW_RemoveMenuEntry {{index "all"}} {
   global v
 
   foreach wavfm $v(wavfm,list) {
-    set menu [$v($wavfm,menu) entrycget [Local "Audio file"] -menu]
+      set sndframe $v(frame_name,[winfo parent [winfo parent $wavfm]])
+    set menu [$v(frame_menu,$sndframe) entrycget [Local "Audio file"] -menu]
     if {$index == "all"} {
       $menu delete 3 end
       $menu add separator

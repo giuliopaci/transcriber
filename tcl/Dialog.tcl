@@ -196,31 +196,37 @@ proc MenuEntryFrame {w title varName list} {
    return $e
 }
 
-proc MenuFrame {w title varName list {list2 {}}} {
+proc MenuFrame  {w title varName list {list2 {}}} {
    frame $w
    label $w.lab -text "[Local $title]:"
-   menubutton $w.b -indicatoron 1 -menu $w.b.menu -relief raised -bd 2 -highlightthickness 2 -anchor c -direction flush -width [maxlength $list]
-   if {$list2 == {}} {
-      $w.b configure -textvariable $varName
-   } else {
-      upvar \#0 $varName var
-      $w.b configure -text $var
-   }
-   menu $w.b.menu -tearoff 0
-   foreach txt $list val $list2 {
-      if {$list2 == {}} {
-	 $w.b.menu add radiobutton -label $txt -variable $varName
-      } else {
-	 set txt [Local $txt]
-	 if {$var == $val} {
-	    $w.b conf -text $txt
-	 }
-	 $w.b.menu add radiobutton -label $txt -value $val -variable $varName -command [list $w.b conf -text $txt]
-      }
-   }
+   MenuButton $w.b  $varName $list $list2
    pack $w.lab $w.b -side left -padx 3m -pady 2m
    pack $w -fill x -expand true
 }
+
+proc MenuButton  {w varName list {list2 {}}} {
+   menubutton $w -indicatoron 1 -menu $w.menu -relief raised -bd 2 -highlightthickness 2 -anchor c -direction flush -width [maxlength $list]
+   if {$list2 == {}} {
+      $w configure -textvariable $varName
+   } else {
+      upvar \#0 $varName var
+      $w configure -text $var
+   }
+   menu $w.menu -tearoff 0
+   foreach txt $list val $list2 {
+      if {$list2 == {}} {
+	 $w.menu add radiobutton -label $txt -variable $varName
+      } else {
+	 set txt [Local $txt]
+	 if {$var == $val} {
+	    $w conf -text $txt
+	 }
+	 $w.menu add radiobutton -label $txt -value $val -variable $varName -command [list $w conf -text $txt]
+      }
+   }
+}
+
+
 
 proc RadioFrame {w title varName list {list2 ""}} {
    if {$list2 == ""} {set list2 $list}
@@ -479,6 +485,7 @@ proc ChooseFont {font} {
    global v
    global fontsel-family fontsel-size fontsel-weight fontsel-slant fontsel-nam
    
+   
    # Analyse input font
    set fontsel-nam $font
    set init-conf [font actual $font] 
@@ -496,22 +503,19 @@ proc ChooseFont {font} {
    # Current font
    set h [frame $g.fnt]
    pack $h -side top
-   label $h.lab -text "Current font: $v(font,$font)" -relief raised
+   label $h.lab -text "Current font for $font : $v(font,$font)" 
    pack $h.lab -side top -padx 3m -pady 3m 
    
    # Family menu button
 
    set h [frame $g.fam]
    pack $h -side top
-   label $h.lab -text "Family:"
-
-   pack $h.lab -side top -padx 3m -pady 3m
 
    set lst [ListFrame $h.lst [lsort [font families]]]
 
-   $h.lst conf -height 8 -width [maxlength [font families]]
+    $h.lst.lst conf -height 5 -width [maxlength [font families]] 
    bind $lst <ButtonRelease-1>  { set fontsel-family [%W get [%W curselection]]}
-   pack $h.lab $h.lst -side left -padx 3m -pady 3m
+   pack  $h.lst -side left -padx 3 -pady 3 -expand true
    
    # Size menu / entry
    set h [frame $g.siz]
@@ -525,8 +529,7 @@ proc ChooseFont {font} {
    pack $h.b $h.ent -side left -padx 3m -pady 3m
 
    # Bold/Italic checkboxes
-   set h [frame $g.opt]
-   pack $h -side top
+
    checkbutton $h.wgh -text "Bold" -variable fontsel-weight -onvalue "bold" -offvalue "normal" -anchor w -padx 3m
    checkbutton $h.sln -text "Italic" -variable fontsel-slant  -onvalue "italic" -offvalue "roman" -anchor w -padx 3m
    pack $h.wgh $h.sln -expand true -fill x -side left
@@ -644,11 +647,6 @@ proc UpdateInterfaceFont {fontVal fontName} {
 
    global v
    
-   # Update Named Entities font
-   if {$fontName == "namEnt"} {
-	    UpdateNEFont $fontVal
-    }
-
    # Update fonts that can be updated with configure
     if {$fontName=="mesg" || $fontName=="info" || $fontName=="list"} {
 	set tmp [ GetConfFont $fontVal slant] 
@@ -704,30 +702,17 @@ proc UpdateInterfaceFont {fontVal fontName} {
 	 }
       }
    
-    }
-}
+   }
 
-proc UpdateNEFont {fontNE} {
+   # Update Named Entities font
+   if {$fontName == "namEnt"} {
+       set v(font,namEnt) $fontVal
+       UpdateNEFrame
+   }
 
-    # JOB: Change the font of the named entities to fontNE
-    #
-    # IN:
-    #    fontNE : New named entity font - ex: Tahoma 10 {bold italic}
-    #
-    # OUT: nothing
-    # MODIFY: nothing
-    #
-    # Author: Mathieu MANTA
-    # Version: 1.0
-    # Date: March 1st, 2005
-
-    global v
-
-    set t $v(tk,edit)-bis
-
-    foreach macro "$v(listNE,macroclass) meto" {
-	foreach part {"tag" "text"} {
-		$t tag conf NE$macro$part -font $fontNE
-	}
-    }
+   # Update Explorer font
+   if {$fontName == "explorer"} {
+       set v(font,explorer) $fontVal
+       UpdateExplorer 0 "" "" ""
+   }
 }

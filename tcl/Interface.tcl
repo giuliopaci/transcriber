@@ -25,13 +25,16 @@ proc LoadImages {} {
 #       set photo [image create photo ${name}Img]
 #       $photo read [file join $v(path,image) $name.gif]
 #    }
-   foreach {name} { play pause forward backward circle circle2 over1 over2 music musicl musicr next previous} {
+   foreach {name} { } {
       set v(img,$name) [image create bitmap -file [file join $v(path,image) $name.bmp]]
    }
-   $v(img,circle) conf -foreground $v(color,bg-sync)
-   $v(img,circle2) conf -foreground $v(color,bg-sync)
-   $v(img,over1) conf -foreground $v(color,bg-sync)
-   $v(img,over2) conf -foreground $v(color,bg-sync)
+    foreach {name} { info pause forward backward circle circle2 over1 over2 music musicl musicr next previous play transfile wavfile folder updir close folder_green empty textfile } {
+      set v(img,$name) [image create photo -file [file join $v(path,image) $name.gif]]
+   }
+#   $v(img,circle) conf -foreground $v(color,bg-sync)
+#   $v(img,circle2) conf -foreground $v(color,bg-sync)
+#   $v(img,over1) conf -foreground $v(color,bg-sync)
+#   $v(img,over2) conf -foreground $v(color,bg-sync)
 }
 
 # Create configurable named fonts for later use
@@ -47,6 +50,149 @@ proc CreateFonts {} {
 
 #######################################################################
 
+
+proc ConfigureCanvas {} {
+    global v
+
+    foreach var [array names v "frame*,*" ] {
+	if [regexp "type|content|before|after|container|pos|frame," $var] {
+	    unset v($var)
+	}
+    }
+
+    if {![info exists v(canvas,type)]} {
+	set v(canvas,type) canvas1
+    }
+    
+    switch $v(canvas,type) {
+	"canvas1" {
+	    # first global canvas :
+	    #___________________________________
+	    #           |notebooked      | video |
+	    # database  |      text      |_______|
+	    # explorer  |                |       |
+	    #           |                |annot. |
+	    #           |----------------|toolbox|
+	    #           |      media     |       |
+	    #           |    navigator   |       |
+	    #___________|________________|_______|
+	    #
+	    # 
+	    set v(frame_type,main) {paned horizontal autoresize}
+	    set v(frame_content,main) {database central toolbox}
+	    set v(frame_type,database) {paned horizontal}
+	    set v(frame_content,database) {explorer}
+	    set v(frame_type,central) { frame vertical stretch}
+	    set v(frame_content,central) {text  navigator}
+	    set v(frame_type,navigator) { frame vertical -fill x } 
+	    set v(frame_type,snd) {  -fill x }
+	    set v(frame_type,snd2) {  -fill x }
+	    
+	    set v(frame_content,navigator) { cmd gain snd snd2 msg}
+	    set v(frame_type,toolbox) {frame vertical}
+	    set v(frame_content,toolbox) {video attributes ne }
+	    set v(frame_content,attributes) {background episode event turn}
+	    set v(frame_type,ne) { -fill y }
+	    set v(frame_type,msg) {  -fill x }
+	    set v(frame_type,text) {  -expand true -fill both -side top     }
+	}
+	"canvas2" {
+	    # second global canvas :
+	    #___________________________________
+	    #           |     video      |       |
+	    # database  |                |       |
+	    # explorer  |----------------|       |
+	    #           |     text       |annot. |
+	    #           |----------------|toolbox|
+	    #           |      media     |       |
+	    #           |    navigator   |       |
+	    #___________|________________|_______|
+	    #
+	    # 
+	    set v(frame_type,main) {paned horizontal autoresize}
+	    set v(frame_content,main) {database central toolbox}
+	    set v(frame_type,database) {paned horizontal}
+	    set v(frame_content,database) {explorer}
+	    set v(frame_type,central) { frame vertical stretch}
+	    set v(frame_content,central) {video text  navigator}
+	    set v(frame_type,navigator) { frame vertical -fill x } 
+	    set v(frame_type,snd) {  -fill x }
+	    set v(frame_type,snd2) {  -fill x }
+	    
+	    set v(frame_content,navigator) { cmd gain snd snd2 msg}
+	    set v(frame_type,toolbox) {paned vertical}
+	    set v(frame_content,toolbox) { attributes ne }
+	    set v(frame_content,attributes) {background episode event turn}
+	    set v(frame_type,msg) {  -fill x }
+	    set v(frame_type,text) {  -expand true -fill both -side top     }	    
+	}
+	"canvas3" {
+	    # third global canvas :
+	    #__________________________________
+	    #         |notebooked     |       |
+	    # database|     video     |annot. |
+	    # explorer|               |toolbox|
+	    #         |---------------|       |
+	    #         |     text      |       |
+	    #---------------------------------|
+	    #               media             |
+	    #             navigator           |
+	    #_________________________________|
+	    #
+	    #
+	    set v(frame_type,main) {frame vertical}
+	    set v(frame_content,main) {top navigator}
+	    set v(frame_type,top) {paned horizontal autoresize   -expand true -fill both -side top  }
+	    set v(frame_content,top) {database central toolbox}
+	    set v(frame_type,database) {paned horizontal}
+	    set v(frame_content,database) {explorer}
+	    set v(frame_type,central) { frame vertical stretch}
+	    set v(frame_content,central) {video text}
+	    set v(frame_type,navigator) { frame vertical -fill both  } 
+	    set v(frame_type,snd) {  -fill both }
+	    set v(frame_type,snd2) {  -fill both }
+	    
+	    set v(frame_content,navigator) { cmd gain snd snd2 msg}
+	    set v(frame_type,toolbox) {paned vertical}
+	    set v(frame_content,toolbox) { attributes ne }
+	    set v(frame_content,attributes) {background episode event turn}
+	    set v(frame_type,msg) {  -fill both }
+	    set v(frame_type,text) {  -expand true -fill both -side top     }
+	}
+    }
+}
+
+proc ChangeCanvas {canvas} {
+    global v
+    DestroyFrame main
+    set v(canvas,type) $canvas
+    set oldsnd $v(frame,snd)
+    set oldsnd2 $v(frame,snd2)
+    ConfigureCanvas
+    set v(wavfm,list) {}
+
+    CreateFrame main
+
+    foreach pattern [list  "$oldsnd,*" "$oldsnd.*" "*,$oldsnd" "*,$oldsnd.*"] {
+	foreach varname [array names v $pattern] {
+	    set tmp [regsub "$oldsnd" $varname "$v(frame,snd)"]
+	    set content [regsub "$oldsnd" $v($varname) "$v(frame,snd)"]
+	    unset v($varname)
+	}
+    }
+
+    tk_messageBox -message "[Local "Warning, it's recommanded you restart Transcriber now ! Please save your work and your configuration !"]" -type ok -icon error;
+	
+    ReadTrans $v(trans,name)
+    foreach wavfm $v(wavfm,list) {
+	ConfigWavfm $wavfm
+    }
+    CreateAllSegmentWidgets
+    SetCursor [GetCursor]
+
+}
+
+
 proc CreateWidgets {} {
 
     # JOB: create all the widgets of the interface
@@ -61,20 +207,11 @@ proc CreateWidgets {} {
 
     global v
 
-    catch {destroy .edit .cmd .snd .snd2 .gain .msg}
-    CreateTextFrame .edit
-    CreateCommandFrame .cmd
- 
-    if {!$v(view,.edit)} {
-	pack configure .snd -expand true
-    }
 
-    #CreateGainFrame .gain
-    
-    set v(tk,wavfm) [CreateSoundFrame .snd]
-    CreateSoundFrame .snd2
-    CreateNEFrame .edit.ne
-    CreateMessageFrame .msg
+    ConfigureCanvas 
+
+    CreateFrame main
+
     if {$v(geom,.) != ""} {
 	wm geom . $v(geom,.)
     } else {
@@ -87,175 +224,538 @@ proc CreateWidgets {} {
 }
 
 ########################################################
-
-proc CreateNEFrame {f} {
-
-    # JOB: create the NE interface in the text widget for esay creation of entities events
+proc PrevShowedFrame {f} {
+    # JOB: returns the frame before f
     #
-    # IN: f, name of the window created
-    # OUT: nothing
-    # MODIFY: nothing
+    # IN: f, the name of the frame
+    # USES: v(frame_before,$f) and so on 
+    # OUT: the frame before f
     #
-    # Author: Sylvain Galliano
-    # Version: 1.0
-    # Date: October 20, 2004
-
+    # Author: Fabien Antoine
+    # Version : 1
+    # Date: June 28, 2005    
     global v
-
-    # set the list Named Entities (NE) by macroclass
-    set v(listNE,macroclass) {"pers" "org" "gsp" "loc" "fac" "prod" "time" "amount" "meto" "unk" "user"}
-
-    if {[winfo exists $f]} {DestroyNEFrame $f}
-
-    # make dynamicaly the different list of macroclass by taking the list of all the entities in the configuartion file if exists else in the default.txt
-    foreach ent $v(entities) {
-	set name [lindex $ent 0]
-	# the metonymy entities are detected by the presence of the "/" character in the name
-	if { [regexp "/" $name] } {
-	    lappend v(listNE,meto) $name
-	    continue
+    if [info exists v(frame_before,$f)] {
+	if {[winfo exists $v(frame,$v(frame_before,$f))] && [winfo ismapped $v(frame,$v(frame_before,$f))]} {
+	    return $v(frame_before,$f)
 	} else {
-	    set find 0
-	    foreach macro $v(listNE,macroclass) {
-		if { [regexp "^$macro" $name] } {
-		    lappend v(listNE,$macro) $name
-		    set find 1
-		    break
-		} 
-	    }
-	    # if the entity doesn't match any macroclass, add it to user entities class 
-	    if { $find == 0 } {
-		lappend v(listNE,user) $name
-	    }
+	    return [PrevShowedFrame $v(frame_before,$f)]
 	}
-    }
-    if { ![info exists v(listNE,user)] } {
-	set v(listNE,user) ""
-    }
-
-   set v(listNE,all) [concat "$v(listNE,pers)" "$v(listNE,org)"  "$v(listNE,gsp)" "$v(listNE,loc)" "$v(listNE,fac)" "$v(listNE,prod)" "$v(listNE,time)" "$v(listNE,amount)" "$v(listNE,meto)" "$v(listNE,user)"]
-
-    frame $f -bd 1 -relief raised
-    set row 0
-    set column 0
- 
-    # create the interface with buttons
-    foreach macro $v(listNE,macroclass) {
-	frame $f.$macro
-	foreach micro $v(listNE,$macro) {
-	    regsub -all {\.} $micro "" name
-	    if { $v(checkNEcolor,buton) == 1 } {
-		button $f.$macro.$name -text $micro -font $v(font,namEnt) -bg $v(color,netag-$macro) -pady 0 -width [maxlength $v(listNE,all)] -command "CreateAutoEvent $micro entities"
-	    } else {
-		button $f.$macro.$name -text $micro -font $v(font,namEnt) -pady 0 -width [maxlength $v(listNE,all)] -command "CreateAutoEvent $micro entities"
-	    }
-	    pack $f.$macro.$name -ipadx 2
-	}
-	grid $f.$macro -row $row -column $column -padx 2 -pady 6 -sticky n
-	incr column
-	# control the number of column
-	if {$column>2} {
-	    set column 0
-	    incr row 
-	}
-	unset v(listNE,$macro)
-    } 
-
-    set g [frame $f.auto -borderwidth 5 -relief raised]
-
-    label $g.label -text [Local Automatic] 
-    grid $g.label -row 1 -column 0
-
-    entry $g.entry -textvariable v(findNE,what) 
-    grid $g.entry -row 1 -column 1
-    set h [frame $g.radio -relief raised]
-    set i [frame $h.left]
-    set j [frame $h.right]
-    label $i.label -text "Mode:"
-    grid $i.label -row 0 -column 2 -padx 10
-    radiobutton $j.radioadd -text [Local Add] -variable v(autoNE) -value Add
-    grid $j.radioadd -sticky w 
-    radiobutton $j.radiosup -text [Local Suppress] -variable v(autoNE) -value Suppress
-    grid $j.radiosup -sticky w 
-    grid $i -row 1 -column 2
-    grid $j -row 1 -column 3
-    grid $h -row 1 -column 2 -columnspan 2
-    grid $g  -pady 10 -row [expr $row+2] -column 0 -columnspan 3
-
-    if {$v(view,$f)} {
-	pack $f -fill both -expand true
-    }
-}
-
-proc DestroyNEFrame {f} {
-
-    # JOB: destroy the NE interface
-    #
-    # IN: f, name of the NE window to destroy
-    # OUT: nothing
-    # MODIFY: nothing
-    #
-    # Author: Sylvain Galliano
-    # Version: 1.0
-    # Date: October 20, 2004
-
-
-    global v
-
-    catch {destroy $f}
-    set v(view,$f) 0
-}
-
-proc UpdateNEFrame {f} {
-
-    # JOB: update the NE interface
-    #
-    # IN: f, name of the NE window
-    # OUT: nothing
-    # MODIFY: nothing
-    #
-    # Author: Sylvain Galliano
-    # Version: 1.0
-    # Date: October 20, 2004
-
-
-    global v
- 
-    set oldview $v(view,$f)
-    DestroyNEFrame $f
-    set v(view,$f) $oldview
-    CreateNEFrame $f
-}
-
-proc SwitchNEFrame {f} {
-
-    # JOB: switch the display of the NE interface
-    #
-    # IN: f, name of the NE window
-    # OUT: nothing
-    # MODIFY: nothing
-    #
-    # Author: Sylvain Galliano
-    # Version: 1.0
-    # Date: October 20, 2004
-
-
-    global v
- 
-    if {![winfo exists $f]} {
-	CreateNEFrame .edit.ne
-    } elseif {[winfo ismapped $f]} {
-	pack forget $f
     } else {
-	pack $f -fill y -side right
+	return ""
     }
 }
+
+proc NextShowedFrame {f} {
+    # JOB: returns the frame after f
+    #
+    # IN: f, the name of the created frame
+    # USES: v(frame_after,$f) and so on 
+    # OUT: the frame after f
+    #
+    # Author: Fabien Antoine
+    # Version : 1
+    # Date: June 28, 2005    
+    global v
+    if [info exists v(frame_after,$f)] {
+	if {[winfo exists $v(frame,$v(frame_after,$f))] && [winfo ismapped $v(frame,$v(frame_after,$f))]} { 
+	    return $v(frame_after,$f)
+	} else {
+	    return [NextShowedFrame $v(frame_after,$f)]
+	}
+    } else {
+	return ""
+    }
+}
+
+
+proc CreateFrame {f} {
+    # JOB: create a frame in the interface
+    #
+    # IN: f, the name of the created frame
+    # USES: v(container,$f) scheme for the interface
+    # OUT: nothing
+    #
+    # Author: Fabien Antoine
+    # Version : alpha0
+    # Date: June 16, 2005
+
+    global v
+    set v(frame_creation,$f) 1
+
+    #path of the frame
+    if {[info exists v(frame_container,$f)]} {
+	set v(frame,$f) $v(frame,$v(frame_container,$f)).$f
+	set v(frame_name,$v(frame,$f)) $f
+    } else {
+	set v(frame,$f) .$f
+	set v(frame_name,$v(frame,$f)) $f
+    }
+    
+
+    #type and childs of the input frame    
+    if {[info exists v(frame_type,$f)]} {
+	set type   $v(frame_type,$f) 
+	set opts [lsearch -all -inline -regexp -not $type "pane.*|vert.*|hor.*|autoresize.*|stretch|notebook.*"]
+    } else {
+	set type ""
+	set opts ""
+    }
+
+    if {[info exists v(frame_content,$f)]} {
+	set childs $v(frame_content,$f)
+	set before ""
+	foreach child $childs {
+	    if {$before != ""} {
+		set v(frame_before,$child) $before
+		set v(frame_after,$before) $child
+	    }
+	    set v(frame,$child) $v(frame,$f).$child
+	    set v(frame_container,$child) $f
+	    set before $child
+	}
+    } else {
+	set childs {}
+    }
+
+
+    if {[winfo exists $v(frame,$f)]} {DestroyFrame $f}
+
+    # type-dependent frame creation
+    if {[lsearch $type "pane*"] >=0} {
+	# panedwindow type (available since tcl-tk 8.4)
+	set orient horizontal
+	if {[lsearch $type "vert*"] >= 0} {
+	    set orient vertical
+	}      
+	switch $orient {
+	    horizontal { set LEN width ; set index 0}
+	    vertical { set LEN height ; set index 1}
+	}
+	panedwindow $v(frame,$f) -orient $orient -showhandle 0 
+    } elseif {[lsearch $type "notebook*"] >=0} {
+	#notebooked type
+	package require BWidget
+	NoteBook $v(frame,$f) 
+    } else {
+	#default simple frame type
+	frame $v(frame,$f)
+    }    
+
+    if ([info exists v(frame_container,$f)]) {
+	if [info exists v(frame_type,$v(frame_container,$f))] {
+	    set container_type $v(frame_type,$v(frame_container,$f))
+	    if {[lsearch $container_type "notebook*"] >=0} {
+		set $v(frame,$f) $v(frame,$v(frame_container,$f)).pane$f.$f
+		eval $v(frame,$v(frame_container,$f)) insert 0 pane$f 
+	    }
+	}
+    }
+    
+    #specific frame creation procedures
+    # if frame type is among "text", "snd", "msg", "ne", "explorer" or "cmd", then use 
+    # specific proc to create the frame
+	if {[regexp "text" $f]} {
+	    CreateTextFrame $v(frame,$f)
+	} elseif {[regexp "snd*" $f]} {
+	    CreateSoundFrame $f
+	} elseif {[regexp "msg" $f]} {
+	    CreateMessageFrame $v(frame,msg)
+	} elseif {[regexp "ne" $f]} {
+	    CreateNEFrame $f
+	} elseif {[regexp "cmd" $f]} {
+	    CreateCommandFrame $v(frame,cmd)
+	} elseif {[regexp "explorer" $f]} {
+	    CreateBrowserFrame $f
+	}
+
+    set viewable_childs 0
+    foreach child $childs {
+	# recursively create child frames
+
+	if $v(frame_view,$child) {
+	    incr viewable_childs
+	}
+	CreateFrame $child
+	if {[lsearch $type "autoresize"] >=0} {
+	    bind $v(frame,$child) <Configure> [list RememberPanesSize $f]
+	}
+
+    }
+    
+    if {[lsearch $type "pane*"] >=0} {
+	if {[lsearch $type "autoresize"] >=0} {
+	    if {$viewable_childs != 0} {
+		ResizePanedFrame $f
+	    }
+	    bind $v(frame,$f) <Configure> [list ResizePanedFrame $f]
+	}
+    }
+    #place the frame in its context
+    PlaceFrame $f
+    set v(frame_creation,$f) 0
+}
+
+proc PlaceFrame {f} {
+    # JOB: place the frame in its context
+    #
+    # IN: f, name of the main window to insert
+    # OUT: nothing
+    # MODIFY: nothing
+    #
+    # Author: Fabien Antoine
+    # Version: 0.1
+    # Date: May 13, 2005
+
+    global v
+
+    if {$v(frame_view,$f)} {
+	if {[info exists v(frame_type,$f)]} {
+	    set type   $v(frame_type,$f) 
+	    set opts [join [lsearch -all -inline -regexp -not $type "pane.*|frame.*|vert.*|hor.*|stretch|autoresize.*|notebook.*"]]
+	    set index [lsearch $opts "-req*"]
+	    if {$index >= 0} {
+		set rindex $index
+		incr rindex
+		set opts [lreplace $opts $index $rindex]
+	    }
+	} else {
+	    set type ""
+	    set opts ""
+	}
+
+	set prev_frame [PrevShowedFrame $f] 
+	set next_frame [NextShowedFrame $f] 
+	if {$prev_frame != ""} {
+	    lappend opts -after $v(frame,$prev_frame)
+	} elseif {$next_frame != ""}  {
+	    lappend opts -before $v(frame,$next_frame)
+	} 
+
+	
+	if ([info exists v(frame_container,$f)]) {
+	    if [info exists v(frame_type,$v(frame_container,$f))] {
+		set container_type $v(frame_type,$v(frame_container,$f))
+	    } else {
+		set container_type ""
+	    }
+		if {[lsearch $container_type "pane*"] >=0} {
+		    if {$opts != ""} {
+			$v(frame,$v(frame_container,$f)) add $v(frame,$f) 
+			eval $v(frame,$v(frame_container,$f)) paneconfigure $v(frame,$f) $opts
+		    } else {
+			$v(frame,$v(frame_container,$f)) add $v(frame,$f)
+		    }
+		switch [$v(frame,$v(frame_container,$f)) cget -orient] {
+		    horizontal { set LEN width ; set index 0}
+		    vertical { set LEN height ; set index 1}
+		}		
+	    } elseif {[lsearch $container_type "notebook*"] >=0} {
+		if {$opts != ""} {
+		    eval pack $v(frame,$f) $opts 
+		} else {
+		}
+		eval $v(frame,$v(frame_container,$f)) raise pane$f
+		
+	    } else {
+		if {$opts != ""} {
+		    eval pack $v(frame,$f)  $opts          
+		} else {
+		    eval pack $v(frame,$f)
+		}
+	    } 
+	} else {
+	    if {$opts != ""} {
+		eval pack $v(frame,$f) -fill both -expand true $opts          
+	    } else {
+		eval pack $v(frame,$f) -fill both -expand true 
+	    }
+	}
+	
+	if ([info exists v(frame_container,$f)]) {
+	    if {[winfo ismapped $v(frame,$v(frame_container,$f))] == 0} {
+		if $v(frame_view,$v(frame_container,$f)) {
+		    PlaceFrame $v(frame_container,$f)
+		}
+	    } else {
+		catch {
+		    ResizePanedFrame $v(frame_container,$f) $f
+		}
+	    }
+	}
+    }
+    return
+}
+
+
+proc RememberPanesSize {f} {
+    # JOB: stores sash places for $f
+    #
+    # IN: f, name of the window whom config must be stored
+    # OUT: nothing
+    # MODIFY : v(frame_panes_pos,$f)
+    #
+    # Author: Fabien Antoine
+    # Version: 0.1
+    # Date: July 19, 2005
+
+    global v
+    if [info exists v(frame_type,$f)] {
+	set new_panes_pos {}
+	switch [$v(frame,$f) cget -orient] {
+	    horizontal { set LEN width ; set index 0}
+	    vertical { set LEN height ; set index 1}
+	}
+	if {[lsearch $v(frame_type,$f) "autoresize"] >=0} {
+	    set j 0
+	    set pos 0
+	    foreach pane [$v(frame,$f) panes] {
+		if  { $j < [expr {[llength [$v(frame,$f) panes]]-1}] } {
+		    set new_pos [lindex [$v(frame,$f) sash coord $j] $index]
+		    set v(frame_$LEN,$v(frame_name,$pane)) [expr $new_pos-$pos]
+		    lappend new_panes_pos $new_pos
+		    set pos $new_pos
+
+		}
+		incr j
+	    }
+	    lappend new_panes_pos [winfo $LEN $v(frame,$f)]
+	    set v(frame_panes_pos,$f) $new_panes_pos
+	}
+    }
+}
+
+
+
+
+proc ResizePanedFrame {f {newf ""} } {
+    global v
+    set w $v(frame,$f)
+    if [info exists v(frame_type,$f)] {
+
+	if {[lsearch $v(frame_type,$f) "autoresize"] >=0} {
+	    set len 0
+	    switch [$w cget -orient] {
+		horizontal { set LEN width ; set index 0}
+		vertical { set LEN height ; set index 1}
+	    }
+	    if ![info exists v(frame_panes_pos,$f)] {
+		set v(frame_panes,$f) {}
+		set j 0
+		set indice 0
+		foreach i [$w panes] {
+		    set l 0
+		    if  { $j < [expr {[llength [$w panes]]-1}] } {
+			if [info exists v(frame_$LEN,$v(frame_name,$i))] {
+			    set len $v(frame_$LEN,$v(frame_name,$i))
+			} else {
+			    set len [lindex [$w sash coord $j] $index]
+			}
+		    } else {
+			if [info exists v(frame_$LEN,$v(frame_name,$i))] {
+			    set l $v(frame_$LEN,$v(frame_name,$i))
+			} elseif { [$w panecget $i -$LEN] ne "" } {
+			    set l [$w panecget $i -$LEN]
+			} else {
+			    set l [winfo req$LEN $i]
+			}
+			incr len $l
+			incr indice
+		    }
+		    lappend v(frame_panes_pos,$f) $len
+		    incr j
+		}
+	    } else {
+	    }
+	    if { [llength $v(frame_panes_pos,$f)] >0} { 
+		set len [lindex $v(frame_panes_pos,$f) [expr {[llength $v(frame_panes_pos,$f)]-1}]]
+	    } else {
+		set len [winfo $LEN $w]
+	    }
+	    set delta [expr {[winfo $LEN $w]-$len}]
+	    set delta2 0
+
+	    set spad [$w cget -sashpad]
+	    set swidth [$w cget -sashwidth]
+	    set tlen 0
+	    set len 0
+	    set j 0
+	    set norm 0
+	    set panes [$w panes]
+	    set npanes [llength $panes]
+	    if {$newf != ""} {
+		if {[info exists v(frame_$LEN,$newf)] && ([lsearch $v(frame_content,$f) $newf] > 0)} {
+		    incr delta -$v(frame_$LEN,$newf)
+		} else {
+#		    set delta2 [winfo $LEN $v(frame,$newf)]
+		}
+	    }
+	    #number of panes to be resized
+	    set rpanes 0
+	    if {($delta != 0) && [info exists v(frame_content,$f)]} {
+		foreach child $v(frame_content,$f) {
+		    if {$v(frame_view,$child)} {
+			if [info exists v(frame_type,$child)] {
+			    if {[lsearch $v(frame_type,$child) "stretch"] >= 0} {
+				incr rpanes
+			    }
+			}
+		    }
+		}
+	
+		if {$rpanes == 0} {
+		    set rpanes 1
+		}
+		set i 0
+		set j 0
+		set k 0
+		set len [winfo $LEN $w]
+		set sashplace 0
+		set new_panes_pos {}
+		foreach child $v(frame_content,$f) {
+		    set l 0
+		    if $v(frame_view,$child) {
+			set i [lsearch $panes $v(frame,$child)]
+			set pane [lindex [$w panes] $i]
+			if {$child != $newf} {
+			    set l [lindex $v(frame_panes_pos,$f) [expr {$i-$k}]]
+			} else {
+			    incr l $delta2
+			}
+			if [info exists v(frame_type,$child)] {
+			    if {[lsearch $v(frame_type,$child) "stretch"] >= 0} {
+				incr j
+			    } 
+			    set l [expr {$k*$delta2+$l+int($delta*$j*1.0/$rpanes+.5)}]
+			}
+			set tlen $l
+			if { $i < [llength [$w panes]]-1 } {
+			    $w sash place $i $tlen $tlen
+			}
+			lappend new_panes_pos $tlen
+			if {$child == $newf} {
+			    set k 1
+			}
+		    }
+		}
+		set v(frame_panes_pos,$f) $new_panes_pos
+	    }
+	}
+    }
+}
+	    
+
+proc ReqFramewidth {f} {
+	global v
+	set res 0
+	if [info exists v(frame_type,$f)] {
+	    set index [lsearch $v(frame_type,$f) "-reqwidth"]
+	    if {$index >= 0} {
+		incr index
+		set res [lindex $v(frame_type,$f) $index]
+	    }
+	} 
+	if {$res == 0} {
+	    if {[info exists v(frame_content,$f)]} {
+		foreach child $v(frame_content,$f) {
+		    if {$v(frame_view,$child)} {
+		        incr res [ReqFramewidth $child]
+		    }
+		}
+	    } 
+	}
+	return $res
+}
+
+proc ReqFrameheight {f} {
+	global v
+	set res 0
+	if [info exists v(frame_type,$f)] {
+	    set index [lsearch $v(frame_type,$f) "-reqheight"]
+	    if {$index >= 0} {
+		incr index
+		set res [lindex $v(frame_type,$f) $index]
+	    }
+	} 
+	if {$res == 0} {
+	    if {[info exists v(frame_content,$f)]} {
+		foreach child $v(frame_content,$f) {
+		    if {$v(frame_view,$child)} {
+		        incr res [ReqFramewidth $child]
+		    }
+		}
+	    } 
+	}
+	return $res
+}
+
+
+proc DestroyFrame {f} {
+
+    # JOB: destroy a frame
+    #
+    # IN: f, name of the main window to destroy
+    # OUT: nothing
+    # MODIFY: nothing
+    #
+    # Author: Fabien Antoine
+    # Version: 0.1
+    # Date: May 13, 2005
+
+    global v
+    if [info exists v(frame,$f)] {
+	catch {
+	    destroy $v(frame,$f)
+	}
+    }
+}
+
+proc HideFrame {f} {
+    global v
+    set v(frame_view,$f) 0
+    if [info exists v(frame,$f)] {
+	set parent [winfo parent $v(frame,$f)]
+	if ([info exists v(frame_container,$f)]) {
+	    set container_type $v(frame_type,$v(frame_container,$f))
+	    if {[lsearch $container_type "paned"] >=0} {
+		set i [lsearch [$v(frame,$v(frame_container,$f)) panes] $v(frame,$f)]
+		$v(frame,$v(frame_container,$f)) forget $v(frame,$f)
+	    } else {
+		pack forget $v(frame,$f)
+	    } 
+	} else {
+	    pack forget $v(frame,$f)   
+	}
+	set parent_viewable 0
+	foreach brother [winfo children $parent] {
+	    if [winfo ismapped $brother] {
+		set parent_viewable 1
+	    }
+	}
+	catch {
+	    set new_panes_pos {}
+	    set old_panes_pos $v(frame_panes_pos,$v(frame_container,$f))
+	    for {set j 0} {$j < $i} {incr j} {
+		lappend new_panes_pos [lindex $old_panes_pos $j]
+	    }
+	    for {incr j} {$j < [llength $old_panes_pos]} { incr j } {
+		lappend new_panes_pos [expr {[lindex $old_panes_pos $j]-[lindex $old_panes_pos $i]}]
+	    }
+	    set v(frame_panes_pos,$v(frame_container,$f)) $new_panes_pos
+	    ResizePanedFrame $v(frame_container,$f)
+	}
+    }
+}
+
+
+
+
 
 proc CreateCommandFrame {f args} {
    global v
 
    # Commands frame
-   frame $f -bd 1 -relief raised 
+ #  frame $f -bd 1 -relief raised  #cmt by FAE
    set v(tk,play) [button $f.play -command {PlayOrPause}]
    set v(tk,stop) [button $f.pause -command {PlayOrPause} -state disabled]
    button $f.previous -command {MoveNextSegmt -1}
@@ -267,12 +767,15 @@ proc CreateCommandFrame {f args} {
    bind $f.backward <ButtonRelease-1> {EndPlayForward}
    bind $f.forward <ButtonRelease-1> {EndPlayForward}
    foreach but {previous backward pause play forward next} {
-      $f.$but conf -image $v(img,$but) -width 16 -height 16
+      $f.$but conf -image $v(img,$but) -borderwidth 0
       pack $f.$but -side left -padx 1 -pady 1
    }
-   $v(img,play) conf -foreground "#70c078"
-   $v(img,pause) conf -foreground "#f08020"
-   button $f.info -command {CreateInfoFrame} -width 16 -height 16 -bitmap info; pack $f.info -side left -padx 10
+#   $v(img,play) conf -foreground "#70c078"
+#   $v(img,pause) conf -foreground "#f08020"
+   button $f.info -command {CreateInfoFrame}  -image $v(img,info) -borderwidth 0
+    pack $f.info -side left -padx 10 
+    scale $f.vol -label [Local "Volume"] -font {fixed 10}    -orient horiz -length 70 -width 8  -variable dial(volume) -command {snack::audio play_gain} -showvalue 0
+    pack $f.vol  -fill x -padx 5 -pady 5 -side right
 
    # if one wishes to have buttons for segment/turn/section creation
    if {0} {
@@ -295,10 +798,8 @@ proc CreateCommandFrame {f args} {
    pack $f.name -side right -fill x -expand true
 
    # Default : display command frame
-   setdef v(view,$f) 1
-   if {$v(view,$f)} {
-      pack $f -fill x
-   }
+   setdef v(frame_view,cmd) 1
+    pack $f -fill x
 }
 
 #######################################################################
@@ -351,7 +852,8 @@ proc CreateInfoFrame {{f .inf}} {
        button $f.close -text [Local "Close"] -command [list wm withdraw $f]
       pack $f.close -side left -expand 1 -padx 3m -pady 2m
    } else {
-      FrontWindow $f
+       destroy $f
+#      FrontWindow $f
    }
    update
    UpdateInfo
@@ -431,28 +933,44 @@ proc AdjustPlaybackSpeed {val} {
    if {$play} {Play}
 }
 
-proc SwitchFrame {f args} {
-   global v
+proc SwitchFrame {frame {args ""}} {
+    # show or hide frame
+    
+    global v
 
-   if {[winfo class $f] == "Toplevel"} {
-      # Always bring to top
-      if {[winfo ismapped $f]} {
-	 wm withdraw $f
-	 set v(view,$f) 0
-      } else {
-	 wm deiconify $f
-	 set v(view,$f) 1
-      }
-   } else {
-      # Switch display/hide
-      if {[winfo ismapped $f]} {
-	 pack forget $f
-	 set v(view,$f) 0
-      } else {
-	 eval pack $f -fill x $args
-	 set v(view,$f) 1
-      }
-   }
+    if {$frame == "menu"} {
+	if {$v(frame_view,m) == 1} {
+	    set v(frame_view,m) 0
+	    . configure -menu .alternate
+	} else {
+	    set v(frame_view,m) 1
+	    . configure -menu .menu
+	}
+	return
+    }
+
+
+    set f $v(frame,$frame)
+    if {[winfo class $f] == "Toplevel"} {
+	# Always bring to top
+	if {[winfo ismapped $f]} {
+	    wm withdraw $f
+	    set v(frame_view,$frame) 0
+	} else {
+	    wm deiconify $f
+	    set v(frame_view,$frame) 1
+	}
+    } else {
+	# Switch display/hide
+	if {[winfo ismapped $f]} {
+	    HideFrame $frame
+	    #pack forget $f
+	    #[winfo parent $f] forget $f
+	} else {
+	    set v(frame_view,$frame) 1
+	    PlaceFrame $frame
+	}
+    }
 }
 
 #######################################################################
@@ -460,12 +978,13 @@ proc SwitchFrame {f args} {
 proc CreateMessageFrame {f} {
    global v
 
-   label $f -font mesg -textvariable v(var,msg) \
+   label $f.label -font mesg -textvariable v(var,msg) \
        -justify left -anchor w -bg $v(color,bg) -padx 10 -relief raised -bd 1
-   if {$v(view,$f)} {
-   pack $f -fill x -side bottom
-   }
-   bind $f <Button-1> EditCursor
+#   if {$v(view,$f)} {
+#       [winfo parent $f] add $f -minsize 0.2i -height 0.2i
+   pack $f.label -fill x -side bottom
+#   }
+   bind $f.label <Button-1> EditCursor
 }
 
 proc DisplayMessage {text} {
@@ -797,7 +1316,7 @@ proc ConfigureColors {} {
     pack $g.enttag -side left -padx 10
     checkbutton $g.enttext -text [Local "Use color for NE text"] -variable v(checkNEcolor,text) -command { UpdateColors }
     pack $g.enttext -side left -padx 10
-    checkbutton $g.entbuton -text [Local "Use color for NE buton"] -variable v(checkNEcolor,buton) -command [list UpdateNEFrame .edit.ne]
+    checkbutton $g.entbuton -text [Local "Use color for NE buton"] -variable v(checkNEcolor,buton) -command {UpdateNEFrame}
     pack $g.entbuton -side left -padx 10
     pack $g -side top -fill x -expand true
 
@@ -848,7 +1367,7 @@ proc UpdateColors {} {
 
    # Update the entities colors in the text and in the NE interface
    UpdateNEColors
-   UpdateNEFrame .edit.ne
+   UpdateNEFrame 
 
    foreach wavfm $v(wavfm,list) {
       set f [winfo parent $wavfm] 
@@ -871,7 +1390,7 @@ proc UpdateColors {} {
       }
       $wavfm config -selectbackground $v(color,bg-sel)
    }
-   .msg config -bg $v(color,bg)
+   $v(frame,msg) config -bg $v(color,bg)
    if [info exists v(tk,edit)] {
       set t $v(tk,edit)-bis
       $t conf -bg $v(color,bg-text) -fg $v(color,fg-text)
@@ -890,37 +1409,10 @@ proc UpdateColors {} {
 	    }
 	 }
       }
-      $v(img,circle) conf -foreground $v(color,bg-sync)
-      $v(img,over1) conf -foreground $v(color,bg-sync)
-      $v(img,over2) conf -foreground $v(color,bg-sync)
+#      $v(img,circle) conf -foreground $v(color,bg-sync)
+#      $v(img,over1) conf -foreground $v(color,bg-sync)
+#      $v(img,over2) conf -foreground $v(color,bg-sync)
    }
-}
-
-proc UpdateNEColors {} {
-
-    # JOB: switch the display of the NE interface
-    #
-    # IN: f, name of the NE window
-    # OUT: nothing
-    # MODIFY: nothing
-    #
-    # Author: Sylvain Galliano
-    # Version: 1.0
-    # Date: October 20, 2004
-
-    global v
-
-    set t $v(tk,edit)-bis
-
-    foreach macro "$v(listNE,macroclass) meto" {
-	foreach part {"tag" "text"} {
-	    if { $v(checkNEcolor,$part) == 1 } {
-		$t tag conf NE$macro$part -foreground  $v(color,netag-$macro)
-	    } else {
-		$t tag conf NE$macro$part -foreground  black
-	    }
-	}
-    }
 }
 
 proc RandomColor {} {

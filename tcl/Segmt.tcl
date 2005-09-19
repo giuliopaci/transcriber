@@ -7,7 +7,7 @@
 
 proc CreateSegmentWidget {wavfm seg name args} {
    global v
-
+    set sndframe $v(frame_name,[winfo parent [winfo parent $wavfm]])
    set f [winfo parent $wavfm].$seg
    if ![winfo exists $f] {
       eval {segmt $f -seg v(trans,$seg) -bd 1 -padx 1m -pady 1 -font trans -bg $v(color,bg) -time ::Synchro::time} $args
@@ -34,10 +34,10 @@ proc CreateSegmentWidget {wavfm seg name args} {
       }
       
       # Contextual menu with B3
-      bind $f <Button-3>  [list tk_popup $v($wavfm,menu) %X %Y]
-      set menu [$v($wavfm,menu) entrycget [Local "Display"] -menu]
+      bind $f <Button-3>  [list tk_popup $v(frame_menu,$sndframe) %X %Y]
+      set menu [$v(frame_menu,$sndframe) entrycget [Local "Display"] -menu]
       add_menu $menu [subst {
-	 {"$name" check v(view,$f) -command {SwitchSegmtView $wavfm}}
+	 {"$name" check v(frame_view,$sndframe.$seg) -command {SwitchSegmtView $wavfm}}
       }]
 
       lappend v($wavfm,seglist) $f
@@ -49,9 +49,20 @@ proc CreateSegmentWidget {wavfm seg name args} {
 
 proc SwitchSegmtView {wavfm} {
    global v
-
+    #
+    # JOB: show/hide segments 
+    #
+    # IN: wavfm, path of the segment
+    # OUT: nothing
+    # MODIFY: v(frame_view,$v(frame_name,$wavfm.*))
+    #
+    # Author: ??, Fabien Antoine
+    # Version: 1.0
+    # Date: Septembre 7, 2005
+    # 
+    set sndframe $v(frame_name,[winfo parent [winfo parent $wavfm]])
    foreach f $v($wavfm,seglist) {
-     if {$v(view,$f)} {
+     if {$v(frame_view,$v(frame_name,$f))} {
        #pack $f -fill x -padx 10 -after $wavfm
        pack $f -fill x -padx 10 -before [winfo parent $wavfm].a
      } else {
@@ -128,7 +139,8 @@ proc DestroyLabels {} {
   # destroy menu entries
   foreach wavfm $v(wavfm,list) {
     catch {
-      set menu [$v($wavfm,menu) entrycget [Local "Display"] -menu]
+	set frame $v(frame_name,[winfo parent [winfo parent $wavfm]])
+      set menu [$v(frame_menu,$frame) entrycget [Local "Display"] -menu]
       set index [$menu index [Local "Transcription"]]
       $menu delete [incr index] end
     }
@@ -393,9 +405,10 @@ proc EndSegmentSelect {segmt X y} {
 proc SegmentMove {wavfm segmt extend X y {force 0}} {
    global v
 
+   set frame $v(frame_name,$wavfm)
    set reso 0.001
    set pos [GetPosAfterScroll $wavfm $X]
-   set epsilon [expr 10.0*$v($wavfm,size)/[winfo width $wavfm]]
+   set epsilon [expr 10.0*$v(frame_wavfm_size,$frame)/[winfo width $wavfm]]
    if {$epsilon < $reso} {set epsilon $reso}
    if {!$extend} {
       # Be sure we start close enough from existing boundary (10 pixels)

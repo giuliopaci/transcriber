@@ -5,12 +5,33 @@
 
 ################################################################
 
-proc CreateSoundFrame {f} {
+proc CreateSoundFrame {frame} {
+    #
+    # JOB: create a sound frame
+    #
+    # IN: frame, the name of the wav frame, i.e. snd or snd2
+    # OUT: nothing
+    # MODIFY: v(frame_menu,$frame),v(frame,$frame.reso)
+    #
+    # Author: ??, Fabien Antoine
+    # Version: 1.0
+    # Date: Septembre 7, 2005
+    # 
     global v
 
+    set f $v(frame,$frame)
+    foreach subframe {seg0 seg1 seg2 bg w} {
+	set v(frame,$frame.$subframe) $f.1.$subframe
+	set v(frame_name,$f.1.$subframe) $frame.$subframe
+    }
+    set v(frame,$frame.reso) $f.1.scr.reso
+    set v(frame_name,$f.1.scr.reso) $frame.resos
+    
+
     # embedded frame for optional inclusion of video
-    frame $f; 
-    if {$v(view,$f)} { 
+#    frame $f; #commented by FAE
+    if {$v(frame_view,$frame)} { 
+#        [winfo parent $f] add $f
 	pack $f -fill both -side top
     } 
     set f $f.1
@@ -22,8 +43,14 @@ proc CreateSoundFrame {f} {
     
     set g $f.scr
     frame $g -bg $v(color,bg)
-    set v($wavfm,scroll) [scrollbar $g.pos -orient horizontal -width 15\
-			      -command [list ScrollTime $wavfm]]
+    frame $g.zoom
+    label $g.zoom.lab -text "Zoom(dB)" -font {fixed 10} -bd 0 -padx 10 -pady 0
+    set v($wavfm,zoom) [scale  $g.zoom.scrol -showvalue 0  -length 50 -from -10 -to 20  -command [list NewGain] -orient horizontal -width 8 -bd 1]
+    pack $g.zoom.lab -side top
+    pack $g.zoom.scrol -fill x -expand true
+    pack $g.zoom -padx 0 -pady 0 -side left
+    set v(frame_wavfm_scroll,$frame.w) [scrollbar $g.pos -orient horizontal -width 15\
+		              -command [list ScrollTime $wavfm]]
     pack $g.pos -fill x -side left -expand true -anchor n
     
     # optional resolution scrollbar
@@ -33,8 +60,8 @@ proc CreateSoundFrame {f} {
     pack $g.reso.lab -side top
     pack $g.reso.scrol -fill x -expand true
     # Default : display resolution scrollbar
-    setdef v(view,$g.reso) 1
-    if {$v(view,$g.reso)} {
+    setdef v(frame_view,$frame.reso) 1
+    if {$v(frame_view,$frame.reso)} {
 	pack $g.reso -padx 0 -pady 0 -side right
     }
     
@@ -54,111 +81,117 @@ proc CreateSoundFrame {f} {
     bind $f <Button-1>  [list BeginCursorOrSelect $wavfm %X]
     bind $f <B1-Motion> [list SelectMore $wavfm %X]
     bind $f <ButtonRelease-1> [list EndCursorOrSelect $wavfm]
-   bind $f <Shift-Button-1>  [list ExtendOldSelection $wavfm %X]
+    bind $f <Shift-Button-1>  [list ExtendOldSelection $wavfm %X]
     
     # Extend selection with B2
     bind $f <Button-2>  [list ExtendOldSelection $wavfm %X]
     
     # Contextual menus with B3
-    InitWavContextualMenu $f 
-    bind $f <Button-3>  [list tk_popup $v($wavfm,menu) %X %Y]
-    bind $f <Control-Button-1>  [list tk_popup $v($wavfm,menu) %X %Y]
-    
+    InitWavContextualMenu $frame
+    bind $f <Button-3>  [list tk_popup $v(frame_menu,$frame) %X %Y]
+    bind $f <Control-Button-1>  [list tk_popup $v(frame_menu,$frame) %X %Y]
     return $wavfm
 }
 
 proc InitWavContextualMenu {f} {
-
+    #
     # JOB: create the contextual menu on wave frame
     #
-    # IN: f, the name of the wav frame, i.e. snd.1 or snd2.1
+    # IN: f, the name of the wav frame, i.e. snd or snd2
     # OUT: nothing
-    # MODIFY: nothing
+    # MODIFY: v(frame_menu,$f)
     #
-    # Author: Claude Barras, Sylvain Galliano
-    # Version: 1.1
-    # Date: October 20, 2004
+    # Author: Claude Barras, Sylvain Galliano, Fabien Antoine
+    # Version: 1.2
+    # Date: Septembre 7, 2005
+    #
 
     global v
+    set wavfm $v(frame,$f).1.w
     
-    set wavfm $f.w
-    set g $f.src
-
-    regsub -all {\.} $wavfm {_} name
-    catch {destroy .menu$name}
-    set v($wavfm,menu) [add_menu .menu$name [subst {
-	{"Audio file"		cascade {
-	    {"Open audio file..." 	cmd {OpenAudioFile}}
-	    {"Add audio file..." 	cmd {OpenAudioFile add}}
+    catch {destroy .menu$f}
+    set v(frame_menu,$f) [add_menu .menu$f [subst {
+	{"Audio file"                cascade {
+	    {"Open audio file..."         cmd {OpenAudioFile}}
+	    {"Add audio file..."         cmd {OpenAudioFile add}}
 	    {"Save audio segment(s)"   cascade {
 		{"Selected..."     cmd   {SaveAudioSegment}}
 		{"Automatic..." cmd   {SaveAudioSegmentAuto}}
 	    }}
 	    {""}
 	}}
-	{"Playback"		cascade {
-	    {"Play/Pause"		cmd {PlayOrPause}}
-	    {"Replay segment"	cmd {PlayCurrentSegmt}}
-	    {"Play around cursor"	cmd {PlayAround}}
+	{"Playback"                cascade {
+	    {"Play/Pause"                cmd {PlayOrPause}}
+	    {"Replay segment"        cmd {PlayCurrentSegmt}}
+	    {"Play around cursor"        cmd {PlayAround}}
 	}}
-	{"Position"		cascade {
-	    {"Forward"	cmd {PlayForward +1}}
-	    {"Backward"	cmd {PlayForward -1}}
-	    {"Previous"	cmd {MoveNextSegmt -1}}
-	    {"Next"	cmd {MoveNextSegmt +1}} 
+	{"Position"                cascade {
+	    {"Forward"        cmd {PlayForward +1}}
+	    {"Backward"        cmd {PlayForward -1}}
+	    {"Previous"        cmd {MoveNextSegmt -1}}
+	    {"Next"        cmd {MoveNextSegmt +1}} 
 	}}
-	{"Resolution"		cascade {
-	    {"1 sec"	cmd {Resolution 1 $wavfm}}
-	    {"10 sec"	cmd {Resolution 10 $wavfm}}
-	    {"30 sec"	cmd {Resolution 30 $wavfm}}
-	    {"1 mn"	cmd {Resolution 60 $wavfm}}
-	    {"5 mn"	cmd {Resolution 300 $wavfm}}
+	{"Resolution"                cascade {
+	    {"1 sec"        cmd {Resolution 1 $wavfm}}
+	    {"10 sec"        cmd {Resolution 10 $wavfm}}
+	    {"30 sec"        cmd {Resolution 30 $wavfm}}
+	    {"1 mn"        cmd {Resolution 60 $wavfm}}
+	    {"5 mn"        cmd {Resolution 300 $wavfm}}
 	    {""}
-	    {"up"		cmd {ZoomReso -1 $wavfm}}
-	    {"down"	cmd {ZoomReso +1 $wavfm}}
+	    {"up"                cmd {ZoomReso -1 $wavfm}}
+	    {"down"        cmd {ZoomReso +1 $wavfm}}
 	    {""}
-	    {"View all"	cmd {ViewAll $wavfm}}
+	    {"View all"        cmd {ViewAll $wavfm}}
 	}}
-	{"Display"		cascade {
-	    {"Resolution bar"	check v(view,$g.reso) -command {SwitchFrame $g.reso}}
-	    {"Reduce waveform"	cmd {WavfmHeight $wavfm [expr 1/1.2]}}
-	    {"Expand waveform"	cmd {WavfmHeight $wavfm 1.2}}
+	{"Display"                cascade {
+	    {"Resolution bar"        check v(frame_view,$f.reso) -command {SwitchFrame $f.reso}}
+	    {"Reduce waveform"        cmd {WavfmHeight $f [expr 1/1.2]}}
+	    {"Expand waveform"        cmd {WavfmHeight $f 1.2}}
 	    {""}
 	}}
     }]]
 }
 
-proc SwitchSoundFrame {f} {
-   global v
-
-   if {![winfo exists $f]} {
-     set wavfm [CreateSoundFrame $f]
-     ConfigWavfm $wavfm
-     CreateAllSegmentWidgets
-     SetCursor [GetCursor]
-   } elseif {[winfo ismapped $f]} {
-     pack forget $f
-   } else {
-     pack $f -fill x
-
-   }
-}
-
 proc WavfmHeight {wavfm {val 1.0}} {
+    #
+    # JOB: Change height of a frame containing a waveform 
+    #
+    # IN: wavfm, path of the frame, optionnal scaling value (e.g. ...snd.1.w or ...snd2.1.w)
+    # OUT: Nothing
+    # MODIFY: v(frame_wavfm_height,$wavfm)
+    #
+    # AUTHOR: ??, Fabien Antoine
+    # VERSION: 1.0
+    # DATE: September 7, 2005
+    # 
    global v
 
-   set v($wavfm,height) [expr int([$wavfm cget -height] * $val)]
-   $wavfm conf -height $v($wavfm,height)
+   set frame $v(frame_name,$wavfm)
+   set v(frame_wavfm_height,$frame) [expr int([$wavfm cget -height] * $val)]
+   $wavfm conf -height $v(frame_wavfm_height,$frame)
 }
 
 proc ConfigWavfm {wavfm {mode "reset"}} {
+    #
+    # JOB: Configure waveforme frame
+    #
+    # IN: wavfm, path of the waveform, mode 
+    # OUT: Value returned by the procedure and its meaning
+    # MODIFY: Global variables modified by the procedure
+    #
+    # AUTHOR: ??, Fabien Antoine
+    # VERSION: Version number of the procedure
+    # DATE: Date of creation or last modification of the procedure
+    # 
    global v
 
+   set frame $v(frame_name,$wavfm)
+
   if {$mode == "reset"} {
-    set v($wavfm,left)    0
-    set v($wavfm,size)    [setdef v($wavfm,resolution) 30]
-    if {$v(shape,cmd)=="" && $v($wavfm,size) > $v(shape,min)} {
-      set v($wavfm,size) $v(shape,min)
+    set v(frame_wavfm_left,$frame)    0
+    set v(frame_wavfm_size,$frame)    [setdef v(frame_wavfm_resolution,$frame) 30]
+    if {$v(shape,cmd)=="" && $v(frame_wavfm_size,$frame) > $v(shape,min)} {
+      set v(frame_wavfm_size,$frame) $v(shape,min)
     }
   }
   $wavfm config -sound $v(sig,cmd) -shape $v(shape,cmd)
@@ -180,32 +213,43 @@ proc ConfigAllWavfm {{mode "reset"}} {
 # Synchronize waveform, axis and scrollbars
 proc SynchroWidgets {wavfm} {
    global v
-
+    #
+    # JOB: synchronize waveform widgets 
+    #
+    # IN: frame, the path of the wav frame
+    # OUT: nothing
+    # MODIFY: v(frame_menu,$frame),v(frame,$frame.reso)
+    #
+    # Author: ??, Fabien Antoine
+    # Version: 1.0
+    # Date: Septembre 7, 2005
+    # 
+    set frame $v(frame_name,$wavfm)
    # Make sure we have :
    #   sig,min <= win,left < win,right=(left+size) <= sig,max=(min+len)
-   if {$v($wavfm,size) > $v(sig,len)} {
-      set v($wavfm,size) $v(sig,len)
+   if {$v(frame_wavfm_size,$frame) > $v(sig,len)} {
+      set v(frame_wavfm_size,$frame) $v(sig,len)
    }
-   if {$v($wavfm,left) < $v(sig,min)} {
-      set v($wavfm,left) $v(sig,min)
+   if {$v(frame_wavfm_left,$frame) < $v(sig,min)} {
+      set v(frame_wavfm_left,$frame) $v(sig,min)
    }
-   set v($wavfm,right) [expr $v($wavfm,left)+$v($wavfm,size)]
+   set v(frame_wavfm_right,$frame) [expr $v(frame_wavfm_left,$frame)+$v(frame_wavfm_size,$frame)]
    set v(sig,max)   [expr $v(sig,min)+$v(sig,len)]
-   if {$v($wavfm,right) > $v(sig,max)} {
-      set v($wavfm,right) $v(sig,max)
-      set v($wavfm,left) [expr $v($wavfm,right)-$v($wavfm,size)]
+   if {$v(frame_wavfm_right,$frame) > $v(sig,max)} {
+      set v(frame_wavfm_right,$frame) $v(sig,max)
+      set v(frame_wavfm_left,$frame) [expr $v(frame_wavfm_right,$frame)-$v(frame_wavfm_size,$frame)]
    }
    # Configure widgets
    foreach tk $v($wavfm,sync) {
-      set left $v($wavfm,left)
+      set left $v(frame_wavfm_left,$frame)
       if {[winfo class $tk] == "Axis"} {
 	 set left [expr $left+$v(sig,base)]
       }
-      $tk configure -begin $left -length $v($wavfm,size)
+      $tk configure -begin $left -length $v(frame_wavfm_size,$frame)
    }
-   set begin [expr ($v($wavfm,left)-$v(sig,min))/$v(sig,len)]
-   set ratio [expr $v($wavfm,size)/$v(sig,len)]
-   $v($wavfm,scroll) set $begin [expr $begin+$ratio]
+   set begin [expr ($v(frame_wavfm_left,$frame)-$v(sig,min))/$v(sig,len)]
+   set ratio [expr $v(frame_wavfm_size,$frame)/$v(sig,len)]
+   $v(frame_wavfm_scroll,$frame) set $begin [expr $begin+$ratio]
    $v($wavfm,scale) set $ratio $ratio
 }
 
@@ -213,13 +257,14 @@ proc SynchroWidgets {wavfm} {
 proc ScrollTime {wavfm cmd {val 0} {unit ""}} {
    global v
 
+    set frame $v(frame_name,$wavfm)
    if {$cmd=="moveto"} {
-      set v($wavfm,left) [expr $val*$v(sig,len)+$v(sig,min)]
+      set v(frame_wavfm_left,$frame) [expr $val*$v(sig,len)+$v(sig,min)]
    } elseif {$cmd=="scroll"} {
       if {$unit=="units"} {
-	 set v($wavfm,left) [expr $v($wavfm,left)+$val*$v($wavfm,size)/100.0]
+	 set v(frame_wavfm_left,$frame) [expr $v(frame_wavfm_left,$frame)+$val*$v(frame_wavfm_size,$frame)/100.0]
       } elseif {$unit=="pages"} {
-	 set v($wavfm,left) [expr $v($wavfm,left)+$val*$v($wavfm,size)]
+	 set v(frame_wavfm_left,$frame) [expr $v(frame_wavfm_left,$frame)+$val*$v(frame_wavfm_size,$frame)]
       }
    }
    SynchroWidgets $wavfm
@@ -227,43 +272,55 @@ proc ScrollTime {wavfm cmd {val 0} {unit ""}} {
 
 # Vertical scrollbar callback for resolution
 proc ScrollReso {wavfm cmd {val 0} {unit ""}} {
+    #
+    # JOB: change the resolution of a waveform (called by Resolution)
+    #
+    # IN: wavfm, path of the frame containing the waveform, cmd command, val value, unit unit
+    # OUT: 
+    # MODIFY: ?
+    #
+    # AUTHOR: ??, Fabien Antoine
+    # VERSION: 1.0
+    # DATE: September 7, 2005
+    # 
    global v
+   set frame $v(frame_name,$wavfm)
 
    if ($v(sig,len)<0) return;
 
    if {[winfo exists .noshapemsg]} {
-          destroy .noshapemsg
+	  destroy .noshapemsg
    }   
    # Try to keep cursor stable - else center of screen
    set curs $v(curs,pos)
-   if {($curs >= $v($wavfm,left)) && ($curs <= $v($wavfm,right))} {
-      set ratio [expr ($curs-$v($wavfm,left))/$v($wavfm,size)]
+   if {($curs >= $v(frame_wavfm_left,$frame)) && ($curs <= $v(frame_wavfm_right,$frame))} {
+      set ratio [expr ($curs-$v(frame_wavfm_left,$frame))/$v(frame_wavfm_size,$frame)]
    } else {
       set ratio 0.5
    }
-   set t [expr $v($wavfm,left)+$v($wavfm,size)*$ratio]
+   set t [expr $v(frame_wavfm_left,$frame)+$v(frame_wavfm_size,$frame)*$ratio]
    if {$cmd=="moveto"} {
-     if {$val>0} {set v($wavfm,size) [expr $val*$v(sig,len)]}
+     if {$val>0} {set v(frame_wavfm_size,$frame) [expr $val*$v(sig,len)]}
    } elseif {$cmd=="scroll"} {
       if {$val>0} {
 	set scale 1.1
       } else {
 	 set scale 0.9
       }
-      set v($wavfm,size) [expr $scale*$v($wavfm,size)]
+      set v(frame_wavfm_size,$frame) [expr $scale*$v(frame_wavfm_size,$frame)]
    }
    # Arbitrary max value for zoom
-   if {$v($wavfm,size) < 1e-5} {
-      set v($wavfm,size) 1e-5
+   if {$v(frame_wavfm_size,$frame) < 1e-5} {
+      set v(frame_wavfm_size,$frame) 1e-5
    }
    # Min value for zoom if no shape is available
-   if {$v(sig,cmd) != "" && $v(shape,cmd) == "" && $v($wavfm,size) > $v(shape,min)} {
+   if {$v(sig,cmd) != "" && $v(shape,cmd) == "" && $v(frame_wavfm_size,$frame) > $v(shape,min)} {
       NoShapeMessage
       DisplayMessage "Lower resolution not allowed without signal shape"
-      set v($wavfm,size) $v(shape,min)
+      set v(frame_wavfm_size,$frame) $v(shape,min)
    }
-   set v($wavfm,left) [expr $t-$v($wavfm,size)*$ratio]
-   set v($wavfm,resolution) $v($wavfm,size) 
+   set v(frame_wavfm_left,$frame) [expr $t-$v(frame_wavfm_size,$frame)*$ratio]
+   set v(frame_wavfm_resolution,$frame) $v(frame_wavfm_size,$frame) 
    SynchroWidgets $wavfm
 }
 
@@ -284,6 +341,18 @@ proc NoShapeMessage {} {
 
 proc Resolution {reso {win ""}} {
    global v
+    #
+    # JOB: change the resolution of a waveform to reso
+    #
+    # IN: reso, the resolution wished, optionnal win, the path of the frame containing the waveform (e.g. snd.1.w or snd2.1.w)
+    # OUT: nothing
+    # MODIFY: nothing
+    #
+    # AUTHOR: ??
+    # VERSION: 1.0
+    # DATE: ??
+    #
+
 
    if {$win == ""} {
       set win $v(tk,wavfm); # defaults to principal sound frame
@@ -303,13 +372,15 @@ proc ZoomReso {dir {win ""}} {
 proc ViewAll {{win ""}} {
    global v
 
+    
    if {$win == ""} {
       set win $v(tk,wavfm); # defaults to principal sound frame
    }
-   set v($win,left) $v(sig,min)
-   set v($win,size) $v(sig,len)
-   if {$v(shape,cmd) == "" && $v($win,size) > $v(shape,min)} {
-      set v($win,size) $v(shape,min)
+    set frame $v(frame_name,$win)
+   set v(frame_wavfm_left,$frame) $v(sig,min)
+   set v(frame_wavfm_size,$frame) $v(sig,len)
+   if {$v(shape,cmd) == "" && $v(frame_wavfm_size,$frame) > $v(shape,min)} {
+      set v(frame_wavfm_size,$frame) $v(shape,min)
    }
    SynchroWidgets $win
 }
@@ -326,13 +397,40 @@ proc NewGain {val} {
    }
 }
 
+proc ScrollGain {wavfm cmd {val 0}} {
+    global v
+    switch $cmd {
+	"moveto" {
+	    NewGain [expr 30*$val-10]
+	}
+	"scroll" {
+	    if {$val>0} {
+		set scale 1.1
+	    } else {
+		set scale 0.9
+	    }
+	    NewGain [expr $v(sig,gain)*$scale]
+	}
+    }
+}
+
 ################################################################
 
 # Cursor and selection handling
 
 proc SetCursor {pos {hide 0}} {
+    #
+    # JOB: Set the time cursor on the waveforms
+    #
+    # IN: pos, the position of the cursor (time in seconds)
+    # OUT: nothing
+    # MODIFY: might modify v(frame_wavfm_left(resp. rigth),*) for each waveform
+    #
+    # Author: ??, Fabien Antoine
+    # Version: 1.0
+    # Date: Septembre 7, 2005
+    # 
    global v
-
    if {$pos < $v(sig,min)} {
       set pos $v(sig,min)
    } elseif {$pos > $v(sig,max)} {
@@ -349,13 +447,14 @@ proc SetCursor {pos {hide 0}} {
       foreach wavfm $v(wavfm,list) {
 	 #$wavfm config -cursor $pos
 	 $wavfm cursor $pos
+	 set frame $v(frame_name,$wavfm)
 	 # View cursor
-	 set margin 0; #[expr $v($wavfm,size)*0.0]
-	 if {$pos > $v($wavfm,right)} {
-	    set v($wavfm,left) [expr $pos + $margin - $v($wavfm,size)]
+	 set margin 0; #[expr $v(frame_wavfm_size,$wavfm)*0.0]
+	 if {$pos > $v(frame_wavfm_right,$frame)} {
+	    set v(frame_wavfm_left,$frame) [expr $pos + $margin - $v(frame_wavfm_size,$frame)]
 	    SynchroWidgets $wavfm
-	 } elseif {$pos < $v($wavfm,left) } {
-	   set v($wavfm,left) [expr $pos - $margin]
+	 } elseif {$pos < $v(frame_wavfm_left,$frame) } {
+	   set v(frame_wavfm_left,$frame) [expr $pos - $margin]
 	    SynchroWidgets $wavfm
 	 }
       }
@@ -380,7 +479,8 @@ proc EditCursor {} {
 	 set pos [expr 3600*$h+60*$m+$s]
 	 if {$dial(newpos) != [format "%.3f" [GetCursor]]} {
 	    foreach win $v(wavfm,list) {
-	       set v($win,left) [expr $pos-$v($win,size)/2]
+	       set frame $v(frame_name,$win)
+	       set v(frame_wavfm_left,frame) [expr $pos-$v(frame_wavfm_size,$frame)/2]
 	       SynchroWidgets $win
 	    }
 	 }
@@ -446,18 +546,19 @@ proc GetClickPos {wavfm X scrollName} {
    global v
    upvar $scrollName scroll
 
+   set frame $v(frame_name,$wavfm)
    set bd [expr [$wavfm cget -bd] + [$wavfm cget -padx]]
    set width [expr [winfo width $wavfm] - 2*$bd]
    set x [expr $X - $bd - [winfo rootx $wavfm]]
    if {$x<0} {
       set scroll -1
-      set pos $v($wavfm,left)
+      set pos $v(frame_wavfm_left,$frame)
    } elseif {$x>$width} {
       set scroll +1
-      set pos $v($wavfm,right)
+      set pos $v(frame_wavfm_right,$frame)
    } else {
       set scroll 0
-      set pos [expr $v($wavfm,left)+$v($wavfm,size)*double($x)/$width]
+      set pos [expr $v(frame_wavfm_left,$frame)+$v(frame_wavfm_size,$frame)*double($x)/$width]
    }
    return $pos
 }
@@ -506,12 +607,13 @@ proc SelectMore {wavfm X} {
 proc EndCursorOrSelect {win} {
    global v
 
+    set frame $v(frame_name,$win)
    if [info exists v(sel,start)] {
       CancelSelectEvent
       unset v(sel,start)
       if [GetSelection beg end] {
 	 # If selection too short (4 pixels), set only cursor
-	 set epsilon [expr 4.0*$v($win,size)/[winfo width $win]]
+	 set epsilon [expr 4.0*$v(frame_wavfm_size,$frame)/[winfo width $win]]
 	 if {$end-$beg < $epsilon} {
 	    SetSelection $beg $beg
 	    return
@@ -551,35 +653,36 @@ proc ViewSelection {{beg {}} {end {}} {mode "AUTO"} {ratio 0.1}} {
 
   #set win $v(tk,wavfm); # defaults to principal sound frame
   foreach win $v(wavfm,list) {
+    set frame $v(frame_name,$win)
     if { ($beg != "" && $end != "") || [GetSelection beg end] } {
-      set margin [expr $v($win,size)*$ratio]
-      if {$end-$beg > $v($win,size)} {
+      set margin [expr $v(frame_wavfm_size,$frame)*$ratio]
+      if {$end-$beg > $v(frame_wavfm_size,$frame)} {
 	# If it can't fit completely on screen...
 	if {$end == $v(sig,max)} {
 	  # center left side of last segment
-	  set v($win,left) [expr $beg-$v($win,size)/2.0]
+	  set v(frame_wavfm_left,$frame) [expr $beg-$v(frame_wavfm_size,$frame)/2.0]
 	} elseif {$mode == "END" || ($mode == "AUTO" && 
-		  $end > $v($win,left) && $end < $v($win,right))} {
+		  $end > $v(frame_wavfm_left,$frame) && $end < $v(frame_wavfm_right,$frame))} {
 	  # show end
-	  set v($win,left) [expr $end + $margin - $v($win,size)]
+	  set v(frame_wavfm_left,$frame) [expr $end + $margin - $v(frame_wavfm_size,$frame)]
 	} elseif {$mode == "BEGIN" || ($mode == "AUTO"
-                  && $beg > $v($win,left) && $beg < $v($win,right)) } {
+		  && $beg > $v(frame_wavfm_left,$frame) && $beg < $v(frame_wavfm_right,$frame)) } {
 	  # show begin
-	  set v($win,left) [expr $beg - $margin]
+	  set v(frame_wavfm_left,$frame) [expr $beg - $margin]
 	} else {
 	  # center
-	  set v($win,left) [expr ($end+$beg-$v($win,size))/2.0]
+	  set v(frame_wavfm_left,$frame) [expr ($end+$beg-$v(frame_wavfm_size,$frame))/2.0]
 	}
-      } elseif {$end-$beg > (1-2*$ratio)*$v($win,size)} {
+      } elseif {$end-$beg > (1-2*$ratio)*$v(frame_wavfm_size,$frame)} {
 	# center on the screen with a reduced margin
-	set v($win,left) [expr ($end+$beg-$v($win,size))/2.0]
+	set v(frame_wavfm_left,$frame) [expr ($end+$beg-$v(frame_wavfm_size,$frame))/2.0]
       } else {
-	if {$end > $v($win,right)} {
+	if {$end > $v(frame_wavfm_right,$frame)} {
 	  # show end plus margin
-	  set v($win,left) [expr $end + $margin - $v($win,size)]
-	} elseif {$beg < $v($win,left) } {
+	  set v(frame_wavfm_left,$frame) [expr $end + $margin - $v(frame_wavfm_size,$frame)]
+	} elseif {$beg < $v(frame_wavfm_left,$frame) } {
 	  # show begin plus margin
-	  set v($win,left) [expr $beg - $margin]
+	  set v(frame_wavfm_left,$frame) [expr $beg - $margin]
 	} else {
 	  # it's ok
 	  continue
@@ -596,13 +699,14 @@ proc ViewSelection {{beg {}} {end {}} {mode "AUTO"} {ratio 0.1}} {
 proc ZoomSelection {{win ""}} {
    global v
 
+    set frame $v(frame_name,$win)
    if {$win == ""} {
       set win $v(tk,wavfm); # defaults to principal sound frame
    }
    if [GetSelection beg end] {
-      set v(zoom,list) [list $v($win,left) $v($win,size)]
-      set v($win,left) $beg
-      set v($win,size) [expr $end-$beg]
+      set v(zoom,list) [list $v(frame_wavfm_left,$frame) $v(frame_wavfm_size,$frame)]
+      set v(frame_wavfm_left,$frame) $beg
+      set v(frame_wavfm_size,$frame) [expr $end-$beg]
       SynchroWidgets $win
       config_entry "Signal" "Unzoom selection" -state normal
    }
@@ -612,12 +716,13 @@ proc ZoomSelection {{win ""}} {
 proc UnZoom {{win ""}} {
    global v
 
+    set frame $v(frame_name,$win)
    if {$win == ""} {
       set win $v(tk,wavfm); # defaults to principal sound frame
    }
    if [info exists v(zoom,list)] {
-      set v($win,left) [lindex $v(zoom,list) 0]
-      set v($win,size) [lindex $v(zoom,list) 1]
+      set v(frame_wavfm_left,$frame) [lindex $v(zoom,list) 0]
+      set v(frame_wavfm_size,$frame) [lindex $v(zoom,list) 1]
       unset v(zoom,list)
       SynchroWidgets $win
       config_entry "Signal" "Unzoom selection" -state disabled
@@ -651,7 +756,7 @@ proc SaveAudioSegment {{auto ""}} {
 	if { $v(sig,cmd) == "" } {
 	    set v(sig,name) "empty" 
 	    set rep [tk_messageBox -icon question -message [Local "   No audio file opened !\nThis will create an empty\n audio file ! Really save ?"] \
-			 -title "Warning" -type yesno]
+		         -title "Warning" -type yesno]
 	    if {$rep == "no"} {
 		return
 	    } else {
@@ -690,49 +795,49 @@ proc SaveAudioSegment {{auto ""}} {
 		    set loop ""
 		    set tot 0
 		    foreach segment {"Section" "Turn" "Sync"} {
-			if {$v($segment,loop)} {
-			    lappend loop $segment
-			}
+		        if {$v($segment,loop)} {
+		            lappend loop $segment
+		        }
 		    }
 		    if {$loop != ""} {
-			foreach segment $loop {
-			    set cpt 0
-			    set begin $v(sig,min)
-			    set end 0
-			    set max $v(sig,max)
-			    SetCursor $begin
-			    while {$begin < $max} {
-				set nb $v(segmt,curr)
-				set tag [GetSegmtId $nb]
-				if {$segment == "Section"} {
-				    set sec [[$tag getFather] getFather]
-				    set id [::section::long_name $sec]
-				}
-				if {$segment == "Turn" || $segment == "Sync"} {
-				    set tur [$tag getFather]
-				    set spk [$tur getAttr "speaker"]
-				    set spk [::speaker::name $spk]
-				    set id [string trim $spk "_"]
-				}
-				set alnum {[^[:alnum:]]+}
-				regsub -all $alnum $id "_" id
-				
-				TextNext$segment +1
-				set end [GetCursor]
-				if {$end == $begin || $end == 0} {
-				    set end $max
-				}
-				set zone [concat [format "%6.2f" $begin]-[format "%-6.2f" $end]]
-				set num [format "%03.0f" [incr cpt]]
-				set name [file join $v(saveaudioseg,dir) "$base\_$segment$num\_$id\_$zone$format"]
-				regsub -all "__" $name "_" name
-				player write $name -start [expr int($begin*$rate)] -end [expr int($end*$rate)]
-				set tot [incr tot]
-				set begin $end
-			    }
-			    set v($segment,loop) 0
-			}
-		    }
+		        foreach segment $loop {
+		            set cpt 0
+		            set begin $v(sig,min)
+		            set end 0
+		            set max $v(sig,max)
+		            SetCursor $begin
+		            while {$begin < $max} {
+		                set nb $v(segmt,curr)
+		                set tag [GetSegmtId $nb]
+		                if {$segment == "Section"} {
+		                    set sec [[$tag getFather] getFather]
+		                    set id [::section::long_name $sec]
+		                }
+		                if {$segment == "Turn" || $segment == "Sync"} {
+		                    set tur [$tag getFather]
+		                    set spk [$tur getAttr "speaker"]
+		                    set spk [::speaker::name $spk]
+		                    set id [string trim $spk "_"]
+		                }
+		                set alnum {[^[:alnum:]]+}
+		                regsub -all $alnum $id "_" id
+		                
+		                TextNext$segment +1
+		                set end [GetCursor]
+		                if {$end == $begin || $end == 0} {
+		                    set end $max
+		                }
+		                set zone [concat [format "%6.2f" $begin]-[format "%-6.2f" $end]]
+		                set num [format "%03.0f" [incr cpt]]
+		                set name [file join $v(saveaudioseg,dir) "$base\_$segment$num\_$id\_$zone$format"]
+		                regsub -all "__" $name "_" name
+		                player write $name -start [expr int($begin*$rate)] -end [expr int($end*$rate)]
+		                set tot [incr tot]
+		                set begin $end
+		            }
+		            set v($segment,loop) 0
+		        }
+		    } 
 		}
 	    } else {
 		set time [expr int([format "%6.3f" [expr $v(sel,end) - $v(sel,begin)]]*16000)]
@@ -749,9 +854,9 @@ proc SaveAudioSegment {{auto ""}} {
 		    tk_messageBox -message [format [Local "%s saved !"] $name] -type ok -icon info
 		}
 	    }
-	    1 { tk_messageBox -message "[Local "Error, wave segment(s) not saved !!"] $res" -type ok -icon error; return "" ;} 
+	    1 { tk_messageBox -message "[Local "Error, wave segment(s) not saved !!"] $res" -type ok -icon error; return "" ;}
 	    2 { return ""; }
-	}
+	} 
     }
 }
 

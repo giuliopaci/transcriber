@@ -125,6 +125,7 @@ proc Quit {} {
 #  ext,snd        list of known extensions for sound files
 #  ext,trs        list of extensions for importable transcription files
 #  file,default   default configuration file
+#  file,theme     colors and font file
 #  file,dtd       Internal version of DTD file for transcriptions in XML format
 #  file,exportdtd DTD version for output transcriptions (backward compatibility with previous versions)
 #  file,local     user localization file
@@ -168,6 +169,7 @@ proc Quit {} {
 #  path,image     directory for GIF or bitmap images
 #  path,shape     default directory for centi-second sound shapes
 #  path,sounds    last directory used for sound files selection
+#  path,theme     directory for current theme
 #  path,tcl       directory for Tcl scripts
 #  play,after     callback after sound playback is over
 #  play,auto      automatic play new selection or signal (1 or 0)
@@ -220,7 +222,7 @@ proc Quit {} {
 #  trace,*        related to performance monitoring
 #  trans,desc     description of transcription for info window
 #  trans,format   file format of the transcription
-#  trans,list     ordered list of tags for segments in text widget
+#  trans,list     file names of recent transcriptions
 #  trans,modif    flag "transcription modified"
 #  trans,name     file name of transcription
 #  trans,path     default path for open/save transcription dialog boxes
@@ -252,7 +254,6 @@ proc InitDefaults {argv} {
    # Set paths relative to script path
    set v(path,tcl)   [file dir [info script]]
    set v(path,base)  [file dir $v(path,tcl)]
-   set v(path,image) [file join $v(path,base) "img"]
    set v(path,doc)   [file join $v(path,base) "doc"]
    set v(path,etc)   [file join $v(path,base) "etc"]
    set v(file,dtd)   [file join $v(path,etc)  "trans-14.dtd"]
@@ -262,6 +263,12 @@ proc InitDefaults {argv} {
    # Read values from default configuration file
    set v(file,default) [file join $v(path,etc) "default.txt"]
    LoadOptions $v(file,default) 1
+    # Read theme specific options
+    set v(path,theme) [file join $v(path,base) "themes" $v(theme)]
+    set v(file,theme) [file join $v(path,theme) "default.txt"]
+    LoadOptions $v(file,theme) 1
+   set v(path,image) [file join $v(path,theme) "img"]
+
    # correct some default values for Mac OS X
    if {[info tclversion] >= 8.4 && [info commands tk] != "" && [tk windowingsystem] == "aqua"} {
       set v(font,text)   {courier 14}
@@ -306,6 +313,9 @@ proc InitDefaults {argv} {
      }
    }
    LoadOptions $v(file,user)
+    set v(path,theme) [file join $v(path,base) "themes" $v(theme)]
+    set v(file,theme) [file join $v(path,theme) "default.txt"]    
+   set v(path,image) [file join $v(path,theme) "img"]    
 
    # Migration of old user preferences to Transcriber 1.5.1
    # This code is executed at the first run after the installation of Transcriber 1.5.1
@@ -578,8 +588,8 @@ proc ChangedLocal {} {
    }
    SetBindings
    InitMenus
-   if { $v(view,.snd) } { InitWavContextualMenu .snd.1 }
-   if { $v(view,.snd2) } { InitWavContextualMenu .snd2.1 }
+   if { $v(frame_view,snd) } { InitWavContextualMenu snd }
+   if { $v(frame_view,snd2) } { InitWavContextualMenu snd2 }
    UpdateLangList
    UpdateDepList
    UpdateHeaderList
@@ -713,7 +723,8 @@ proc LoadModules {} {
    # Source tcl libraries at global level
    foreach module {
       About Debug Dialog Edit Episode Events Interface Menu Play Segmt
-      Signal Speaker Spelling Synchro Topic Trans Undo Waveform Xml MultiWav
+      Signal Speaker Spelling Synchro Topic Trans Undo Waveform Xml MultiWav Explorer
+      NamedEntities 
    } {
       if {$module == "Xml" && [info commands ::xml::init] != ""} continue
       uplevel \#0 [list source [file join $v(path,tcl) $module.tcl]]
@@ -848,14 +859,14 @@ proc StartWith {argv} {
 		    set v(shape,wanted) 0
 		}
 		"-notext" {
-		    if {$v(view,.edit)} {
+		    if {$v(frame_view,edit)} {
 		        SwitchTextFrame
 		    }
 		}
 		"-sig2" {
-		    if {!$v(view,.snd2)} {
-		        CreateSoundFrame .snd2
-		        set v(view,.snd2) 1
+ 		    if {!$v(frame_view,snd2)} {
+ 		        set v(frame_view,snd2) 1
+ 		        CreateSoundFrame snd2
 		    }
 		}
 		"-patch" {
@@ -890,6 +901,9 @@ proc StartWith {argv} {
 		        incr i
 		        lappend lbls $name
 		    }
+		}
+		"-notrans" {
+		    set v(ignore_prefs) {frame_view,top 0 frame_view,menu 0 frame_view,snd.seg0 0 frame_view,snd.seg1 0 frame_view,snd.seg2 0 frame_view,snd.bg 0 frame_view,snd2.seg0 0 frame_view,snd2.seg1 0 frame_view,snd2.seg2 0 frame_view,snd2.bg 0		    }
 		}
 		"-socket" {
 		    # launch socket facility for external scripting of Transcriber

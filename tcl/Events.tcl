@@ -350,118 +350,6 @@ proc SetBackAttrib {back} {
 
 # Manage speech and non-speech events
 
-proc CreateAutoEvent {txt {type "noise"} {extent "instantaneous"} {interactif 0}} {
-
-    # JOB: if invoke for entities event tst if the automatic mode is required and create the requested event, else create events as usually with proc CreateEvent
-    #
-    # IN: txt, description of the event
-    #     type, type of the event, default noise
-    #     extent, extent of the event, default instantaneous
-    #     interactif, interactif mode i.e. popup window for edit events, default 0, default 0
-    # OUT: nothing
-    # MODIFY: nothing
-    #
-    # Author: Sylvain Galliano
-    # Version: 1.0
-    # Date: October 20, 2004
-
-    global v
-    
-    set t $v(tk,edit)-bis
-    if { $v(findNE,what) != "" && $type == "entities" && $v(autoNE) != ""} {
-	if { $v(autoNE) == "Add" } {
-	    set answer [tk_messageBox -message [format [Local "The text \"%s\" will be automaticaly tagged - Continue ?"] $v(findNE,what)] -type okcancel -icon question]
-	} else {
-	    set answer [tk_messageBox -message [format [Local "The text \"%s\" tagged with \"%s\" will be automaticaly untagged - Continue ?"] $v(findNE,what) $txt] -type okcancel -icon question]
-	}
-	if { $answer == "ok" } {
-	    set sel [$t tag ranges sel] 
-	    if { $sel != "" } {
-		tkTextSetCursor $v(tk,edit) sel.last
-	    }
-	    #  save the current position then begin the loop from the beginning and return to the saved position
-	    $t mark set oldpos "insert"
-	    tkTextSetCursor $v(tk,edit) 0.0
-
-#	    set pos [$t index "insert -1c"]
-	    # find the color associated to the entities chosen
-	    if { [regexp {^(pers|org|gsp|loc|fac|prod|time|amount|unk).*$} $txt match tmp]} {
-		set colortag NE$tmp
-	    } 
-	    if { [regexp {\/} $txt] } {
-		set colortag NEmeto
-	    } 
-	    set nbocc 0
-	    while { [set pos [FindNextNE]] != "" } {
-		set what [[TagName $pos] getType]
-		if { $what == "\#PCDATA" } {
-		    switch $v(autoNE) {
-		        Add {
-		            if { [ColorNE $pos text] == "" } {
-		                CreateEvent $txt $type $extent $interactif
-		                incr nbocc
-		            }
-		        }
-		        Suppress {
-		            set prevtagname [TagName "sel.first - 2c"]
-		            set nexttagname [TagName "sel.last + 1c"]
-		            if {  [$prevtagname getType]=="Event" && [$nexttagname getType]=="Event" } {
-		                set prevtagdesc [$prevtagname getAttr "desc"]
-		                set nexttagdesc [$nexttagname getAttr "desc"]
-		                set col [ColorNE $prevtagname.first]
-		                regexp {(.*)tag} [ColorNE $prevtagname.first] match prevtagcolor
-		                if { $prevtagdesc==$txt && $nexttagdesc==$txt && $prevtagcolor=="$colortag"} {
-		                    SuppressEvent $prevtagname
-		                    incr nbocc
-		                }
-		            }
-		        }
-		    }
-		}
-	    }
-	    tkTextSetCursor $v(tk,edit) oldpos
-	    if { $v(autoNE) == "Add" } {
-		DisplayMessage "$nbocc \"$v(findNE,what)\" automaticaly tagged with \"$txt\""
-	    } else {
-		DisplayMessage "$nbocc \"$v(findNE,what)\" tagged with \"$txt\" automaticaly untagged"
-	    }
-	    set v(autoNE) ""
-	    set v(findNE,what) ""
-	} 
-    } else {
-	CreateEvent $txt $type $extent $interactif
-    }
-}
-
-proc FindNextNE {} {
-    global v
-
-    # JOB: find a specific string in the text and return its position (only for NE)
-    #
-    # IN: nothing
-    # OUT: the position of the string
-    # MODIFY: nothing
-    #
-    # Author: Sylvain Galliano
-    # Version: 1.0
-    # Date: Novembre 29, 2004
-
-
-    if ![info exists v(tk,edit)] return
-    set t $v(tk,edit)
-    set start "insert"
-    set stop "end"
-    set pos [eval ${t}-bis search -forward -exact -count cnt -- [list $v(findNE,what)] $start $stop]
-    ${t}-bis tag remove sel 0.0 end
-    if {$pos != ""} {
-	$t mark set insert "$pos + $cnt chars"
-	${t}-bis tag add sel $pos insert
-    } else {
-	DisplayMessage "$v(findNE,what) not found."
-    }
-    return $pos
-}
-
 proc CreateEvent {txt {type "noise"} {extent "instantaneous"} {interactif 0}} {
 
     # JOB: create the requested event
@@ -494,18 +382,7 @@ proc CreateEvent {txt {type "noise"} {extent "instantaneous"} {interactif 0}} {
     if {$type == "comment"} {
 	set tag [::xml::element "Comment" [list "desc" $txt] -before $data]
     } else {
-        # if we include an entities Event, the current DTD is the standard one
-        # and the export DTD is still trans-13.dtd, then we switch to trans-14.dtd
-        if {$type == "entities"
-	    && [::xml::dtd::compare_version $v(file,dtd) [::xml::dtd::name]] == 0
-	    && [::xml::dtd::compare_version "trans-14.dtd" [::xml::dtd::exportname]] < 0} {
-	  set rep [tk_messageBox -message [Local "By including entities, this file will not be compatible with older version of Transcriber (<1.4.7).\nDo you want to proceed?"] -type okcancel -icon question]
-	  if {$rep == "cancel"} {
-	    error "Action cancelled by user"
-	  }
-	  ::xml::dtd::exportname "trans-14.dtd"
-        }
-	set atts [list "desc" $txt "type" $type "extent" $extent]
+       	set atts [list "desc" $txt "type" $type "extent" $extent]
 	set tag [::xml::element "Event" $atts -before $data]
     }
     InsertEvent $tag "hilight"
@@ -535,59 +412,22 @@ proc InsertEvent {elem {other_tags ""}} {
 
     # JOB: insert the requested event in the text widget
     #
-    # IN: txt, description of the event
-    #     type, type of the event, default noise
-    #     extent, extent of the event, default instantaneous
-    #     interactif, interactif mode i.e. popup window for edit events, default 0
-    # OUT: the name of the tag i.e ::xml::elementXX
+    # IN: elem, name of the XML element
+    #     other_tags, optionnaly argument for some other tags
+    #     
+    # OUT: nothing
     # MODIFY: nothing
     #
     # Author: Claude Barras, Sylvain Galliano
-    # Version: 1.1
-    # Date: October 20, 2004
+    # Version: 1.2
+    # Date: September 16, 2005
 
     global v
     set t $v(tk,edit)-bis
     set desc [$elem getAttr "desc"] 
     set type [$elem getType]
     set txt [StringOfEvent $elem]
-    set macro ""
-    #Only for named entities, colors the tag and the event of the event if variable (checkNE,tag or text) is set to 1
-    if { $type == "Event" && [set subtype [$elem getAttr "type"]] == "entities"} {
-	# Look at the class of the named entities and configure the color
-	if { [regexp {^(pers|org|gsp|loc|fac|prod|time|amount|unk)} $desc match macro] } {
-	    foreach part {"tag" "text"} {
-		if { $v(checkNEcolor,$part) == 1 } {
-		    if { ![regexp {/} $desc] } {
-		        $t tag conf NE$macro$part -foreground  $v(color,netag-$macro)
-		    } else {
-		        set macro "meto"
-		        $t tag conf NE$macro$part -foreground  $v(color,netag-meto)
-		    }
-		} else {
-		    if { ![regexp {/} $desc] } {
-		        $t tag conf NE$macro$part -foreground  black
-		    } else {
-		        set macro "meto"
-		        $t tag conf NE$macro$part -foreground  black
-		    }
-		}
-		if { $part == "tag" } {
-		    $t tag raise NE$macro$part
-		}
-	    }
-	}
-	$t insert "insert" $txt [concat "cursor" "sync" NE${macro}tag $elem $other_tags]
-	set symtag [SearchSymEvent $elem]
-	if { $symtag != "" } {
-	    set ext [$elem getAttr "extent"]
-	    if { $ext == "begin" } {
-		$t tag add NE${macro}text $elem.last $symtag.first
-	    } else {
-		$t tag add NE${macro}text $symtag.last $elem.first
-	    }
-	}
-    } else {$t insert "insert" $txt [concat "cursor" "sync" "event" $elem $other_tags]}
+    $t insert "insert" $txt [concat "cursor" "sync" "event" $elem $other_tags]
     # inhibit next "mark set insert"
     $t tag bind "$elem" <Button-1> [subst {EditEvent $elem; break}]
 }
@@ -668,11 +508,11 @@ proc EditEvent {tag {mode "Edit"} {sel ""}} {
     set w [CreateModal .evt "$mode event"]
     
     if {$v(chatMode)} {
-	set lstnam {"Noise" "Comment" "Dependent" "Header" "Scope" "\t" "Pronounce" "Lexical" "Language" "Named Entities"}
-	set lstval {"noise" "comment"  "dependent" "header" "scope" "\t" "pronounce" "lexical" "language" "entities"}
+	set lstnam {"Noise" "Comment" "Dependent" "Header" "Scope" "\t" "Pronounce" "Lexical" "Language"}
+	set lstval {"noise" "comment"  "dependent" "header" "scope" "\t" "pronounce" "lexical" "language"}
     } else {
-	set lstnam {"Noise" "Comment" "\t" "Pronounce" "Lexical" "Language" "Named Entities"}
-	set lstval {"noise" "comment" "\t" "pronounce" "lexical" "language" "entities"}
+	set lstnam {"Noise" "Comment" "\t" "Pronounce" "Lexical" "Language"}
+	set lstval {"noise" "comment" "\t" "pronounce" "lexical" "language"}
     }
     set rads [RadioFrame $w.typ "Type" v(type,chosen) $lstnam $lstval]
     
@@ -710,25 +550,19 @@ proc EditEvent {tag {mode "Edit"} {sel ""}} {
     }
     switch [OkCancelModal $w $e $buttons($mode)] {
 	"OK" {
+	    # in case of Edition and if the event apply to a selection, modify both begin and end event
 	    if { $mode == "Edit" } {
-		#For entities event, look for an eventual symetric event to configure the color of the text
-		if { $v(type,chosen) == "entities" } {
-		    set symtag [SearchSymEvent $tag]
-		    if { $symtag != "" } {
-		        catch { [unset v(tk,dontmove)] }
-		        tkTextSetCursor $v(tk,edit) $symtag.first 
-		        if { $v(extn,chosen) == "begin" } {
-		            regexp {(^NE.*)tag} [ColorNE "$tag.first"] match color
-		            $t tag remove ${color}text $tag.last $symtag.first
-		            CreateAutoEvent $v(desc,chosen) $v(type,chosen) end
-		        } else {
-		            regexp {(^NE.*)tag} [ColorNE "$tag.first"] match color
-		            $t tag remove ${color}text $symtag.last $tag.first
-		            CreateAutoEvent $v(desc,chosen) $v(type,chosen) begin
-		        }
-		        tkTextSetCursor $v(tk,edit) $tag.first
-		        set v(tk,dontmove) 1
+		set symtag [SearchSymEvent $tag]
+		if { $symtag != "" } {
+		    catch { [unset v(tk,dontmove)] }
+		    tkTextSetCursor $v(tk,edit) $symtag.first 
+		    if { $v(extn,chosen) == "begin" } {
+			CreateEvent $v(desc,chosen) $v(type,chosen) end
+		    } else {
+			CreateEvent $v(desc,chosen) $v(type,chosen) begin
 		    }
+		    tkTextSetCursor $v(tk,edit) $tag.first
+		    set v(tk,dontmove) 1
 		}
 	    }
 	    SuppressEvent $tag
@@ -759,8 +593,8 @@ proc SuppressEvent {tag {sym 0}} {
     # MODIFY: nothing
     #
     # Author: Claude Barras, Sylvain Galliano
-    # Version: 1.1
-    # Date: October 20, 2004 
+    # Version: 1.2
+    # Date: September 16, 2004 
 
     global v
     
@@ -772,14 +606,6 @@ proc SuppressEvent {tag {sym 0}} {
 	}
 	set symtag [SearchSymEvent $tag]
 	  if { $symtag != "" } {
-	      set color ""
-	      if { $v(extn,chosen) == "begin" } {
-		  regexp {(^NE.*)tag} [ColorNE "$tag.first"] match color
-		  $t tag remove ${color}text "$tag.last" "$symtag.first"
-	      } else {
-		  regexp {(^NE.*)tag} [ColorNE "$tag.first"] match color
-		  $t tag remove ${color}text $symtag.last $tag.first 
-	      }
 	      SuppressEvent $symtag 1
 	  }
     }
@@ -811,31 +637,6 @@ proc TagName {pos} {
 	regexp {^(::.*xml.*)$} $vartag tag
     }
     return $tag
-}
-
-proc ColorNE {pos {part "tag"}} {
-
-    # JOB: find the color tag at the position "pos" in the text
-    #
-    # IN: pos, position in the text
-    # OUT: the name of the color tag i.e. NEmacroclass
-    # MODIFY: nothing
-    #
-    # Author: Sylvain Galliano
-    # Version: 1.0
-    # Date: October 20, 2004 
-
-    
-    global v 
-    
-    set t $v(tk,edit)-bis
-    set alltag [split [$t tag names $pos]]
-    set colortag ""
-    foreach tag $alltag {
-	regexp "^NE(pers|org|gsp|loc|fac|prod|time|amount|meto|unk)$part" $tag colortag 
-    }
-
-    return $colortag
 }
 
 # trace callback on v(type,chosen) used during EditEvent
@@ -872,9 +673,6 @@ proc TraceEvent {w e args} {
       }
       "lexical" {
 	 SetMenuEvent $e lexical
-      }
-      "entities" {
-	  SetMenuEvent $e entities
       }
    }
 }
@@ -994,11 +792,11 @@ proc ConfigureEvents {} {
    set h [frame $g.fr2 -relief raised -bd 1]
    pack $h -fill both -expand true -side left
    if {$v(chatMode)} {
-     set lstname {"Comment" "Noise" "Pronounce" "Lexical" "Language" "Named Entities" "Dependent" "Header" "Scope"}
-     set lstval {"comment" "noise" "pronounce" "lexical" "language" "entities" "dependent" "header" "scope"}
+     set lstname {"Comment" "Noise" "Pronounce" "Lexical" "Language" "Dependent" "Header" "Scope"}
+     set lstval {"comment" "noise" "pronounce" "lexical" "language" "dependent" "header" "scope"}
    } else {
-     set lstnam {"Comment" "Noise" "Pronounce" "Lexical" "Language" "Named Entities"}
-     set lstval {"comment" "noise" "pronounce" "lexical" "language" "entities"}
+     set lstnam {"Comment" "Noise" "Pronounce" "Lexical" "Language"}
+     set lstval {"comment" "noise" "pronounce" "lexical" "language"}
    }
    foreach title $lstnam var $lstval {
       set e [EntryFrame $h.$var $title v(event,$var)]
@@ -1024,7 +822,7 @@ proc ConfigureEvents {} {
 
 proc ConfEventName {type title} {
 
-    # JOB: For each element (language, dependent,header,scope and the events), launch the ListEditor procedure to modify the associated list
+    # JOB: For each element (language, dependent, header, scope and the events), launch the ListEditor procedure to modify the associated list
     #
     # IN: type, the type of the event
     #     title, the name of the list
@@ -1057,10 +855,6 @@ proc ConfEventName {type title} {
 	    }
 	    default {
 		set v($type) [ListEditor $v($type) $title {"Value" "Description"}]
-		#If entities list is modified, it is necessary to update the associated interface
-		if { $type == "entities" } {
-		    UpdateNEFrame .edit.ne
-		}
 	    }
 	}
     }

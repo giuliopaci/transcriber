@@ -12,21 +12,18 @@
 
 proc CreateTextFrame {f {top 0}} {
     global v
-    
+ 
+    if [winfo exists $f] {
+	destroy $f
+    }
+   
     if {$top} {
 	toplevel $f
     } else {
 	frame $f -bd 2 -relief raised
-	setdef v(view,$f) 1
-	if {$v(view,$f)} {
-	    pack $f -expand true -fill both -side top
-	    if {[catch {
-		pack $f -before .cmd
-	    }]} {catch {
-		pack $f -before .snd
-	    }}
-	}
+	setdef v(frame_view,text) 1
     }
+
     set v(tk,edit) [text $f.txt -wrap word  -width 40 -height 8 \
 		        -fg $v(color,fg-text) -bg $v(color,bg-text) \
 		        -font text -yscrollcommand [list $f.ysc set]]
@@ -45,6 +42,8 @@ proc CreateTextFrame {f {top 0}} {
     
     # Bindings for widget: tabs and insert are propagated
     bind $v(tk,edit) <Enter> {focus %W}
+    bind $v(tk,edit) <Return> {InsertSegment}
+
     bind Text <Key> { tkTextInsert %W %A; break }
     # Suppress local control bindings to allow global menu accelerators
     foreach k {
@@ -156,23 +155,25 @@ proc SwitchTextFrame {} {
    global v
 
    # Switch display/hide
-   set f .edit
+   set f $v(frame,text)
    if {[winfo ismapped $f]} {
       set v(geom,.) [wm geom .]
-      pack forget $f
-      pack configure .snd -expand true
+#      pack forget $f
+       [winfo parent $f] forget $f
+#      pack configure $v(frame,snd) -expand true
       wm geom . {}
-      set v(view,$f) 0
+      set v(frame_view,text) 0
    } else {
-      pack $f -expand true -fill both -side top
-      if {[catch {
-	 pack $f -before .cmd
-      }]} {catch {
-	 pack $f -before .snd
-      }}
-      pack configure .snd -expand false
+       [winfo parent $f] add $f
+#     pack $f -expand true -fill both -side top
+#      if {[catch {
+#         pack $f -before $v(frame,cmd)
+#      }]} {catch {
+#         pack $f -before $v(frame,snd)
+#      }}
+#      pack configure $v(frame,snd) -expand false
       wm geom . $v(geom,.)
-      set v(view,$f) 1
+      set v(frame_view,text) 1
    }
 }
 
@@ -183,7 +184,10 @@ proc InitEditor {} {
    global v
 
    if ![info exists v(tk,edit)] {
-      CreateTextFrame .edit
+       if {![info exists v(frame,text)]} {
+	   set v(frame,text) .main.text
+       }
+       CreateTextFrame $v(frame,text)
    } else {
       EmptyTextFrame
       # For optimization : destroy and re-create is much quicker...
@@ -943,6 +947,19 @@ proc CheckTerminator {t} {
 	tk_dialog .my_errormsg "Terminator not valid" \
 	"The terminator is not valid for CHILDES format" ""  0 "Ok"
 	
+    }
+
+}
+
+
+proc SwitchTextDisplay {tag} {
+    global v
+    set t $v(tk,edit)-bis
+
+    $t tag conf "event" -elide $v(text_view,$tag)
+    set part "tag"
+    foreach macro "$v(listNE,macroclass) meto" {
+	$t tag conf NE$macro$part -elide $v(text_view,$tag)
     }
 
 }

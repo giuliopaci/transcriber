@@ -194,6 +194,9 @@ lexical {
 	{"()"	"rupture de syntaxe"}
 }
 
+# list of Named Entities (NE) macroclass
+listNE,macroclass {"pers" "org" "gsp" "loc" "fac" "prod" "time" "amount" "meto" "unk" "user"}
+
 # list of Named Entities (NE) events with descriptions
 entities {
 	{"pers" "Person"}
@@ -307,52 +310,10 @@ ext,snd       {".au" ".wav" ".snd" ".sph" ".sig" ".sd" ".smp" ".aif" ".aiff" ".m
 ext,trs       {".xml" ".trs" ".typ"}
 ext,lbl       {".lab" ".lola" ".lbl" ".phn" ".wrd" ".txt"}
 
-# Colors
-color,bg      "#f2e6c8"
-color,bg-sel  "#d0b098"
-color,fg-sync "black"
-color,bg-sync "#96c3b6"
-color,hi-sync "#a8d8c8"
-color,fg-turn "black"
-color,bg-turn "#96bacc"
-color,fg-sect "black"
-color,bg-sect "#e28c86"
-color,fg-back "black"
-color,bg-back "#929496"
-color,fg-text "black"
-color,bg-text "#d9d9d9"
-color,hi-text "#f0f0f0"
-color,fg-evnt "grey50"
-color,bg-evnt "#d9d9d9"
-colorizeSpk   0
-color,netag-pers blue
-color,netag-org red
-color,netag-gsp orange
-color,netag-loc "#0007ff3ff"
-color,netag-fac brown
-color,netag-prod salmon
-color,netag-time "#000f0ffff" 
-color,netag-amount purple
-color,netag-meto grey
-color,netag-unk grey
-color,netag-user grey
-checkNEcolor,tag  1
-checkNEcolor,text 1
-checkNEcolor,buton 1
-
-# Fonts
-font,text    {courier 12}
-font,event   {times 14 italic}
-font,axis    {courier 10}
-font,list    {courier 12 bold}
-font,info    {helvetica 10 bold}
-font,mesg    {helvetica 10}
-font,trans   {helvetica 10}
-font,namEnt		{arial 10}
-font,turn {courier 12}
-font,section {courier 12}
 
 # Some geometry to be saved
+frame_width,database 300
+frame_width,toolbox 550
 geom,.		""
 geom,.sect	""
 geom,.turn	""
@@ -360,32 +321,52 @@ geom,.evt	""
 geom,.gain	""
 
 # Display
-view,.edit          1
-view,.edit.ne	    0
-view,.cmd           1
-view,.inf           0
-view,.snd	    1
-view,.snd2          0
-view,.msg	    1
+theme "clean"
+canvas,type canvas1
+frame_view,m	1
+frame_view,main 1
+frame_view,top 1
+frame_view,database 1
+frame_view,attributes 0
+frame_view,background 1
+frame_view,episode 1
+frame_view,turn 1
+frame_view,event 1
+frame_view,central 1
+frame_view,notebook 1
+frame_view,navigator 1
+frame_view,toolbox 0
+frame_view,explorer 1
+frame_view,text 1
+frame_view,cmd 1
+frame_view,gain 0
+frame_view,snd 1
+frame_view,snd2 0
+frame_view,msg 1
+frame_view,video 0
+frame_view,balise 0
+frame_view,ne 1
+text_view,event 1
 hideLevels	    0
 
 # Principal signal configuration
-.snd.w,height       100
-.snd.w,resolution   30
-view,.snd.scr.reso  1
-view,.snd.seg0      1
-view,.snd.seg1      1
-view,.snd.seg2      1
-view,.snd.bg        1
+frame_wavfm_height,snd.w	 100
+frame_wavfm_resolution,snd.w 30
+frame_view,snd.reso 1
+frame_view,snd.seg0 1
+frame_view,snd.seg1 1
+frame_view,snd.seg2 1
+frame_view,snd.bg 1
+
 
 # Second signal configuration
-.snd2.w,height      50
-.snd2.w,resolution  300
-view,.snd2.scr.reso 1
-view,.snd2.seg0     1
-view,.snd2.seg1     1
-view,.snd2.seg2     1
-view,.snd2.bg       1
+frame_wavfm_height,snd.w	 50
+frame_wavfm_resolution,snd.w 300
+frame_view,snd2.reso 1
+frame_view,snd2.seg0 1
+frame_view,snd2.seg1 1
+frame_view,snd2.seg2 1
+frame_view,snd2.bg 1
 
 # header for childes
 

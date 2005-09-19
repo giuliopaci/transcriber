@@ -236,7 +236,12 @@ proc ReadTrans {name {soundFile ""} {multiwav {}}} {
    
    # First, try to rescue from last autosaved file if it exists.
    AutoRescue $name
-
+    if [info exist v(trans,list)] {
+	lappend v(trans,list) $v(trans,name)
+	set v(trans,list) [lsort  -ascii -unique $v(trans,list) ]
+    } else {
+	lappend v(trans,list) $name
+    }
    set format "trs"
    foreach ns [namespace children convert] {
       if {[info command ${ns}::guess] != "" && [${ns}::guess $name]} {
@@ -244,7 +249,6 @@ proc ReadTrans {name {soundFile ""} {multiwav {}}} {
 	 break
       }
    }
-   #puts "format $format"
 
    DisplayMessage [Local "Cleaning up memory..."]; update
    CloseTrans -nosave
@@ -888,15 +892,21 @@ proc DisplayTrans {} {
 		   set prevBrother     [$chn         getBrother * * -1]
 		   set prevPrevBrother [$prevBrother getBrother * * -1]
 		   if { ( [$prevBrother class] == "data" && [$prevBrother getData] == "" )
-		     && ([$prevPrevBrother class]=="element" && [$prevPrevBrother getType]=="Event")} {
-		            $prevBrother setData " "
-		            append txt " "
-		            InsertData $prevBrother
-		    }
+			&& ([$prevPrevBrother class]=="element" && [$prevPrevBrother getType]=="Event")} {
+		       $prevBrother setData " "
+		       append txt " "
+		       InsertData $prevBrother
+		   }
 		   
-
-		    InsertEvent $chn
-		    append txt [StringOfEvent $chn]
+		   # because Named Entities are considered like an event in the DTD, we are obliged to test if it's a real event or a NE
+		   # maybe another XML element will be created for the NE
+		   if {[$chn getAttr "type"] == "entities"} {
+		       InsertNE $chn
+		       append txt [StringOfNE $chn]
+		   } else {
+		       InsertEvent $chn
+		       append txt [StringOfEvent $chn]
+		   }
 	       }
 	       "Who" {
 		  if {[$chn getAttr "nb"] > 1} {
@@ -941,7 +951,7 @@ proc DisplayTrans {} {
    if {[info exists v(demo)]} {
       DestroyTextFrame
       DestroySegmentWidgets
-      CreateSegmentWidget .snd.w seg0 "Demo" -fg $v(color,fg-sync) -full $v(color,bg-sync) -height 1 -high $v(color,hi-sync)
+      CreateSegmentWidget $v(frame,snd).w seg0 "Demo" -fg $v(color,fg-sync) -full $v(color,bg-sync) -height 1 -high $v(color,hi-sync)
       destroy .demo
       frame .demo -bd 2 -relief raised
       pack .demo -expand true -fill both -side top

@@ -26,9 +26,9 @@ exec wish "$0" "$@"
 
 proc add_menu {m liste} {
    global Menu
-
+    global v
    if ![winfo exists $m] {
-      menu $m -tearoff 0
+      menu $m -tearoff 0 -font $v(font,menu)
    }
    if ![info exists Menu(uid)] {
       set Menu(uid) 0
@@ -153,6 +153,9 @@ proc eval_menu {menu args} {
    eval $menu_id $args
 }
 
+
+
+
 proc config_entry {menu item args} {
    global Menu
    set menu [Local $menu]
@@ -250,13 +253,13 @@ proc InitMenus {} {
 	 {""}
 	 {"Insert event..."                cascade {
 	    {"Isolated noise"        cmd {CreateEvent "b" "noise" "instantaneous" 1}  -bind "Ctrl-d"}
-	    {"Overlapping noise"        cmd {CreateAutoEvent "b" "noise" "previous" 1}}
-	    {"Pronounce"                cmd {CreateAutoEvent "" "pronounce" "previous" 1} -bind "Alt-equal"}
-	    {"Language"                        cmd {CreateAutoEvent "en" "language" "previous" 1}}
-	    {"Lexical"                        cmd {CreateAutoEvent "" "lexical" "previous" 1}}
-	    {"Comment"                        cmd {CreateAutoEvent "" "comment"}}
-	    {"Named Entities"                 cmd {CreateAutoEvent "" "entities"} -bind "Ctrl-e"} 
+	    {"Overlapping noise"        cmd {CreateEvent "b" "noise" "previous" 1}}
+	    {"Pronounce"                cmd {CreateEvent "" "pronounce" "previous" 1} -bind "Alt-equal"}
+	    {"Language"                        cmd {CreateEvent "en" "language" "previous" 1}}
+	    {"Lexical"                        cmd {CreateEvent "" "lexical" "previous" 1}}
+	    {"Comment"                        cmd {CreateEvent "" "comment"}}
 	 }}
+	 {"Insert Named Entity"    cmd {CreateAutoNE ""} -bind "Ctrl-e"} 
       }}
       {"Signal" -underline 0        cascade {
 	 {"Play/Pause"                cmd {PlayOrPause} -bind "Tab"}
@@ -337,30 +340,37 @@ proc InitMenus {} {
 	    {"Edit pronounce list..."        cmd {ConfEventName "pronounce" "Pronounce"}}
 	    {"Edit lexical list..."        cmd {ConfEventName "lexical" "Lexical"}}
 	    {"Edit language list..."        cmd {ConfEventName "language" "Language"}}
-	    {"Edit named entities list..."        cmd {ConfEventName "entities" "Named Entities"}} 
 	 }}
 	 {"Display" -underline 0        cascade {
-	    {"Text editor"        check v(view,.edit) -command {SwitchTextFrame} -bind "F2"}
-	    {"NE buttons"  check v(view,.edit.ne) -command {SwitchNEFrame .edit.ne} -bind "F3"}
-	    {"Command buttons"        check v(view,.cmd) -command {SwitchFrame .cmd  -after .edit} -bind "F4"}
-	    {"First signal view"        check v(view,.snd) -command {SwitchFrame .snd} -bind "F5"} 
-	    {"Second signal view"        check v(view,.snd2) -command {SwitchFrame .snd2} -bind "F6"}
-	    {"Messages"  check v(view,.msg) -command {SwitchFrame .msg -side bottom} -bind "F7"}
+	    {"Switch display type"  -underline 0 cascade {
+		{"Canvas 1" cmd {ChangeCanvas canvas1}}
+		{"Canvas 2" cmd {ChangeCanvas canvas2}}
+		{"Canvas 3" cmd {ChangeCanvas canvas3}}
+	    }}
+	    {"Text"        check v(frame_view,text) -command {SwitchFrame text} -bind "F2"}
+	    {"Toolbox"  check v(frame_view,toolbox) -command {SwitchFrame toolbox} -bind "F3"}
+	    {"Command buttons"        check v(frame_view,cmd) -command {SwitchFrame cmd} -bind "F4"}
+	    {"First signal view"        check v(frame_view,snd) -command {SwitchFrame snd} -bind "F5"} 
+	    {"Second signal view"        check v(frame_view,snd2) -command {SwitchFrame snd2} -bind "F6"}
+	    {"Messages"  check v(frame_view,msg) -command {SwitchFrame msg} -bind "F7"}
+	    {"Explorer"  check v(frame_view,database) -command {SwitchFrame database} -bind "F8"}
+	     {"Menu"  check v(frame_view,menu) -command {SwitchFrame menu} -bind "F9"}
+	     {"Tags"  check v(text_view,event) -command {SwitchTextDisplay event } -bind "F10"}
 	    {"Smart segmentation display"        check v(hideLevels) -command {UpdateSegmtView}}
 	    {"Colorize speaker segments"        check v(colorizeSpk) -command {ColorizeSpk}}
 	 }}
 	 {"Fonts"        cascade {
 	    {"Axis"                cmd {set v(font,axis)  [ChooseFont axis] }}
 	    {"Events"                cmd {set v(font,event) [ChooseFont event] }}
+	    {"Explorer"             cmd {set v(font,explorer) [ChooseFont explorer] }}
 	    {"Information"        cmd {set v(font,info)  [ChooseFont info] }}
 	    {"Lists"                cmd {set v(font,list)  [ChooseFont list] }}
 	    {"Messages"                cmd {set v(font,mesg)  [ChooseFont mesg] }}
-        {"Named Entities"      cmd {set v(font,namEnt) [ChooseFont namEnt];UpdateNEFrame .edit.ne }}
+	    {"Named Entities"      cmd {set v(font,namEnt) [ChooseFont namEnt];UpdateNEFrame}} 
 	    {"Section"        cmd {set v(font,section)   [ChooseFont section]}}
 	    {"Segmentation"        cmd {set v(font,trans)   [ChooseFont trans]}}
 	    {"Speaker"             cmd {set v(font,turn) [ChooseFont turn]} }
-	    {"Text"                cmd {set v(font,text)    [ChooseFont text] }}
-	 }}
+	    {"Text"                cmd {set v(font,text)    [ChooseFont text] }}	 }}
 	 {"Colors..."                cmd {ConfigureColors}}
 	 {"Bindings..."                cmd {ConfigureBindings}}
 	 {""}

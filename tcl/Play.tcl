@@ -150,10 +150,11 @@ proc CursorEvent {inc} {
       return
    }
    foreach win $v(wavfm,list) {
-      set margin [expr 0.05 * $v($win,size)]
-      if {($pos<$v($win,left))||
-	  ($pos>$v($win,right)-$margin && $v(curs,max)>$v($win,right))} {
-	 set v($win,left) [expr $pos-$margin]
+       set frame $v(frame_name,$win)
+      set margin [expr 0.05 * $v(frame_wavfm_size,$frame)]
+      if {($pos<$v(frame_wavfm_left,$frame))||
+	  ($pos>$v(frame_wavfm_right,$frame)-$margin && $v(curs,max)>$v(frame_wavfm_right,$frame))} {
+	 set v(frame_wavfm_left,$frame) [expr $pos-$margin]
 	 SynchroWidgets $win
       }
    }
@@ -418,9 +419,9 @@ proc OpenVideoFile {{file ""}} {
       }
       set v(videoFile) $file
       if {![info exists v(qtvideo)]} {
-         set v(qtvideo) [movie .snd.qt -file $v(videoFile) -controller 0]
-	 pack .snd.qt -side left
-	 pack .snd.1 -side right -expand true
+         set v(qtvideo) [movie $v(frame,snd).qt -file $v(videoFile) -controller 0]
+	 pack $v(frame,snd).qt -side left
+	 pack $v(frame,snd).1 -side right -expand true
       }
       if {[$v(qtvideo) cget -file] != $v(videoFile)} {
 	 $v(qtvideo) configure -file $v(videoFile)
