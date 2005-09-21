@@ -46,7 +46,7 @@ install:
 	cp -f pkgIndex.tcl ${TRANS_LIB_DIR}/
 	cp -f ../tcl/*.tcl ${TRANS_LIB_DIR}/tcl
 	cp -f ../convert/*.tcl ../convert/README ${TRANS_LIB_DIR}/convert
-	cp -rf ../img ../doc ../etc ../demo ../COPYING ${TRANS_LIB_DIR}/
+	cp -rf ../themes ../doc ../etc ../demo ../COPYING ${TRANS_LIB_DIR}/
 
 	@if [ ${OS} = UnixLike ] ; then \
 		cp -f trans ${TRANS_BIN}/trans; \
