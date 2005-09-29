@@ -1136,7 +1136,9 @@ namespace eval turn {
       } else {
 	 set buttons {"OK" "Cancel"}
       }
-      set result [OkCancelModal $w $ent $buttons]
+      # Display the speaker widget without retreiving the last widget size
+      set lastSize "no"
+      set result [OkCancelModal $w $ent $buttons $lastSize]
       if {$result != "OK"} {
 	  if {$result == "Destroy"} {
 	      ::speaker::undo_del_spkg
