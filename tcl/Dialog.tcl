@@ -41,22 +41,61 @@ proc CreateModal {w title} {
    return $w
 }
 
-proc OkCancelModal {w e {names {"OK" "Cancel"}}} {
+proc OkCancelModal {w e {names {"OK" "Cancel"}} {lastSize {"yes"}}} {
+# JOB	  Open OkCancel frame and wait for user to interact
+#
+# IN      w              window name
+#         e	         widget which user should interact with
+#         names          Button names to display in  w
+#         lastSize       Define if the widget size should be the same as the former one.
+#                        Possible values are "yes" or "no"
+#
+# OUT     Button clicked (Ok, Destroy, Cancel)
+#
+# Modify  Nothing
+#
+# Author  Claude Barras, Mathieu MANTA
+# Date    september 29th, 2005
+# Version 2.0
+#
    global dial
 
    OkCancelFrame $w.bot dial(result) $names
-   WaitForModal $w $e dial(result)
+   WaitForModal $w $e dial(result) $lastSize
    return $dial(result)
 }
 
-proc WaitForModal {w e varName} {
+proc WaitForModal {w e varName {lastSize {"yes"}}} {
+# JOB	  Display w, focus keyboard on e and wait for buttons Ok, Cancel, Destroy to be pressed
+#	  Then w is destroyed and its size is saved to be retreived.
+#
+# IN      w            Window name
+#         e            Widget where the keyboard is focused
+#         varName      Variable waited to be set before closing Modal widget
+#         lastSize     Define if the widget size should be the same as the former one.
+#                      Possible values are "yes" or "no"
+# OUT     Nothing
+#
+# Modify  destroy $w
+#         varName
+#
+# Author  Claude Barras, Mathieu Manta
+# Version 2.0
+# Date    september 29th, 2005
+#
+
    global v
    if {[info exists v(geom,$w)] && $v(geom,$w) != ""} {
-      FrontWindow $w
-      update
-      wm geom $w $v(geom,$w)
-   } else {
-      CenterWindow $w
+        if {$lastSize == "yes"} {
+           FrontWindow $w
+           update
+           wm geom $w $v(geom,$w)
+         } else {
+              set position [string range $v(geom,$w) [string first "+" $v(geom,$w)] end]
+              wm withdraw $w
+              wm geom $w $position
+              wm deiconify $w
+       }
    }
    set oldFocus [focus]
    grab $w
