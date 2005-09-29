@@ -1102,9 +1102,11 @@ namespace eval turn {
       bind $w <Key-Down> "tkListboxUpDown $lst 1; ::turn::choose_lst"
 
        set w33lg [frame $w2lg.f2]
-       pack $w33lg -side left -fill both -expand 1
-       variable titre_l [label $w33lg.l -text [Local "External Speakers Database :"]]
-       pack $w33lg.l -side top 
+# Lines removed by M. Manta to remove the global speaker list from the 'Edit turn attribute' widget
+#       pack $w33lg -side left -fill both -expand 1
+#       variable titre_l [label $w33lg.l -text [Local "External Speakers Database :"]]
+#       pack $w33lg.l -side top 
+# End of M. Manta modifs - 29/09/05
        variable lstg [ListFrame $w33lg.lstg [::speaker::global_names]]
        
        bind $lstg <ButtonRelease-1>  "::turn::choose_lstg"
