@@ -42,9 +42,11 @@ proc CreateModal {w title} {
 }
 
 proc OkCancelModal {w e {names {"OK" "Cancel"}} {lastSize {"yes"}}} {
+# !!!, I'm not sure at 100% of the code comments
+#
 # JOB	  Open OkCancel frame and wait for user to interact
 #
-# IN      w              window name
+# IN      w              window name to display
 #         e	         widget which user should interact with
 #         names          Button names to display in  w
 #         lastSize       Define if the widget size should be the same as the former one.
@@ -66,6 +68,8 @@ proc OkCancelModal {w e {names {"OK" "Cancel"}} {lastSize {"yes"}}} {
 }
 
 proc WaitForModal {w e varName {lastSize {"yes"}}} {
+# !!!, I'm not sur eat 100% ofthe code comments
+#
 # JOB	  Display w, focus keyboard on e and wait for buttons Ok, Cancel, Destroy to be pressed
 #	  Then w is destroyed and its size is saved to be retreived.
 #
@@ -80,32 +84,34 @@ proc WaitForModal {w e varName {lastSize {"yes"}}} {
 #         varName
 #
 # Author  Claude Barras, Mathieu Manta
-# Version 2.0
+# Version 2.1
 # Date    september 29th, 2005
 #
 
    global v
    if {[info exists v(geom,$w)] && $v(geom,$w) != ""} {
-        if {$lastSize == "yes"} {
+	if {$lastSize=="yes"} {
            FrontWindow $w
            update
            wm geom $w $v(geom,$w)
          } else {
+	      wm withdraw $w
               set position [string range $v(geom,$w) [string first "+" $v(geom,$w)] end]
-              wm withdraw $w
+	      update idletasks
               wm geom $w $position
               wm deiconify $w
-       }
+	}
+   } else {
+	CenterWindow $w
    }
+   
    set oldFocus [focus]
    grab $w
    update
    focus $e
    tkwait variable $varName
    catch {focus $oldFocus}
-   if {[info exists v(geom,$w)]} {
-      set v(geom,$w) [wm geom $w]
-   }
+   set v(geom,$w) [wm geom $w]
    destroy $w
 }
 
