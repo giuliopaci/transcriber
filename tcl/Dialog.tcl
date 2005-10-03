@@ -41,7 +41,7 @@ proc CreateModal {w title} {
    return $w
 }
 
-proc OkCancelModal {w e {names {"OK" "Cancel"}} {lastSize {"yes"}}} {
+proc OkCancelModal {w e {names {"OK" "Cancel"}} {lastSize "yes"}} {
 # !!!, I'm not sure at 100% of the code comments
 #
 # JOB	  Open OkCancel frame and wait for user to interact
@@ -67,7 +67,7 @@ proc OkCancelModal {w e {names {"OK" "Cancel"}} {lastSize {"yes"}}} {
    return $dial(result)
 }
 
-proc WaitForModal {w e varName {lastSize {"yes"}}} {
+proc WaitForModal {w e varName {lastSize "yes"}} {
 # !!!, I'm not sur eat 100% ofthe code comments
 #
 # JOB	  Display w, focus keyboard on e and wait for buttons Ok, Cancel, Destroy to be pressed
