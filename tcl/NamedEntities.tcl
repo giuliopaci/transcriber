@@ -21,48 +21,54 @@ proc CreateNEFrame {frame} {
 
     
     set f $v(frame,$frame)
-    
+    set v(listmacroNE) {}
     if {[winfo exists $f]} {DestroyFrame $frame}
     
-    # make dynamicaly the different list of entities by macroclass by taking the list of all the entities in the configuartion file if exists else in the default.txt
-    foreach ent $v(entities) {
+    # make dynamicaly the following item by taking the list of all the entities in the configuartion file if exists else in the default.txt:
+    # - list of macroclass (i.e. pers, org,...): v(listmacroNE)
+    # - color variable for each macroclass, for example it define v(color,ne-pers) to blue...
+    # - list of entities by macroclass, for example v(listNE,pers) contains pers, pers.hum, pers.imag...
+    # by this way, to add a macroclass or another entity, you only have to modify manually the configuration file (default.txt or you own conf file)
+    foreach ent $v(namedEntities) {
 	set name [lindex $ent 0]
+	set color [lindex $ent 2]
+	# make each color variable for each macroclass
+	if {![regexp {(.*?)\.} $name] && $color != ""} {
+	    set v(color,ne-$name) $color
+	}
 	# the metonymy entities are detected by the presence of the "/" character in the name
 	if { [regexp "/" $name] } {
 	    lappend v(listNE,meto) $name
 	    continue
 	} else {
-	    set find 0
-	    foreach macro $v(listNE,macroclass) {
-		if { [regexp "^$macro" $name] } {
-		    lappend v(listNE,$macro) $name
-		    set find 1
-		    break
-		} 
-	    }
-	    # if the entity doesn't match any macroclass, add it to user entities class 
-	    if { $find == 0 } {
-		lappend v(listNE,user) $name
+	    # test if $name is a macroclass or microclass
+	    if {![regexp {(.*?)\.} $name type macro]} {
+		# $name is a macroclass
+		if { [lsearch $v(listmacroNE) $name] < 0 } {
+		    # make the list of macroclass
+		    lappend v(listmacroNE) $name
+		}
+		lappend v(listNE,$name) $name
+	    } else {
+		# $name is a microclass
+		# make each macroclass list
+		lappend v(listNE,$macro) $name
 	    }
 	}
     }
-    if { ![info exists v(listNE,user)] } {
-	set v(listNE,user) ""
-    }
-
     frame $f -bd 1 -relief raised
     set row 0
     set column 0
  
     # create the interface with buttons
-    foreach macro $v(listNE,macroclass) {
+    foreach macro $v(listmacroNE) {
 	frame $f.$macro
 	foreach micro $v(listNE,$macro) {
 	    regsub -all {\.} $micro "" name
-	    if { $v(checkNEcolor,buton) == 1 } {
-		button $f.$macro.$name -text $micro -font $v(font,namEnt) -bg $v(color,netag-$macro) -pady 0 -width [expr [maxlength $v(entities)]-5] -command "CreateAutoNE $micro"
+	    if { $v(color,NEbutton) == 1 } {
+		button $f.$macro.$name -text $micro -font $v(font,namEnt) -bg $v(color,ne-$macro) -pady 0 -width [expr [maxlength $v(namedEntities)]-5] -command "CreateAutoNE $micro"
 	    } else {
-		button $f.$macro.$name -text $micro -font $v(font,namEnt) -pady 0 -width [expr [maxlength $v(entities)]-5] -command "CreateAutoNE $micro"
+		button $f.$macro.$name -text $micro -font $v(font,namEnt) -pady 0 -width [expr [maxlength $v(namedEntities)]-5] -command "CreateAutoNE $micro"
 	    }
 	    pack $f.$macro.$name -ipadx 2
 	}
@@ -74,8 +80,7 @@ proc CreateNEFrame {frame} {
 	    incr row 
 	}
 	unset v(listNE,$macro)
-    } 
-
+    }
     set g [frame $f.auto -borderwidth 5 -relief raised]
 
     label $g.label -text [Local Automatic] 
@@ -86,7 +91,7 @@ proc CreateNEFrame {frame} {
     set h [frame $g.radio -relief raised]
     set i [frame $h.left]
     set j [frame $h.right]
-    label $i.label -text "Mode:"
+    label $i.label -text [Local "Mode:"]
     grid $i.label -row 0 -column 2 -padx 10
     radiobutton $j.radioadd -text [Local Add] -variable v(autoNE) -value Add
     grid $j.radioadd -sticky w 
@@ -120,55 +125,6 @@ proc UpdateNEFrame {} {
     CreateFrame ne
 }
 
-proc SwitchNEFrame {f} {
-
-    # JOB: switch the display of the NE interface
-    #
-    # IN: f, name of the NE window
-    # OUT: nothing
-    # MODIFY: nothing
-    #
-    # Author: Sylvain Galliano
-    # Version: 1.0
-    # Date: October 20, 2004
-
-
-    global v
- 
-    if {![winfo exists $v(frame,ne)]} {
-	CreateFrame ne
-    } elseif {[winfo ismapped $f]} {
-	pack forget $f
-    } else {
-	pack $f -fill y -side right
-    }
-}
-
-proc UpdateNEFont {fontNE} {
-
-    # JOB: Change the font of the named entities to fontNE into the editor
-    #
-    # IN:
-    #    fontNE : New named entity font - ex: Tahoma 10 {bold italic}
-    #
-    # OUT: nothing
-    # MODIFY: nothing
-    #
-    # Author: Mathieu MANTA
-    # Version: 1.0
-    # Date: March 1st, 2005
-
-    global v
-
-    set t $v(tk,edit)-bis
-
-    foreach macro "$v(listNE,macroclass) meto" {
-	foreach part {"tag" "text"} {
-		$t tag conf NE$macro$part -elide 1
-	}
-    }
-}
-
 proc UpdateNEColors {} {
 
     # JOB: switch the display of the NE interface
@@ -185,13 +141,12 @@ proc UpdateNEColors {} {
 
     set t $v(tk,edit)-bis
 
-    foreach macro "$v(listNE,macroclass) meto" {
+    foreach macro $v(listmacroNE) {
 	foreach part {"tag" "text"} {
-	    if { $v(checkNEcolor,$part) == 1 } {
-		$t tag conf NE$macro$part -foreground  $v(color,netag-$macro)
-
+	    if { $v(color,NE$part) == 1 } {
+		$t tag conf NE$macro$part -foreground  $v(color,ne-$macro)		    
 	    } else {
-		$t tag conf NE$macro$part -foreground  black
+		$t tag conf NE$macro$part -foreground  $v(color,fg-text)
 	    }
 	}
     }
@@ -211,7 +166,7 @@ proc CreateAutoNE {txt {interactif 0}} {
     #
     # Author: Sylvain Galliano
     # Version: 1.1
-    # Date: September 16, 2005
+    # Date: September 20, 2005
 
     global v
     
@@ -220,17 +175,17 @@ proc CreateAutoNE {txt {interactif 0}} {
     # Automatic mode
     if { $v(findNE,whichNEstring) != "" && $v(autoNE) != ""} {
 	if { $v(autoNE) == "Add" } {
-	    set answer [tk_messageBox -message [format [Local "The text \"%s\" will be automaticaly tagged - Continue ?"] $v(findNE,whichNEstring)] -type okcancel -icon question]
+	    set answer [MessageFrame [format [Local "The text \"%s\" will be automaticaly tagged - Continue ?"] $v(findNE,whichNEstring)]]
 	} else {
-	    set answer [tk_messageBox -message [format [Local "The text \"%s\" tagged with \"%s\" will be automaticaly untagged - Continue ?"] $v(findNE,whichNEstring) $txt] -type okcancel -icon question]
+	    set answer [MessageFrame [format [Local "The text \"%s\" tagged with \"%s\" will be automaticaly untagged - Continue ?"] $v(findNE,whichNEstring) $txt]]
 	}
-	if { $answer == "ok" } {
+	if { $answer == "OK" } {
 	    #  save the current position then begin the loop from the beginning and return to the saved position
 	    $t mark set oldpos "insert"
 	    tkTextSetCursor $v(tk,edit) 0.0
 
 	    set nbocc 0
-	    while { [set pos [FindNextNE]] != "" } {
+	    while { [set pos [FindNextNE $v(autoNE)]] != "" } {
 		set what [[TagName $pos] getType]
 		if { $what == "\#PCDATA" } {
 		    switch $v(autoNE) {
@@ -259,13 +214,16 @@ proc CreateAutoNE {txt {interactif 0}} {
 	    }
 	    tkTextSetCursor $v(tk,edit) oldpos
 	    if { $v(autoNE) == "Add" } {
-		DisplayMessage "$nbocc \"$v(findNE,whichNEstring)\" automaticaly tagged with \"$txt\""
+		DisplayMessage "$nbocc \"$v(findNE,whichNEstring)\" [Local {automaticaly tagged with}] \"$txt\""
 	    } else {
-		DisplayMessage "$nbocc \"$v(findNE,whichNEstring)\" tagged with \"$txt\" automaticaly untagged"
+		DisplayMessage "$nbocc \"$v(findNE,whichNEstring)\" [Local {tagged with}] \"$txt\" [Local {automaticaly untagged}]"
 	    }
 	    set v(autoNE) ""
 	    set v(findNE,whichNEstring) ""
-	} 
+	} else {
+	    set v(findNE,whichNEstring) ""
+	    set v(autoNE) ""
+	}
     # Manual mode	
     } else {
 	set sel [$t tag ranges sel] 
@@ -304,8 +262,8 @@ proc CreateNE {txt {extent "end"} {interactif 0}} {
     # because we include an entities Event, the current DTD is the standard one
     # and the export DTD is still trans-13.dtd, then we switch to trans-14.dtd
     if { [::xml::dtd::compare_version $v(file,dtd) [::xml::dtd::name]] == 0 && [::xml::dtd::compare_version "trans-14.dtd" [::xml::dtd::exportname]] < 0} {
-	set rep [tk_messageBox -message [Local "By including entities, this file will not be compatible with older version of Transcriber (<1.4.7).\nDo you want to proceed?"] -type okcancel -icon question]
-	if {$rep == "cancel"} {
+	set rep [MessageFrame [Local "By including entities, this file will not be compatible with older version of Transcriber (<1.4.7).\nDo you want to proceed?"]]
+	if {$rep == "Cancel"} {
 	    error "Action cancelled by user"
 	}
 	::xml::dtd::exportname "trans-14.dtd"
@@ -352,38 +310,37 @@ proc InsertNE {elem {other_tags ""}} {
     global v
     set t $v(tk,edit)-bis
     set desc [$elem getAttr "desc"] 
-    set txt [StringOfEvent $elem]
-    set macro ""
-    # Only for named entities, colors the tag and the event of the event if variable (checkNE,tag or text) is set to 1
+    set txt [StringOfNE $elem]
+    # Colors the tag and the text of the event if variable (color,NEtag or text) is set to 1
     # Look at the class of the named entities and configure the color
-    foreach macroclass $v(listNE,macroclass) {
-	if {[regexp "^($macroclass)" $desc match macro]} {
-	    break
+    if { [regexp {/} $desc] } {
+	set macro "meto"
+    } else {
+	if {![regexp {^(.*?)\.} $desc match macro]} {
+	    set macro $desc
 	}
-    }	
+    }
+    # if the shortcut ctrl-e is used to tag an entity then the "macro" variable is empty
+    # so the color can not be used at this time
     if {$macro != ""} {
 	foreach part {"tag" "text"} {
-	    if { $v(checkNEcolor,$part) == 1 } {
-		if { ![regexp {/} $desc] } {
-		    $t tag conf NE$macro$part -foreground  $v(color,netag-$macro)
-		} else {
-		    set macro "meto"
-		    $t tag conf NE$macro$part -foreground  $v(color,netag-meto)
-		}
+	    if {$part == "tag"} {
+		set style "event"
 	    } else {
-		if { ![regexp {/} $desc] } {
-		    $t tag conf NE$macro$part -foreground  black
-		} else {
-		    set macro "meto"
-		    $t tag conf NE$macro$part -foreground  black
-		}
+		set style "text"
+	    }
+	    if { $v(color,NE$part) == 1 } {
+		$t tag conf NE$macro$part -foreground  $v(color,ne-$macro)
+	    } else {
+		$t tag conf NE$macro$part -foreground  $v(color,fg-$style)
 	    }
 	    if { $part == "tag" } {
 		$t tag raise NE$macro$part
 	    }
 	}
     }
-    $t insert "insert" $txt [concat "cursor" "sync" NE${macro}tag $elem $other_tags]
+    # the tag "event" is necessary because named entities are implemented like the events
+    $t insert "insert" $txt [concat "cursor" "sync" "event" NE${macro}tag $elem $other_tags]
     set symtag [SearchSymEvent $elem]
     if { $symtag != "" } {
 	set ext [$elem getAttr "extent"]
@@ -419,25 +376,23 @@ proc EditNE {tag {mode "Edit"} {sel ""}} {
     set v(tk,dontmove) 1
     
     set w [CreateModal .ne "$mode Named Entity"]
-    
+
     set v(desc,chosen) [$tag getAttr "desc"]
     set v(extn,chosen) [$tag getAttr "extent"]
 
     set f [frame $w.desc -relief raised -bd 1]
     pack $f -side top -expand true -fill both
-    set e [EntryFrame $f.ent "Description" [Local v(desc,chosen)]]
-    $e conf -width 10
-
-    catch {
-	destroy $f.ent.men
+    foreach name $v(namedEntities) {
+	lappend desclist [lindex $name 0]
     }
-    SetMenuNE $f.ent    
+    ListEntryFrame $f.men [Local "Description"] v(desc,chosen) $desclist
+#    trace variable v(desc,chosen) w [list UpdateMenuNE $f.men]
     
     array set buttons {
 	"Insert" {"OK" "Cancel"}
 	"Edit" {"OK" "Destroy" "Cancel"}
     }
-    switch [OkCancelModal $w $e $buttons($mode)] {
+    switch [OkCancelModal $w $w $buttons($mode)] {
 	"OK" {
 	    if { $mode == "Edit" } {
 		# look for an eventual symetric event to configure the color of the text
@@ -492,6 +447,7 @@ proc SuppressNE {tag {sym 0}} {
     global v
     
     set t $v(tk,edit)-bis
+
     #if type is event and tag is not the sym event (sym set to 0) search symetric event and suppress it
     if {[$tag getType] == "Event" && $sym == 0 } {
 	if { ![info exists v(extn,chosen)] } {
@@ -500,12 +456,10 @@ proc SuppressNE {tag {sym 0}} {
 	set symtag [SearchSymEvent $tag]
 	  if { $symtag != "" } {
 	      set color ""
-	      if { $v(extn,chosen) == "begin" } {
-		  regexp {(^NE.*)tag} [ColorNE "$tag.first"] match color
+	      if { $v(extn,chosen) == "begin" && [regexp {(^NE.*)tag} [ColorNE "$tag.first"] match color]} {
 		  $t tag remove ${color}text "$tag.last" "$symtag.first"
-	      } else {
-		  regexp {(^NE.*)tag} [ColorNE "$tag.first"] match color
-		  $t tag remove ${color}text $symtag.last $tag.first 
+	      } elseif {[regexp {(^NE.*)tag} [ColorNE "$tag.first"] match color]} {
+		  $t tag remove ${color}text $symtag.last $tag.first
 	      }
 	      SuppressNE $symtag 1
 	  }
@@ -518,35 +472,35 @@ proc SuppressNE {tag {sym 0}} {
     DoModif "EVENT"
 }
 
-proc SetMenuNE {e} {
-   global v
+# proc SetMenuNE {e} {
+#    global v
 
-   menubutton $e.men -indicatoron 1 -menu $e.men.menu -relief raised -bd 2 -highlightthickness 2 -anchor c -width 20
-   menu $e.men.menu -tearoff 0
-   foreach subl $v(entities) {
-      foreach {i name} $subl {}
-      if {$i == ""} {
-	 $e.men.menu add separator
-	 continue
-      }
-      if {$name == ""} {
-	 set name $i
-      }
-      $e.men.menu add radiobutton -label [Local $name] -variable v(desc,chosen) -value [Local $i]
-   }
-   pack $e.men -side right
-   UpdateMenuNE $e
-   foreach set [trace vinfo v(desc,chosen)] {
-      eval trace vdelete v(desc,chosen) $set
-   }
-   trace variable v(desc,chosen) w [list UpdateMenuNE $e]
-}
+#    menubutton $e.men -indicatoron 1 -menu $e.men.menu -relief raised -bd 2 -highlightthickness 2 -anchor c -width 20
+#    menu $e.men.menu -tearoff 0
+#    foreach subl $v(namedEntities) {
+#       foreach {i name color} $subl {}
+#       if {$i == ""} {
+# 	 $e.men.menu add separator
+# 	 continue
+#       }
+#       if {$name == ""} {
+# 	 set name $i
+#       }
+#       $e.men.menu add radiobutton -label [Local $name] -variable v(desc,chosen) -value [Local $i]
+#    }
+#    pack $e.men -side right
+#    UpdateMenuNE $e
+#    foreach set [trace vinfo v(desc,chosen)] {
+#       eval trace vdelete v(desc,chosen) $set
+#    }
+#    trace variable v(desc,chosen) w [list UpdateMenuNE $e]
+# }
 
 # trace callback on v(desc,chosen) used during EditNE
 proc UpdateMenuNE {e args} {
    global v
 
-   array set arr [join $v(entities)]
+   array set arr [join $v(namedEntities)]
    if {[catch {
       set name $arr($v(desc,chosen))
    }]} {
@@ -582,7 +536,7 @@ proc StringOfNE {elem} {
 }
 
 
-proc FindNextNE {} {
+proc FindNextNE {mode} {
     global v
 
     # JOB: find a specific string in the text and return its position (only for NE)
@@ -598,17 +552,28 @@ proc FindNextNE {} {
 
     if ![info exists v(tk,edit)] return
     set t $v(tk,edit)
-    set start "insert"
-    set stop "end"
-    set pos [eval ${t}-bis search -forward -exact -count cnt -- [list $v(findNE,whichNEstring)] $start $stop]
-    ${t}-bis tag remove sel 0.0 end
-    if {$pos != ""} {
-	$t mark set insert "$pos + $cnt chars"
-	${t}-bis tag add sel $pos insert
-    } else {
-	DisplayMessage "$v(findNE,whichNEstring) not found."
+    # initialization
+    set found 0
+    set begin_pos "0"
+    while {!$found && $begin_pos != ""} {
+	set start "insert"
+	set stop "end"
+	set begin_pos [eval ${t}-bis search -forward -exact -count cnt -- [list "$v(findNE,whichNEstring)"] $start $stop]
+	if {$begin_pos != ""} {
+	    set end_pos [$t index "$begin_pos + $cnt chars"]
+	    ${t}-bis tag remove sel 0.0 end
+	    $t mark set insert "$end_pos"
+	    # tag the found string with "sel"
+	    ${t}-bis tag add sel $begin_pos insert
+	    # test if the found string is one or more entire words and not a truncated word or expression
+	    if {($begin_pos == [$t index "$begin_pos wordstart"]) && ($end_pos == [$t index "$end_pos - 1c wordend"]) } {
+		set found 1
+	    }
+	} else {
+	    DisplayMessage "$v(findNE,whichNEstring) [Local {not found}]."
+	}
     }
-    return $pos
+    return $begin_pos
 }
 
 proc ColorNE {pos {part "tag"}} {
@@ -627,11 +592,13 @@ proc ColorNE {pos {part "tag"}} {
     
     set t $v(tk,edit)-bis
     set alltag [split [$t tag names $pos]]
-    set colortag ""
     foreach tag $alltag {
-	foreach macro $v(listNE,macroclass) {
-	    regexp "^NE$macro$part" $tag colortag 
+	if {[regexp "^NE.*" $tag colortag]} {
+	    break
 	}
+    }
+    if {![info exists colortag]} {
+	set colortag ""
     }
 
     return $colortag
