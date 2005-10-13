@@ -194,52 +194,55 @@ lexical {
 	{"()"	"rupture de syntaxe"}
 }
 
-# list of Named Entities (NE) macroclass
-listNE,macroclass {"pers" "org" "gsp" "loc" "fac" "prod" "time" "amount" "meto" "unk" "user"}
+# default variable for display color used for NE
+color,NEtag 1
+color,NEtext 0
+color,NEbutton 0
 
 # list of Named Entities (NE) events with descriptions
-entities {
-	{"pers" "Person"}
-	{"pers.hum" ""}		
-        {"pers.anim" ""}
-	{"pers.imag" ""}             
-	{"org" "Organization"}
-	{"org.pol" ""}
-	{"org.edu" ""}
-	{"org.non-profit" ""}
-	{"org.com" ""}
-	{"gsp" "Geo-Soc-Pol"}
-	{"gsp.pers" ""}
-	{"gsp.org" ""}
-	{"gsp.loc" ""}
-        {"loc" "Location"}
-	{"loc.geo" ""}
-	{"loc.geo.line" ""}
-	{"loc.addr" ""}
-	{"loc.addr.post" ""}
-	{"loc.addr.tel" ""}
-	{"loc.addr.elec" ""}
-	{"fac" "Facilities"}
-        {"prod" "Product"}
-        {"prod.vehicule" ""}
-        {"prod.award" ""}
-        {"prod.art" ""}
-        {"prod.printing" ""}
-        {"time" "Time"}
-	{"time.date" ""}
-	{"time.date.abs" ""}
-	{"time.date.rel" ""}
-	{"time.hour" ""}
-        {"amount" "Amount"}
-	{"amount.phy" ""}
-	{"amount.phy.age" ""}
-	{"amount.phy.dur" ""}
-	{"amount.phy.temp" ""}
-	{"amount.phy.len" ""}
-	{"amount.phy.wei" ""}
-	{"amount.phy.spd" ""}
-	{"amount.cur" ""}
-	{"unk" "Unknown"}
+namedEntities {
+	{"pers" "Person" "blue"}
+	{"pers.hum" "" ""}		
+        {"pers.anim" "" ""}
+	{"pers.imag" "" ""}             
+	{"org" "Organization" "red"}
+	{"org.pol" "" ""}
+	{"org.edu" "" ""}
+	{"org.non-profit" "" ""}
+	{"org.com" "" ""}
+	{"gsp" "Geo-Soc-Pol" "orange"}
+	{"gsp.pers" "" ""}
+	{"gsp.org" "" ""}
+	{"gsp.loc" "" ""}
+        {"loc" "Location" "#0007ff3ff"}
+	{"loc.geo" "" ""}
+	{"loc.geo.line" "" ""}
+	{"loc.addr" "" ""}
+	{"loc.addr.post" "" ""}
+	{"loc.addr.tel" "" ""}
+	{"loc.addr.elec" "" ""}
+	{"fac" "Facilities" "brown"}
+        {"prod" "Product" "salmon"}
+        {"prod.vehicule" "" ""}
+        {"prod.award" "" ""}
+        {"prod.art" "" ""}
+        {"prod.printing" "" ""}
+        {"time" "Time" "#000f0ffff"}
+	{"time.date" "" ""}
+	{"time.date.abs" "" ""}
+	{"time.date.rel" "" ""}
+	{"time.hour" "" ""}
+        {"amount" "Amount" "purple"}
+	{"amount.phy" "" ""}
+	{"amount.phy.age" "" ""}
+	{"amount.phy.dur" "" ""}
+	{"amount.phy.temp" "" ""}
+	{"amount.phy.len" "" ""}
+	{"amount.phy.wei" "" ""}
+	{"amount.phy.spd" "" ""}
+	{"amount.cur" "" ""}
+	{"unk" "Unknown" "grey"}
+	{"meto" "Metonymy" "grey"}
 	{"prod.award/pers.hum" ""}
 	{"org.edu/gsp.pers" ""}
 }
@@ -337,6 +340,7 @@ frame_view,notebook 1
 frame_view,navigator 1
 frame_view,toolbox 0
 frame_view,explorer 1
+frame_view,menu 1
 frame_view,text 1
 frame_view,cmd 1
 frame_view,gain 0
