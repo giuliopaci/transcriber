@@ -1265,43 +1265,36 @@ proc ConfigureColors {} {
     # MODIFY: nothing
     #
     # Author: Claude Barras, Sylvain Galliano
-    # Version: 1.1
-    # Date: October 20, 2004
+    # Version: 1.2
+    # Date: October 11, 2005
 
     global v
     
     set f .col
     CreateModal $f "Configure colors"
    
+    # create a list that defines the classical buttons in the color interface configuration
+    lappend listbutton {"Waveform bg" bg "selected" bg-sel}\
+	{"Segments foreground" fg-sync "background" bg-sync}\
+	{"Current segment" hi-sync}\
+	{"Speaker foreground" fg-turn "background" bg-turn}\
+	{"Sections foreground" fg-sect "background" bg-sect}\
+	{"Noise foreground" fg-back "background" bg-back}\
+    	{"Text foreground" fg-text "background" bg-text}\
+	{"Highlighted text bg" hi-text}\
+	{"Event foreground" fg-evnt "background" bg-evnt}
+
+    # Make dynamically the color button for the macroclass of named entities defined in configuration file (default.txt)
+    foreach {macro1 macro2} $v(listmacroNE) {
+	if {$macro2 != ""} {
+	    lappend listbutton "\"NE $macro1\" ne-$macro1 \"NE $macro2\" ne-$macro2"
+	} else {
+	    lappend listbutton "\"NE $macro1\" ne-$macro1"
+	}
+    }
+    # Now, the list of needed button is defined, we only have to build the interface
     set i 0
-    foreach set {
-	{"Waveform bg"                bg
-	    "selected"                bg-sel}
-	{"Segments foreground"        fg-sync
-	    "background"                bg-sync}
-	{"Current segment"        hi-sync}
-	{"Speaker foreground"        fg-turn
-	    "background"                bg-turn}
-	{"Sections foreground"        fg-sect
-	    "background"                bg-sect}
-	{"Noise foreground"        fg-back
-	    "background"                bg-back}
-	{"Text foreground"        fg-text
-	    "background"                bg-text}
-	{"Highlighted text bg"        hi-text}
-	{"Event foreground"        fg-evnt
-	    "background"                bg-evnt}
-	{"NE pers"        netag-pers
-	    "NE org"                netag-org}
-	{"NE gsp"        netag-gsp
-	    "NE loc"                netag-loc}
-	{"NE fac"        netag-fac
-	    "NE prod"                netag-prod}
-	{"NE time"        netag-time
-	    "NE amount"                netag-amount}
-	{"NE metonymy"        netag-meto
-	    "NE unknown"                netag-unk}
-    } {
+    foreach set $listbutton {
 	set g [frame $f.fr[incr i] -bd 1 -relief raised]
 	pack $g -side top -fill x -ipady 1m
 	foreach {title var} $set {
@@ -1312,13 +1305,17 @@ proc ConfigureColors {} {
     }
     # check buttons that allow to use or not the color with entities (tag, text and button)
     set g [frame $f.checkNE -bd 1 -relief raised]
-    checkbutton $g.enttag -text [Local "Use color for NE tag"] -variable v(checkNEcolor,tag) -command { UpdateColors }
+    checkbutton $g.enttag -text [Local "Use color for NE tag"] -variable v(color,NEtag) -command { UpdateColors }
     pack $g.enttag -side left -padx 10
-    checkbutton $g.enttext -text [Local "Use color for NE text"] -variable v(checkNEcolor,text) -command { UpdateColors }
+    checkbutton $g.enttext -text [Local "Use color for NE text"] -variable v(color,NEtext) -command { UpdateColors }
     pack $g.enttext -side left -padx 10
-    checkbutton $g.entbuton -text [Local "Use color for NE buton"] -variable v(checkNEcolor,buton) -command {UpdateNEFrame}
+    checkbutton $g.entbuton -text [Local "Use color for NE button"] -variable v(color,NEbutton) -command {UpdateNEFrame}
     pack $g.entbuton -side left -padx 10
     pack $g -side top -fill x -expand true
+    # save old values in case of cancel
+    foreach part {tag text button} {
+	lappend old NE$part $v(color,NE$part)
+    }
 
     # Undo changes after "Cancel"
     if {[OkCancelModal $f $f] != "OK"} {
@@ -1326,25 +1323,28 @@ proc ConfigureColors {} {
 	    set v(color,$var) $val
 	}
 	UpdateColors
+	UpdateNEFrame
     }
 }
 
-proc ChooseColor {varName} {
+proc ChooseColor {varName {parent "."}} {
 
     # JOB: Change configuration color with a popup to choose the color and redisplay widgets. Called by ColorFrame and ConfigureColors
     #
-    # IN: varName, nale of the color variable to change
+    # IN: varName, name of the color variable to change
+    #     parent, the parent window that call this function for displaying the color selection box over it. 
     # OUT: nothing
     # MODIFY: nothing
     #
-    # Author: Claude Barras
-    # Version: 1.0
-    # Date: 1999
+    # Author: Claude Barras, Sylvain Galliano
+    # Version: 1.1
+    # Date: october 2005
 
     global v
     upvar $varName var
     
-    set color [tk_chooseColor -initialcolor $var]
+    set color [tk_chooseColor -initialcolor $var -parent $parent]
+
     if {$color != ""} {
 	set var $color
 	UpdateColors
@@ -1365,9 +1365,8 @@ proc UpdateColors {} {
 
    global v
 
-   # Update the entities colors in the text and in the NE interface
+   # Update the entities colors in the text
    UpdateNEColors
-   UpdateNEFrame 
 
    foreach wavfm $v(wavfm,list) {
       set f [winfo parent $wavfm] 

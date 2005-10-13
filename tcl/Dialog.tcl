@@ -133,7 +133,7 @@ proc OkCancelFrame {w varName {names {"OK" "Cancel"}}} {
     set t [winfo toplevel $w]
     foreach name $names {
 	set but [string tolower $name]
-	button $w.$but -text [Local $name] -command [list set $varName $name]
+	button $w.$but -text [Local "$name"] -command [list set $varName $name]
 	switch $name {
 	    "OK" {
 	    $w.$but config -default active
@@ -341,9 +341,9 @@ proc ColorFrame {w title varName} {
 
     upvar $varName var
     frame $w
-    set l [label $w.lab -width 20 -anchor e -text "[Local $title]:"]
+    set l [label $w.lab -width 25 -anchor e -text "[Local $title]:"]
     set b [ColoredButton $w.col [subst {
-	ChooseColor $varName; 
+	ChooseColor $varName $w; 
 	$w.col conf -bg $$varName -activebackground $$varName
     }] -bg $var -activebackground $var -width 2]
     pack $l -side left -padx 3m
@@ -632,9 +632,7 @@ proc ChooseFontUpdate {w field n1 n2 op} {
 
    set font [ChooseFontVal]
 
-
    $w conf -font $font
-
    UpdateInterfaceFont $font ${fontsel-nam}
 
 }
@@ -749,7 +747,7 @@ proc UpdateInterfaceFont {fontVal fontName} {
    
    }
 
-   # Update Named Entities font
+   # Update Named Entities buttons font
    if {$fontName == "namEnt"} {
        set v(font,namEnt) $fontVal
        UpdateNEFrame
@@ -760,4 +758,27 @@ proc UpdateInterfaceFont {fontVal fontName} {
        set v(font,explorer) $fontVal
        UpdateExplorer 0 "" "" ""
    }
+}
+
+proc MessageFrame {txt {title Warning}} {
+    # JOB: Print a message box with ok cancel buttons translated
+    #      Usefull because buttons of "tk_messageBox" widget are not translated
+    #
+    # IN: 
+    #    text   : the message to display
+    #    title  : the title of the window (default "Warning") 
+    #
+    # OUT: the answer to the message frame
+    # MODIFY: nothing
+    #
+    # Author: Sylvain Galliano
+    # Version: 1.0
+    # Date: October 2005
+
+    set f [CreateModal .msgframe [Local "$title"]]
+    message $f.txt -text [Local "$txt"] -width 200 -justify center
+    pack $f.txt
+    set answer [OkCancelModal $f $f]
+    # answer will be "OK" or "Cancel"
+    return $answer
 }
