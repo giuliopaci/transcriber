@@ -385,8 +385,16 @@ proc EditNE {tag {mode "Edit"} {sel ""}} {
     foreach name $v(namedEntities) {
 	lappend desclist [lindex $name 0]
     }
-    ListEntryFrame $f.men [Local "Description"] v(desc,chosen) $desclist
-#    trace variable v(desc,chosen) w [list UpdateMenuNE $f.men]
+
+    # Create the listbox of predefined named entities
+    set l [ListFrame $f.men $desclist]
+    # In case we edit an existing tag, highlight the good element in the listbox
+    if { $v(desc,chosen) != "" } {
+	set idx [lsearch $desclist $v(desc,chosen)]
+	$l selection set $idx
+    }
+
+    bind $l <ButtonRelease-1>  {catch {set v(desc,chosen) [%W get [%W curselection]]}}
     
     array set buttons {
 	"Insert" {"OK" "Cancel"}
@@ -471,30 +479,6 @@ proc SuppressNE {tag {sym 0}} {
     SetSegmtField seg0 [SearchSegmtId seg0 $bp] -text [TextFromSync $bp]
     DoModif "EVENT"
 }
-
-# proc SetMenuNE {e} {
-#    global v
-
-#    menubutton $e.men -indicatoron 1 -menu $e.men.menu -relief raised -bd 2 -highlightthickness 2 -anchor c -width 20
-#    menu $e.men.menu -tearoff 0
-#    foreach subl $v(namedEntities) {
-#       foreach {i name color} $subl {}
-#       if {$i == ""} {
-# 	 $e.men.menu add separator
-# 	 continue
-#       }
-#       if {$name == ""} {
-# 	 set name $i
-#       }
-#       $e.men.menu add radiobutton -label [Local $name] -variable v(desc,chosen) -value [Local $i]
-#    }
-#    pack $e.men -side right
-#    UpdateMenuNE $e
-#    foreach set [trace vinfo v(desc,chosen)] {
-#       eval trace vdelete v(desc,chosen) $set
-#    }
-#    trace variable v(desc,chosen) w [list UpdateMenuNE $e]
-# }
 
 # trace callback on v(desc,chosen) used during EditNE
 proc UpdateMenuNE {e args} {
