@@ -366,7 +366,7 @@ proc InitMenus {} {
 	    {"Colors..."                cmd {ConfigureColors}}
 	    {"Tags"        cascade {
 		{"Configure display..."        cmd {ConfigureTags}}
-		{"Modify the list" cmd {ViewHelp "Reference manual" "r51"}}
+		{"How to modify a list (this launch help)" cmd {ViewHelp "Reference manual" "r51"}}
 	    }}
 	    {"Bindings..."                cmd {ConfigureBindings}}
 	    {""}
