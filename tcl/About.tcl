@@ -5,26 +5,42 @@
 
 #######################################################################
 
-proc ViewHelp {{name "Index"}} {
-   global v
+proc ViewHelp {{name "Index"} {chapter ""}} {
+    #
+    # Job    Manage the help inside Transcriber
+    #	     
+    # In     A valid URL and an optional chapter
+    # Out
+    # Modify If v(browser) is not set, it is set to the default browser (except on Mac)
+    #
+    # Author: Mathieu MANTA, Sylvain Galliano
+    # Version: 1.0 July 27, 2004
+    #          1.1 November 2005
 
-   array set arr {
-      "Presentation"     "present_local.html"
-      "Main features"    "functions.html"
-      "User guide"       "user.html"
-      "Reference manual" "reference.html"
-   }
-   set Lg [string toupper [string index $v(lang) 0]][string range \
-							 $v(lang) 1 end]
-   set arr(Index) [file join [pwd] $v(path,doc) Index$Lg.html]
-   set dir [file join [pwd] $v(path,doc) $v(lang)]  
-   if {![file exists $arr(Index)] || ![file exists $dir]} {
-      set arr(Index) [file join [pwd] $v(path,doc) Index.html]
-      set dir [file join [pwd] $v(path,doc) "en"]
-   }
-
-   set url [file join $dir $arr($name)]
-   OpenURL file:$url
+    global v
+    
+    array set arr {
+	"Presentation"     "present_local.html"
+	"Main features"    "functions.html"
+	"User guide"       "user.html"
+	"Reference manual" "reference.html"
+    }
+    set Lg [string toupper [string index $v(lang) 0]][string range \
+							  $v(lang) 1 end]
+    set arr(Index) [file join [pwd] $v(path,doc) Index$Lg.html]
+    set dir [file join [pwd] $v(path,doc) $v(lang)]  
+    if {![file exists $arr(Index)] || ![file exists $dir]} {
+	set arr(Index) [file join [pwd] $v(path,doc) Index.html]
+	set dir [file join [pwd] $v(path,doc) "en"]
+    }
+    
+    if {$chapter == ""} {
+	set file $arr($name)
+    } else {
+	set file [append arr($name) \# $chapter]
+    }
+    set url [file join $dir $file]
+    OpenURL file:$url
 }
 
 proc OpenURL { URL } {
@@ -42,7 +58,7 @@ proc OpenURL { URL } {
     # July 27, 2004
     #
     global v
-
+    
     if {$::tcl_platform(os) == "Darwin"} {
         if { $v(browser) == ""} { exec open $URL &}
         else { exec $v(browser) $URL &}
@@ -51,19 +67,21 @@ proc OpenURL { URL } {
     if {$::tcl_platform(os) == "Linux"} {
         if { $v(browser) == ""} {
             if { [catch {exec mozilla $URL &}] == 0 } {
-        	    	  set v(browser) mozilla
-	        } elseif { [catch {exec firefox $URL &}] == 0 } {
-	    	       set v(browser) firefox
-	        } else {
-                tk_messageBox -type ok -icon error -message [format [Local "Please define your default browser."] ]
-                set v(browser) [SelectBrowser]
+		set v(browser) mozilla
+	    } elseif { [catch {exec firefox $URL &}] == 0 } {
+		set v(browser) firefox
+	    } elseif { [catch {exec mozilla-firefox $URL &}] == 0 } {
+		set v(browser) mozilla-firefox
+	    } else {
+		tk_messageBox -type ok -icon warning -message [format [Local "Please define your default browser."] ]
+		set v(browser) [SelectBrowser]
                 catch { exec $v(browser) $URL &}
             }
         } else {
             catch { exec $v(browser) $URL &}
         }
     }
-
+    
     if {$::tcl_platform(platform) == "windows"} {
         if { $v(browser) == ""} {
             set v(browser) [FindWinDefaultBrowser]
