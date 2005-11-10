@@ -116,9 +116,8 @@ proc UpdateNEFrame {} {
     # Version: 1.0
     # Date: October 20, 2004
 
-
     global v
- 
+    
     set oldview $v(frame_view,ne)
     DestroyFrame ne
     set v(frame_view,ne) $oldview
@@ -183,7 +182,7 @@ proc CreateAutoNE {txt {interactif 0}} {
 	    #  save the current position then begin the loop from the beginning and return to the saved position
 	    $t mark set oldpos "insert"
 	    tkTextSetCursor $v(tk,edit) 0.0
-
+	    
 	    set nbocc 0
 	    while { [set pos [FindNextNE $v(autoNE)]] != "" } {
 		set what [[TagName $pos] getType]
@@ -341,7 +340,7 @@ proc InsertNE {elem {other_tags ""}} {
     }
     # the tag "event" is necessary because named entities are implemented like the events
     $t insert "insert" $txt [concat "cursor" "sync" "event" NE${macro}tag $elem $other_tags]
-    set symtag [SearchSymEvent $elem]
+    set symtag [SearchSymTag $elem]
     if { $symtag != "" } {
 	set ext [$elem getAttr "extent"]
 	if { $ext == "begin" } {
@@ -404,7 +403,7 @@ proc EditNE {tag {mode "Edit"} {sel ""}} {
 	"OK" {
 	    if { $mode == "Edit" } {
 		# look for an eventual symetric event to configure the color of the text
-		set symtag [SearchSymEvent $tag]
+		set symtag [SearchSymTag $tag]
 		if { $symtag != "" } {
 		    catch { [unset v(tk,dontmove)] }
 		    tkTextSetCursor $v(tk,edit) $symtag.first 
@@ -441,16 +440,17 @@ proc EditNE {tag {mode "Edit"} {sel ""}} {
 
 proc SuppressNE {tag {sym 0}} {
 
-    # JOB: suppress the requested NE and it's symetric event if exists
+    # JOB: suppress the requested NE and it's symetric event if exists.
+    #      do the same than SuppressTag except that it manage the colors for NE that's why this function exists
     #
     # IN: tag, name of the XML NE
-    #     sym, set to 1 when the deletion applies to the symetric event (to avoid an ifinite loop by searching again a symetric), default 0
+    #     sym, set to 1 when the deletion applies to the symetric event (to avoid an infinite loop by searching again a symetric), default 0
     # OUT: nothing
     # MODIFY: nothing
     #
     # Author: Sylvain Galliano
-    # Version: 1.0
-    # Date: September 16, 2005 
+    # Version: 1.0 (September,2005)
+    #          1.1 (November, 2005)
 
     global v
     
@@ -461,7 +461,7 @@ proc SuppressNE {tag {sym 0}} {
 	if { ![info exists v(extn,chosen)] } {
 	    set v(extn,chosen) [$tag getAttr "extent"]
 	}
-	set symtag [SearchSymEvent $tag]
+	set symtag [SearchSymTag $tag]
 	  if { $symtag != "" } {
 	      set color ""
 	      if { $v(extn,chosen) == "begin" && [regexp {(^NE.*)tag} [ColorNE "$tag.first"] match color]} {
