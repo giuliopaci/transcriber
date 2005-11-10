@@ -491,7 +491,7 @@ proc EditTag {tag {mode "Edit"} {sel ""}} {
     # Inhibit next cursor move due to multiple bindings
     set v(tk,dontmove) 1
     
-    set w [CreateModal .evt "$mode event"]
+    set w [CreateModal .evt "$mode tag"]
     
     if {$v(chatMode)} {
 	set lstnam {"Noise" "Comment" "Dependent" "Header" "Scope" "\t" "Pronounce" "Lexical" "Language"}
@@ -514,7 +514,7 @@ proc EditTag {tag {mode "Edit"} {sel ""}} {
 	RadioFrame $w.pos "Extent" v(extn,chosen) {"Apply to selection"} {"end"}
     } else {
 	RadioFrame $w.pos "Extent" v(extn,chosen) {
-	    "Instantaneous event" "Start of event" "End of event" "\t"
+	    "Instantaneous tag" "Start of tag" "End of tag" "\t"
 	    "Apply to previous word" "Apply to next word" "Apply to selection"
 	} {
 	    "instantaneous" "begin" "end" "\t"
@@ -537,7 +537,7 @@ proc EditTag {tag {mode "Edit"} {sel ""}} {
     }
     switch [OkCancelModal $w $e $buttons($mode)] {
 	"OK" {
-	    # in case of Edition and if the event apply to a selection, modify both begin and end event
+	    # in case of Edition and if the tag apply to a selection, modify both begin and end tag
 	    if { $mode == "Edit" } {
 		set symtag [SearchSymTag $tag]
 		if { $symtag != "" } {
@@ -575,7 +575,7 @@ proc SuppressTag {tag {sym 0}} {
     # JOB: suppress the requested tag and it's symetric tag if exists
     #
     # IN: tag, name of the tag
-    #     sym, set to 1 when the deletion applies to the symetric event (to avoid an ifinite loop by searching again a symetric), default 0
+    #     sym, set to 1 when the deletion applies to the symetric tag (to avoid an ifinite loop by searching again a symetric), default 0
     # OUT: nothing
     # MODIFY: nothing
     #
