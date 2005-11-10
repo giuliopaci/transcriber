@@ -249,15 +249,15 @@ proc InitMenus {} {
 		{"Remove unused topics"                 cmd {::topic::purge}}
 		{""}
 		{"Automatic import from selected file"        check v(importTopics)}
-	 }}
+	    }}
 	    {""}
-	    {"Insert event..."                cascade {
-		{"Isolated noise"        cmd {CreateEvent "b" "noise" "instantaneous" 1}  -bind "Ctrl-d"}
-		{"Overlapping noise"        cmd {CreateEvent "b" "noise" "previous" 1}}
-		{"Pronounce"                cmd {CreateEvent "" "pronounce" "previous" 1} -bind "Alt-equal"}
-		{"Language"                        cmd {CreateEvent "en" "language" "previous" 1}}
-		{"Lexical"                        cmd {CreateEvent "" "lexical" "previous" 1}}
-		{"Comment"                        cmd {CreateEvent "" "comment"}}
+	    {"Insert tag..."                cascade {
+		{"Isolated noise"        cmd {CreateTag "b" "noise" "instantaneous" 1}  -bind "Ctrl-d"}
+		{"Overlapping noise"        cmd {CreateTag "b" "noise" "previous" 1}}
+		{"Pronounce"                cmd {CreateTag "" "pronounce" "previous" 1} -bind "Alt-equal"}
+		{"Language"                        cmd {CreateTag "en" "language" "previous" 1}}
+		{"Lexical"                        cmd {CreateTag "" "lexical" "previous" 1}}
+		{"Comment"                        cmd {CreateTag "" "comment"}}
 	    }}
 	    {"Insert Named Entity"    cmd {CreateAutoNE ""} -bind "Ctrl-e"} 
 	}}
@@ -334,18 +334,15 @@ proc InitMenus {} {
 	{"Options" -underline 0        cascade {
 	    {"General..."                cmd {ConfigureGeneral}}
 	    {"Audio file..."        cmd {ConfigureAudioFile}}
-	    {"Events"        cascade {
-		{"Events display..."        cmd {ConfigureEvents}}
-		{"Edit noise list..."        cmd {ConfEventName "noise" "Noise"}}
-		{"Edit pronounce list..."        cmd {ConfEventName "pronounce" "Pronounce"}}
-		{"Edit lexical list..."        cmd {ConfEventName "lexical" "Lexical"}}
-		{"Edit language list..."        cmd {ConfEventName "language" "Language"}}
+	    {"Tags"        cascade {
+		{"Configure display..."        cmd {ConfigureTags}}
+		{"Modify the list" cmd {ViewHelp "Reference manual" "r51"}}
 	    }}
 	    {"Display" -underline 0        cascade {
 		{"Switch display type"  -underline 0 cascade {
-		    {"Canvas 1" cmd {ChangeCanvas canvas1}}
-		    {"Canvas 2" cmd {ChangeCanvas canvas2}}
-		    {"Canvas 3" cmd {ChangeCanvas canvas3}}
+		    {"Canvas 1" radio {v(canvas,type) "canvas1"} -command {ChangeCanvas $v(canvas,type)}}
+		    {"Canvas 2" radio {v(canvas,type) "canvas2"} -command {ChangeCanvas $v(canvas,type)}}
+		    {"Canvas 3" radio {v(canvas,type) "canvas3"} -command {ChangeCanvas $v(canvas,type)}}
 		}}
 		{"Text"        check v(frame_view,text) -command {SwitchFrame text} -bind "F2"}
 		{"Toolbox"  check v(frame_view,toolbox) -command {SwitchFrame toolbox} -bind "F3"}
@@ -355,9 +352,8 @@ proc InitMenus {} {
 		{"Messages"  check v(frame_view,msg) -command {SwitchFrame msg} -bind "F7"}
 		{"Explorer"  check v(frame_view,database) -command {SwitchFrame database} -bind "F8"}
 		{"Menu"  check v(frame_view,menu) -command {SwitchFrame menu} -bind "F9"}
-		{"Tags"  check v(text_view,event) -command {SwitchTextDisplay event } -bind "F10"}
+		{"Tags"  check v(text_view,tag) -command {SwitchTagDisplay} -bind "F10"}
 		{"Smart segmentation display"        check v(hideLevels) -command {UpdateSegmtView}}
-		{"Colorize speaker segments"        check v(colorizeSpk) -command {ColorizeSpk}}
 	    }}
 	    {"Fonts"        cascade {
 		{"Axis"                cmd {set v(font,axis)  [ChooseFont axis] }}
@@ -385,7 +381,7 @@ proc InitMenus {} {
 	    {"Main features"        cmd {ViewHelp "Main features"}}
 	    {"User guide"                cmd {ViewHelp "User guide"}}
 	    {"Reference manual"        cmd {ViewHelp "Reference manual"}}
-       }}
+	}}
     }
     
     config_menu "File" -postcommand UpdateFileMenu
@@ -453,7 +449,7 @@ proc UpdateEditMenu {} {
     global v
     
     if [info exists v(tk,edit)] {
-      # Undo has to be the first Edit menu line
+	# Undo has to be the first Edit menu line
 	switch [HasUndo] {
 	    0 { config_entry "Edit" 0 -label [Local "Undo"] -state disabled }
 	    1 { config_entry "Edit" 0 -label [Local "Undo"] -state normal }
@@ -492,4 +488,3 @@ proc UpdateSegmentationMenu {} {
 	}
     }
 }
-
