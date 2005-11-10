@@ -334,11 +334,7 @@ proc InitMenus {} {
 	{"Options" -underline 0        cascade {
 	    {"General..."                cmd {ConfigureGeneral}}
 	    {"Audio file..."        cmd {ConfigureAudioFile}}
-	    {"Tags"        cascade {
-		{"Configure display..."        cmd {ConfigureTags}}
-		{"Modify the list" cmd {ViewHelp "Reference manual" "r51"}}
-	    }}
-	    {"Display" -underline 0        cascade {
+	    {"Interface display" -underline 0        cascade {
 		{"Switch display type"  -underline 0 cascade {
 		    {"Canvas 1" radio {v(canvas,type) "canvas1"} -command {ChangeCanvas $v(canvas,type)}}
 		    {"Canvas 2" radio {v(canvas,type) "canvas2"} -command {ChangeCanvas $v(canvas,type)}}
@@ -357,7 +353,7 @@ proc InitMenus {} {
 	    }}
 	    {"Fonts"        cascade {
 		{"Axis"                cmd {set v(font,axis)  [ChooseFont axis] }}
-		{"Events, comments and named entities tags"                cmd {set v(font,event) [ChooseFont event] }}
+		{"Tags"                cmd {set v(font,event) [ChooseFont event] }}
 		{"Explorer"             cmd {set v(font,explorer) [ChooseFont explorer] }}
 		{"Information"        cmd {set v(font,info)  [ChooseFont info] }}
 		{"Lists"                cmd {set v(font,list)  [ChooseFont list] }}
@@ -368,6 +364,10 @@ proc InitMenus {} {
 		{"Speaker"             cmd {set v(font,turn) [ChooseFont turn]} }
 		{"Text"                cmd {set v(font,text)    [ChooseFont text] }}	 }}
 	    {"Colors..."                cmd {ConfigureColors}}
+	    {"Tags"        cascade {
+		{"Configure display..."        cmd {ConfigureTags}}
+		{"Modify the list" cmd {ViewHelp "Reference manual" "r51"}}
+	    }}
 	    {"Bindings..."                cmd {ConfigureBindings}}
 	    {""}
 	    {"Load configuration file..."        cmd {LoadConfiguration}}
