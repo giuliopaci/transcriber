@@ -6,12 +6,12 @@
 ################################################################
 
 proc BuildGUI {} {
-   LoadImages
-   CreateFonts
-   CreateWidgets
-   SetBindings
-   InitMenus
-   update
+    LoadImages
+    CreateFonts
+    CreateWidgets
+    SetBindings
+    InitMenus
+    update
 }
 
 #######################################################################
@@ -19,47 +19,38 @@ proc BuildGUI {} {
 # Generation of user interface : widgets, bindings, menus
 
 proc LoadImages {} {
-   global v
-
-#    foreach {name} { } {
-#       set photo [image create photo ${name}Img]
-#       $photo read [file join $v(path,image) $name.gif]
-#    }
-   foreach {name} { } {
-      set v(img,$name) [image create bitmap -file [file join $v(path,image) $name.bmp]]
-   }
+    global v
+    
+    foreach {name} { } {
+	set v(img,$name) [image create bitmap -file [file join $v(path,image) $name.bmp]]
+    }
     foreach {name} { info pause forward backward circle circle2 over1 over2 music musicl musicr next previous play transfile wavfile folder updir close folder_green empty textfile } {
-      set v(img,$name) [image create photo -file [file join $v(path,image) $name.gif]]
-   }
-#   $v(img,circle) conf -foreground $v(color,bg-sync)
-#   $v(img,circle2) conf -foreground $v(color,bg-sync)
-#   $v(img,over1) conf -foreground $v(color,bg-sync)
-#   $v(img,over2) conf -foreground $v(color,bg-sync)
+	set v(img,$name) [image create photo -file [file join $v(path,image) $name.gif]]
+    }
 }
 
 # Create configurable named fonts for later use
 proc CreateFonts {} {
-   global v
-   foreach var [array names v "font,*"] {
-      set name [string range $var [string length "font,"] end]
-      catch {
-	 eval font create $name [font actual $v(font,$name)]
-      }
-   }
+    global v
+    foreach var [array names v "font,*"] {
+	set name [string range $var [string length "font,"] end]
+	catch {
+	    eval font create $name [font actual $v(font,$name)]
+	}
+    }
 }
 
 #######################################################################
 
-
 proc ConfigureCanvas {} {
     global v
-
+    
     foreach var [array names v "frame*,*" ] {
 	if [regexp "type|content|before|after|container|pos|frame," $var] {
 	    unset v($var)
 	}
     }
-
+    
     if {![info exists v(canvas,type)]} {
 	set v(canvas,type) canvas1
     }
@@ -164,6 +155,16 @@ proc ConfigureCanvas {} {
 
 proc ChangeCanvas {canvas} {
     global v
+
+    if {[HasModifs]} {
+	set answer [tk_messageBox -message [Local "Transcription has been modified - It need to be saved before you change the canvas - do you want to proceed and save your work?"] -type yesnocancel -icon question]
+	switch $answer {
+	    cancel { return  }
+	    yes    { if {[SaveTrans]==""} {return -code error cancel} }
+	    no     { }
+	}
+    }
+    
     DestroyFrame main
     set v(canvas,type) $canvas
     set oldsnd $v(frame,snd)
@@ -175,14 +176,15 @@ proc ChangeCanvas {canvas} {
 
     foreach pattern [list  "$oldsnd,*" "$oldsnd.*" "*,$oldsnd" "*,$oldsnd.*"] {
 	foreach varname [array names v $pattern] {
+	    set oldvarname $varname
 	    set tmp [regsub "$oldsnd" $varname "$v(frame,snd)"]
 	    set content [regsub "$oldsnd" $v($varname) "$v(frame,snd)"]
-	    unset v($varname)
+	    if {$varname != $oldvarname} {
+		unset v($varname)
+	    }
 	}
     }
 
-    tk_messageBox -message "[Local "Warning, it's recommanded you restart Transcriber now ! Please save your work and your configuration !"]" -type ok -icon error;
-	
     ReadTrans $v(trans,name)
     foreach wavfm $v(wavfm,list) {
 	ConfigWavfm $wavfm
@@ -207,9 +209,8 @@ proc CreateWidgets {} {
 
     global v
 
-
     ConfigureCanvas 
-
+    
     CreateFrame main
 
     if {$v(geom,.) != ""} {
@@ -282,7 +283,7 @@ proc CreateFrame {f} {
 
     global v
     set v(frame_creation,$f) 1
-
+    
     #path of the frame
     if {[info exists v(frame_container,$f)]} {
 	set v(frame,$f) $v(frame,$v(frame_container,$f)).$f
@@ -406,7 +407,7 @@ proc PlaceFrame {f} {
     # Author: Fabien Antoine
     # Version: 0.1
     # Date: May 13, 2005
-
+    
     global v
 
     if {$v(frame_view,$f)} {
@@ -423,7 +424,7 @@ proc PlaceFrame {f} {
 	    set type ""
 	    set opts ""
 	}
-
+	
 	set prev_frame [PrevShowedFrame $f] 
 	set next_frame [NextShowedFrame $f] 
 	if {$prev_frame != ""} {
@@ -515,7 +516,6 @@ proc RememberPanesSize {f} {
 		    set v(frame_$LEN,$v(frame_name,$pane)) [expr $new_pos-$pos]
 		    lappend new_panes_pos $new_pos
 		    set pos $new_pos
-
 		}
 		incr j
 	    }
@@ -525,14 +525,11 @@ proc RememberPanesSize {f} {
     }
 }
 
-
-
-
 proc ResizePanedFrame {f {newf ""} } {
     global v
     set w $v(frame,$f)
     if [info exists v(frame_type,$f)] {
-
+	
 	if {[lsearch $v(frame_type,$f) "autoresize"] >=0} {
 	    set len 0
 	    switch [$w cget -orient] {
@@ -574,7 +571,7 @@ proc ResizePanedFrame {f {newf ""} } {
 	    }
 	    set delta [expr {[winfo $LEN $w]-$len}]
 	    set delta2 0
-
+	    
 	    set spad [$w cget -sashpad]
 	    set swidth [$w cget -sashwidth]
 	    set tlen 0
@@ -602,7 +599,7 @@ proc ResizePanedFrame {f {newf ""} } {
 			}
 		    }
 		}
-	
+		
 		if {$rpanes == 0} {
 		    set rpanes 1
 		}
@@ -643,55 +640,55 @@ proc ResizePanedFrame {f {newf ""} } {
 	}
     }
 }
-	    
+
 
 proc ReqFramewidth {f} {
-	global v
-	set res 0
-	if [info exists v(frame_type,$f)] {
-	    set index [lsearch $v(frame_type,$f) "-reqwidth"]
-	    if {$index >= 0} {
-		incr index
-		set res [lindex $v(frame_type,$f) $index]
+    global v
+    set res 0
+    if [info exists v(frame_type,$f)] {
+	set index [lsearch $v(frame_type,$f) "-reqwidth"]
+	if {$index >= 0} {
+	    incr index
+	    set res [lindex $v(frame_type,$f) $index]
+	}
+    } 
+    if {$res == 0} {
+	if {[info exists v(frame_content,$f)]} {
+	    foreach child $v(frame_content,$f) {
+		if {$v(frame_view,$child)} {
+		    incr res [ReqFramewidth $child]
+		}
 	    }
 	} 
-	if {$res == 0} {
-	    if {[info exists v(frame_content,$f)]} {
-		foreach child $v(frame_content,$f) {
-		    if {$v(frame_view,$child)} {
-		        incr res [ReqFramewidth $child]
-		    }
-		}
-	    } 
-	}
-	return $res
+    }
+    return $res
 }
 
 proc ReqFrameheight {f} {
-	global v
-	set res 0
-	if [info exists v(frame_type,$f)] {
-	    set index [lsearch $v(frame_type,$f) "-reqheight"]
-	    if {$index >= 0} {
-		incr index
-		set res [lindex $v(frame_type,$f) $index]
+    global v
+    set res 0
+    if [info exists v(frame_type,$f)] {
+	set index [lsearch $v(frame_type,$f) "-reqheight"]
+	if {$index >= 0} {
+	    incr index
+	    set res [lindex $v(frame_type,$f) $index]
+	}
+    } 
+    if {$res == 0} {
+	if {[info exists v(frame_content,$f)]} {
+	    foreach child $v(frame_content,$f) {
+		if {$v(frame_view,$child)} {
+		    incr res [ReqFramewidth $child]
+		}
 	    }
 	} 
-	if {$res == 0} {
-	    if {[info exists v(frame_content,$f)]} {
-		foreach child $v(frame_content,$f) {
-		    if {$v(frame_view,$child)} {
-		        incr res [ReqFramewidth $child]
-		    }
-		}
-	    } 
-	}
-	return $res
+    }
+    return $res
 }
 
 
 proc DestroyFrame {f} {
-
+    
     # JOB: destroy a frame
     #
     # IN: f, name of the main window to destroy
@@ -701,7 +698,7 @@ proc DestroyFrame {f} {
     # Author: Fabien Antoine
     # Version: 0.1
     # Date: May 13, 2005
-
+    
     global v
     if [info exists v(frame,$f)] {
 	catch {
@@ -747,197 +744,188 @@ proc HideFrame {f} {
     }
 }
 
-
-
-
-
 proc CreateCommandFrame {f args} {
-   global v
-
-   # Commands frame
- #  frame $f -bd 1 -relief raised  #cmt by FAE
-   set v(tk,play) [button $f.play -command {PlayOrPause}]
-   set v(tk,stop) [button $f.pause -command {PlayOrPause} -state disabled]
-   button $f.previous -command {MoveNextSegmt -1}
-   button $f.next -command {MoveNextSegmt +1}
-   button $f.backward
-   button $f.forward
-   bind $f.backward <Button-1> {BeginPlayForward -1}
-   bind $f.forward <Button-1> {BeginPlayForward +1}
-   bind $f.backward <ButtonRelease-1> {EndPlayForward}
-   bind $f.forward <ButtonRelease-1> {EndPlayForward}
-   foreach but {previous backward pause play forward next} {
-      $f.$but conf -image $v(img,$but) -borderwidth 0
-      pack $f.$but -side left -padx 1 -pady 1
-   }
-#   $v(img,play) conf -foreground "#70c078"
-#   $v(img,pause) conf -foreground "#f08020"
-   button $f.info -command {CreateInfoFrame}  -image $v(img,info) -borderwidth 0
+    global v
+    
+    # Commands frame
+    set v(tk,play) [button $f.play -command {PlayOrPause}]
+    set v(tk,stop) [button $f.pause -command {PlayOrPause} -state disabled]
+    button $f.previous -command {MoveNextSegmt -1}
+    button $f.next -command {MoveNextSegmt +1}
+    button $f.backward
+    button $f.forward
+    bind $f.backward <Button-1> {BeginPlayForward -1}
+    bind $f.forward <Button-1> {BeginPlayForward +1}
+    bind $f.backward <ButtonRelease-1> {EndPlayForward}
+    bind $f.forward <ButtonRelease-1> {EndPlayForward}
+    foreach but {previous backward pause play forward next} {
+	$f.$but conf -image $v(img,$but) -borderwidth 0
+	pack $f.$but -side left -padx 1 -pady 1
+    }
+    button $f.info -command {CreateInfoFrame}  -image $v(img,info) -borderwidth 0
     pack $f.info -side left -padx 10 
     scale $f.vol -label [Local "Volume"] -font {fixed 10}    -orient horiz -length 70 -width 8  -variable dial(volume) -command {snack::audio play_gain} -showvalue 0
     pack $f.vol  -fill x -padx 5 -pady 5 -side right
-
-   # if one wishes to have buttons for segment/turn/section creation
-   if {0} {
-      button $f.seg -command {InsertSegment} \
-	  -width 16 -height 16 -image $v(img,circle)
-      pack $f.seg -side left -padx 1 -pady 1
-      button $f.tur -command {ChangeSegType Turn} \
-	  -text "Turn" -font info -padx 0 -pady 2 \
-	  -activeforeground $v(color,fg-turn) -fg $v(color,fg-turn) \
-	  -activebackground $v(color,bg-turn) -bg $v(color,bg-turn)
-      pack $f.tur -side left -padx 1 -pady 1
-      button $f.sec -command {ChangeSegType Section} \
-	  -text "Sect." -font info -padx 0 -pady 2 \
-	  -activeforeground $v(color,fg-sect) -fg $v(color,fg-sect) \
-	  -activebackground $v(color,bg-sect) -bg $v(color,bg-sect)
-      pack $f.sec -side left -padx 1 -pady 1
-   }
-
-   label $f.name -textvariable v(sig,shortname) -font info -padx 20
-   pack $f.name -side right -fill x -expand true
-
-   # Default : display command frame
-   setdef v(frame_view,cmd) 1
+    
+    # if one wishes to have buttons for segment/turn/section creation
+    if {0} {
+	button $f.seg -command {InsertSegment} \
+	    -width 16 -height 16 -image $v(img,circle)
+	pack $f.seg -side left -padx 1 -pady 1
+	button $f.tur -command {ChangeSegType Turn} \
+	    -text "Turn" -font info -padx 0 -pady 2 \
+	    -activeforeground $v(color,fg-turn) -fg $v(color,fg-turn) \
+	    -activebackground $v(color,bg-turn) -bg $v(color,bg-turn)
+	pack $f.tur -side left -padx 1 -pady 1
+	button $f.sec -command {ChangeSegType Section} \
+	    -text "Sect." -font info -padx 0 -pady 2 \
+	    -activeforeground $v(color,fg-sect) -fg $v(color,fg-sect) \
+	    -activebackground $v(color,bg-sect) -bg $v(color,bg-sect)
+	pack $f.sec -side left -padx 1 -pady 1
+    }
+    
+    label $f.name -textvariable v(sig,shortname) -font info -padx 20
+    pack $f.name -side right -fill x -expand true
+    
+    # Default : display command frame
+    setdef v(frame_view,cmd) 1
     pack $f -fill x
 }
 
 #######################################################################
 
 proc FrameOrTop {f top title} {
-   global v
-
-   # Default : do not display frame
-   setdef v(view,$f) 0
-
-   # Signal infos frame
-   if {$top} {
-      toplevel $f
-      wm title $f $title
-      wm protocol $f WM_DELETE_WINDOW "wm withdraw $f; set v(view,$f) 0"
-      if {! $v(view,$f)} {
-	 wm withdraw $f
-      }
-   } else {
-      frame $f -relief raised -bd 1
-      if {$v(view,$f)} {
-	 pack $f -fill x
-      }
-   }
+    global v
+    
+    # Default : do not display frame
+    setdef v(view,$f) 0
+    
+    # Signal infos frame
+    if {$top} {
+	toplevel $f
+	wm title $f $title
+	wm protocol $f WM_DELETE_WINDOW "wm withdraw $f; set v(view,$f) 0"
+	if {! $v(view,$f)} {
+	    wm withdraw $f
+	}
+    } else {
+	frame $f -relief raised -bd 1
+	if {$v(view,$f)} {
+	    pack $f -fill x
+	}
+    }
 }
 
 # Signal description (not localized)
 proc CreateInfoFrame {{f .inf}} {
-   global v
-
-   if {![winfo exists $f]} {
-      toplevel $f
-      wm title $f [Local "Informations"]
-
+    global v
+    
+    if {![winfo exists $f]} {
+	toplevel $f
+	wm title $f [Local "Informations"]
+	
 	if {$::tcl_platform(platform) == "windows"} {
-	      wm attributes $f -topmost 1 
-      }
-
-      message $f.sig -font list -justify left \
-	  -width 15c -anchor w -textvariable v(sig,desc)
-      pack $f.sig -padx 3m -pady 2m -anchor w
-
-      message $f.trans -font list -justify left \
-	  -width 15c -anchor w -textvariable v(trans,desc)
-      pack $f.trans -padx 3m -pady 2m -anchor w
-
-       button $f.upd -text [Local "Update"] -command UpdateInfo
-      pack $f.upd -side left -expand 1 -padx 3m -pady 2m
-
-       button $f.close -text [Local "Close"] -command [list wm withdraw $f]
-      pack $f.close -side left -expand 1 -padx 3m -pady 2m
-   } else {
-       destroy $f
-#      FrontWindow $f
-   }
-   update
-   UpdateInfo
+	    wm attributes $f -topmost 1 
+	}
+	
+	message $f.sig -font list -justify left \
+	    -width 15c -anchor w -textvariable v(sig,desc)
+	pack $f.sig -padx 3m -pady 2m -anchor w
+	
+	message $f.trans -font list -justify left \
+	    -width 15c -anchor w -textvariable v(trans,desc)
+	pack $f.trans -padx 3m -pady 2m -anchor w
+	
+	button $f.upd -text [Local "Update"] -command UpdateInfo
+	pack $f.upd -side left -expand 1 -padx 3m -pady 2m
+	
+	button $f.close -text [Local "Close"] -command [list wm withdraw $f]
+	pack $f.close -side left -expand 1 -padx 3m -pady 2m
+    } else {
+	destroy $f
+    }
+    update
+    UpdateInfo
 }
 
 proc UpdateInfo {} {
     global v
-
+    
     set v(trans,desc) [eval [list format "Transcription:\t$v(trans,name)\n[Local "nb. of sections:"]\t%d\t [Local "with %d topics"]\n[Local "nb. of turns:"]   \t%d\t [Local "with %d speakers"]\n[Local "nb. of syncs:"]   \t%d\n[Local "nb. of words:"]   \t%d"] [TransInfo]]
     TraceInfo
 }
 
 # Short file description
 proc UpdateShortName {} {
-   global v
-
-   set sig   [file tail $v(sig,name)]
-   set trans [file tail $v(trans,name)]
-   if {[file root $sig] == [file root $trans]} {
-      set v(sig,shortname) [file root $sig]
-   } elseif {$trans == ""} {
-      set v(sig,shortname) $sig
+    global v
+    
+    set sig   [file tail $v(sig,name)]
+    set trans [file tail $v(trans,name)]
+    if {[file root $sig] == [file root $trans]} {
+	set v(sig,shortname) [file root $sig]
+    } elseif {$trans == ""} {
+	set v(sig,shortname) $sig
    } elseif {$sig == ""} {
-      set v(sig,shortname) $trans
+       set v(sig,shortname) $trans
    } else {
-      set v(sig,shortname) "$trans\n$sig"
+       set v(sig,shortname) "$trans\n$sig"
    }
-   update idletasks
+    update idletasks
 }
 
 # Vertical zoom
 proc CreateGainFrame {{f .gain}} {
-   global v dial
-
-   if {![winfo exists $f]} {
-      toplevel $f
-      wm title $f [Local "Control panel"]
-
+    global v dial
+    
+    if {![winfo exists $f]} {
+	toplevel $f
+	wm title $f [Local "Control panel"]
+	
 	if {$::tcl_platform(platform) == "windows"} {
-	      wm attributes $f -topmost 1 
-      }
-
-     if {[info tclversion] < 8.4 || [tk windowingsystem] != "aqua"} {
-       scale $f.s -label [Local "Volume"] \
-	   -orient horiz -length 200 -width 10 \
-	   -variable dial(volume) -command {snack::audio play_gain}
-       pack $f.s -expand true -fill x -padx 10 -pady 5
-     }
-
-      set v(tk,gain)  [scale $f.gain -label [Local "Vertical zoom (dB)"] \
-	       -orient horizontal -length 200 -width 10 -showvalue 1 \
-	       -from -10 -to 20 -tickinterval 10 -resolution 1 \
-	       -variable v(sig,gain) -command [list NewGain]]
-      pack $f.gain -expand true -fill x -padx 10 -pady 5
-
-      # Disabled, since changing frequency is not yet available
-      scale $f.freq -label [Local "Adjust playback speed (%)"] \
-	  -orient horiz -length 200 -width 10 \
-	  -from -40 -to 60 -tickinterval 20 -resolution 1 \
-	  -command {AdjustPlaybackSpeed}
-      #pack $f.freq -expand true -fill x -padx 10 -pady 5
-
-      button $f.close -text [Local "Close"] -command [list wm withdraw $f]
-      pack $f.close -side bottom -expand 1 -padx 3m -pady 2m
-   } else {
-      FrontWindow $f
-   }
-   set dial(volume) [snack::audio play_gain]
+	    wm attributes $f -topmost 1 
+	}
+	
+	if {[info tclversion] < 8.4 || [tk windowingsystem] != "aqua"} {
+	    scale $f.s -label [Local "Volume"] \
+		-orient horiz -length 200 -width 10 \
+		-variable dial(volume) -command {snack::audio play_gain}
+	    pack $f.s -expand true -fill x -padx 10 -pady 5
+	}
+	
+	set v(tk,gain)  [scale $f.gain -label [Local "Vertical zoom (dB)"] \
+			     -orient horizontal -length 200 -width 10 -showvalue 1 \
+			     -from -10 -to 20 -tickinterval 10 -resolution 1 \
+			     -variable v(sig,gain) -command [list NewGain]]
+	pack $f.gain -expand true -fill x -padx 10 -pady 5
+	
+	# Disabled, since changing frequency is not yet available
+	scale $f.freq -label [Local "Adjust playback speed (%)"] \
+	    -orient horiz -length 200 -width 10 \
+	    -from -40 -to 60 -tickinterval 20 -resolution 1 \
+	    -command {AdjustPlaybackSpeed}
+	
+	button $f.close -text [Local "Close"] -command [list wm withdraw $f]
+	pack $f.close -side bottom -expand 1 -padx 3m -pady 2m
+    } else {
+	FrontWindow $f
+    }
+    set dial(volume) [snack::audio play_gain]
 }
 
 proc AdjustPlaybackSpeed {val} {
-   global v
-
-   set play [IsPlaying]
-   if {$play} {PauseAudio}
-   set v(playbackSpeed) [expr 1.0+$val/100.0]
-   if {$play} {Play}
+    global v
+    
+    set play [IsPlaying]
+    if {$play} {PauseAudio}
+    set v(playbackSpeed) [expr 1.0+$val/100.0]
+    if {$play} {Play}
 }
 
 proc SwitchFrame {frame {args ""}} {
     # show or hide frame
     
     global v
-
+    
     if {$frame == "menu"} {
 	if {$v(frame_view,m) == 1} {
 	    set v(frame_view,m) 0
@@ -948,8 +936,7 @@ proc SwitchFrame {frame {args ""}} {
 	}
 	return
     }
-
-
+    
     set f $v(frame,$frame)
     if {[winfo class $f] == "Toplevel"} {
 	# Always bring to top
@@ -976,41 +963,38 @@ proc SwitchFrame {frame {args ""}} {
 #######################################################################
 
 proc CreateMessageFrame {f} {
-   global v
-
-   label $f.label -font mesg -textvariable v(var,msg) \
-       -justify left -anchor w -bg $v(color,bg) -padx 10 -relief raised -bd 1
-#   if {$v(view,$f)} {
-#       [winfo parent $f] add $f -minsize 0.2i -height 0.2i
-   pack $f.label -fill x -side bottom
-#   }
-   bind $f.label <Button-1> EditCursor
+    global v
+    
+    label $f.label -font mesg -textvariable v(var,msg) \
+	-justify left -anchor w -bg $v(color,bg) -padx 10 -relief raised -bd 1
+    pack $f.label -fill x -side bottom
+    bind $f.label <Button-1> EditCursor
 }
 
 proc DisplayMessage {text} {
-   global v
-
-   set v(var,msg) $text
+    global v
+    
+    set v(var,msg) $text
 }
 
 #######################################################################
 
 proc SetBindings {} {
-   global v
-
-   # Mouse events
-   #bind all <Enter> {focus %W}
-
-   # Forget existing bindings
-   foreach b [bind .] {bind . $b {}}
-
-   # Some aliases for keyboard events
-   bind . <Pause> {PlayOrPause}
-   bind . <Alt-Tab> {PlayCurrentSegmt}
-   # alternative for Shift-Tab already defined in menu bindings
-   catch {bind . <Key-ISO_Left_Tab> {PlayCurrentSegmt; break}}
-   # the break added in previous should make following useless:
-   # bind all <<PrevWindow>> {}
+    global v
+    
+    # Mouse events
+    #bind all <Enter> {focus %W}
+    
+    # Forget existing bindings
+    foreach b [bind .] {bind . $b {}}
+    
+    # Some aliases for keyboard events
+    bind . <Pause> {PlayOrPause}
+    bind . <Alt-Tab> {PlayCurrentSegmt}
+    # alternative for Shift-Tab already defined in menu bindings
+    catch {bind . <Key-ISO_Left_Tab> {PlayCurrentSegmt; break}}
+    # the break added in previous should make following useless:
+    # bind all <<PrevWindow>> {}
 }
 
 #######################################################################
@@ -1032,7 +1016,6 @@ proc ConfigureGeneral {} {
     pack $g -fill both -expand true -side top
     EntryFrame $g.en1 "Default scribe's name" v(scribe,name)
     EntryFrame $g.en2 "Log trace in file" v(trace,name)
-    #EntryFrame $g.en3 "Global speakers database" v(list,ext) 
     
     # Menu to choose the default browser
     set i [frame $g.fr]
@@ -1125,139 +1108,139 @@ proc ConfigureGeneral {} {
 
 # Edit v(encoding) within $f frame - called by ConfigureGeneral
 proc EncodingChooser {f} {
-   global v
-
-   set e [frame $f.enc -relief raised -bd 1]
-   pack $e -fill both -expand true -side top
-
-   label $e.lab -text "[Local Encoding]:"
-   menubutton $e.men -indicatoron 1 -menu $e.men.menu -relief raised -bd 2 -highlightthickness 2 -anchor c
-   menu $e.men.menu -tearoff 0
-   set len 20
-   # List of encoding: IANA name/usual name
-   foreach subl $v(encodingList) {
-      if {$subl == ""} {
-	 $e.men.menu add separator
-	 continue
-      }
-      foreach {val name} $subl {}
-      if {$name == ""} {
-	 set name $val
-      }
-      set name [Local $name]
-      set len [max $len [string length $name]]
-      if {$val == $v(encoding)} {
-	 $e.men configure -text $name
-      }
-      $e.men.menu add radiobutton -label $name -variable v(encoding) -value $val -command [list $e.men configure -text $name]
-   }
-   $e.men configure -width $len
-   pack $e.lab $e.men -side left -padx 3m -pady 3m -fill x -expand true
+    global v
+    
+    set e [frame $f.enc -relief raised -bd 1]
+    pack $e -fill both -expand true -side top
+    
+    label $e.lab -text "[Local Encoding]:"
+    menubutton $e.men -indicatoron 1 -menu $e.men.menu -relief raised -bd 2 -highlightthickness 2 -anchor c
+    menu $e.men.menu -tearoff 0
+    set len 20
+    # List of encoding: IANA name/usual name
+    foreach subl $v(encodingList) {
+	if {$subl == ""} {
+	    $e.men.menu add separator
+	    continue
+	}
+	foreach {val name} $subl {}
+	if {$name == ""} {
+	    set name $val
+	}
+	set name [Local $name]
+	set len [max $len [string length $name]]
+	if {$val == $v(encoding)} {
+	    $e.men configure -text $name
+	}
+	$e.men.menu add radiobutton -label $name -variable v(encoding) -value $val -command [list $e.men configure -text $name]
+    }
+    $e.men configure -width $len
+    pack $e.lab $e.men -side left -padx 3m -pady 3m -fill x -expand true
 }
 
 # Try to find an available Tcl encoding matching the given IANA name
 # and return it, or else an empty string.
 proc EncodingFromName {iana} {
-   set enc [string tolower $iana]
-   regsub "iso-" $enc "iso" enc
-   regsub "_" $enc "" enc
-   # resolve confusion: IANA gb_2312-80 => Tcl gb2312; IANA gb2312 => Tcl euc-cn
-   regsub "gb2312" $enc "euc-cn" enc
-   regsub "macintosh" $enc "macRoman" enc
-   if {[lsearch [encoding names] $enc] >= 0} {
-      return $enc
-   } else {
-      return ""
-   }
+    set enc [string tolower $iana]
+    regsub "iso-" $enc "iso" enc
+    regsub "_" $enc "" enc
+    # resolve confusion: IANA gb_2312-80 => Tcl gb2312; IANA gb2312 => Tcl euc-cn
+    regsub "gb2312" $enc "euc-cn" enc
+    regsub "macintosh" $enc "macRoman" enc
+    if {[lsearch [encoding names] $enc] >= 0} {
+	return $enc
+    } else {
+	return ""
+    }
 }
 
 #######################################################################
 
 proc EditGlossary {} {
-   global v
-
-   # When a selection is active, propose its content as default value
-   set new {}
-   if {[$v(tk,edit) tag ranges sel] != {}} {
-      set new [list [CopyAll sel.first sel.last] ""]
-   }
-   catch {
-      set v(glossary) [ListEditor $v(glossary) "Glossary" \
-		           {"Value" "Comment"} $new GlosBack]
-   }
+    global v
+    
+    # When a selection is active, propose its content as default value
+    set new {}
+    if {[$v(tk,edit) tag ranges sel] != {}} {
+	set new [list [CopyAll sel.first sel.last] ""]
+    }
+    catch {
+	set v(glossary) [ListEditor $v(glossary) "Glossary" \
+			     {"Value" "Comment"} $new GlosBack]
+    }
 }
 
 proc GlosBack {} {
-   global v lst
-
-   button .lst.bot.ins -text [Local "Insert"] -command {GlosIns}
-   pack .lst.bot.ins -side left -after .lst.bot.ok -padx 3m -pady 2m -fill x -expand true
+    global v lst
+    
+    button .lst.bot.ins -text [Local "Insert"] -command {GlosIns}
+    pack .lst.bot.ins -side left -after .lst.bot.ok -padx 3m -pady 2m -fill x -expand true
 }
 
 proc GlosIns {} {
-   global v lst
-
-   PasteAll $v(tk,edit) $lst(f0)
-   set lst(result) "Insert"
+    global v lst
+    
+    PasteAll $v(tk,edit) $lst(f0)
+    set lst(result) "Insert"
 }
 
 #######################################################################
 
 proc ConfigureBindings {} {
-   global v
-
-   # When a selection is active, propose its content as default value
-   set new {}
-   if {[$v(tk,edit) tag ranges sel] != {}} {
-      set new [list "" [CopyAll sel.first sel.last]]
-   }
-   catch {
-      RegisterBindings [ListEditor $v(bindings) "Bindings" \
-		        {"Keystrokes" "Replacement string"} $new BindBack]
-   }
+    global v
+    
+    # When a selection is active, propose its content as default value
+    set new {}
+    if {[$v(tk,edit) tag ranges sel] != {}} {
+	set new [list "" [CopyAll sel.first sel.last]]
+    }
+    catch {
+	RegisterBindings [ListEditor $v(bindings) "Bindings" \
+			      {"Keystrokes" "Replacement string"} $new BindBack]
+    }
 }
 
 # Inside binding editor, replace keystroke with corresponding string
 proc BindBack {} {
-   global v lst
-
-   catch {
-      bind $lst(e0) <Command-KeyPress> {if {[string length %A] > 0} {tkEntryInsert %W "<Command-%K>"}; break}
-      bind $lst(e0) <Option-KeyPress> {if {[string length %A] > 0} {tkEntryInsert %W "<Option-%K>"}; break}
-      bind $lst(e0) <Alt-KeyPress> {if {[string length %A] > 0} {tkEntryInsert %W "<Alt-%K>"}; break}
-      bind $lst(e0) <Control-KeyPress> {if {[string length %A] > 0} {tkEntryInsert %W "<Control-%K>"}; break}
-      bind $lst(e0) <Control-Alt-KeyPress> {if {[string length %A] > 0} {tkEntryInsert %W "<Control-Alt-%K>"}; break}
-   }
+    global v lst
+    
+    catch {
+	bind $lst(e0) <Command-KeyPress> {if {[string length %A] > 0} {tkEntryInsert %W "<Command-%K>"}; break}
+	bind $lst(e0) <Option-KeyPress> {if {[string length %A] > 0} {tkEntryInsert %W "<Option-%K>"}; break}
+	bind $lst(e0) <Alt-KeyPress> {if {[string length %A] > 0} {tkEntryInsert %W "<Alt-%K>"}; break}
+	bind $lst(e0) <Control-KeyPress> {if {[string length %A] > 0} {tkEntryInsert %W "<Control-%K>"}; break}
+	bind $lst(e0) <Control-Alt-KeyPress> {if {[string length %A] > 0} {tkEntryInsert %W "<Control-Alt-%K>"}; break}
+    }
 }
 
 proc RegisterBindings {new} {
-   global v
-
-   foreach subl $v(bindings) {
-      foreach {s1 s2} $subl {}
-      bind Text $s1 ""
-   }
-   set v(bindings) $new
-   foreach subl $v(bindings) {
-      foreach {s1 s2} $subl {}
-      # count plain chars to delete before current char - can be wrong !
-      regsub -all "<(Control|Alt|Meta|Command|Option)-\[^>]+>" $s1 "" s3
-      regsub -all "<\[^>]+>" $s3 "." s3
-      set l [expr [string length $s3]-1]
-      catch {
-	 if {$l > 0} {
-	    bind Text $s1 "%W delete insert-${l}c insert; PasteAll %W [list $s2]; break"
-	 } else {
-	    bind Text $s1 "PasteAll %W [list $s2]; break"
-	 }
-      }
-   }
+    global v
+    
+    foreach subl $v(bindings) {
+	foreach {s1 s2} $subl {}
+	bind Text $s1 ""
+    }
+    set v(bindings) $new
+    foreach subl $v(bindings) {
+	foreach {s1 s2} $subl {}
+	# count plain chars to delete before current char - can be wrong !
+	regsub -all "<(Control|Alt|Meta|Command|Option)-\[^>]+>" $s1 "" s3
+	regsub -all "<\[^>]+>" $s3 "." s3
+	set l [expr [string length $s3]-1]
+	catch {
+	    if {$l > 0} {
+		bind Text $s1 "%W delete insert-${l}c insert; PasteAll %W [list $s2]; break"
+	    } else {
+		bind Text $s1 "PasteAll %W [list $s2]; break"
+	    }
+	}
+    }
 }
 
 #######################################################################
 
 proc ConfigureColors {} {
-
+    
     # JOB: Configure the colors of the interface. Called by the menu Options->Colors...
     #
     # IN: nothing
@@ -1272,7 +1255,7 @@ proc ConfigureColors {} {
     
     set f .col
     CreateModal $f "Configure colors"
-   
+    
     # create a list that defines the classical buttons in the color interface configuration
     lappend listbutton {"Waveform bg" bg "selected" bg-sel}\
 	{"Segments foreground" fg-sync "background" bg-sync}\
@@ -1312,6 +1295,13 @@ proc ConfigureColors {} {
     checkbutton $g.entbuton -text [Local "Use color for NE button"] -variable v(color,NEbutton) -command {UpdateNEFrame}
     pack $g.entbuton -side left -padx 10
     pack $g -side top -fill x -expand true
+
+    # check button for colorize or not the speaker segmentation
+    set h [frame $f.checkSpkSeg -bd 1 -relief raised]
+    checkbutton $h.spkseg -text [Local "Colorize speaker segments"] -variable v(colorizeSpk) -command {ColorizeSpk}
+    pack $h.spkseg
+    pack $h -side top -fill x -expand true
+
     # save old values in case of cancel
     foreach part {tag text button} {
 	lappend old NE$part $v(color,NE$part)
@@ -1363,97 +1353,94 @@ proc UpdateColors {} {
     # Version: 1.1
     # Date: October 20, 2004
 
-   global v
-
-   # Update the entities colors in the text
-   UpdateNEColors
-
-   foreach wavfm $v(wavfm,list) {
-      set f [winfo parent $wavfm] 
-      if [winfo exists $f.seg0] {
-	 $f.seg0 config -fg $v(color,fg-sync) -full $v(color,bg-sync)
-      }
-      if [winfo exists $f.seg1] {
-	 $f.seg1 config -fg $v(color,fg-turn) -full $v(color,bg-turn)
-      }
-      if [winfo exists $f.seg2] {
-	 $f.seg2 config -fg $v(color,fg-sect) -full $v(color,bg-sect)
-      }
-      if [winfo exists $f.bg] {
-	 $f.bg config -fg $v(color,fg-back) -full $v(color,bg-back)
-      }
-      foreach w [concat $f [winfo children $f]] {
-	 if {[winfo class $w] != "Scrollbar"} {
-	    $w config -bg $v(color,bg)
-	 }
-      }
-      $wavfm config -selectbackground $v(color,bg-sel)
-   }
-   $v(frame,msg) config -bg $v(color,bg)
-   if [info exists v(tk,edit)] {
-      set t $v(tk,edit)-bis
-      $t conf -bg $v(color,bg-text) -fg $v(color,fg-text)
-      $t tag conf "event" -background $v(color,bg-evnt) -foreground $v(color,fg-evnt)
-      foreach w [$t window names] {
-	 switch -glob -- [$w conf -command] {
-	    *section* {
-	       $w conf -activeforeground $v(color,fg-sect) \
-		   -fg $v(color,fg-sect) \
-		   -activebackground $v(color,bg-sect) -bg $v(color,bg-sect)
+    global v
+    
+    # Update the entities colors in the text
+    UpdateNEColors
+    
+    foreach wavfm $v(wavfm,list) {
+	set f [winfo parent $wavfm] 
+	if [winfo exists $f.seg0] {
+	    $f.seg0 config -fg $v(color,fg-sync) -full $v(color,bg-sync)
+	}
+	if [winfo exists $f.seg1] {
+	    $f.seg1 config -fg $v(color,fg-turn) -full $v(color,bg-turn)
+	}
+	if [winfo exists $f.seg2] {
+	    $f.seg2 config -fg $v(color,fg-sect) -full $v(color,bg-sect)
+	}
+	if [winfo exists $f.bg] {
+	    $f.bg config -fg $v(color,fg-back) -full $v(color,bg-back)
+	}
+	foreach w [concat $f [winfo children $f]] {
+	    if {[winfo class $w] != "Scrollbar"} {
+		$w config -bg $v(color,bg)
 	    }
-	    *turn* {
-	       $w conf -activeforeground $v(color,fg-turn)\
-		   -fg $v(color,fg-turn) \
-		   -activebackground $v(color,bg-turn) -bg $v(color,bg-turn)
+	}
+	$wavfm config -selectbackground $v(color,bg-sel)
+    }
+    $v(frame,msg) config -bg $v(color,bg)
+    if [info exists v(tk,edit)] {
+	set t $v(tk,edit)-bis
+	$t conf -bg $v(color,bg-text) -fg $v(color,fg-text)
+	$t tag conf "event" -background $v(color,bg-evnt) -foreground $v(color,fg-evnt)
+	foreach w [$t window names] {
+	    switch -glob -- [$w conf -command] {
+		*section* {
+		    $w conf -activeforeground $v(color,fg-sect) \
+			-fg $v(color,fg-sect) \
+			-activebackground $v(color,bg-sect) -bg $v(color,bg-sect)
+		}
+		*turn* {
+		    $w conf -activeforeground $v(color,fg-turn)\
+			-fg $v(color,fg-turn) \
+			-activebackground $v(color,bg-turn) -bg $v(color,bg-turn)
+		}
 	    }
-	 }
-      }
-#      $v(img,circle) conf -foreground $v(color,bg-sync)
-#      $v(img,over1) conf -foreground $v(color,bg-sync)
-#      $v(img,over2) conf -foreground $v(color,bg-sync)
-   }
+	}
+    }
 }
 
 proc RandomColor {} {
-  set sum 0
-  while {$sum < 384} {
-    set col "\#"
     set sum 0
-    foreach c {r g b} {
-      set d [expr int(rand()*256)]
-      append col [format "%02x" $d]
-      incr sum $d
+    while {$sum < 384} {
+	set col "\#"
+	set sum 0
+	foreach c {r g b} {
+	    set d [expr int(rand()*256)]
+	    append col [format "%02x" $d]
+	    incr sum $d
+	}
     }
-  }
-  return $col
+    return $col
 }
 
 proc ColorMap {val {col ""}} {
-  global color
-  regsub -all "\[ _-]" $val "" val
-  set val [string tolower $val]
-  if {$col != ""} {
-    set color($val) $col
-  } elseif {[info exists color($val)]} {
-    set col $color($val)
-  } else {
-    set col [RandomColor]
-    set color($val) $col
-  }
-  return $col
+    global color
+    regsub -all "\[ _-]" $val "" val
+    set val [string tolower $val]
+    if {$col != ""} {
+	set color($val) $col
+    } elseif {[info exists color($val)]} {
+	set col $color($val)
+    } else {
+	set col [RandomColor]
+	set color($val) $col
+    }
+    return $col
 }
 
 proc ColorizeSpk {{segmt seg1}} {
-  global v color
-  if {$v(colorizeSpk)} {
-    ColorMap ([Local "no speaker"]) $::v(color,bg)
-    for {set i 0} {$i < [GetSegmtNb $segmt]} {incr i} {
-      SetSegmtField $segmt $i -color [ColorMap [GetSegmtField $segmt $i -text]]
+    global v color
+    if {$v(colorizeSpk)} {
+	ColorMap ([Local "no speaker"]) $::v(color,bg)
+	for {set i 0} {$i < [GetSegmtNb $segmt]} {incr i} {
+	    SetSegmtField $segmt $i -color [ColorMap [GetSegmtField $segmt $i -text]]
+	}
+    } else {
+	catch {unset color}
+	for {set i 0} {$i < [GetSegmtNb $segmt]} {incr i} {
+	    SetSegmtField $segmt $i -color ""
+	}
     }
-  } else {
-    catch {unset color}
-    for {set i 0} {$i < [GetSegmtNb $segmt]} {incr i} {
-      SetSegmtField $segmt $i -color ""
-    }
-  }
 }
