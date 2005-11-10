@@ -335,7 +335,7 @@ proc InitMenus {} {
 	    {"General..."                cmd {ConfigureGeneral}}
 	    {"Audio file..."        cmd {ConfigureAudioFile}}
 	    {"Interface display" -underline 0        cascade {
-		{"Switch display type"  -underline 0 cascade {
+		{"Switch canvas type"  -underline 0 cascade {
 		    {"Canvas 1" radio {v(canvas,type) "canvas1"} -command {ChangeCanvas $v(canvas,type)}}
 		    {"Canvas 2" radio {v(canvas,type) "canvas2"} -command {ChangeCanvas $v(canvas,type)}}
 		    {"Canvas 3" radio {v(canvas,type) "canvas3"} -command {ChangeCanvas $v(canvas,type)}}
@@ -349,7 +349,7 @@ proc InitMenus {} {
 		{"Explorer"  check v(frame_view,database) -command {SwitchFrame database} -bind "F8"}
 		{"Menu"  check v(frame_view,menu) -command {SwitchFrame menu} -bind "F9"}
 		{"Tags"  check v(text_view,tag) -command {SwitchTagDisplay} -bind "F10"}
-		{"Smart segmentation display"        check v(hideLevels) -command {UpdateSegmtView}}
+		{"Smart segmentation display"        check v(hideLevels) -command {UpdateSegmtView} -bind "F11"}
 	    }}
 	    {"Fonts"        cascade {
 		{"Axis"                cmd {set v(font,axis)  [ChooseFont axis] }}
