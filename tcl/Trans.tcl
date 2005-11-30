@@ -847,7 +847,7 @@ proc DisplayTrans {} {
 				
 				# because Named Entities are considered like an event in the DTD, we are obliged to test if it's a real event or a NE
 				# maybe another XML element will be created for the NE
-				if {[$chn getAttr "type"] == "entities"} {
+				if {([$chn getType] == "Event") && ([$chn getAttr "type"] == "entities")} {
 				    InsertNE $chn
 				    append txt [StringOfNE $chn]
 				} else {
