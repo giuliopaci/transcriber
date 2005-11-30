@@ -405,13 +405,11 @@ proc InsertTag {elem {other_tags ""}} {
     # MODIFY: nothing
     #
     # Author: Claude Barras, Sylvain Galliano
-    # Version: 1.2
-    # Date: September 16, 2005
+    # Version: 1.2 September 16, 2005
+    #          1.3 Novenmber 30, 2005
 
     global v
     set t $v(tk,edit)-bis
-    set desc [$elem getAttr "desc"] 
-    set type [$elem getType]
     set txt [StringOfTag $elem]
     $t insert "insert" $txt [concat "cursor" "sync" "event" $elem $other_tags]
     # inhibit next "mark set insert"
