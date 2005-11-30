@@ -745,11 +745,12 @@ proc HideFrame {f} {
 }
 
 proc CreateCommandFrame {f args} {
-    global v
+    global v dial
     
     # Commands frame
     set v(tk,play) [button $f.play -command {PlayOrPause}]
     set v(tk,stop) [button $f.pause -command {PlayOrPause} -state disabled]
+    set dial(volume) [snack::audio play_gain]
     button $f.previous -command {MoveNextSegmt -1}
     button $f.next -command {MoveNextSegmt +1}
     button $f.backward
@@ -764,7 +765,7 @@ proc CreateCommandFrame {f args} {
     }
     button $f.info -command {CreateInfoFrame}  -image $v(img,info) -borderwidth 0
     pack $f.info -side left -padx 10 
-    scale $f.vol -label [Local "Volume"] -font {fixed 10}    -orient horiz -length 70 -width 8  -variable dial(volume) -command {snack::audio play_gain} -showvalue 0
+    scale $f.vol -label [Local "Volume"] -font {fixed 10} -orient horiz -length 70 -width 8  -variable dial(volume) -command {snack::audio play_gain} -showvalue 0
     pack $f.vol  -fill x -padx 5 -pady 5 -side right
     
     # if one wishes to have buttons for segment/turn/section creation
