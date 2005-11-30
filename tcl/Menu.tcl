@@ -320,7 +320,7 @@ proc InitMenus {} {
 		{"Previous section"        cmd {TextNextSection -1} -acc "Page Up"}
 	    }}
 	    {""}
-	    {"Insert breakpoint"        cmd {InsertSegment} -bind "Return"}
+	    {"Insert breakpoint"        cmd {InsertSegment} -acc "Return"}
 	    {"Insert background"        cmd {CreateBackground}}
 	    {""}
 	    {"Create turn..."        cmd {ChangeSegType Turn} -bind "Ctrl-t"}
