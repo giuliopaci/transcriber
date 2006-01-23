@@ -9,7 +9,7 @@ proc ViewHelp {{name "Index"} {chapter ""}} {
     #
     # Job    Manage the help inside Transcriber
     #	     
-    # In     A valid URL and an optional chapter
+    # In     A valid entries of the following array called "arr" and an optional chapter
     # Out
     # Modify If v(browser) is not set, it is set to the default browser (except on Mac)
     #
@@ -18,27 +18,19 @@ proc ViewHelp {{name "Index"} {chapter ""}} {
     #          1.1 November 2005
 
     global v
-    
-    array set arr {
-	"Presentation"     "present_local.html"
-	"Main features"    "functions.html"
-	"User guide"       "user.html"
-	"Reference manual" "reference.html"
-    }
-    set Lg [string toupper [string index $v(lang) 0]][string range \
-							  $v(lang) 1 end]
-    set arr(Index) [file join [pwd] $v(path,doc) Index$Lg.html]
-    set dir [file join [pwd] $v(path,doc) $v(lang)]  
-    if {![file exists $arr(Index)] || ![file exists $dir]} {
-	set arr(Index) [file join [pwd] $v(path,doc) Index.html]
-	set dir [file join [pwd] $v(path,doc) "en"]
-    }
+
+    set dir [file join [pwd] $v(path,doc) "en"]  
+
+    set arr(Index) [file join ".." "Index.html"]
+    set arr(user_manual)  "userman.php.html"
+    set arr(annotation_guide) "annotation_guide_$v(lang).php.html"
     
     if {$chapter == ""} {
 	set file $arr($name)
     } else {
 	set file [append arr($name) \# $chapter]
     }
+    puts $file
     set url [file join $dir $file]
     OpenURL file:$url
 }
