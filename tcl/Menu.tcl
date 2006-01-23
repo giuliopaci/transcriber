@@ -368,7 +368,7 @@ proc InitMenus {} {
 	    {"Colors..."                cmd {ConfigureColors}}
 	    {"Tags"        cascade {
 		{"Configure display..."        cmd {ConfigureTags}}
-		{"How to modify a list (this launch help)" cmd {ViewHelp "Reference manual" "r51"}}
+		{"How to modify a list (this launch help)" cmd {ViewHelp "user_manual" "r12.7"}}
 	    }}
 	    {"Bindings..."                cmd {ConfigureBindings}}
 	    {""}
@@ -376,14 +376,7 @@ proc InitMenus {} {
 	    {"Save configuration"                cmd {SaveOptions}}
 	    {"Save configuration as..."        cmd {SaveOptions as}}
 	}}
-	{"Help" -underline 0 cascade {
-	    {"About..."                cmd {ViewHelp "Index"} -bind "F1"}
-	    {""}
-	    {"Presentation"        cmd {ViewHelp "Presentation"}}
-	    {"Main features"        cmd {ViewHelp "Main features"}}
-	    {"User guide"                cmd {ViewHelp "User guide"}}
-	    {"Reference manual"        cmd {ViewHelp "Reference manual"}}
-	}}
+	{"Help (F1)" cmd {ViewHelp} -bind "F1"}
     }
     
     config_menu "File" -postcommand UpdateFileMenu
