@@ -3,7 +3,7 @@
 
 # Personal external speakers database
 list,ext .speaker
-				     
+		                     
 # Path to default browser
 browser ""
 
@@ -16,7 +16,7 @@ options,macintosh  "Transcriber Configuration"
 scribe,name   "(unknown)"
 
 # Version of the user preference file
-pref,ver	""
+pref,ver        ""
 
 # does user want shape calculation for rapid display of signal ?
 shape,wanted  -1
@@ -36,16 +36,16 @@ playbackBefore 0.0
 # pause between two segments
 playbackPause    0.3
 #filename of beep sound file to be played between segments
-playbackBeep	""
+playbackBeep        ""
 # multiplying factor for frequency during playback - not yet supported
 playbackSpeed 1.0
 # interval between cursor events in ms (a too low value may overload display server)
 playbackCursorTempo 50
 
 # remote playback settings
-playbackRemote	0
-playbackServer	""
-playbackPort	""
+playbackRemote        0
+playbackServer        ""
+playbackPort        ""
 
 # interval (in min) between automatic save
 autosave,time 5
@@ -108,131 +108,122 @@ encodingList {
 }
 
 # default language for interface (in iso639 code)
-lang	"en"
+lang        "en"
 # file for localization (default file if empty)
 file,local ""
 
 # some of iso639 language codes
-language	{
-	{ar	Arabic}
-	{bg	Bulgarian}
-	{cs	Czech}
-	{da	Danish}
-	{de	German}
-	{el	Greek}
-	{en	English}
-	{es	Spanish}
-	{fa	Persian}
-	{fi	Finnish}
-	{fr	French}
-	{he	Hebrew}
-	{hi	Hindi}
-	{hu	Hungarian}
-	{it	Italian}
-	{ja	Japanese}
-	{ko	Korean}
-	{la	Latin}
-	{nl	Dutch}
-	{no	Norwegian}
-	{pl	Polish}
-	{pt	Portuguese}
-	{ro	Romanian}
-	{ru	Russian}
-	{sl	Slavonic}
-	{sv	Swedish}
-	{tr	Turkish}
-	{zh	Chinese}
+language        {
+	{ar        Arabic}
+	{bg        Bulgarian}
+	{cs        Czech}
+	{da        Danish}
+	{de        German}
+	{el        Greek}
+	{en        English}
+	{es        Spanish}
+	{fa        Persian}
+	{fi        Finnish}
+	{fr        French}
+	{he        Hebrew}
+	{hi        Hindi}
+	{hu        Hungarian}
+	{it        Italian}
+	{ja        Japanese}
+	{ko        Korean}
+	{la        Latin}
+	{nl        Dutch}
+	{no        Norwegian}
+	{pl        Polish}
+	{pt        Portuguese}
+	{ro        Romanian}
+	{ru        Russian}
+	{sl        Slavonic}
+	{sv        Swedish}
+	{tr        Turkish}
+	{zh        Chinese}
 }
 
 # list of noise events with descriptions
-noise	{
-	{"r"	"[r] respiration"}
-	{"i"	"[i] inspiration"}
-	{"e"	"[e] expiration"}
-	{"n"	"[n] reniflement"}
-	{"pf"	"[pf] soufle"}
-	{""	""}
-	{"bb"	"[bb] bruit de bouche"}
-	{"bg"	"[bg] bruit de gorge"}
-	{"tx"	"[tx] toux, râclement,éternuement"}
-	{"rire"	"[rire] rires du locuteur"}
-	{"sif"	"[sif] sifflement du locuteur"}
-	{""	""}
-	{"b"	"[b] bruit indéterminé"}
-	{"conv"	"[conv] conversations de fond"}
-	{"pap"	"[pap] froissement de papiers"}
-	{"shh"	"[shh] souffle électrique"}
-	{"mic"	"[mic] bruits micro"}
+noise        {
+	{"r"        "[r] respiration"}
+	{"i"        "[i] inspiration"}
+	{"e"        "[e] expiration"}
+	{"n"        "[n] reniflement"}
+	{"pf"        "[pf] soufle"}
+	{""        ""}
+	{"bb"        "[bb] bruit de bouche"}
+	{"bg"        "[bg] bruit de gorge"}
+	{"tx"        "[tx] toux, rÃ¢clement,Ã©ternuement"}
+	{"rire"        "[rire] rires du locuteur"}
+	{"sif"        "[sif] sifflement du locuteur"}
+	{""        ""}
+	{"b"        "[b] bruit indÃ©terminÃ©"}
+	{"conv"        "[conv] conversations de fond"}
+	{"pap"        "[pap] froissement de papiers"}
+	{"shh"        "[shh] souffle Ã©lectrique"}
+	{"mic"        "[mic] bruits micro"}
 	{"rire en fond" ""}
 	{"toux en fond" ""}
 	{"indicatif" ""}
 	{"jingle" ""}
 	{"top"    ""}
- 	{"musique" ""}
- 	{"applaude" "applaudissements"}
- 	{"nontrans" "[nontrans] segment"}
+	 {"musique" ""}
+	 {"applaude" "applaudissements"}
+	 {"nontrans" "[nontrans] segment"}
 }
 
 # list of pronounciation events with descriptions
 pronounce {
-	{"*"	"mal prononcé"}
-	{"lapsus"	""}
-	{"pi"	"[pi] inintelligible"}
-	{"pif"	"[pif] inintelligible/faible"}
-	{"ch"	"[ch] voix chuchotée"}
-	{""	""}
-	{"lu"		"sigle lu"}
-	{"épelé"	"sigle épelé"}
+	{"*"        "mal prononcÃ©"}
+	{"lapsus"        ""}
+	{"pi"        "[pi] inintelligible"}
+	{"pif"        "[pif] inintelligible/faible"}
+	{"ch"        "[ch] voix chuchotÃ©e"}
+	{""        ""}
+	{"lu"                "sigle lu"}
+	{"Ã©pelÃ©"        "sigle Ã©pelÃ©"}
 	{"19 cent..." ""}
 }
 
 # list of lexical events with descriptions
 lexical {
-	{"?"	"orthographe incertaine"}
-	{"^^"	"mot inconnu"}
-	{"néologisme" ""}
-	{"()"	"rupture de syntaxe"}
+	{"?"        "orthographe incertaine"}
+	{"^^"        "mot inconnu"}
+	{"nÃ©ologisme" ""}
+	{"()"        "rupture de syntaxe"}
 }
 
 # default variable for display color used for NE
 color,NEtag 1
 color,NEtext 0
-color,NEbutton 0
+color,NEbutton 1
 
 # list of Named Entities (NE) events with descriptions
 namedEntities {
-	{"pers" "Person" "blue"}
-	{"pers.hum" "" ""}		
-        {"pers.anim" "" ""}
+	{"pers" "Person" "#009948"}
+	{"pers.hum" "" ""}                
+	{"pers.anim" "" ""}
 	{"pers.imag" "" ""}             
 	{"org" "Organization" "red"}
 	{"org.pol" "" ""}
 	{"org.edu" "" ""}
 	{"org.non-profit" "" ""}
 	{"org.com" "" ""}
-	{"gsp" "Geo-Soc-Pol" "orange"}
-	{"gsp.pers" "" ""}
-	{"gsp.org" "" ""}
-	{"gsp.loc" "" ""}
-        {"loc" "Location" "#0007ff3ff"}
+	{"time" "Time" "#ff61c1"}
+	{"time.date" "" ""}
+	{"time.date.abs" "" ""}
+	{"time.date.rel" "" ""}
+	{"time.hour" "" ""}
+
+	{"loc" "Location" "#76007e"}
 	{"loc.geo" "" ""}
 	{"loc.geo.line" "" ""}
 	{"loc.addr" "" ""}
 	{"loc.addr.post" "" ""}
 	{"loc.addr.tel" "" ""}
 	{"loc.addr.elec" "" ""}
-	{"fac" "Facilities" "brown"}
-        {"prod" "Product" "salmon"}
-        {"prod.vehicule" "" ""}
-        {"prod.award" "" ""}
-        {"prod.art" "" ""}
-        {"prod.printing" "" ""}
-        {"time" "Time" "#000f0ffff"}
-	{"time.date" "" ""}
-	{"time.date.abs" "" ""}
-	{"time.date.rel" "" ""}
-	{"time.hour" "" ""}
-        {"amount" "Amount" "purple"}
+	{"amount" "Amount" "#a063f0"}
 	{"amount.phy" "" ""}
 	{"amount.phy.age" "" ""}
 	{"amount.phy.dur" "" ""}
@@ -241,28 +232,39 @@ namedEntities {
 	{"amount.phy.wei" "" ""}
 	{"amount.phy.spd" "" ""}
 	{"amount.cur" "" ""}
-	{"unk" "Unknown" "grey"}
-	{"meto" "Metonymy" "grey"}
+
+	{"prod" "Product" "salmon"}
+	{"prod.vehicule" "" ""}
+	{"prod.award" "" ""}
+	{"prod.art" "" ""}
+	{"prod.printing" "" ""}
+	{"gsp" "Geo-Soc-Pol" "#ff7124"}
+	{"gsp.pers" "" ""}
+	{"gsp.org" "" ""}
+	{"gsp.loc" "" ""}
+	{"fac" "Facilities" "#a52a2a"}
+	{"unk" "Unknown" "#00f0ff"}
+	{"meto" "Metonymy" "#78c158"}
 	{"prod.award/pers.hum" ""}
 	{"org.edu/gsp.pers" ""}
 }
 
 # format strings for event extent (%s is replaced with event description)
-event,instantaneous	"\[%s]"
-event,begin	"\[%s-]"
-event,end	"\[-%s]"
-event,previous	"+\[%s]"
-event,next	"\[%s]+"
+event,instantaneous        "\[%s]"
+event,begin        "\[%s-]"
+event,end        "\[-%s]"
+event,previous        "+\[%s]"
+event,next        "\[%s]+"
 
 # format string for event type
-event,comment	"{%s}"
-event,language	"lang=%s"
+event,comment        "{%s}"
+event,language        "lang=%s"
 event,scope "%s"
 event,dependent "%s"
 event,header "%s"
-event,pronounce	"pron=%s"
-event,lexical	"lex=%s"
-event,noise	"%s"
+event,pronounce        "pron=%s"
+event,lexical        "lex=%s"
+event,noise        "%s"
 event,entities "ent=%s"
 
 # bindings for insertion of events or special chars in text editor
@@ -275,10 +277,10 @@ bindings     {
 }
 
 # example of bindings for French
-#bindings     {{`a à} {^a â} {'e é} {`e è} {^e ê} {\"e ë} {^i î} {\"i ï} {^o ô} {^u û} {`u ù} {\"u ü} {ae æ} {,c ç}}
+#bindings     {{`a Ã } {^a Ã¢} {'e Ã©} {`e Ã¨} {^e Ãª} {\"e Ã«} {^i Ã®} {\"i Ã¯} {^o Ã´} {^u Ã»} {`u Ã¹} {\"u Ã¼} {ae Ã¦} {,c Ã§}}
 
 # alternate bindings for Italian etc.
-#bindings     {{u\" ü} {U\" Ü} {o\" ö} {O\" Ö} {a\" ä} {A\" Ä} {,c  ç} {n~  ñ} {a~  ã} {o/  ø} {O/  Ø} {a/  å} {A/  Å} {a`  à} {A`  À} {a^  â} {A^ Â} {e`  è} {E`  È} {e'  é} {E'  É} {i`  ì} {I`  Ì} {i^  î} {I^  Î} {o`  ò} {O`  Ò} {o'  ò} {O'  Ó} {'o  o'} {u`  ù} {U`  Ù}}
+#bindings     {{u\" Ã¼} {U\" Ãœ} {o\" Ã¶} {O\" Ã–} {a\" Ã¤} {A\" Ã„} {,c  Ã§} {n~  Ã±} {a~  Ã£} {o/  Ã¸} {O/  Ã˜} {a/  Ã¥} {A/  Ã…} {a`  Ã } {A`  Ã€} {a^  Ã¢} {A^ Ã‚} {e`  Ã¨} {E`  Ãˆ} {e'  Ã©} {E'  Ã‰} {i`  Ã¬} {I`  ÃŒ} {i^  Ã®} {I^  ÃŽ} {o`  Ã²} {O`  Ã’} {o'  Ã²} {O'  Ã“} {'o  o'} {u`  Ã¹} {U`  Ã™}}
 
 # list of words + comments at user convenience
 glossary {}
@@ -293,11 +295,11 @@ sig,server    ""
 sig,port      ""
 sig,rate      16000
 sig,channels  mono
-sig,header	0
-sig,map	      {1 0 0 1}
+sig,header        0
+sig,map              {1 0 0 1}
 
-curs,pos	0
-sig,gain	0
+curs,pos        0
+sig,gain        0
 
 path,sounds   ""
 trans,name    ""
@@ -317,16 +319,16 @@ ext,lbl       {".lab" ".lola" ".lbl" ".phn" ".wrd" ".txt"}
 # Some geometry to be saved
 frame_width,database 300
 frame_width,toolbox 550
-geom,.		""
-geom,.sect	""
-geom,.turn	""
-geom,.evt	""
-geom,.gain	""
+geom,.                ""
+geom,.sect        ""
+geom,.turn        ""
+geom,.evt        ""
+geom,.gain        ""
 
 # Display
 theme "clean"
-canvas,type canvas1
-frame_view,m	1
+canvas,type canvas3
+frame_view,m        1
 frame_view,main 1
 frame_view,top 1
 frame_view,database 1
@@ -351,10 +353,10 @@ frame_view,video 0
 frame_view,balise 0
 frame_view,ne 1
 text_view,event 1
-hideLevels	    0
+hideLevels            0
 
 # Principal signal configuration
-frame_wavfm_height,snd.w	 100
+frame_wavfm_height,snd.w         100
 frame_wavfm_resolution,snd.w 30
 frame_view,snd.reso 1
 frame_view,snd.seg0 1
@@ -364,7 +366,7 @@ frame_view,snd.bg 1
 
 
 # Second signal configuration
-frame_wavfm_height,snd.w	 50
+frame_wavfm_height,snd.w         50
 frame_wavfm_resolution,snd.w 300
 frame_view,snd2.reso 1
 frame_view,snd2.seg0 1
@@ -374,7 +376,7 @@ frame_view,snd2.bg 1
 
 # header for childes
 
-chatMode	    0
+chatMode            0
 
 header {
 {@Begin @Begin}
@@ -453,37 +455,37 @@ dependent {
 }
 
 # terminator
-terminator,.	1
-terminator,?	1
-terminator,!	1
-terminator,-?	1
-terminator,-!	1
-terminator,-.	1
-terminator,-'.	1
-terminator,-,.	1
-terminator,-,	1
-terminator,-_	1
-terminator,-	1
-terminator,-'	1
-terminator,,	1
-terminator,;	1
-terminator,#	1
-terminator,-:	1
-terminator,/	1
-terminator,//	1
-terminator,///	1
-terminator,+...	1
-terminator,+..?	1
-terminator,+!?	1
-terminator,+/.	1
-terminator,+/?	1
-terminator,+//.	1
-terminator,+//?	1
-terminator,+"/.	1
-terminator,+",	1
-terminator,+"	1
-terminator,+^	1
-terminator,+<	1
-terminator,+,	1
-terminator,++	1
-terminator,[c]	1
+terminator,.        1
+terminator,?        1
+terminator,!        1
+terminator,-?        1
+terminator,-!        1
+terminator,-.        1
+terminator,-'.        1
+terminator,-,.        1
+terminator,-,        1
+terminator,-_        1
+terminator,-        1
+terminator,-'        1
+terminator,,        1
+terminator,;        1
+terminator,#        1
+terminator,-:        1
+terminator,/        1
+terminator,//        1
+terminator,///        1
+terminator,+...        1
+terminator,+..?        1
+terminator,+!?        1
+terminator,+/.        1
+terminator,+/?        1
+terminator,+//.        1
+terminator,+//?        1
+terminator,+"/.        1
+terminator,+",        1
+terminator,+"        1
+terminator,+^        1
+terminator,+<        1
+terminator,+,        1
+terminator,++        1
+terminator,[c]        1
