@@ -716,7 +716,7 @@ case $OpSys in
 	OS=UnixLike
 	LIBS="-lc $TK_LIBS $TCL_LIB_SPEC $TK_LIB_SPEC"
 	INCLUDES="$XINCLUDES -I$TCL_SRC_DIR/generic -I$TK_SRC_DIR/generic -I$TCL_PREFIX/include -I$TK_PREFIX/include"
-    	OUTPUT_FILES="trans Makefile"
+    	OUTPUT_FILES="trans transar Makefile"
 	LIB_SUFFIX="${SHLIB_SUFFIX}"
         ;;
 esac
