@@ -66,9 +66,9 @@ proc CreateNEFrame {frame} {
 	foreach micro $v(listNE,$macro) {
 	    regsub -all {\.} $micro "" name
 	    if { $v(color,NEbutton) == 1 } {
-		button $f.$macro.$name -text $micro -font $v(font,namEnt) -bg $v(color,ne-$macro) -pady 0 -width [expr [maxlength $v(namedEntities)]-5] -command "CreateAutoNE $micro"
+		button $f.$macro.$name -text $micro -font $v(font,namEnt) -fg $v(color,ne-$macro) -pady 0 -width [expr [maxlength $v(namedEntities)]-15] -command "CreateAutoNE $micro"
 	    } else {
-		button $f.$macro.$name -text $micro -font $v(font,namEnt) -pady 0 -width [expr [maxlength $v(namedEntities)]-5] -command "CreateAutoNE $micro"
+		button $f.$macro.$name -text $micro -font $v(font,namEnt) -pady 0 -width [expr [maxlength $v(namedEntities)]-15] -command "CreateAutoNE $micro"
 	    }
 	    pack $f.$macro.$name -ipadx 2
 	}
@@ -143,7 +143,7 @@ proc UpdateNEColors {} {
     foreach macro $v(listmacroNE) {
 	foreach part {"tag" "text"} {
 	    if { $v(color,NE$part) == 1 } {
-		$t tag conf NE$macro$part -foreground  $v(color,ne-$macro)		    
+		$t tag conf NE$macro$part -foreground  $v(color,ne-$macro)                    
 	    } else {
 		$t tag conf NE$macro$part -foreground  $v(color,fg-text)
 	    }
@@ -189,20 +189,20 @@ proc CreateAutoNE {txt {interactif 0}} {
 		if { $what == "\#PCDATA" } {
 		    switch $v(autoNE) {
 		        Add {
-			    # Only add if the entities is not already annotated (i.e. if there is no color tag)
+		            # Only add if the entities is not already annotated (i.e. if there is no color tag)
 		            if { [ColorNE $pos text] == "" } {
 		                CreateNE $txt "end" $interactif
 		                incr nbocc
 		            }
 		        }
 		        Suppress {
-			    # before suppression, test if the entities is annotaded with the same NE type
+		            # before suppression, test if the entities is annotaded with the same NE type
 		            set prevtagname [TagName "sel.first - 2c"]
 		            set nexttagname [TagName "sel.last + 1c"]
 		            if {  [$prevtagname getType]=="Event" && [$nexttagname getType]=="Event" } {
 		                set prevtagdesc [$prevtagname getAttr "desc"]
 		                set nexttagdesc [$nexttagname getAttr "desc"]
-				if { $prevtagdesc==$txt && $nexttagdesc==$txt} {
+		                if { $prevtagdesc==$txt && $nexttagdesc==$txt} {
 		                    SuppressNE $prevtagname
 		                    incr nbocc
 		                }
@@ -223,7 +223,7 @@ proc CreateAutoNE {txt {interactif 0}} {
 	    set v(findNE,whichNEstring) ""
 	    set v(autoNE) ""
 	}
-    # Manual mode	
+    # Manual mode        
     } else {
 	set sel [$t tag ranges sel] 
 	if {$sel == ""} {
@@ -408,13 +408,13 @@ proc EditNE {tag {mode "Edit"} {sel ""}} {
 		    catch { [unset v(tk,dontmove)] }
 		    tkTextSetCursor $v(tk,edit) $symtag.first 
 		    if { $v(extn,chosen) == "begin" } {
-			regexp {(^NE.*)tag} [ColorNE "$tag.first"] match color
-			$t tag remove ${color}text $tag.last $symtag.first
-			CreateNE $v(desc,chosen) "end"
+		        regexp {(^NE.*)tag} [ColorNE "$tag.first"] match color
+		        $t tag remove ${color}text $tag.last $symtag.first
+		        CreateNE $v(desc,chosen) "end"
 		    } else {
-			regexp {(^NE.*)tag} [ColorNE "$tag.first"] match color
-			$t tag remove ${color}text $symtag.last $tag.first
-			CreateNE $v(desc,chosen) "begin"
+		        regexp {(^NE.*)tag} [ColorNE "$tag.first"] match color
+		        $t tag remove ${color}text $symtag.last $tag.first
+		        CreateNE $v(desc,chosen) "begin"
 		    }
 		    tkTextSetCursor $v(tk,edit) $tag.first
 		    set v(tk,dontmove) 1
