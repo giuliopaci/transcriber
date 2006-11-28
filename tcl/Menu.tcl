@@ -53,10 +53,10 @@ proc add_menu {m liste} {
 		rad* {
 		    set type "radio"
 		    if {[llength $arg] > 1} {
-			foreach {var val} $arg break
-			lappend option -variable $var -value $val
+		        foreach {var val} $arg break
+		        lappend option -variable $var -value $val
 		    } else {
-			lappend option -variable $arg
+		        lappend option -variable $arg
 		    }
 		}
 		ch* {
@@ -66,44 +66,44 @@ proc add_menu {m liste} {
 		cas* {
 		    set type "cascade"
 		    if {![string compare $name [Local "Help"]]} {
-			set new_m $m.help
+		        set new_m $m.help
 		    } else {
-			set new_m $m.item[incr Menu(uid)]
+		        set new_m $m.item[incr Menu(uid)]
 		    }
 		    set Menu(menu,$name) $new_m
 		    lappend option -menu [add_menu $new_m $arg]
 		}
 		-acc {
 		    if {[info tclversion] < 8.4 || [tk windowingsystem] != "aqua"} {
-			lappend option $cmd $arg
+		        lappend option $cmd $arg
 		    }
 		}
 		-bind {
 		    if {![regsub -- {-([^-]*)$} $arg {-Key-\1} sequence]} {
-			set sequence "Key-$arg"
+		        set sequence "Key-$arg"
 		    }
 		    if {[info tclversion] >= 8.4 && [tk windowingsystem] == "aqua"} {
-			if {[regsub "C(trl)?-" $arg "Cmd-" arg] 
-			    || [regsub "A(lt)?-" $arg "Alt-" arg]
-			    || [regsub "S(hift)?-" $arg "Shift-" arg]} {
-			    lappend option -accelerator [string toupper $arg]
-			}
-			foreach {short long} {
-			    "C(trl)?-" "Command-"
-			    "A(lt)?-" "Option-" 
-			    "S(hft)?-" "Shift-"
-			} {
-			    regsub $short $sequence $long sequence
-			}
+		        if {[regsub "C(trl)?-" $arg "Cmd-" arg] 
+		            || [regsub "A(lt)?-" $arg "Alt-" arg]
+		            || [regsub "S(hift)?-" $arg "Shift-" arg]} {
+		            lappend option -accelerator [string toupper $arg]
+		        }
+		        foreach {short long} {
+		            "C(trl)?-" "Command-"
+		            "A(lt)?-" "Option-" 
+		            "S(hft)?-" "Shift-"
+		        } {
+		            regsub $short $sequence $long sequence
+		        }
 		    } else {
-			lappend option -accelerator $arg
-			foreach {short long} {
-			    "C(trl)?-" "Control-"
-			    "A-" "Alt-" 
-			    "S(hft)?-" "Shift-"
-			} {
-			    regsub $short $sequence $long sequence
-			}
+		        lappend option -accelerator $arg
+		        foreach {short long} {
+		            "C(trl)?-" "Control-"
+		            "A-" "Alt-" 
+		            "S(hft)?-" "Shift-"
+		        } {
+		            regsub $short $sequence $long sequence
+		        }
 		    }
 		}
 		-* {
@@ -337,21 +337,12 @@ proc InitMenus {} {
 	    {"General..."                cmd {ConfigureGeneral}}
 	    {"Audio file..."        cmd {ConfigureAudioFile}}
 	    {"Interface display" -underline 0        cascade {
-		{"Switch canvas type"  -underline 0 cascade {
-		    {"Canvas 1" radio {v(canvas,type) "canvas1"} -command {ChangeCanvas $v(canvas,type)}}
-		    {"Canvas 2" radio {v(canvas,type) "canvas2"} -command {ChangeCanvas $v(canvas,type)}}
-		    {"Canvas 3" radio {v(canvas,type) "canvas3"} -command {ChangeCanvas $v(canvas,type)}}
-		}}
-		{"Text"        check v(frame_view,text) -command {SwitchFrame text} -bind "F2"}
-		{"Toolbox"  check v(frame_view,toolbox) -command {SwitchFrame toolbox} -bind "F3"}
-		{"Command buttons"        check v(frame_view,cmd) -command {SwitchFrame cmd} -bind "F4"}
-		{"First signal view"        check v(frame_view,snd) -command {SwitchFrame snd} -bind "F5"} 
-		{"Second signal view"        check v(frame_view,snd2) -command {SwitchFrame snd2} -bind "F6"}
-		{"Messages"  check v(frame_view,msg) -command {SwitchFrame msg} -bind "F7"}
-		{"Explorer"  check v(frame_view,database) -command {SwitchFrame database} -bind "F8"}
-		{"Menu"  check v(frame_view,menu) -command {SwitchFrame menu} -bind "F9"}
-		{"Tags"  check v(text_view,tag) -command {SwitchTagDisplay} -bind "F10"}
-		{"Smart segmentation display"        check v(hideLevels) -command {UpdateSegmtView} -bind "F11"}
+		{"Toolbox"  check v(frame_view,toolbox) -command {SwitchFrame toolbox} -bind "F2"}
+		{"Explorer"  check v(frame_view,database) -command {SwitchFrame database} -bind "F3"}
+		{"First signal view"        check v(frame_view,snd) -command {SwitchFrame snd} -bind "F4"} 
+		{"Second signal view"        check v(frame_view,snd2) -command {SwitchFrame snd2} -bind "F5"}            
+		{"Tags"  check v(text_view,tag) -command {SwitchTagDisplay} -bind "F6"}
+		{"Smart segmentation display"        check v(hideLevels) -command {UpdateSegmtView} -bind "F7"}
 	    }}
 	    {"Fonts"        cascade {
 		{"Axis"                cmd {set v(font,axis)  [ChooseFont axis] }}
@@ -364,7 +355,7 @@ proc InitMenus {} {
 		{"Section"        cmd {set v(font,section)   [ChooseFont section]}}
 		{"Segmentation"        cmd {set v(font,trans)   [ChooseFont trans]}}
 		{"Speaker"             cmd {set v(font,turn) [ChooseFont turn]} }
-		{"Text"                cmd {set v(font,text)    [ChooseFont text] }}	 }}
+		{"Text"                cmd {set v(font,text)    [ChooseFont text] }}         }}
 	    {"Colors..."                cmd {ConfigureColors}}
 	    {"Tags"        cascade {
 		{"Configure display..."        cmd {ConfigureTags}}
