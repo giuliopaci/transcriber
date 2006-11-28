@@ -252,11 +252,13 @@ proc InitDefaults {argv} {
    catch {unset v}
 
    # Set paths relative to script path
-   set v(path,tcl)   [file dir [info script]]
-   set v(path,base)  [file dir $v(path,tcl)]
-   set v(path,doc)   [file join $v(path,base) "doc"]
-   set v(path,etc)   [file join $v(path,base) "etc"]
+   set v(path,tcl)    [file dir [info script]]
+   set v(path,base)   [file dir $v(path,tcl)]
+   set v(path,doc)    [file join $v(path,base) "doc"]
+   set v(path,etc)    [file join $v(path,base) "etc"]
+   set v(path,arabic) [file join $v(path,base) "arabic"]
    set v(file,dtd)   [file join $v(path,etc)  "trans-14.dtd"]
+   
    # keep compatibility with previous version as long as possible
    set v(file,exportdtd)   "trans-13.dtd"
 
@@ -852,7 +854,7 @@ proc StartWith {argv} {
 		    set v(demo) 1
 		}
 		"-dtd" {
-  		    set v(file,dtd) [lindex $argv [incr i]]
+		      set v(file,dtd) [lindex $argv [incr i]]
 		    set v(file,exportdtd) ""
 		}
 		"-noshape" {
@@ -864,9 +866,9 @@ proc StartWith {argv} {
 		    }
 		}
 		"-sig2" {
- 		    if {!$v(frame_view,snd2)} {
- 		        set v(frame_view,snd2) 1
- 		        CreateSoundFrame snd2
+		     if {!$v(frame_view,snd2)} {
+		         set v(frame_view,snd2) 1
+		         CreateSoundFrame snd2
 		    }
 		}
 		"-patch" {
@@ -903,7 +905,7 @@ proc StartWith {argv} {
 		    }
 		}
 		"-notrans" {
-		    set v(ignore_prefs) {frame_view,top 0 frame_view,menu 0 frame_view,snd.seg0 0 frame_view,snd.seg1 0 frame_view,snd.seg2 0 frame_view,snd.bg 0 frame_view,snd2.seg0 0 frame_view,snd2.seg1 0 frame_view,snd2.seg2 0 frame_view,snd2.bg 0		    }
+		    set v(ignore_prefs) {frame_view,top 0 frame_view,menu 0 frame_view,snd.seg0 0 frame_view,snd.seg1 0 frame_view,snd.seg2 0 frame_view,snd.bg 0 frame_view,snd2.seg0 0 frame_view,snd2.seg1 0 frame_view,snd2.seg2 0 frame_view,snd2.bg 0                    }
 		}
 		"-socket" {
 		    # launch socket facility for external scripting of Transcriber
