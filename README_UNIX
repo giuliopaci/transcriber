@@ -237,10 +237,13 @@ Distribution structure:
              + snack2.2/
              + tcLex1.2/
              + transcriber1.5/ =>
+		  + COPYING
                   + libtrans.so
                   + pkgIndex.tcl
+		  + README_UNIX
 		  + arabic/
 		  + convert/
+		  + demo/
                   + doc/
                   + etc/
                   + tcl/
