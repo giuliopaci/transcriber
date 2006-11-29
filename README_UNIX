@@ -1,57 +1,23 @@
-
-                    T R A N S C R I B E R
-    a free tool for segmenting, labeling and transcribing speech
-                 Copyright (C) 1998-2004, DGA
-
-WWW:    	http://www.etca.fr/CTA/gip/Projets/Transcriber/
-		http://sourceforge.net/projects/trans
-		http://www.ldc.upenn.edu/mirror/Transcriber/
-
-Authors		Claude Barras, formerly DGA/DCE/CTA/GIP - now LIMSI-CNRS
-		Mathieu Manta   - DGA/DCE/CTA/GIP
-		Fabien Antoine  - DGA/DCE/CTA/GIP
-		Sylvain Galliano - DGA/DCE/CTA/GIP
-
-Coordinators:  Edouard Geoffrois, DGA/DCE/CTA/GIP
-               Mark Liberman & Zhibiao Wu, LDC
-
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation; either version 2 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
----------------------------------------------------------------------
-
-All online documentation viewable in HTML:
-  doc/Index.html
-
-following instructions from doc/en/installation.html:
----------------------------------------------------------------------
-
-Binary installation for Unix
-
+----------------------------------------------------------------------
    * Make sure you have an installed version of Tcl/Tk 8.0 or higher and get
      the binary archive for your system (e.g. Linux, Solaris...) matching
      your version of Tcl/Tk (8.0 ... 8.3)on Tcl developper Wchange website :
 
 	http://www.tcl.tk/software/tcltk/choose.html
 
-   * Switch to the place where you want to install the tool, e.g.:
+   * Download the last Trancriber Linux binary distribution at http://sourceforge.net/project/showfiles.php?group_id=40021
+
+   * Move it to the place where you want it to be installed, e.g.:
+	  $ mv Transcriber-1.5.2-Linux.tar.gz /usr/local
+
+   * Extract the files from the archive:
 
           $ cd /usr/local
+          $ tar zxvf Transcriber-1.5.2-Linux.tar.gz
 
      If you choose to install into a non-standard directory, make sure to
      set the environnement variables of your system (e.g., PATH and
      LD_LIBRARY_PATH) to the right values.
-
-   * Extract the files from the archive:
-
-          $ gunzip -c Transcriber-1.4-Linux.tar.gz | tar xf -
 
    * Launch the tool:
 
@@ -62,165 +28,42 @@ Binary installation for Unix
 
    * Look in the Help directory for some hints about Transcriber's use or
      view it directly in your HTML browser (start with
-     lib/transcriber1.4/doc/Index.html)
-
-Installation from the sources
-
-Transcriber relies on several softwares or libraries that you need to
-install first : Tcl/Tk 8.0 - 8.3, Snack 2.0, tcLex 1.2 and optionaly
-NIST/Sphere 2.6 . Step 1-4 are for these modules, step 5-6 are for the
-content of Transcriber distribution.
-
-  1. If Tcl/Tk version 8.0 or higher is not already installed on your
-     system, get it on Scriptic's server :
-
-          http://www.scriptics.com/products/tcltk/choose.html
-
-     or one of its mirrors and unpack them (the version number may change):
-
-          $ gunzip -c tcl8.3.2.tar.gz | tar xf -
-
-     Choose an installation directory (e.g. /usr/local) and follow
-     instructions found in tcl8.3.2/README and tk8.3.2/README (configure
-     with --enable-shared option). For Tcl 8.3 under Unix, it will be
-     something like:
-
-          $ cd tcl8.3.2/unix
-          $ ./configure --enable-gcc --enable-shared --prefix=/usr/local
-          $ make
-          $ make install
-
-     Do the same for Tk. If you choose to install into a different
-     directory, make sure to set the environnement variables of your system
-     (e.g., PATH and LD_LIBRARY_PATH) to the right values.
-
-  2. This step is needed only if you plan to use Sphere sound file format
-     with Snack. Get NIST/Sphere archive:
-
-          ftp://jaguar.ncsl.nist.gov/pub/sphere_2.6a.tar.Z
-
-     Unpack it in a sibling directory of this distribution
-
-          $ zcat sphere_2.6a.tar.Z | tar xf -
-
-     Then install it:
-
-          $ cd nist; sh src/scripts/install.sh
-
-     You will be asked the target platform. For Linux, choose 10 (i.e.
-     custom) and change following values (the other ones should be OK):
-
-        o What is/are the Compiler Flags: -O -Wall -fPIC
-        o What is/are the Architecture: INTEL
-
-     NB - For recent Linux Distributions (i.e. Redhat 5.x or Debian 2.x) you
-     need to comment the following line inside the file
-     nist/src/lib/sp/exit.c : extern char *sys_errlist[]; (thanks to Dafydd
-     Gibbon for this information) For the courageous ones, a patch is given
-     in the Transcriber source distribution in src/patch-sphere for a
-     dynamic compilation of Sphere libs under Linux.
-
-  3. Get Snack 2.0 or higher module:
-
-          http://www.speech.kth.se/snack/
-
-     extract it:
-
-          $ gunzip -c snack2.0.1.tar.gz | tar xf -
-
-     Then follow the instructions in README and install Snack, e.g. with:
-
-          $ cd snack2.0.1/unix
-          $ ./configure --prefix=/usr/local
-          $ make
-          $ make install
-
-     NB:
-
-        o If './configure' fails, you have probably Tcl/Tk installed in a
-          non standard directory; give it with --with-tcl and --with-tk
-          options.
-        o for use with Tcl/Tk version 8.0, add the option --disable-stubs
-        o Be sure to get the latest release
-        o In order to use Sphere format, configure with --with-nist=...
-        o Test Snack demos!
-  4. Get tcLex 1.2 module:
-
-          http://www.multimania.com/fbonnet/Tcl/tcLex/
-
-     extract it:
-
-          $ gunzip -c tcLex1.2a1.tar.gz | tar xf -
-
-     Then follow the instructions in README.txt and install tcLex, e.g.
-     with:
-
-          $ cd tcLex1.2a1/src
-          $ chmod a+x configure install-sh
-          $ ./configure --prefix=/usr/local
-          $ make
-          $ make install
-
-     NB - You need to have the complete sources of Tcl for building this
-     extension, since it relies on specific header files not installed by
-     standard Tcl installation.
-
-  5. Extract the source archive of Transcriber, compile and install it:
-
-          $ gunzip -c Transcriber-1.4.tar.gz | tar xf -
-          $ cd Transcriber-1.4/src
-          $ ./configure --with-snack=... --with-tcl=... --with-tk=... --prefix=...
-          $ make
-          $ make install
-
-  6. As options to the ./configure command, you have to give the directory
-     where Snack archive was extracted (--with-snack=...), the directories
-     where Tcl and Tk were installed (--with-tcl=...--with-tk=...), and the
-     directory where you will install Transcriber (--prefix=...). For use
-     with Tcl/Tk version 8.0, add the option --disable-stubs.
-
-     NB - If you change the directory structure after installation, you have
-     to edit 'trans' launcher script and give the right absolute path:
-     TRANSPATH=... (the lib path where transcriber1.4 sub-dir is to be
-     found)
-
-  7. Test it !
-
-          $ trans
-
-     You will be asked to open a sound signal or a transcription; some are
-     found in the 'demo' sub-directory
+     lib/transcriber1.5.2/doc/Index.html)
 
 ----------------------------------------------------------------------------
 Distribution structure:
 
    * Structure of the source distribution :
-        o Transcriber-1.4/
+        o Transcriber-1.5/
              + README_WINDOWS . .instructions to install Transcriber on Windows
 	     + README_LINUX   . .instructions to install Transcriber on Unix/Linux
              + COPYING
-             + contrib/ . . . external archives
-             + src/ . . . sources for new Tcl commands and Tk widgets
-             + tcl/ . . . Tcl scripts.
-             + convert/ . Tcl script modules for format conversion
-             + img/ . . . bitmap images
-             + doc/ . . . help files
-             + etc/ . . . default files
-             + demo/ . . .for sound and transcription files
+	     + arabic/	. . arabic support
+             + contrib/ . . external archives
+             + convert/ . . Tcl script modules for format conversion
+             + demo/. . . . for sound and transcription files
+             + doc/ . . . . help files
+             + etc/ . . . . default files
+             + src/ . . . . sources for new Tcl commands and Tk widgets
+             + tcl/ . . . . Tcl scripts.
+   	     + themes/. . . Theme management on Transcriber
 	     
    * Structure of the binary distribution (as a result of a standard
      installation):
         o lib/ =>
-             + snack2.0/
+             + snack2.2/
              + tcLex1.2/
-             + transcriber1.4/ =>
+             + transcriber1.5/ =>
                   + libtrans.so
                   + pkgIndex.tcl
-                  + tcl/
-                  + img/
-                  + etc/
+		  + arabic/
+		  + convert/
                   + doc/
-        o bin/trans
+                  + etc/
+                  + tcl/
+		  + themes/
+        o bin/trans		# script used to launched Transcriber
+        o bin/transar		# script used to launched Transcriber in arabic mode
 
 ----------------------------------------------------------------------------
 Possible problems
