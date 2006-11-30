@@ -299,6 +299,8 @@ Comment
 	   {Calcul de l'enveloppe en cours. Patientez...}
 {Configure colors}
 	{Configurer les couleurs}
+{Configure display...}
+	{Configurer l'affichage...}
 {Configure event display}
 	{Configure l'affichage des événements}
 {Configure events}
@@ -404,6 +406,8 @@ Edit
 Encoding
 	Encodage
 {End of event}
+	{Fin d'évènement}
+{End of tag}
 	{Fin d'événement}
 {End of line}
 	{Fin de ligne}
@@ -425,6 +429,8 @@ Events
 	{Agrandir le signal}
 {Expert mode}
 	{Mode expert}
+Explorer
+	{Explorateur de fichiers}
 Export
 	Exporter
 {Export to .stm format...}
@@ -505,6 +511,8 @@ Hebrew
 	{}
 Help
 	Aide
+{Help (F1)}
+	{Aide (F1)}
 {Highlighted text bg}
 	{}
 Hindi
@@ -547,15 +555,25 @@ Insert
 	{Insérer un commentaire}
 {Insert event}
 	{Insérer une balise}
-{Insert event...}
+{Insert tag}
+	{Insérer une balise}
+{Insert tag...}
 	{Insérer une balise...}
+{Insert Named Entity}
+	{Insérer une entité nommée}
+{Insert named entity}
+	{Insérer une entité nommée}
 Insert...
 	Insérer...
 {Instantaneous event}
+	{Evènement instantané}
+{Instantaneous tag}
 	{Evénement instantané}
 {Instantaneous noise}
 	{Bruit instantané}
 Interface
+	Interface
+{Interface display}
 	Interface
 {Isolated noise}
 	{Bruit isolé}
@@ -647,8 +665,12 @@ mono
 	Déplacement...
 Name
 	Nom
-{Named Entities}
+{Named entities}
 	{Entités nommées}
+{Named entity buttons}
+	{Bouttons d'entité nommées}
+{Named entities toolbox}
+	{Boîte à outils des entités nommées}
 {nb. of sections:}
 	{nb. de sections :}
 {nb. of syncs:}
@@ -691,6 +713,8 @@ nontrans
 	{}
 Norwegian
 	norvégien
+{No text selected !}
+	{Aucun texte sélectionné !}
 {not saved (unsupported output format)}
 	{non sauvé (format non supporté)}
 néologisme
@@ -922,6 +946,8 @@ Signal
 	{Trier par...}
 Spanish
 	espagnol
+Speaker
+	Locuteur
 {Speaker foreground}
 	{}
 {Speaker menu}
@@ -935,6 +961,8 @@ Speakers
 {spelling checked}
 	{orthographe vérifiée}
 {Start of event}
+	{Début d'évènement}
+{Start of tag}
 	{Début d'événement}
 {Start of line}
 	{Début de ligne}
@@ -956,6 +984,8 @@ Synchro
 	Synchro
 {Synchronized audio files}
 	{Fichiers son synchronisés}
+{Tags}
+	Balises	
 Text
 	Texte
 {Text editor}
@@ -1026,6 +1056,13 @@ up
 	augmente
 Update
 	{}
+{Use color for NE tag}
+	{Colorier les balises d'EN}
+{Use color for NE button}
+	{Colorier les boutons d'EN}
+{Use color for NE text}
+	{Colorier le texte des EN}
+
 {Use regular expression}
 	{Utilise une expression régulière}
 {User guide}
@@ -1040,6 +1077,8 @@ Version
 	{Vue complète}
 Volume
 	Volume
+{Waveform bg}
+	{Fond enveloppe signal}
 {Warning !
 All changes will be lost.
 Really revert from file ?}
