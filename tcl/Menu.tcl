@@ -261,7 +261,7 @@ proc InitMenus {} {
 		{"Lexical"                        cmd {CreateTag "" "lexical" "previous" 1}}
 		{"Comment"                        cmd {CreateTag "" "comment"}}
 	    }}
-	    {"Insert Named Entity"    cmd {CreateAutoNE ""} -bind "Ctrl-e"} 
+	    {"Insert named entity"    cmd {CreateAutoNE ""} -bind "Ctrl-e"} 
 	}}
 	{"Signal" -underline 0        cascade {
 	    {"Play/Pause"                cmd {PlayOrPause} -bind "Tab"}
@@ -337,7 +337,7 @@ proc InitMenus {} {
 	    {"General..."                cmd {ConfigureGeneral}}
 	    {"Audio file..."        cmd {ConfigureAudioFile}}
 	    {"Interface display" -underline 0        cascade {
-		{"Toolbox"  check v(frame_view,toolbox) -command {SwitchFrame toolbox} -bind "F2"}
+		{"Named entities toolbox"  check v(frame_view,toolbox) -command {SwitchFrame toolbox} -bind "F2"}
 		{"Explorer"  check v(frame_view,database) -command {SwitchFrame database} -bind "F3"}
 		{"First signal view"        check v(frame_view,snd) -command {SwitchFrame snd} -bind "F4"} 
 		{"Second signal view"        check v(frame_view,snd2) -command {SwitchFrame snd2} -bind "F5"}            
@@ -351,7 +351,7 @@ proc InitMenus {} {
 		{"Information"        cmd {set v(font,info)  [ChooseFont info] }}
 		{"Lists"                cmd {set v(font,list)  [ChooseFont list] }}
 		{"Messages"                cmd {set v(font,mesg)  [ChooseFont mesg] }}
-		{"Named entities types buttons"      cmd {set v(font,namEnt) [ChooseFont namEnt];UpdateNEFrame}} 
+		{"Named entity buttons"      cmd {set v(font,namEnt) [ChooseFont namEnt];UpdateNEFrame}} 
 		{"Section"        cmd {set v(font,section)   [ChooseFont section]}}
 		{"Segmentation"        cmd {set v(font,trans)   [ChooseFont trans]}}
 		{"Speaker"             cmd {set v(font,turn) [ChooseFont turn]} }
