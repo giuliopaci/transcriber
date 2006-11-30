@@ -520,6 +520,8 @@ Help
 	{}
 Hindi
 	hindi
+{How to modify a list (this launch help)}
+	{Comment modifier la liste des balises (lance l'aide)}
 Hungarian
 	hongrois
 Ignore
