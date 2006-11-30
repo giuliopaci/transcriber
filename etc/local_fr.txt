@@ -577,7 +577,7 @@ Insert...
 Interface
 	Interface
 {Interface display}
-	Interface
+	{Affichage interface}
 {Isolated noise}
 	{Bruit isolé}
 {Please, check your Aspell spellchecker installation. }
