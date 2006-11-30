@@ -209,8 +209,11 @@ Arabic
 	{Délai avant enregistrement automatique (minutes)}
 {Automatic...}
 	{Automatique...}
-{Automatic import from selected file}
-	{Import automatique du fichier choisi}
+{Automatic import speakers from selected file}
+	{Import automatique des locuteurs du fichier choisi}
+{Automatic import topics from selected file}
+        {Import automatique des sujets du fichier choisi}
+
 {Automatic selection playback}
 	{Rejoue automatiquement la sélection}
 {Automatic space insertion}
