@@ -337,12 +337,13 @@ proc InitMenus {} {
 	    {"General..."                cmd {ConfigureGeneral}}
 	    {"Audio file..."        cmd {ConfigureAudioFile}}
 	    {"Interface display" -underline 0        cascade {
-		{"Named entities toolbox"  check v(frame_view,toolbox) -command {SwitchFrame toolbox} -bind "F2"}
-		{"Explorer"  check v(frame_view,database) -command {SwitchFrame database} -bind "F3"}
-		{"First signal view"        check v(frame_view,snd) -command {SwitchFrame snd} -bind "F4"} 
-		{"Second signal view"        check v(frame_view,snd2) -command {SwitchFrame snd2} -bind "F5"}            
-		{"Tags"  check v(text_view,tag) -command {SwitchTagDisplay} -bind "F6"}
-		{"Smart segmentation display"        check v(hideLevels) -command {UpdateSegmtView} -bind "F7"}
+
+		{"Explorer"  check v(frame_view,database) -command {SwitchFrame database} -bind "F2"}
+		{"Named entities toolbox"  check v(frame_view,toolbox) -command {SwitchFrame toolbox} -bind "F3"}
+		{"Smart segmentation display"        check v(hideLevels) -command {UpdateSegmtView} -bind "F4"}
+		{"First signal view"        check v(frame_view,snd) -command {SwitchFrame snd} -bind "F5"} 
+		{"Second signal view"        check v(frame_view,snd2) -command {SwitchFrame snd2} -bind "F6"}            
+		{"Tags"  check v(text_view,tag) -command {SwitchTagDisplay} -bind "F7"}
 	    }}
 	    {"Fonts"        cascade {
 		{"Axis"                cmd {set v(font,axis)  [ChooseFont axis] }}
