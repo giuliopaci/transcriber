@@ -1,5 +1,5 @@
 # Default configuration for Transcriber - read with encoding iso8859-1
-#  -*-tcl-*-
+#   -*-tcl-*-
 
 # Personal external speakers database
 list,ext .speaker
@@ -154,14 +154,14 @@ noise        {
 	{""        ""}
 	{"bb"        "[bb] bruit de bouche"}
 	{"bg"        "[bg] bruit de gorge"}
-	{"tx"        "[tx] toux, rÃ¢clement,Ã©ternuement"}
+	{"tx"        "[tx] toux, râclement,éternuement"}
 	{"rire"        "[rire] rires du locuteur"}
 	{"sif"        "[sif] sifflement du locuteur"}
 	{""        ""}
-	{"b"        "[b] bruit indÃ©terminÃ©"}
+	{"b"        "[b] bruit indéterminé"}
 	{"conv"        "[conv] conversations de fond"}
 	{"pap"        "[pap] froissement de papiers"}
-	{"shh"        "[shh] souffle Ã©lectrique"}
+	{"shh"        "[shh] souffle électrique"}
 	{"mic"        "[mic] bruits micro"}
 	{"rire en fond" ""}
 	{"toux en fond" ""}
@@ -175,14 +175,14 @@ noise        {
 
 # list of pronounciation events with descriptions
 pronounce {
-	{"*"        "mal prononcÃ©"}
+	{"*"        "mal prononcé"}
 	{"lapsus"        ""}
 	{"pi"        "[pi] inintelligible"}
 	{"pif"        "[pif] inintelligible/faible"}
-	{"ch"        "[ch] voix chuchotÃ©e"}
+	{"ch"        "[ch] voix chuchotée"}
 	{""        ""}
 	{"lu"                "sigle lu"}
-	{"Ã©pelÃ©"        "sigle Ã©pelÃ©"}
+	{"épelé"        "sigle épelé"}
 	{"19 cent..." ""}
 }
 
@@ -190,7 +190,7 @@ pronounce {
 lexical {
 	{"?"        "orthographe incertaine"}
 	{"^^"        "mot inconnu"}
-	{"nÃ©ologisme" ""}
+	{"néologisme" ""}
 	{"()"        "rupture de syntaxe"}
 }
 
@@ -277,10 +277,10 @@ bindings     {
 }
 
 # example of bindings for French
-#bindings     {{`a Ã } {^a Ã¢} {'e Ã©} {`e Ã¨} {^e Ãª} {\"e Ã«} {^i Ã®} {\"i Ã¯} {^o Ã´} {^u Ã»} {`u Ã¹} {\"u Ã¼} {ae Ã¦} {,c Ã§}}
+#bindings     {{`a à} {^a â} {'e é} {`e è} {^e ê} {\"e ë} {^i î} {\"i ï} {^o ô} {^u û} {`u ù} {\"u ü} {ae æ} {,c ç}}
 
 # alternate bindings for Italian etc.
-#bindings     {{u\" Ã¼} {U\" Ãœ} {o\" Ã¶} {O\" Ã–} {a\" Ã¤} {A\" Ã„} {,c  Ã§} {n~  Ã±} {a~  Ã£} {o/  Ã¸} {O/  Ã˜} {a/  Ã¥} {A/  Ã…} {a`  Ã } {A`  Ã€} {a^  Ã¢} {A^ Ã‚} {e`  Ã¨} {E`  Ãˆ} {e'  Ã©} {E'  Ã‰} {i`  Ã¬} {I`  ÃŒ} {i^  Ã®} {I^  ÃŽ} {o`  Ã²} {O`  Ã’} {o'  Ã²} {O'  Ã“} {'o  o'} {u`  Ã¹} {U`  Ã™}}
+#bindings     {{u\" ü} {U\" Ü} {o\" ö} {O\" Ö} {a\" ä} {A\" Ä} {,c  ç} {n~  ñ} {a~  ã} {o/  ø} {O/  Ø} {a/  å} {A/  Å} {a`  à} {A`  À} {a^  â} {A^ Â} {e`  è} {E`  È} {e'  é} {E'  É} {i`  ì} {I`  Ì} {i^  î} {I^  Î} {o`  ò} {O`  Ò} {o'  ò} {O'  Ó} {'o  o'} {u`  ù} {U`  Ù}}
 
 # list of words + comments at user convenience
 glossary {}
